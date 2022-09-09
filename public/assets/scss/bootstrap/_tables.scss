@@ -1,0 +1,640 @@
+/* ###### 3.14 Table ###### */
+
+.table {
+  color: $gray-800;
+
+  thead {
+
+    th,
+    td {
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: .5px;
+      text-transform: capitalize;
+      border-bottom-width: 1px;
+      border-top-width: 0;
+      padding: 10px 15px 10px;
+    }
+  }
+
+  tbody tr {
+    background-color: $white-5;
+
+    th {
+      font-weight: 500;
+    }
+  }
+
+  th,
+  td {
+    padding: 9px 15px;
+    line-height: 1.462;
+    font-size: 13px;
+  }
+}
+
+.table-striped tbody tr:nth-of-type(4n+2) {
+  background-color: rgba(238, 238, 247, 0.5);
+}
+
+.table-bordered thead {
+
+  th,
+  td {
+    border-top-width: 1px;
+    padding-top: 11px;
+    padding-bottom: 11px;
+    // background-color: $white;
+  }
+}
+
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  color: $default-color;
+
+  th,
+  td {
+    padding: 0.75rem;
+    vertical-align: middle;
+    border-top: 1px solid $gray-200;
+  }
+
+  thead th {
+    vertical-align: bottom;
+  }
+
+  tbody+tbody {
+    border-top: 2px solid transparent !important;
+  }
+}
+
+.table-sm {
+
+  th,
+  td {
+    padding: 0.3rem;
+  }
+}
+
+.table-bordered {
+  border: 1px solid $gray-200;
+
+  th,
+  td {
+    border: 1px solid $gray-200;
+  }
+
+}
+
+.table-borderless {
+
+  th,
+  td,
+  thead th,
+  tbody+tbody {
+    border: 0;
+  }
+}
+
+.table-striped tbody tr:nth-of-type(even) {
+  background-color: $gray-100;
+}
+
+.table-hover tbody tr:hover {
+  color: $default-color;
+  background-color: $bg-hover;
+}
+
+.table-active {
+  background-color: rgba(0, 0, 0, 0.075);
+
+  > {
+
+    th,
+    td {
+      background-color: rgba(0, 0, 0, 0.075);
+    }
+  }
+}
+
+.table-hover .table-active:hover {
+  background-color: rgba(0, 0, 0, 0.075);
+
+  > {
+
+    td,
+    th {
+      background-color: rgba(0, 0, 0, 0.075);
+    }
+  }
+}
+
+.table {
+  .thead-dark th {
+    color: $white;
+    background-color: $gray-800;
+    border-color: #49597b;
+  }
+
+  .thead-light th {
+    color: $gray-700;
+    background-color: $gray-200;
+    border-color: $gray-300;
+  }
+}
+
+.table-dark {
+  color: $white;
+  background-color: $gray-800;
+
+  th,
+  td,
+  thead th {
+    border-color: #49597b;
+  }
+
+  &.table-bordered {
+    border: 0;
+  }
+
+  &.table-striped tbody tr:nth-of-type(odd) {
+    background-color: $white-05;
+  }
+
+  &.table-hover tbody tr:hover {
+    color: $white;
+    background-color: $white-75;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .table-responsive-sm {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+
+    >.table-bordered {
+      border: 0;
+    }
+  }
+}
+
+@media (max-width: 767.98px) {
+  .table-responsive-md {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+
+    >.table-bordered {
+      border: 0;
+    }
+  }
+}
+
+@media (max-width: 991.98px) {
+  .table-responsive-lg {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+
+    >.table-bordered {
+      border: 0;
+    }
+  }
+}
+
+@media (max-width: 1199.98px) {
+  .table-responsive-xl {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+
+    >.table-bordered {
+      border: 0;
+    }
+  }
+}
+
+.table-responsive {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+
+  >.table-bordered {
+    border: 0;
+  }
+}
+
+@media print {
+  .table {
+    border-collapse: collapse !important;
+
+    td,
+    th {
+      background-color: $white  !important;
+    }
+  }
+
+  .table-bordered {
+
+    th,
+    td {
+      border: 1px solid $border  !important;
+    }
+  }
+
+  .table-dark {
+    color: inherit;
+
+    th,
+    td,
+    thead th,
+    tbody+tbody {
+      border-color: $gray-300;
+    }
+  }
+
+  .table .thead-dark th {
+    color: inherit;
+    border-color: $gray-300;
+  }
+}
+
+.table.table-clean {
+  td {
+    .value {
+      font-size: .9rem;
+      line-height: 1.6;
+      font-weight: 500;
+    }
+
+    .sub-value {
+      font-size: .72rem;
+      color: $gray-600;
+    }
+  }
+
+  tr:first-child td {
+    border-top: none;
+  }
+
+  td {
+    padding-left: 0px;
+    padding-right: 0px;
+    border-top-color: $black-05;
+  }
+
+  th,
+  td {
+    padding: 7px 20px !important;
+  }
+}
+
+@media (max-width: 1199px) {
+  .table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+.table>:not(:last-child)>:last-child>* {
+  border-bottom-color: $border;
+}
+
+.table-bordered>:not(caption)>* {
+  border-width: 0;
+}
+
+.table-striped>tbody>tr:nth-of-type(odd) {
+  --bs-table-accent-bg: rgb(255, 255, 255);
+  color: $dark;
+}
+
+tbody,
+td,
+tfoot,
+th,
+thead,
+tr {
+  border-color: $border;
+  border-style: none;
+  border-width: 0;
+}
+
+.table-hover>tbody>tr:hover {
+  --bs-table-accent-bg: none !important;
+  background: $bg-hover;
+}
+
+
+@media (min-width: 768px) {
+  .table-responsive.deleted-table .data-table-btn {
+    position: absolute;
+    left: 185px;
+    z-index: 999;
+  }
+}
+
+@media (min-width: 1319px) {
+  .table-responsive.export-table .dt-buttons.btn-group {
+    position: absolute;
+    top: 0;
+    left: 172px;
+  }
+}
+
+.table> :not(:first-child) {
+  border-top: 1px solid $border  !important;
+}
+
+.table-striped>tbody>tr:nth-of-type(odd)>* {
+  --bs-table-accent-bg: $white  !important;
+}
+
+@media (max-width: 583px) {
+  .dt-buttons {
+
+    .btn,
+    .sp-container button {
+      padding: 0.5rem 0.1rem;
+    }
+  }
+}
+
+.table>:not(caption)>*>* {
+  background-color: transparent;
+}
+
+.table-primary {
+  background-color: $primary-03  !important;
+
+  > {
+
+    th,
+    td {
+      background-color: $primary-03  !important;
+    }
+  }
+
+  th,
+  td,
+  thead th,
+  tbody+tbody {
+    border-color: #27a59238 !important;
+  }
+
+  &.table> :not(:first-child) {
+    border-top: 1px solid $primary-01  !important;
+  }
+
+  thead th {
+    background: $primary  !important;
+    color: $white  !important;
+  }
+
+  tbody tr {
+    background-color: transparent !important;
+  }
+}
+
+.table-hover .table-primary:hover {
+  background-color: $primary-03  !important;
+
+  > {
+
+    td,
+    th {
+      background-color: $primary-03  !important;
+    }
+  }
+}
+
+.table-secondary {
+  background-color: rgb(247, 79, 117, 0.3) !important;
+
+  > {
+
+    th,
+    td {
+      background-color: rgb(247, 79, 117, 0.3) !important;
+    }
+  }
+
+  th,
+  td,
+  thead th,
+  tbody+tbody {
+    border-color: #ff00391c !important;
+  }
+
+  &.table> :not(:first-child) {
+    border-top: 1px solid rgb(247, 79, 117, 0.1) !important;
+  }
+
+  thead th {
+    background: $secondary  !important;
+    color: $white  !important;
+  }
+
+  tbody tr {
+    background-color: transparent !important;
+  }
+}
+
+.table-hover .table-secondary:hover {
+  background-color: rgb(247, 79, 117, 0.3) !important;
+
+  > {
+
+    td,
+    th {
+      background-color: rgb(247, 79, 117, 0.3) !important;
+    }
+  }
+}
+
+.table-warning {
+  background-color: rgb(255, 189, 90, 0.3) !important;
+
+  > {
+
+    th,
+    td {
+      background-color: rgb(255, 189, 90, 0.3) !important;
+    }
+  }
+
+  th,
+  td,
+  thead th,
+  tbody+tbody {
+    border-color: #ff990030 !important;
+  }
+
+  &.table> :not(:first-child) {
+    border-top: 1px solid rgb(255, 189, 90, 0.1) !important;
+  }
+
+  thead th {
+    background: $warning  !important;
+    color: $white  !important;
+  }
+
+  tbody tr {
+    background-color: transparent !important;
+  }
+}
+
+.table-hover .table-warning:hover {
+  background-color: rgb(255, 189, 90, 0.3) !important;
+
+  > {
+
+    td,
+    th {
+      background-color: rgb(255, 189, 90, 0.3) !important;
+    }
+  }
+}
+
+.table-info {
+  background-color: rgb(78, 194, 240, 0.3) !important;
+
+  > {
+
+    th,
+    td {
+      background-color: rgb(78, 194, 240, 0.3) !important;
+    }
+  }
+
+  th,
+  td,
+  thead th,
+  tbody+tbody {
+    border-color: #00b7ff38 !important;
+  }
+
+  &.table> :not(:first-child) {
+    border-top: 1px solid rgb(78, 194, 240, 0.1) !important;
+  }
+
+  thead th {
+    background: $info  !important;
+    color: $white  !important;
+  }
+
+  tbody tr {
+    background-color: transparent !important;
+  }
+}
+
+.table-hover .table-info:hover {
+  background-color: rgb(78, 194, 240, 0.3);
+
+  > {
+
+    td,
+    th {
+      background-color: rgb(78, 194, 240, 0.3);
+    }
+  }
+}
+
+.table-success {
+  background-color: rgb(36, 213, 184, 0.3) !important;
+
+  > {
+
+    th,
+    td {
+      background-color: rgb(36, 213, 184, 0.3) !important;
+    }
+  }
+
+  th,
+  td,
+  thead th,
+  tbody+tbody {
+    border-color: #00ffd580 !important;
+  }
+
+  &.table> :not(:first-child) {
+    border-top: 1px solid rgb(36, 213, 184, 0.1) !important;
+  }
+
+  thead th {
+    background: $success  !important;
+    color: $white  !important;
+  }
+
+  tbody tr {
+    background-color: transparent !important;
+  }
+
+}
+
+.table-hover .table-success:hover {
+  background-color: rgb(36, 213, 184, 0.3) !important;
+
+  > {
+
+    td,
+    th {
+      background-color: rgb(36, 213, 184, 0.3) !important;
+    }
+  }
+}
+
+.table-danger {
+  background-color: rgb(243, 67, 67, 0.3) !important;
+
+  > {
+
+    th,
+    td {
+      background-color: rgb(243, 67, 67, 0.3) !important;
+    }
+  }
+
+  th,
+  td,
+  thead th,
+  tbody+tbody {
+    border-color: #ff00001c !important;
+  }
+
+  &.table> :not(:first-child) {
+    border-top: 1px solid rgb(243, 67, 67, 0.1) !important;
+  }
+
+  thead th {
+    background: $danger  !important;
+    color: $white  !important;
+  }
+
+  tbody tr {
+    background-color: transparent !important;
+  }
+
+}
+
+.table-hover .table-danger:hover {
+  background-color: rgb(243, 67, 67, 0.3) !important;
+
+  > {
+
+    td,
+    th {
+      background-color: rgb(243, 67, 67, 0.3) !important;
+    }
+  }
+}
