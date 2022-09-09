@@ -47,6 +47,7 @@
 <li class="nav-item">
     <p></p>
 </li> --}}
+
 <ul class="side-menu">
     <li class="slide {{ nav_checkactive(['userpermission'], $args, 'is-expanded') }}">
         <a class="side-menu__item {{ nav_checkactive(['userpermission'], $args, 'active is-expanded') }}"
@@ -57,16 +58,18 @@
         <ul class="slide-menu">
             <li class="side-menu__label1"><a href="javascript:void(0);">Menu-Levels</a></li>
             <li>
-                <a class="slide-item {{ nav_checkactive(['user-index'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['userpermission']) }}">@lang('dev.view')</a>
-            </li>
-            <li>
                 <a class="slide-item {{ nav_checkactive(['user-create'], $args) }}"
                     href="{{ url_builder('admin.controller', ['userpermission', 'create']) }}">@lang('dev.new')</a>
             </li>
+            <li>
+                <a class="slide-item {{ nav_checkactive(['user-index'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['userpermission']) }}">@lang('dev.view')</a>
+            </li>
+
 
         </ul>
     </li>
+
 
     <li class="side-item side-item-category">Home</li>
     <li class="slide ">

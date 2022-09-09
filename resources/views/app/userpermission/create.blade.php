@@ -11,19 +11,7 @@ $action_btn = ['save' => true, 'cancel' => true];
 
 @extends('layouts.' . $extends)
 
-
-
 @section('blade_scripts')
-    <script>
-        @if (Session::has('status'))
-            notif({
-                type: "info",
-                msg: "Welcome to Nowa",
-                position: "right",
-                bottom: '10'
-            });
-        @endif
-    </script>
     <script>
         $(document).ready(function() {
             let route_submit = "{{ $route['submit'] }}";
@@ -67,6 +55,12 @@ $action_btn = ['save' => true, 'cancel' => true];
                 window.location = route_cancel;
             });
 
+            $('.collap').on('click', function() {
+                var eThis = $(this);
+                var pr = eThis.parents('.accordion');
+                pr.find('.collapse').slideToggle();
+            })
+
         });
     </script>
 @endsection
@@ -74,10 +68,9 @@ $action_btn = ['save' => true, 'cancel' => true];
     {{-- Header --}}
     <section class="content-header bg-light sticky-top ct-bar-action ct-bar-action-shaddow">
         <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-
-                    <h5 class="mb-2">
+            <div class="d-flex  border br-5">
+                <div class="flex-grow-1">
+                    <h5 class="mb-2 mg-t-20 mg-l-20">
                         {!! $obj_info['icon'] !!}
                         <a href="{{ url_builder($obj_info['routing'], [$obj_info['name']]) }}"
                             class="ct-title-nav text-md">{{ $obj_info['title'] }}</a>
@@ -86,15 +79,12 @@ $action_btn = ['save' => true, 'cancel' => true];
                             {{ $caption ?? '' }}
                         </small>
                     </h5>
-
-
-
                 </div>
-                <div class="col-sm-6 text-right">
+                <div class="pd-10 ">
                     @include('app._include.btn_create', $action_btn)
                 </div>
+
             </div>
-        </div>
     </section>
     {{-- end header --}}
     <div class="container-fluid">
@@ -120,69 +110,64 @@ $action_btn = ['save' => true, 'cancel' => true];
                         <span id="title-error" class="error invalid-feedback" style="display: none"></span>
                     </div>
                 </div>
+
                 <div class="card-body">
 
                     @foreach ($definelevel as $item)
-                        @php
-                            //dd($item);
-                            // if(isset($input)){
-                            //     dd($item, $input);
-                            // }
-                        @endphp
-                        <div class="card direct-chat direct-chat-primary collapsed-card">
-                            <div class="card-header">
-                                <h3 class="card-title">
-                                    {!! $item['icon'] !!}
-                                    {{ $item['title'] }}
+                        <!-- row -->
+                        <div class="row">
+                            <div class="col-lg-12 col-md-10">
+                                <div class="card">
+                                    {{-- <div class="card-body"> --}}
 
-                                </h3>
-                                <div class="card-tools">
-                                    @if (isset($active_permission) && isset($active_permission[$item['name']]))
-                                        @foreach ($active_permission[$item['name']] as $key => $val)
-                                            <span class="badge bg-success">
-                                                {{ $item['protectme']['method'][$val]['title'] }}
-                                            </span>
-                                        @endforeach
-                                    @endif
+                                    <div class="accordion accordion-indigo" id="accordion">
+                                        <div class="card mb-0 ">
 
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
+                                            <div class="card-header tx-medium bd-0 tx-white bg-white-10 text-light"
+                                                id="">
+                                                <a aria-controls="collapseTwo" aria-expanded="false" id="collap"
+                                                    class="collap" data-bs-toggle="collapse" href="">
+                                                    {!! $item['icon'] !!}
+                                                    {{ $item['title'] }}
 
-                                </div>
-                            </div>
+                                                    @if (isset($active_permission) && isset($active_permission[$item['name']]))
+                                                        @foreach ($active_permission[$item['name']] as $key => $val)
+                                                            <span class="badge-pill bg-dark text-light mg-r-10"
+                                                                style="float: right">
+                                                                {{ $item['protectme']['method'][$val]['title'] }}
 
-                            <div class="card-body" style="padding: 10px 10px 10px 30px">
-                                <div class="form-group">
-                                    {{-- @php
-                                        dd($item);
-                                    @endphp --}}
-                                    @foreach ($item['protectme']['method'] as $method => $info)
-                                        @php
-                                            $check = '';
-                                            $checkbox_value = $item['name'] . '-' . $method;
-                                            if (isset($input['levelsetting']) && in_array($checkbox_value, $input['levelsetting'])) {
-                                                $check = 'checked';
-                                            }
-                                            
-                                        @endphp
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="levelsetting[]"
-                                                value="{{ $checkbox_value }}" class="" {{ $check }}>
-                                            <label class="form-check-label">{!! $info['title'] !!}</label>
+                                                            </span>
+                                                        @endforeach
+                                                    @endif
+                                                </a>
+                                            </div>
+                                            <div aria-labelledby="headingTwo" class="collapse " data-bs-parent="#accordion"
+                                                id="collapseTwo" role="tabpanel">
+                                                <div class="card-body">
+                                                    @foreach ($item['protectme']['method'] as $method => $info)
+                                                        @php
+                                                            $check = '';
+                                                            $checkbox_value = $item['name'] . '-' . $method;
+                                                            if (isset($input['levelsetting']) && in_array($checkbox_value, $input['levelsetting'])) {
+                                                                $check = 'checked';
+                                                            }
+                                                            
+                                                        @endphp
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                name="levelsetting[]" value="{{ $checkbox_value }}"
+                                                                class="" {{ $check }}>
+                                                            <label class="form-check-label">{!! $info['title'] !!}</label>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
                                         </div>
-                                    @endforeach
 
-                                    {{-- <div class="form-check">
-                            <input class="form-check-input" type="checkbox" checked="">
-                            <label class="form-check-label">Create</label>
-                        </div> --}}
-
+                                    </div><!-- accordion -->
+                                    {{-- </div> --}}
                                 </div>
                             </div>
-
-
-
                         </div>
                     @endforeach
 

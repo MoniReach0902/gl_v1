@@ -1,5 +1,5 @@
 <!-- main-sidebar -->
-<div class="sticky">
+<div class="sticky" style="z-index: 100">
     <aside class="app-sidebar">
         <div class="main-sidebar-header active">
             <a class="header-logo active" href="{{ url_builder('admin.controller', ['home']) }}">
