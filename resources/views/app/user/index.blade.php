@@ -83,10 +83,9 @@
     {{-- Header --}}
     <section class="content-header bg-light sticky-top ct-bar-action ct-bar-action-shaddow">
         <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-
-                    <h5 class="mb-2">
+            <div class="d-flex  border br-5">
+                <div class="flex-grow-1">
+                    <h5 class="mb-2 mg-t-20 mg-l-20">
                         {!! $obj_info['icon'] !!}
                         <a href="{{ url_builder($obj_info['routing'], [$obj_info['name']]) }}"
                             class="ct-title-nav text-md">{{ $obj_info['title'] }}</a>
@@ -95,99 +94,83 @@
                             {{ $caption ?? '' }}
                         </small>
                     </h5>
-
-
-
                 </div>
-                <div class="col-sm-6 text-right">
+                <div class="pd-10 ">
                     @include('app._include.btn_index', ['new' => true, 'trash' => true, 'active' => true])
                 </div>
+
             </div>
-        </div>
     </section>
     {{-- end header --}}
     <div class="container-fluid">
         {{--  --}}
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Responsive Hover Table</h3>
-                <div class="card-tools">
-                    <div class="input-group input-group-sm" style="width: 150px;">
-                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-                        <div class="input-group-append">
-                            <button type="submit" class="btn btn-default">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <button onclick="not6()" class="btn btn-primary mg-t-5">Primary</button>
 
-            <div class="card-body table-responsive p-0">
-                <table class="table  table-striped table-hover text-nowrap table-bordered">
-                    @if (isset($istrash) && $istrash)
-                        <thead style="color: var(--warning)">
-                        @else
-                            <thead style="color: var(--info)">
-                    @endif
 
-                    <tr>
-                        <th style="width: 10px">ID</th>
-                        <th>Full Name</th>
-                        <th>User Name</th>
-                        <th>Email</th>
-                        <th>Location</th>
-                        <th>Permission</th>
-                        <th style="width: 40px">Status</th>
-                        <th style="width: 40px; text-align: center"><i class="fa fa-ellipsis-h"></i></th>
-                    </tr>
-                    </thead>
-                    <tbody>
 
-                        @foreach ($results as $row)
-                            <tr>
-                                <td>{{ $row->id }}</td>
-                                <td>{!! $row->fullname !!}</td>
-                                <td>{!! $row->name !!}</td>
-                                <td>{!! $row->email !!}</td>
-                                <td>
-                                    {{ implode('>', [$row->province, $row->district, $row->commune]) }}
-                                </td>
-                                <td>{!! $row->permission !!}</td>
-                                <td>
-                                    @if ($row->userstatus == 'yes')
-                                        <span class="badge bg-success">
-                                            Enable
-                                        @else
-                                            <span class="badge bg-danger">
-                                                Disable
-                                    @endif
-                                    </span>
-                                </td>
-                                <td>
-                                    @include('app._include.btn_record', [
-                                        'rowid' => $row->id,
-                                        'edit' => true,
-                                        'trash' => true,
-                                        'delete' => true,
-                                    ])
-                                </td>
-                            </tr>
-                        @endforeach
-                        {{-- endforeach --}}
-                    </tbody>
-                </table>
+        <div class="card-body table-responsive p-0">
+            <table class="table  table-striped table-hover text-nowrap table-bordered">
+                @if (isset($istrash) && $istrash)
+                    <thead style="color: var(--warning)">
+                    @else
+                        <thead style="color: var(--info)" class="bg-dark text-light">
+                @endif
 
-                <!-- Pagination and Record info -->
-                @include('app._include.pagination')
+                <tr>
+                    <th style="width: 10px">ID</th>
+                    <th>Full Name</th>
+                    <th>User Name</th>
+                    <th>Email</th>
+                    <th>Location</th>
+                    <th>Permission</th>
+                    <th style="width: 40px">Status</th>
+                    <th style="width: 40px; text-align: center"><i class="fa fa-ellipsis-h"></i></th>
+                </tr>
+                </thead>
+                <tbody>
 
-                <!-- /. end -->
+                    @foreach ($results as $row)
+                        <tr>
+                            <td>{{ $row->id }}</td>
+                            <td>{!! $row->fullname !!}</td>
+                            <td>{!! $row->name !!}</td>
+                            <td>{!! $row->email !!}</td>
+                            <td>
+                                {{ implode('>', [$row->province, $row->district, $row->commune]) }}
+                            </td>
+                            <td>{!! $row->permission !!}</td>
+                            <td>
+                                @if ($row->userstatus == 'yes')
+                                    <span class="badge bg-success">
+                                        Enable
+                                    @else
+                                        <span class="badge bg-danger">
+                                            Disable
+                                @endif
+                                </span>
+                            </td>
+                            <td>
+                                @include('app._include.btn_record', [
+                                    'rowid' => $row->id,
+                                    'edit' => true,
+                                    'trash' => true,
+                                    'delete' => true,
+                                ])
+                            </td>
+                        </tr>
+                    @endforeach
+                    {{-- endforeach --}}
+                </tbody>
+            </table>
 
-            </div>
+            <!-- Pagination and Record info -->
+            @include('app._include.pagination')
+
+            <!-- /. end -->
 
         </div>
 
-        {{--  --}}
+    </div>
+
+    {{--  --}}
     </div>
 @endsection

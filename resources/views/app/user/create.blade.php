@@ -111,10 +111,9 @@ $action_btn = ['save' => true, 'cancel' => true];
     {{-- Header --}}
     <section class="content-header bg-light sticky-top ct-bar-action ct-bar-action-shaddow">
         <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-
-                    <h5 class="mb-2">
+            <div class="d-flex  border br-5">
+                <div class="flex-grow-1">
+                    <h5 class="mb-2 mg-t-20 mg-l-20">
                         {!! $obj_info['icon'] !!}
                         <a href="{{ url_builder($obj_info['routing'], [$obj_info['name']]) }}"
                             class="ct-title-nav text-md">{{ $obj_info['title'] }}</a>
@@ -123,15 +122,12 @@ $action_btn = ['save' => true, 'cancel' => true];
                             {{ $caption ?? '' }}
                         </small>
                     </h5>
-
-
-
                 </div>
-                <div class="col-sm-6 text-right">
+                <div class="pd-10 ">
                     @include('app._include.btn_create', $action_btn)
                 </div>
+
             </div>
-        </div>
     </section>
     {{-- end header --}}
     <div class="container-fluid">
@@ -205,7 +201,7 @@ $action_btn = ['save' => true, 'cancel' => true];
                             </div>
                             <div class="form-group hidden">
                                 <label for="province_id">@lang('dev.formtype')</label>
-                                <select class="form-control input-sm" name="formtype[]" id="formtype" multiple>
+                                <select class="form-control input-sm select2" name="formtype[]" id="formtype" multiple>
                                     <option value="0">-- {{ __('dev.noneselected') }} --</option>
                                     {!! cmb_listing(config('me.kobo.formtype'), $input['formtype'] ?? [], '', '') !!}
                                 </select>

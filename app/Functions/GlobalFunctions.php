@@ -38,15 +38,14 @@ function url_builder($routename, $path, $qstring = [], $mix = false)
         return route($routename, $url);
 }
 
-function nav_checkactive($obj, $activeobj, $open = '')
+function nav_checkactive($subject = [], $args = [], $extra_css = "active")
 {
     /*Navegation check Active*/
-    $showhide_class = '';
-    if (count($obj) == 1) {
-        $showhide_class = 'showhide_' . $obj[0];
-    }
-    return in_array($activeobj, $obj) ? $showhide_class . ' ' . 'active' . ' ' . $open : $showhide_class;
+    $routeinfo = $args['routeinfo'];
+    $active_obj = $routeinfo['obj'] . '-' . $routeinfo['act'];
+    return in_array($active_obj, $subject) || in_array($routeinfo['obj'], $subject) ? $extra_css : '';
 }
+
 
 function is_axios()
 {

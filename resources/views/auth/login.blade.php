@@ -26,7 +26,7 @@
     <link href="{{ asset('public/assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
 
     <!--- Style css --->
-    <link href="{{ asset('public/css/app.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('public/css/app.css') }}" rel="stylesheet"> --}}
     <link href="{{ asset('public/assets/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('public/assets/css/style-dark.css') }}" rel="stylesheet">
     <link href="{{ asset('public/assets/css/style-transparent.css') }}" rel="stylesheet">
@@ -40,7 +40,7 @@
 
 </head>
 
-<body class="ltr error-page1 bg-dark">
+<body class=" bg-dark">
 
     <!-- Loader -->
     <div id="global-loader">

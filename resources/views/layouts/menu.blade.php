@@ -49,6 +49,26 @@
 </li> --}}
 
 <ul class="side-menu">
+    <li class="side-item side-item-category">Users Management</li>
+    <li class="slide {{ nav_checkactive(['user'], $args, 'is-expanded') }}">
+        <a class="side-menu__item {{ nav_checkactive(['user'], $args, 'active is-expanded') }}" data-bs-toggle="slide"
+            href="javascript:void(0);">
+            <i class="fas fa-users pd-r-10"></i>
+            <span class="side-menu__label">Users</span><i class="angle fe fe-chevron-right"></i>
+        </a>
+        <ul class="slide-menu">
+            <li class="side-menu__label1"><a href="javascript:void(0);">Menu-Levels</a></li>
+            <li>
+                <a class="slide-item {{ nav_checkactive(['user-index'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['user']) }}">@lang('dev.view')</a>
+            </li>
+            <li>
+                <a class="slide-item {{ nav_checkactive(['user-create'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['user', 'create']) }}">@lang('dev.new')</a>
+            </li>
+
+        </ul>
+    </li>
     <li class="slide {{ nav_checkactive(['userpermission'], $args, 'is-expanded') }}">
         <a class="side-menu__item {{ nav_checkactive(['userpermission'], $args, 'active is-expanded') }}"
             data-bs-toggle="slide" href="javascript:void(0);">
@@ -58,28 +78,29 @@
         <ul class="slide-menu">
             <li class="side-menu__label1"><a href="javascript:void(0);">Menu-Levels</a></li>
             <li>
-                <a class="slide-item {{ nav_checkactive(['user-create'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['userpermission', 'create']) }}">@lang('dev.new')</a>
-            </li>
-            <li>
-                <a class="slide-item {{ nav_checkactive(['user-index'], $args) }}"
+                <a class="slide-item {{ nav_checkactive(['userpermission-index'], $args) }}"
                     href="{{ url_builder('admin.controller', ['userpermission']) }}">@lang('dev.view')</a>
             </li>
-
+            <li>
+                <a class="slide-item {{ nav_checkactive(['userpermission-create'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['userpermission', 'create']) }}">@lang('dev.new')</a>
+            </li>
 
         </ul>
     </li>
 
 
     <li class="side-item side-item-category">Home</li>
-    <li class="slide ">
+    <li class="slide {{ nav_checkactive(['switcher'], $args, 'is-expanded') }}">
         <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="fa fa-cogs "
                 aria-hidden="true">
                 &nbsp;</i><span class="side-menu__label">Settings</span><i class="angle fe fe-chevron-right"></i></a>
         <ul class="slide-menu ">
             <li class="side-menu__label1 "><a href="javascript:void(0);">Dashboards</a></li>
             {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
-            <li><a class="slide-item " href="{{ url_builder('admin.controller', ['switcher']) }}">Switcher</a></li>
+            <li><a class="slide-item {{ nav_checkactive(['switcher-index'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['switcher']) }}">Switcher</a>
+            </li>
         </ul>
     </li>
     <li class="side-item side-item-category">Main</li>
