@@ -191,56 +191,8 @@ $action_btn = ['save' => true, 'cancel' => true];
                             @endif
 
 
-                            <div class="form-group hidden">
-                                <label for="province_id">@lang('dev.userlevel')</label>
-                                <select class="form-control input-sm select2" name="userlevel[]" id="userlevel" multiple>
-                                    <option value="">-- {{ __('dev.noneselected') }} --</option>
-                                    {!! cmb_listing(config('me.kobo.userlevel'), $input['userlevel'] ?? [], '', '') !!}
-                                </select>
-                                <span id="userlevel-error" class="error invalid-feedback" style="display: none"></span>
-                            </div>
-                            <div class="form-group hidden">
-                                <label for="province_id">@lang('dev.formtype')</label>
-                                <select class="form-control input-sm select2" name="formtype[]" id="formtype" multiple>
-                                    <option value="0">-- {{ __('dev.noneselected') }} --</option>
-                                    {!! cmb_listing(config('me.kobo.formtype'), $input['formtype'] ?? [], '', '') !!}
-                                </select>
-                                <span id="formtype-error" class="error invalid-feedback" style="display: none"></span>
-                            </div>
-                            <div class="form-group hidden">
-                                <label for="province_id">@lang('dev.formuse')</label>
-                                <select class="form-control input-sm" name="formuse[]" id="formuse" multiple>
-                                    <option value="">-- {{ __('dev.noneselected') }} --</option>
-                                    {!! cmb_listing(config('me.kobo.formuse'), $input['formuse'] ?? [], '', '') !!}
-                                </select>
-                                <span id="formuse-error" class="error invalid-feedback" style="display: none"></span>
-                            </div>
 
-                            <div class="form-group hidden">
-                                <label for="province_id">@lang('dev.province')</label>
-                                <select class="form-control input-sm" name="province_id" id="province_id">
-                                    <option value="">-- {{ __('dev.noneselected') }} --</option>
-                                    <option value="0">@lang('dev.national_level')</option>
-                                    {!! cmb_listing($provinces, [$input['province_id'] ?? ''], '', '') !!}
-                                </select>
-                                <span id="province_id-error" class="error invalid-feedback" style="display: none"></span>
-                            </div>
 
-                            <div class="form-group hidden">
-                                <label for="district_id">@lang('dev.district')</label>
-                                <select class="form-control input-sm" name="district_id" id="district_id">
-                                    <option value="">-- {{ __('dev.noneselected') }} --</option>
-                                    {!! cmb_listing($districts, [$input['district_id'] ?? ''], '', '') !!}
-                                </select>
-                            </div>
-
-                            <div class="form-group hidden">
-                                <label for="commune_id">@lang('dev.commune')</label>
-                                <select class="form-control input-sm" name="commune_id" id="commune_id">
-                                    <option value="">-- {{ __('dev.noneselected') }} --</option>
-                                    {!! cmb_listing($communes, [$input['commune_id'] ?? ''], '', '') !!}
-                                </select>
-                            </div>
 
                             <div class="form-group">
                                 <label for="password_confirmation">@lang('dev.status')</label>

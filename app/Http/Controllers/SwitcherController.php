@@ -51,9 +51,9 @@ class SwitcherController extends Controller
             'method'  => [
                 'index' => $default_protectme['index'],
                 // 'show' => $default_protectme['show'],
-                'create' => $default_protectme['create'],
-                'edit' => $default_protectme['edit'],
-                'delete' => $default_protectme['delete'],
+                // 'create' => $default_protectme['create'],
+                // 'edit' => $default_protectme['edit'],
+                // 'delete' => $default_protectme['delete'],
                 // 'destroy' => $default_protectme['destroy'],
                 // 'restore' => $default_protectme['restore'],
             ]

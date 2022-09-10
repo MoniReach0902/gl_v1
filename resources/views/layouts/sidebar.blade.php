@@ -1,6 +1,6 @@
 <!-- main-sidebar -->
-<div class="sticky" style="z-index: 100">
-    <aside class="app-sidebar">
+<div class="sticky">
+    <aside class="app-sidebar sidebar-scroll">
         <div class="main-sidebar-header active">
             <a class="header-logo active" href="{{ url_builder('admin.controller', ['home']) }}">
                 <img src="{{ asset('public/images/gl_logo.png') }}" class="main-logo  desktop-logo" alt="logo">

@@ -60,7 +60,7 @@
             <li class="side-menu__label1"><a href="javascript:void(0);">Menu-Levels</a></li>
             <li>
                 <a class="slide-item {{ nav_checkactive(['user-index'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['user']) }}">@lang('dev.view')</a>
+                    href="{{ url_builder('admin.controller', ['user']) }}">@lang('dev.user')</a>
             </li>
             <li>
                 <a class="slide-item {{ nav_checkactive(['user-create'], $args) }}"
@@ -79,7 +79,7 @@
             <li class="side-menu__label1"><a href="javascript:void(0);">Menu-Levels</a></li>
             <li>
                 <a class="slide-item {{ nav_checkactive(['userpermission-index'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['userpermission']) }}">@lang('dev.view')</a>
+                    href="{{ url_builder('admin.controller', ['userpermission']) }}">@lang('dev.permission')</a>
             </li>
             <li>
                 <a class="slide-item {{ nav_checkactive(['userpermission-create'], $args) }}"

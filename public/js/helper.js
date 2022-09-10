@@ -298,6 +298,7 @@ let helper = {
     /**+++++ enable and disable Element of form +++*/
     enableDisableByLang: (combo, lang, group_ele, enable_id) => {
         //elements_id must be ARRAY
+
         for (i = 0; i < lang.length; i++) {
             combo
                 .parent()

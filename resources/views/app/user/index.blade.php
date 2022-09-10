@@ -112,7 +112,7 @@
                 @if (isset($istrash) && $istrash)
                     <thead style="color: var(--warning)">
                     @else
-                        <thead style="color: var(--info)" class="bg-dark text-light">
+                        <thead style="color: var(--info)">
                 @endif
 
                 <tr>
@@ -120,7 +120,7 @@
                     <th>Full Name</th>
                     <th>User Name</th>
                     <th>Email</th>
-                    <th>Location</th>
+
                     <th>Permission</th>
                     <th style="width: 40px">Status</th>
                     <th style="width: 40px; text-align: center"><i class="fa fa-ellipsis-h"></i></th>
@@ -134,9 +134,7 @@
                             <td>{!! $row->fullname !!}</td>
                             <td>{!! $row->name !!}</td>
                             <td>{!! $row->email !!}</td>
-                            <td>
-                                {{ implode('>', [$row->province, $row->district, $row->commune]) }}
-                            </td>
+
                             <td>{!! $row->permission !!}</td>
                             <td>
                                 @if ($row->userstatus == 'yes')

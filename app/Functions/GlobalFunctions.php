@@ -46,7 +46,17 @@ function nav_checkactive($subject = [], $args = [], $extra_css = "active")
     return in_array($active_obj, $subject) || in_array($routeinfo['obj'], $subject) ? $extra_css : '';
 }
 
+function checkpermission($checkfor, $userinfo)
+{
+    $return = false;
+    $levelid = $userinfo['permission_id'];
+    $levelsetting = $userinfo['permission_setting'];
+    if ($levelid == 1 || in_array($checkfor, $levelsetting))
+        //if(in_array($checkfor, $levelsetting))
+        $return = true;
 
+    return $return;
+}
 function is_axios()
 {
 
@@ -157,66 +167,8 @@ function addColumnDouble($sTable, $sColumn)
     //return response()->json($fluent);
 }
 
-function calScore(array $scores)
-{
-    $score = 0;
-    $percentage = 0;
-    $count = count($scores);
-    for ($i = 0; $i < $count; $i++) {
-        if ($scores[$i] > -1) {
-            $score += (int)$scores[$i];
-        }
-    }
-    return [
-        'score' => $score,
-        'percentage' => $score,
-    ];
-}
 
-// function getTableColumns($table)
-// {
-//     return \DB::getSchemaBuilder()->getColumnListing($table);
 
-//     // OR
-
-//     return \Schema::getColumnListing($table);
-// }
-
-// function getJsonColumn($jsonfield, $attibute)
-// {
-//     return "JSON_UNQUOTE(JSON_EXTRACT(" . $jsonfield . ", '$." . $attibute . "'))";
-// }
-
-// function month_in_khmer($index)
-// {
-
-//     $mont = ["", "មករា", "កុម្ភៈ", "មីនា", "មេសា", "ឧសភា", "មិថុនា", "កក្កដា", "សីហា", "កញ្ញា", "តុលា", "វិច្ឆិកា", "ធ្នូ"];
-
-//     $index = (int)$index;
-//     $index = ($index < 1) ? 0 : $index;
-//     $index = ($index > 12) ? 0 : $index;
-//     return $mont[$index];
-
-//     function num_in_khmer($num_en)
-//     {
-
-//         $length = strlen($num_en);
-
-//         $num_en = str_split($num_en);
-
-//         $num_kh = ["០", "១", "២", "៣", "៤", "៥", "៦", "៧", "៨", "៩"];
-//         $new_str = '';
-//         for ($i = 0; $i < $length; $i++) {
-//             $index = $num_en[$i];
-//             $index = (int)$index;
-//             if ($index >= 0 && $index <= 9) {
-//                 $new_str .= $num_kh[$index];
-//             }
-//         }
-//     };
-
-//     return response()->json($fluent);
-// }
 
 function getTableColumns($table)
 {
@@ -243,6 +195,40 @@ function month_in_khmer($index)
     $index = ($index < 1) ? 0 : $index;
     $index = ($index > 12) ? 0 : $index;
     return $mont[$index];
+}
+
+function toTranslate($request, String $field,  int $index = 0, bool $usedf = true)
+{
+    $array = [];
+    $loop = 0;
+    $df = "";
+    foreach (config('me.app.project_lang') as $lang) {
+        $data = '';
+        if (is_array($request->input($field . '-' . $lang[0]))) {
+            $data = $request->input($field . '-' . $lang[0])[$index];
+        } else {
+            $data = $request->input($field . '-' . $lang[0]);
+        }
+        if ($loop == 0) {
+            $df = $data;
+        }
+
+        $array[$lang[0]] = empty($data) ? ($usedf ? $df : $data) : $data;
+        $loop++;
+    } #./foreach#
+    return $array;
+}
+function changeDate($date)
+{
+    if (empty($date)) {
+        return ['N/A'];
+    }
+    $date_array = [];
+    $timestamp = strtotime($date);
+    $confirmed_date = date('d-m-Y', $timestamp);
+    $date_array = explode('-', $confirmed_date);
+
+    return $date_array;
 }
 function num_in_khmer($num_en)
 {
@@ -325,4 +311,11 @@ function replaceString($str)
 function mathScore($setting)
 {
     return $setting;
+}
+function multiexplode($delimiters, $string)
+{
+
+    $ready = str_replace($delimiters, $delimiters[0], $string);
+    $launch = explode($delimiters[0], $ready);
+    return  $launch;
 }

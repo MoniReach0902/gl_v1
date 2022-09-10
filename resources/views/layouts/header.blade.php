@@ -1,5 +1,5 @@
  <!-- main-header -->
- <div class="main-header side-header sticky nav nav-item" style="z-index: 99">
+ <div class="main-header side-header sticky nav nav-item">
      <div class=" main-container container-fluid">
          <div class="main-header-left ">
              <div class="responsive-logo">
@@ -7,7 +7,7 @@
                      <img src="{{ asset('public/images/gl_logo.png') }}" class="mobile-logo logo-1" alt="logo"
                          style="height: 50px">
 
-                     <img src="{{ asset('public/images/gl_logo.png') }}" class="mobile-logo dark-logo-1" alt="logo"
+                     <img src="{{ asset('public/images/gl_logo.jpg') }}" class="mobile-logo dark-logo-1" alt="logo"
                          style="height: 50px">
                  </a>
              </div>
@@ -19,7 +19,7 @@
                  <a href="{{ url_builder('admin.controller', ['home']) }}" class="header-logo">
                      <img src="{{ asset('public/images/gl_logo.png') }}" class="mobile-logo logo-1" alt="logo"
                          style="height: 50px">
-                     <img src="{{ asset('public/images/gl_logo.png') }}" class="mobile-logo dark-logo-1" alt="logo"
+                     <img src="{{ asset('public/images/gl_logo.jpg') }}" class="mobile-logo dark-logo-1" alt="logo"
                          style="height: 50px">
                  </a>
              </div>
@@ -49,16 +49,14 @@
                                          <img src="{{ asset('public/images/uk1.png') }}">
                                      @endif
                                  </button>
-                                 <ul class="dropdown-menu">
+                                 <ul class="dropdown-menu mg-r-20">
 
-
-                                     <li><a class="dropdown-item" href="?lang=kh">
-                                             <img src="{{ asset('public/images/kh1.png') }}">
-                                         </a></li>
-                                     <li><a class="dropdown-item" href="?lang=en">
-                                             <img src="{{ asset('public/images/uk1.png') }}">
-                                         </a></li>
-
+                                     <a class="dropdown-item" href="?lang=kh">
+                                         <img src="{{ asset('public/images/kh1.png') }}">
+                                     </a>
+                                     <a class="dropdown-item" href="?lang=en">
+                                         <img src="{{ asset('public/images/uk1.png') }}">
+                                     </a>
                                  </ul>
                              </div>
                          </li>
@@ -118,15 +116,17 @@
                          </li> --}}
                          <li class="dropdown main-profile-menu nav nav-item nav-link ps-lg-2">
                              <a class="new nav-link profile-user d-flex" href="" data-bs-toggle="dropdown"><img
-                                     alt="" src="{{ asset('public/images/gl_logo.png') }}" class=""></a>
+                                     alt="" src="{{ asset('public/images/gl_logo.jpg') }}" class=""></a>
                              <div class="dropdown-menu">
                                  <div class="menu-header-content p-3 border-bottom">
                                      <div class="d-flex wd-100p">
                                          <div class="main-img-user"><img alt=""
-                                                 src="{{ asset('public/images/gl_logo.png') }}" class=""></div>
+                                                 src="{{ asset('public/images/gl_logo.jpg') }}" class=""></div>
                                          <div class="ms-3 my-auto">
-                                             <h6 class="tx-15 font-weight-semibold mb-0">GL</h6>
-                                             <span class="dropdown-title-text subtext op-6  tx-12">CEO</span>
+                                             <h6 class="tx-15 font-weight-semibold mb-0">{{ Auth()->user()->name }}
+                                             </h6>
+                                             {{-- <span
+                                                 class="dropdown-title-text subtext op-6  tx-12">{{ Auth()->user()->name }}</span> --}}
                                          </div>
                                      </div>
                                  </div>

@@ -114,14 +114,10 @@ class UserController extends Controller
         #DEFIND MODEL#
         return $this->model
             ->leftJoin('users_permission', 'users_permission.permission_id', 'users.permission_id')
-            ->leftJoin('tbl_location', 'users.province_id', '=', 'tbl_location.location_id')
-            ->leftJoin('tbl_location as district', 'users.district_id', '=', 'district.location_id')
-            ->leftJoin('tbl_location as commune', 'users.commune_id', '=', 'commune.location_id')
+
             ->select(
                 \DB::raw($this->fprimarykey . " AS id, name,email, fullname ,userstatus, users.permission_id, users_permission.title as permission"),
-                DB::raw("JSON_UNQUOTE(JSON_EXTRACT(tbl_location.title,'$." . $this->dflang[0] . "')) AS province"),
-                DB::raw("JSON_UNQUOTE(JSON_EXTRACT(district.title,'$." . $this->dflang[0] . "')) AS district"),
-                DB::raw("JSON_UNQUOTE(JSON_EXTRACT(commune.title,'$." . $this->dflang[0] . "')) AS commune")
+
             )->whereRaw('users.trash <> "yes"');
     } /*../function..*/
     //JSON_UNQUOTE(JSON_EXTRACT(title, '$.".$this->dflang[0]."'))
@@ -292,11 +288,9 @@ class UserController extends Controller
         $rules['phone']      = ['required', 'numeric'];
         // dd($request->input('permission_id'));
         if ($request->input('permission_id') != 1) {
-            $rules['province_id']      = ['required'];
+
             $rules['permission_id']      = ['required'];
-            $rules['userlevel']      = ['required'];
-            $rules['formtype']      = ['required'];
-            $rules['formuse']      = ['required'];
+
             $rules['fullname']      = ['required'];
         }
 
@@ -342,13 +336,9 @@ class UserController extends Controller
             'email'    => !empty($request->input('phone')) ? $request->input('phone') : '',
             'password' =>  Hash::make($request->input('password')),
             'permission_id' => !empty($request->input('permission_id')) ? $request->input('permission_id') : 0,
-            'province_id'  => !empty($request->input('province_id')) ? $request->input('province_id') : 0,
-            'district_id'     => !empty($request->input('district_id')) ? $request->input('district_id') : 0,
-            'commune_id'   => !empty($request->input('commune_id')) ? $request->input('commune_id') : 0,
+
             'userstatus' => !empty($request->input('userstatus')) ? $request->input('userstatus') : 'no',
-            'userlevel'   => !empty($request->input('userlevel')) ? $userlevel : '',
-            'formtype'   => !empty($request->input('formtype')) ? $formtype : '',
-            'formuse'   => !empty($request->input('formuse')) ? $formuse : '',
+
             'fullname'   => !empty($request->input('fullname')) ? $request->input('fullname') : '',
             'trash'     => 'no',
 

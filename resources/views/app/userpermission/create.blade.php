@@ -153,6 +153,7 @@ $action_btn = ['save' => true, 'cancel' => true];
                                                             }
                                                             
                                                         @endphp
+
                                                         <div class="form-check">
                                                             <input class="form-check-input" type="checkbox"
                                                                 name="levelsetting[]" value="{{ $checkbox_value }}"
