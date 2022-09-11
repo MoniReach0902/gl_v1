@@ -118,32 +118,10 @@ foreach (config('me.app.project_lang') as $lang) {
             <div class="container">
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="input-group my-group" style="width:100%;">
+                        <label for="">Exmaple Title</label>
+                        <input type="text" class="form-control" name="example-title">
 
-                            <select class="form-control form-select input-sm tab_title" style="width:20%;">
-                                @foreach (config('me.app.project_lang') as $lang)
-                                    <option value="@lang($lang[0])">@lang($lang[1])</option>
-                                @endforeach
-
-                            </select>
-                            @php
-                                $active = '';
-                            @endphp
-                            @foreach (config('me.app.project_lang') as $lang)
-                                @php
-                                    // dd($lang);
-                                    $title = json_decode($input['title'] ?? '', true);
-                                @endphp
-                                <input type="text" class="form-control input-sm {{ $active }}" style="width:80%;"
-                                    name="title-{{ $lang[0] }}" id="title-{{ $lang[0] }}"
-                                    placeholder="{{ $lang[1] }}" value="{{ $title[$lang[0]] ?? '' }}">
-                                @php
-                                    $active = 'hide';
-                                @endphp
-                            @endforeach
-                            <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error"
-                                class="error invalid-feedback" style="display: none"></span>
-                        </div><br>
+                        <span id="example-title-error" class="error invalid-feedback" style="display: none"></span>
                     </div>
                 </div>
             </div>

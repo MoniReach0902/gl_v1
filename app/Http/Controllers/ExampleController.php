@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Example;
 use Illuminate\Http\Request;
 use Validator;
 use DB;
@@ -14,17 +15,17 @@ use App\Models\Room;
 use App\Models\Slider;
 use Illuminate\Support\Facades\Auth;
 
-class SliderController extends Controller
+class ExampleController extends Controller
 {
     //
-    private $obj_info = ['name' => 'slider', 'routing' => 'admin.controller', 'title' => 'Slider', 'icon' => '<i class="fas fa-image"></i>'];
+    private $obj_info = ['name' => 'example', 'routing' => 'admin.controller', 'title' => 'Exmaple', 'icon' => '<i class="fas fa-plus"></i>'];
     public $args;
 
     private $model;
     private $submodel;
     private $tablename;
     private $columns = [];
-    private $fprimarykey = 'img_id';
+    private $fprimarykey = 'exmaple_id';
     private $protectme = null;
 
     public $dflang;
@@ -41,7 +42,7 @@ class SliderController extends Controller
     {
         //$this->middleware('auth');
         // dd($args['userinfo']);
-        $this->obj_info['title'] =  __('dev.slider');
+        $this->obj_info['title'] =  'Example';
 
         $default_protectme = config('me.app.protectme');
         $this->protectme = [
@@ -52,15 +53,15 @@ class SliderController extends Controller
                 'index' => $default_protectme['index'],
                 // 'show' => $default_protectme['show'],
                 'create' => $default_protectme['create'],
-                'edit' => $default_protectme['edit'],
-                'delete' => $default_protectme['delete'],
+                // 'edit' => $default_protectme['edit'],
+                // 'delete' => $default_protectme['delete'],
                 // 'destroy' => $default_protectme['destroy'],
                 // 'restore' => $default_protectme['restore'],
             ]
         ];
 
         $this->args = $args;
-        $this->model = new Slider;
+        $this->model = new Example;
         $this->tablename = $this->model->gettable();
         $this->dflang = df_lang();
         // dd($this->tablename);
@@ -95,14 +96,9 @@ class SliderController extends Controller
 
     public function default()
     {
-        $img = $this->model
-            ->select(
-                \DB::raw($this->tablename . ".* "),
-                DB::raw("JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".title,'$." . $this->dflang[0] . "')) AS text"),
-
-            )
-            ->whereRaw('trash <> "yes"')->get();
-        return ['img' => $img];
+        $example = $this->model->get();
+        // dd($example);
+        return ['example' => $example];
     } /*../function..*/
     /**
      * Show the application dashboard.
@@ -113,8 +109,9 @@ class SliderController extends Controller
     {
 
         $default = $this->default();
-        $slider = $default['img'];
+        $example = $default['example'];
         // dd($slider);
+
 
         $create_modal = url_builder(
             $this->obj_info['routing'],
@@ -153,7 +150,7 @@ class SliderController extends Controller
                 'caption' => 'Active',
             ])
             ->with(['act' => 'index'])
-            ->with(['slider' => $slider])
+            ->with(['example' => $example])
             // ->with($setting)
         ;
     }
@@ -163,12 +160,11 @@ class SliderController extends Controller
         $newid = ($isupdate) ? $request->input($this->fprimarykey)  : $this->model->max($this->fprimarykey) + 1;
         $update_rules = [$this->fprimarykey => 'required'];
 
-        $rules['title-' . 'en'] = ['required'];
+        $rules['example-title'] = ['required'];
         // $rules['img'] = ['required'];
         $validatorMessages = [
             /*'required' => 'The :attribute field can not be blank.'*/
-            'required' =>
-            __('ccms.fieldreqire'),
+            'required' => 'abc123',
         ];
 
         return Validator::make($request->all(), $rules, $validatorMessages);
@@ -179,26 +175,16 @@ class SliderController extends Controller
         $newid = ($isupdate) ? $request->input($this->fprimarykey)  : $this->model->max($this->fprimarykey) + 1;
         $tableData = [];
 
-        $img = $request->file('img');
-        if (!empty($img)) {
-            $name = $img->hashName();
-            // $ext = $img->extension();
-            // $img->storeAs('slider', $name);
-        }
 
-        $data = toTranslate($request, 'title', 0, true);
         $tableData = [
-            'img_id' => $newid,
-            'title' => json_encode($data),
-            'blongto'  => $this->args['userinfo']['id'],
-            'img' => $name  ?? '',
-            'trash'     => 'no',
-            // 'bash_url' => ''
+            'exmaple_id' => $newid,
+            'title' => $request->input('example-title'),
+
         ];
         if ($isupdate) {
             $tableData = array_except($tableData, [$this->fprimarykey, 'password', 'trash']);
         }
-        return ['tableData' => $tableData, 'id' => $newid];
+        return ['tableData' => $tableData, $this->fprimarykey => $newid];
     }
     public function create()
     {
@@ -268,7 +254,9 @@ class SliderController extends Controller
     /* end function*/
     function proceed_store($request, $data, $obj_info)
     {
+        // dd($data['tableData']);
         $save_status = $this->model->insert($data['tableData']);
+        // dd($save_status);
         if ($save_status) {
             // $request->file('img')->storeAs('slider', $data['tableData']['img']);
             $savetype = strtolower($request->input('savetype'));
