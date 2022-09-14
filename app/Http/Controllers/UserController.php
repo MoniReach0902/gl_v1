@@ -495,12 +495,7 @@ class UserController extends Controller
         }
 
         $input = $x;
-        $input['formtype'] = str_replace("'", '', $input['formtype']);
-        $input['formtype'] = explode(',', $input['formtype']);
-        $input['userlevel'] = str_replace("'", '', $input['userlevel']);
-        $input['userlevel'] = explode(',', $input['userlevel']);
-        $input['formuse'] = str_replace("'", '', $input['formuse']);
-        $input['formuse'] = explode(',', $input['formuse']);
+        // $input['formtype'] = str_replace("'g
 
 
         // dd($input);

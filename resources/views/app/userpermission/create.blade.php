@@ -30,17 +30,9 @@ $action_btn = ['save' => true, 'cancel' => true];
                 mode: "{{ $extends }}"
             };
 
-            @if (null !== session('status') && session('status') == false)
 
-                notif({
-                    type: "info",
-                    msg: "Welcome to Nowa",
-                    position: "right",
-                    bottom: '10'
-                });
-            @endif
             $(".btnsave_{{ $obj_info['name'] }}").click(function(e) {
-                console.log('aaaa');
+
                 e.preventDefault();
                 $("#frm-{{ $obj_info['name'] }} .error").html('').hide();
                 helper.silentHandler(route_submit, "frm-{{ $obj_info['name'] }}", extraFrm, setting,

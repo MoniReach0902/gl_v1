@@ -65,17 +65,7 @@ class SliderController extends Controller
         $this->dflang = df_lang();
         // dd($this->tablename);
 
-        /*column*/
-        $tbl_columns = getTableColumns($this->tablename);
-        //dd($tbl_columns);
-        foreach ($tbl_columns as $column) {
-            //tbl
-            if (strpos($column, 'tbl') !== false) {
-                array_push($this->columns, $column);
-            }
-        }
-        natsort($this->columns);
-        //dd($this->columns);
+
     }
 
     public function getters($property)

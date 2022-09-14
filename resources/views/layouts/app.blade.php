@@ -60,11 +60,14 @@
 </head>
 
 <body class="ltr main-body app sidebar-mini">
-
+    @include('layouts.switcher')
     <!-- Loader -->
-    <div id="global-loader">
+    <div id="global-loader" class="global_loading">
         <img src="{{ asset('public/assets/img/loader.svg') }}" class="loader-img" alt="Loader">
     </div>
+    {{-- <div class="spinner-border global_loading" role="status" style="display: block">
+        <span class="sr-only">Loading...</span>
+    </div> --}}
     <!-- /Loader -->
 
     <!-- Page -->
@@ -110,7 +113,8 @@
         <!-- Footer closed -->
     </div>
     <!-- End Page -->
-
+    {{-- modal for support Air Window --}}
+    @include('layouts.modal')
     <!-- Back-to-top -->
     <a href="#top" id="back-to-top"><i class="las la-arrow-up"></i></a>
 
@@ -183,11 +187,39 @@
 
     <!--Internal  Notify js -->
     <script src="{{ asset('public/assets/plugins/notify/js/notifIt.js') }}"></script>
-    {{-- <script src="{{ asset('public/assets/plugins/notify/js/notifit-custom.js') }}"></script> --}}
+    <script src="{{ asset('public/assets/plugins/notify/js/notifit-custom.js') }}"></script>
+
+    <!-- eva-icons js -->
+    <script src="{{ asset('public/assets/js/eva-icons.min.js') }}"></script>
+
+    <!--Internal  Form-elements js-->
+    <script src="{{ asset('public/assets/js/advanced-form-elements.js') }}"></script>
+    <script src="{{ asset('public/assets/js/select2.js') }}"></script>
+
+    <!-- Internal TelephoneInput js-->
+    <script src="{{ asset('public/assets/plugins/telephoneinput/telephoneinput.js') }}"></script>
+    <script src="{{ asset('public/assets/plugins/telephoneinput/inttelephoneinput.js') }}"></script>
+
+    <!--Internal  Form-wizard js -->
+    <script src="{{ asset('public/assets/js/form-wizard.js') }}"></script>
+
+    <!-- INTERNAl Forn-wizard js -->
+    <script src="{{ asset('public/assets/plugins/jquery-steps/jquery.steps.min.js') }}"></script>
+    <script src="{{ asset('public/assets/plugins/parsleyjs/parsley.min.js') }}"></script>
+
+    <!--Internal Fileuploads js-->
+    <script src="{{ asset('public/assets/plugins/fileuploads/js/fileupload.js') }}"></script>
+    <script src="{{ asset('public/assets/plugins/fileuploads/js/file-upload.js') }}"></script>
+
+    <!--Internal Fancy uploader js-->
+    <script src="{{ asset('public/assets/plugins/fancyuploder/jquery.ui.widget.js') }}"></script>
+    <script src="{{ asset('public/assets/plugins/fancyuploder/jquery.fileupload.js') }}"></script>
+    <script src="{{ asset('public/assets/plugins/fancyuploder/jquery.iframe-transport.js') }}"></script>
+    <script src="{{ asset('public/assets/plugins/fancyuploder/jquery.fancy-fileupload.js') }}"></script>
+    <script src="{{ asset('public/assets/plugins/fancyuploder/fancy-uploader.js') }}"></script>
 
 
     {{-- js default --}}
-
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     {{-- <script src="{{ asset('public/js/app.js') }}" defer></script> --}}
     <script src="{{ asset('public/js/helper.js') }}" defer></script>

@@ -15,8 +15,25 @@
                 helper.successAlert("{{ session('message') }}");
             @endif
             $("#btnnew_{{ $obj_info['name'] }}").click(function(e) {
+
                 let route_create = "{{ $route['create'] }}";
-                window.location = route_create;
+                let extraFrm = {}; //{jscallback:'test'};
+                let setting = {}; //{fnSuccess:foo};
+                let popModal = {
+                    show: true,
+                    size: 'modal-xl'
+                    //modal-sm, modal-lg, modal-xl
+                };
+
+                let loading_indicator = '';
+                helper.silentHandler(route_create, null, extraFrm, setting, popModal, 'air_windows',
+                    loading_indicator);
+
+
+
+                //window.location.replace(route_create);
+                //window.location = route_create;
+
             });
             $("#btntrash_{{ $obj_info['name'] }}").click(function(e) {
                 let route_create = "{{ $route['trash'] ?? '' }}";

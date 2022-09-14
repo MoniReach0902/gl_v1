@@ -1,4 +1,7 @@
 let helper = {
+    test: function () {
+        console.log("abc");
+    },
     delayRefresh: function () {
         setTimeout(function () {
             location.reload();
@@ -159,7 +162,7 @@ let helper = {
                     html = get_content;
                 }
 
-                if (!!container && html != "") {
+                if (!!container) {
                     if (popModal.modal == "modal_media") {
                         $("#air_media").html("").html(get_content);
                         return null;
@@ -274,6 +277,17 @@ let helper = {
     },
 
     errorAlert: (message) => {
+        // $(document).Toasts('create', {
+        //     class: 'bg-danger ct-min-toast-width',
+        //     title: 'Invalid',
+        //     subtitle: '',
+        //     body: message,
+        //     fade: true,
+        //     autohide: true,
+        //     delay: 3000,
+        //     //position: 'bottomLeft',
+        // });
+
         notif({
             msg: message,
             type: "error",
@@ -293,12 +307,21 @@ let helper = {
             clickable: true,
             timeout: 2000,
         });
+        // $(document).Toasts('create', {
+        //     class: 'bg-success ct-min-toast-width',
+        //     title: 'Success',
+        //     subtitle: '',
+        //     body: message,
+        //     fade: true,
+        //     autohide: true,
+        //     delay: 3000,
+        //     //position: 'bottomLeft',
+        // });
     },
 
     /**+++++ enable and disable Element of form +++*/
     enableDisableByLang: (combo, lang, group_ele, enable_id) => {
         //elements_id must be ARRAY
-
         for (i = 0; i < lang.length; i++) {
             combo
                 .parent()

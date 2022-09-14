@@ -52,30 +52,17 @@ foreach (config('me.app.project_lang') as $lang) {
                 helper.silentHandler(route_submit, "frm-{{ $obj_info['name'] }}", extraFrm, setting,
                     popModal, container,
                     loading_indicator);
-
             });
-
             $(".btncancel_{{ $obj_info['name'] }}").click(function(e) {
                 //window.location.replace(route_cancel);
                 window.location = route_cancel;
             });
-            $("#btnnew_{{ $obj_info['name'] }}").click(function(e) {
-
-
-                window.location = route_new;
-                //     loading_indicator);
-            });
-
             $(".btnprint_{{ $obj_info['name'] }}").click(function(e) {
                 //window.location.replace(route_cancel);
                 //window.location = route_print;
                 window.open(
                     route_print);
             });
-
-
-
-
         });
     </script>
 @endsection
@@ -112,55 +99,41 @@ foreach (config('me.app.project_lang') as $lang) {
             <input type="hidden" name="{{ $fprimarykey }}" id="{{ $fprimarykey }}"
                 value="{{ $input[$fprimarykey] ?? '' }}">
             <input type="hidden" name="jscallback" value="{{ $jscallback ?? (request()->get('jscallback') ?? '') }}">
-            <br>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="input-group my-group" style="width:100%;">
-
-                            <select class="form-control form-select input-sm tab_title" style="width:20%;">
-                                @foreach (config('me.app.project_lang') as $lang)
-                                    <option value="@lang($lang[0])">@lang($lang[1])</option>
-                                @endforeach
-
-                            </select>
-                            @php
-                                $active = '';
-                            @endphp
-                            @foreach (config('me.app.project_lang') as $lang)
-                                @php
-                                    // dd($lang);
-                                    $title = json_decode($input['title'] ?? '', true);
-                                @endphp
-                                <input type="text" class="form-control input-sm {{ $active }}" style="width:80%;"
-                                    name="title-{{ $lang[0] }}" id="title-{{ $lang[0] }}"
-                                    placeholder="{{ $lang[1] }}" value="{{ $title[$lang[0]] ?? '' }}">
-                                @php
-                                    $active = 'hide';
-                                @endphp
-                            @endforeach
-                            <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error"
-                                class="error invalid-feedback" style="display: none"></span>
-                        </div><br>
-                    </div>
-                    <div class="col-md-6">
+            <div class="col-md-6">
 
 
-                        <div class="mb-2">
-                            <input type="file" class="dropify" data-height="200" multiple />
+                <div class="card">
+                    <div class="card-body">
+                        <div>
+                            <h6 class="card-title mb-1">File Upload</h6>
+                            <p class="text-muted card-sub-title">Dropify is a jQuery plugin to create a beautiful file
+                                uploader that converts a standard <code>input type="file"</code> into a nice drag & drop
+                                zone with previews and custom styles.</p>
                         </div>
-                        <div class="mb-0">
+                        <div class="row mb-4">
+                            <div class="col-sm-12 col-md-4">
+                                <input type="file" class="dropify" data-height="200" />
+                            </div>
+                            <div class="col-sm-12 col-md-4 mg-t-10 mg-md-t-0">
+                                <input type="file" class="dropify" data-default-file="../assets/img/photos/1.jpg"
+                                    data-height="200" />
+                            </div>
+                            <div class="col-sm-12 col-md-4 mg-t-10 mg-md-t-0">
+                                <input type="file" class="dropify" disabled="disabled" />
+                            </div>
+                        </div>
+                        <div>
                             <input id="demo" type="file" name="files"
                                 accept=" image/jpeg, image/png, text/html, application/zip, text/css, text/js" multiple />
                         </div>
-
-
                     </div>
                 </div>
+
+
             </div>
 
-    </div>
 
-    </form>
+        </form>
+
     </div>
 @endsection
