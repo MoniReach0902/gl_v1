@@ -152,16 +152,16 @@
                                     <thead style="color: var(--info)">
                             @endif
                             <tr>
-                                <th style="width: 10px">@lang('dev.home')</th>
+                                <th style="width: 10px">example title</th>
 
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($slider as $slide)
+                            @foreach ($example as $val)
                                 <tr>
-                                    <td>{{ $slide['text'] }}</td>
-                                    <td>{{ $slide['img_id'] }}</td>
-                                    <td>{{ $slide['blongto'] }}</td>
+                                    <td>{{ $val['exmaple_id'] }}</td>
+                                    <td>{{ $val['title'] }}</td>
+
                                 </tr>
                             @endforeach
                         </tbody>
