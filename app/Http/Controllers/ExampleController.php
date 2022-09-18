@@ -96,7 +96,7 @@ class ExampleController extends Controller
 
     public function default()
     {
-        $example = $this->model->get();
+        $example = $this->model->where('trash', '<>', 'yes')->get();
         // dd($example);
         return ['example' => $example];
     } /*../function..*/
@@ -164,7 +164,7 @@ class ExampleController extends Controller
         // $rules['img'] = ['required'];
         $validatorMessages = [
             /*'required' => 'The :attribute field can not be blank.'*/
-            'required' => 'abc123',
+            'required' => 'តម្លៃមិនអាចទទេរ',
         ];
 
         return Validator::make($request->all(), $rules, $validatorMessages);
@@ -179,6 +179,9 @@ class ExampleController extends Controller
         $tableData = [
             'exmaple_id' => $newid,
             'title' => $request->input('example-title'),
+            // 'product_name' => $request->input('product_name'),
+            // 'price' => $request->input('price'),
+            'trash' => 'no',
 
         ];
         if ($isupdate) {
@@ -261,12 +264,17 @@ class ExampleController extends Controller
             // $request->file('img')->storeAs('slider', $data['tableData']['img']);
             $savetype = strtolower($request->input('savetype'));
             $success_ms = __('ccms.suc_save');
+            $callback = 'formreset';
+            if (is_axios()) {
+                $callback = $request->input('jscallback');
+            }
             return response()
                 ->json(
                     [
                         "type" => "success",
                         "status" => $save_status,
                         "message" => 'Success',
+                        "callback" => $callback,
                         "data" => []
                     ],
                     200
@@ -284,105 +292,7 @@ class ExampleController extends Controller
                 422
             );
     }
-    /* end function*/
-    public function update_slide(Request $request)
-    {
 
-
-        $obj_info = $this->obj_info;
-        $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'create']);
-        if ($request->isMethod('post')) {
-
-
-            $data = $this->setinfo_slide($request, true);
-            dd($data);
-
-            return $this->proceed_update_slide($request, $data, $obj_info);
-        } /*end if is post*/
-
-        return response()
-            ->json(
-                [
-                    "type" => "error",
-                    "message" => __('me.forminvalid'),
-                    "data" => []
-                ],
-                422
-            );
-    }
-    function proceed_update_slide($request, $data, $obj_info)
-    {
-        $value = $data['tableData'];
-
-        for ($i = 0; $i < count($value); $i++) {
-            if ($value[$i]['img_id'] < 1) {
-                $update_status = $this->model->where($this->fprimarykey, (int)$value[$i]['img_id'] * -1)
-                    ->update(['trash' => 'yes', 'img' => '']);
-                // if (!empty($value[$i]['img_path'])) {
-                //     unlink('public/sliders/' . $value[$i]['img_path']);
-                // }
-            }
-        }
-        if ($update_status) {
-            $savetype = strtolower($request->input('savetype'));
-            // $id = $data['id'];
-            // $rout_to = save_type_route($savetype, $obj_info, $id);
-            $success_ms = __('ccms.suc_save');
-            return response()
-                ->json(
-                    [
-                        "type" => "success",
-                        "status" => $update_status,
-                        "message" => $success_ms,
-                        // "route" => $rout_to,
-                    ],
-                    200
-                );
-        }
-        return response()
-            ->json(
-                [
-                    "type" => "error",
-                    'status' => false,
-                    "message" => 'Your update is not affected',
-                    "data" => []
-                ],
-                422
-            );
-    }
-    /* end function*/
-    public function setinfo_slide($request, $isupdate = false)
-    {
-
-        $newid = ($isupdate) ? $request->input($this->fprimarykey)  : $this->model->max($this->fprimarykey) + 1;
-        $tableData = [];
-
-
-        $count = count($request->img_id);
-        // dd($request->img_id);
-        for ($i = 0; $i < $count; $i++) {
-            $record = [
-                'img_id' => $request->input('img_id')[$i],
-                'img_path' => $request->input('img_path')[$i],
-            ];
-            array_push($tableData, $record);
-        }
-
-
-        $img = $request->file('img');
-        if (!empty($img)) {
-            $img_name = hexdec(uniqid()) . '-' . $img->getClientOriginalName();
-            $img->move('public/sliders', $img_name);
-        } else {
-            $img_name = '';
-        }
-
-
-        if ($isupdate) {
-            $tableData = array_except($tableData, [$this->fprimarykey, 'password', 'trash']);
-        }
-        return ['tableData' => $tableData];
-    }
 
 
 
@@ -402,5 +312,204 @@ class ExampleController extends Controller
 
             ]
         );
+    }
+    public function edit(Request $request, $id = 0)
+    {
+
+        #prepare for back to url after SAVE#
+        if (!$request->session()->has('backurl')) {
+            $request->session()->put('backurl', redirect()->back()->getTargetUrl());
+        }
+
+        $obj_info = $this->obj_info;
+
+        $default = $this->default();
+
+        $input = null;
+
+        #Retrieve Data#
+        if (empty($id)) {
+            $editid = $this->args['routeinfo']['id'];
+        } else {
+            $editid = $id;
+        }
+
+        if ($request->has($this->fprimarykey)) {
+            $editid = $request->input($this->fprimarykey);
+        }
+
+        $input = $this->model
+            ->where($this->fprimarykey, (int)$editid)
+            ->get();
+        //dd($input->toSql());
+        if ($input->isEmpty()) {
+            $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
+            return response()
+                ->json(
+                    [
+                        "type" => "url",
+                        'status' => false,
+                        'route' => ['url' => redirect()->back()->getTargetUrl()],
+                        "message" => 'Your edit is not affected',
+                        "data" => ['id' => $editid]
+                    ],
+                    422
+                );
+        }
+
+
+        $input = $input->toArray()[0];
+        $x = [];
+        foreach ($input as $key => $value) {
+            $x[$key] = $value;
+        }
+
+        $input = $x;
+
+
+
+
+        $sumit_route = url_builder(
+            $this->obj_info['routing'],
+            [$this->obj_info['name'], 'update', ''],
+            [],
+        );
+        $cancel_route = redirect()->back()->getTargetUrl();
+
+        //dd($input);
+        return view('app.' . $this->obj_info['name'] . '.create')
+            ->with([
+                'obj_info'  => $this->obj_info,
+                'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route],
+                'form' => ['save_type' => 'save'],
+                'fprimarykey'     => $this->fprimarykey,
+                'caption' => 'Edit',
+                'isupdate' => true,
+                'input' => $input,
+            ]);
+    } /*../end fun..*/
+
+
+    public function update(Request $request)
+    {
+        $obj_info = $this->obj_info;
+        $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'create']);
+        if ($request->isMethod('post')) {
+            $validator = $this->validator($request, true);
+            // dd($validator);
+            if ($validator->fails()) {
+
+                $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'create']);
+                return response()
+                    ->json(
+                        [
+                            "type" => "validator",
+                            'status' => false,
+                            'route' => ['url' => $routing],
+                            "message" => __('me.forminvalid'),
+                            "data" => $validator->errors()
+                        ],
+                        422
+                    );
+            }
+
+            $data = $this->setinfo($request, true);
+            return $this->proceed_update($request, $data, $obj_info);
+        } /*end if is post*/
+
+        return response()
+            ->json(
+                [
+                    "type" => "error",
+                    "message" => __('me.forminvalid'),
+                    "data" => []
+                ],
+                422
+            );
+    }/*../end fun..*/
+
+    function proceed_update($request, $data, $obj_info)
+    {
+        // dd($data);
+
+        $update_status = $this->model
+            ->where($this->fprimarykey, $data['exmaple_id'])
+            ->update($data['tableData']);
+
+        if ($update_status) {
+            $savetype = strtolower($request->input('savetype'));
+            $id = $data['exmaple_id'];
+            $rout_to = save_type_route($savetype, $obj_info, $id);
+            $success_ms = __('ccms.suc_save');
+            $callback = '';
+            if (is_axios()) {
+                $callback = $request->input('jscallback');
+            }
+            return response()
+                ->json(
+                    [
+                        "type" => "success",
+                        "status" => $update_status,
+                        "message" => $success_ms,
+                        "route" => $rout_to,
+                        "callback" => $callback,
+                        "data" => [
+                            $this->fprimarykey => $data['exmaple_id'],
+                            'id' => $data['exmaple_id']
+                        ]
+                    ],
+                    200
+                );
+        }
+        return response()
+            ->json(
+                [
+                    "type" => "error",
+                    'status' => false,
+                    "message" => 'Your update is not affected',
+                    "data" => []
+                ],
+                422
+            );
+    }
+    /* end function*/
+
+    public function totrash(Request $request, $id = 0)
+    {
+        $obj_info = $this->obj_info;
+        #Retrieve Data#
+        if (empty($id)) {
+            $editid = $this->args['routeinfo']['id'];
+        } else {
+            $editid = $id;
+        }
+
+        // $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
+        $trash = $this->model->where('exmaple_id', $editid)->update(["trash" => "yes"]);
+
+        if ($trash) {
+            return response()
+                ->json(
+                    [
+                        "type" => "url",
+                        'status' => true,
+                        'route' => ['url' => redirect()->back()->getTargetUrl()],
+                        "message" => __('Example remove'),
+                        "data" => ['id' => $editid]
+                    ],
+                    200
+                );
+        }
+        return response()
+            ->json(
+                [
+                    "type" => "error",
+                    'status' => false,
+                    'route' => ['url' => redirect()->back()->getTargetUrl()],
+                    "message" => 'Your update is not affected',
+                    "data" => ['id' => $editid]
+                ],
+                422
+            );
     }
 }

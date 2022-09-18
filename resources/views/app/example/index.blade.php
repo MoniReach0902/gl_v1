@@ -138,7 +138,7 @@
             @CSRF
             <input type="hidden" name="{{ $fprimarykey }}" id="{{ $fprimarykey }}"
                 value="{{ $input[$fprimarykey] ?? '' }}">
-            <input type="hidden" name="jscallback" value="{{ $jscallback ?? (request()->get('jscallback') ?? '') }}">
+            <input type="hidden" name="jscallback" value="{{ $jscallback ?? 'formreset' }}">
 
 
 
@@ -153,6 +153,8 @@
                             @endif
                             <tr>
                                 <th style="width: 10px">example title</th>
+                                <th style="width: 10px">example title</th>
+                                <th style="width: 10px">example title</th>
 
                             </tr>
                         </thead>
@@ -162,6 +164,14 @@
                                     <td>{{ $val['exmaple_id'] }}</td>
                                     <td>{{ $val['title'] }}</td>
 
+                                    <td>
+                                        @include('app._include.btn_record', [
+                                            'rowid' => $val['exmaple_id'],
+                                            'edit' => true,
+                                            'trash' => true,
+                                            'delete' => true,
+                                        ])
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

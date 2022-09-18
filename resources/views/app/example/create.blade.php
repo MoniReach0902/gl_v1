@@ -1,6 +1,6 @@
 @php
 $extends = 'app';
-$action_btn = ['save' => true, 'print' => false, 'cancel' => false, 'new' => true];
+$action_btn = ['save' => true, 'print' => false, 'cancel' => true, 'new' => true];
 foreach (config('me.app.project_lang') as $lang) {
     $langcode[] = $lang[0];
 }
@@ -119,7 +119,8 @@ foreach (config('me.app.project_lang') as $lang) {
                 <div class="row">
                     <div class="col-md-6">
                         <label for="">Exmaple Title</label>
-                        <input type="text" class="form-control" name="example-title">
+                        <input type="text" class="form-control" name="example-title"
+                            value="{{ $input['title'] ?? '' }}">
 
                         <span id="example-title-error" class="error invalid-feedback" style="display: none"></span>
                     </div>

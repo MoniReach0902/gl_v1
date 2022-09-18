@@ -6,6 +6,8 @@ use App\Models\Media;
 use Illuminate\Http\Request;
 use Validator;
 use App\Models\UserPermission;
+use Carbon\Carbon;
+use Image;
 
 class MediaController extends Controller
 {
@@ -82,7 +84,7 @@ class MediaController extends Controller
     {
         #DEFIND MODEL#
         return $this->model
-            ->select(\DB::raw($this->fprimarykey . " AS id"))->whereRaw('trash <> "yes"');
+            ->select(\DB::raw($this->fprimarykey . " AS id," . $this->tablename . '.*'))->whereRaw('trash <> "yes"');
     } /*../function..*/
 
     public function sfp($request, $results)
@@ -156,7 +158,12 @@ class MediaController extends Controller
     {
         $results = $this->listingmodel();
         $sfp = $this->sfp($request, $results);
-
+        // dd($sfp);
+        $sumit_route = url_builder(
+            $this->obj_info['routing'],
+            [$this->obj_info['name'], 'store', ''],
+            [],
+        );
         $create_route = url_builder(
             $this->obj_info['routing'],
             [
@@ -176,7 +183,7 @@ class MediaController extends Controller
 
                 'obj_info'  => $this->obj_info,
 
-                'route' => ['create'  => $create_route, 'trash' => $trash_route],
+                'route' => ['create'  => $create_route, 'trash' => $trash_route, 'submit' => $sumit_route],
                 'fprimarykey'     => $this->fprimarykey,
                 'caption' => 'Active',
             ])
@@ -221,53 +228,61 @@ class MediaController extends Controller
             ->with($sfp)
             ->with($setting);
     }
-
-
-
     public function validator($request, $isupdate = false)
     {
-        $update_rules = [$this->fprimarykey => 'required'];
-
-        if ($isupdate) {
-            $rules['title']      = 'required|unique:' . $this->tablename . ',title,' . $request->input($this->fprimarykey) . ',' . $this->fprimarykey;
-        } else {
-            $rules['title']      = 'required|distinct|unique:' . $this->tablename . ',title';
+        $max = true;
+        if (!empty($request->file('images'))) {
+            $count = count($request->file('images'));
+            for ($i = 0; $i < $count; $i++) {
+                $size = filesize($request->file('images')[$i]);
+                // dd($size / 1024);
+                if (($size / 1024) > 2048) {
+                    $max = false;
+                }
+                // $rules[$request->file('images')[$i]] = 'required|minme:png.jpeg|max:2048';
+            }
         }
 
-        $validatorMessages = [
-            /*'required' => 'The :attribute field can not be blank.'*/
-            'required' => __('me.fieldreqire'),
-        ];
-
-        if ($isupdate) {
-            $rules = array_merge($rules, $update_rules);
-        }
-        return Validator::make($request->input(), $rules, $validatorMessages);
+        return $max;
     }
 
     public function setinfo($request, $isupdate = false)
     {
+        // dd($this->args['userinfo']['id']);
         $newid = ($isupdate) ? $request->input($this->fprimarykey)  : $this->model->max($this->fprimarykey) + 1;
         if ($newid == 1) $newid = 2;
         $tableData = [];
-        $levelsetting = !empty($request->input('levelsetting')) ? $request->input('levelsetting') : [];
-        $tableData = [
 
-            $this->fprimarykey => $newid,
-            'title'     => !empty($request->input('title')) ? $request->input('title') : '',
-            'levelsetting'    => json_encode($levelsetting),
-            'level_status' =>  'yes',
-            'level_type'  => '',
-            'tag'       => '',
-            'add_date'  => date("Y-m-d"),
-            'trash'     => 'no',
-            'blongto'   => $this->args['userinfo']['id']
 
-        ];
+        $images = $request->file('images');
+        // dd($images[0]);
+        if (!empty($images)) {
+            foreach ($images as $key => $img) {
+                $name = $img->getClientOriginalName();
+
+                $record = [
+                    'date' => Carbon::now(),
+                    'status' => 'enable',
+                    'trash' => 'no',
+                    'blongto' => $this->args['userinfo']['id'],
+                    'base_url' => '',
+                    'extra' => '',
+                    'media' =>  $name,
+                ];
+                array_push($tableData, $record);
+            }
+        }
+        // $tableData = [
+
+        //     $this->fprimarykey => $newid,
+
+        //     'blongto'   => $this->args['userinfo']['id']
+
+        // ];
         if ($isupdate) {
             $tableData = array_except($tableData, [$this->fprimarykey, 'add_date', 'blongto', 'trash']);
         }
-        return ['tableData' => $tableData, 'id' => $newid];
+        return ['tableData' => $tableData];
     }
 
     public function create()
@@ -294,12 +309,12 @@ class MediaController extends Controller
     public function store(Request $request)
     {
 
+
         $obj_info = $this->obj_info;
         $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'create']);
         if ($request->isMethod('post')) {
             $validator = $this->validator($request);
-            if ($validator->fails()) {
-
+            if (!$validator) {
                 $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'create']);
                 return response()
                     ->json(
@@ -307,14 +322,14 @@ class MediaController extends Controller
                             "type" => "validator",
                             'status' => false,
                             'route' => ['url' => $routing],
-                            "message" => __('me.forminvalid'),
-                            "data" => $validator->errors()
+                            "message" => 'Error Max Size',
+                            "data" => []
                         ],
                         422
                     );
             }
-
             $data = $this->setinfo($request);
+            // dd($data);
             return $this->proceed_store($request, $data, $obj_info);
         } /*end if is post*/
 
@@ -331,11 +346,15 @@ class MediaController extends Controller
     /* end function*/
     function proceed_store($request, $data, $obj_info)
     {
+        $count = count($data['tableData']);
+        // dd($count);
         $save_status = $this->model->insert($data['tableData']);
         if ($save_status) {
+            for ($i = 0; $i < $count; $i++) {
+
+                $request->file('images')[$i]->storeAs('media', $data['tableData'][$i]['media']);
+            }
             $savetype = strtolower($request->input('savetype'));
-            $id = $data['id'];
-            $rout_to = save_type_route($savetype, $obj_info, $id);
             $success_ms = __('ccms.suc_save');
             $callback = 'formreset';
             if (is_axios()) {
@@ -347,12 +366,9 @@ class MediaController extends Controller
                         "type" => "success",
                         "status" => $save_status,
                         "message" => $success_ms,
-                        "route" => $rout_to,
+
                         "callback" => $callback,
-                        "data" => [
-                            $this->fprimarykey => $data['id'],
-                            'id' => $data['id']
-                        ]
+                        "data" => ['tableData' => $data['tableData']]
                     ],
                     200
                 );

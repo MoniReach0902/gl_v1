@@ -182,6 +182,7 @@
     <!-- custom js -->
     <script src="{{ asset('public/assets/js/custom1.js') }}"></script>
     {{-- <script src="{{ asset('public/assets/js/custom.js') }}"></script> --}}
+
     <!-- Switcher js -->
     <script src="{{ asset('public/assets/switcher/js/switcher.js') }}"></script>
 
@@ -217,6 +218,10 @@
     <script src="{{ asset('public/assets/plugins/fancyuploder/jquery.iframe-transport.js') }}"></script>
     <script src="{{ asset('public/assets/plugins/fancyuploder/jquery.fancy-fileupload.js') }}"></script>
     <script src="{{ asset('public/assets/plugins/fancyuploder/fancy-uploader.js') }}"></script>
+
+    <!-- Sweet-alert js  -->
+    <script src="{{ asset('public/assets/plugins/sweet-alert/sweetalert.min.js') }}"></script>
+    <script src="{{ asset('public/assets/js/sweet-alert.js') }}"></script>
 
 
     {{-- js default --}}
