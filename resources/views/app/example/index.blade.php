@@ -23,17 +23,14 @@
             @endif
 
             @if (null !== session('status') && session('status') == true)
-                alert(1);
-                $(document).Toasts('create', {
-                    class: 'bg-success ct-min-toast-width',
-                    title: 'Success',
-                    subtitle: '',
-                    body: "{{ session('message') }}",
-                    fade: true,
-                    autohide: true,
-                    delay: 3000,
-                    //position: 'bottomLeft',
 
+                notif({
+                    msg: 'delete success',
+                    type: "success",
+                    position: "right",
+                    fade: true,
+                    clickable: true,
+                    timeout: 2000,
                 });
             @endif
             /*please dont delete this above code*/

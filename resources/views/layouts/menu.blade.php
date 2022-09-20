@@ -141,6 +141,13 @@
             </li>
         </ul>
     </li>
+    <li class="side-item side-item-category">Media</li>
+    <li class="slide {{ nav_checkactive(['media-index'], $args, 'is-expanded') }}">
+        <a class="side-menu__item" data-bs-toggle="slide" href="{{ url_builder('admin.controller', ['media']) }}"><i
+                class="fas fa-image"></i>&nbsp;<span class="side-menu__label">@lang('dev.media')</span><i
+                class="angle fe fe-chevron-right"></i></a>
+
+    </li>
     <li class="side-item side-item-category">Main</li>
     <li class="slide">
         <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><svg

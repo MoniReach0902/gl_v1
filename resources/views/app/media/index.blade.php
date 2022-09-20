@@ -3,7 +3,7 @@
 @endphp
 @extends('layouts.app')
 @section('blade_css')
-    <link href="{{ asset('public/assets/css/ace.min.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('public/assets/css/ace.min.css') }}" rel="stylesheet"> --}}
 
     <style>
         .media-upload {
@@ -94,8 +94,8 @@
 @endsection
 @section('blade_scripts')
     <!--Internal Fancy uploader js-->
-    <script src="{{ asset('public/assets/js/ace.min.js') }}"></script>
-    <script src="{{ asset('public/assets/js/ace-elements.min.js') }}"></script>
+    {{-- <script src="{{ asset('public/assets/js/ace.min.js') }}"></script>
+    <script src="{{ asset('public/assets/js/ace-elements.min.js') }}"></script> --}}
     <script>
         $(document).ready(function() {
             /*Please dont delete this code*/
@@ -103,7 +103,15 @@
                 helper.successAlert("{{ session('message') }}");
             @endif
             @if (null !== session('status') && session('status') == true)
-                helper.successAlert("{{ session('message') }}");
+
+                // notif({
+                //     msg: 'delete success',
+                //     type: "success",
+                //     position: "right",
+                //     fade: true,
+                //     clickable: true,
+                //     timeout: 2000,
+                // });
             @endif
             $("#btnnew_{{ $obj_info['name'] }}").click(function(e) {
 
@@ -152,8 +160,8 @@
                     // console.log(data['data'].tableData);
                     setTimeout(() => {
 
-                        window.location.reload();
-                    }, 1000);
+                        // window.location.reload();
+                    }, 2000);
 
                     $('#' + frm)[0].reset();
                     $('#images').html('');
@@ -162,7 +170,7 @@
                 let setting = {
                     mode: "",
                     // or use jscallback = formreset
-                    fnSuccess: aftersave,
+                    // fnSuccess: aftersave,
                 };
                 let container = '';
                 let loading_indicator = '';
@@ -178,8 +186,10 @@
                     loading_indicator);
 
             });
-            //Ajax with Loader Alert
-            $('.delete').click(function() {
+
+            $('.delete').click(function(e) {
+                e.preventDefault();
+                var link = $(this).attr("href");
                 $('body').removeClass('timer-alert');
                 swal({
                     title: "Are your sure to delete ?",
@@ -189,11 +199,15 @@
                     closeOnConfirm: false,
                     showLoaderOnConfirm: true
                 }, function() {
-                    setTimeout(function() {
-                        swal("Ajax request finished!");
-                    }, 2000);
+                    setInterval(() => {
+                        window.location.href = link;
+                        swal("Delete finished!");
+                    }, 1000);
                 });
             });
+            $('#trash').click(function() {
+                // alert(1);
+            })
 
         });
     </script>
@@ -215,7 +229,8 @@
                     </h5>
                 </div>
                 <div class="pd-10 ">
-                    <span class="btn  btn-primary" id="upload">Upload <i class="fa-solid fa-upload"></i></span>
+                    <span class="btn btn-primary button-icon" id="upload"><i class="fe fe-upload"></i></span>
+                    {{-- <button type="button" class="btn btn-dark button-icon"><i class="fe fe-upload"></i></button> --}}
                     <span class="btn btn-primary" id="save_img">save</span>
                     @include('app._include.btn_index', [
                         'new' => false,
@@ -280,10 +295,14 @@
                                                         <div class="dropdown-menu">
                                                             {{-- <a class="dropdown-item" href="javascript:void(0);"><i
                                                                     class="fe fe-edit me-2"></i> Edit</a> --}}
-                                                            <a class="dropdown-item" href="javascript:void(0);"><i
-                                                                    class="fas fa-stop-circle"></i> &nbsp;Disable</a>
-                                                            <a class="dropdown-item delete" href="javascript:void(0);"><i
-                                                                    class="fe fe-trash me-2 "></i> Delete</a>
+                                                            {{-- <a class="dropdown-item" href="javascript:void(0);"><i
+                                                                    class="fas fa-stop-circle"></i> &nbsp;Disable</a> --}}
+                                                            <a class="dropdown-item delete"
+                                                                href="{{ url_builder($obj_info['routing'], [$obj_info['name'], 'totrash', $result['id']], []) }}"><i
+                                                                    class="fe fe-trash me-2 "></i>
+
+                                                                Delete</a>
+
                                                         </div>
                                                     </div>
                                                 </div>

@@ -192,42 +192,7 @@ class MediaController extends Controller
             ->with($setting);
     }
 
-    public function trash(Request $request, $condition = [], $setting = [])
-    {
 
-        $results = $this->listingmodel();
-        $sfp = $this->sfp($request, $results);
-        $definelevel = $this->definelevel;
-        //dd($definelevel);
-        //return \Redirect::to('/test/index');
-        $create_route = url_builder(
-            $this->obj_info['routing'],
-            [
-                $this->obj_info['name'], 'create', ''
-            ],
-        );
-
-        $active_route = url_builder(
-            $this->obj_info['routing'],
-            [
-                $this->obj_info['name'], '', ''
-            ],
-        );
-
-        return view('app.' . $this->obj_info['name'] . '.index')
-            ->with([
-
-                'obj_info'  => $this->obj_info,
-                'definelevel' => $this->definelevel,
-                'route' => ['create'  => $create_route, 'active' => $active_route],
-                'fprimarykey'     => $this->fprimarykey,
-                'caption' => 'Trash',
-                'istrash' => true,
-            ])
-            ->with(['act' => 'index'])
-            ->with($sfp)
-            ->with($setting);
-    }
     public function validator($request, $isupdate = false)
     {
         $max = true;
@@ -386,20 +351,11 @@ class MediaController extends Controller
     }
     /* end function*/
 
-    public function edit(Request $request, $id = 0)
+
+
+    public function totrash(Request $request, $id = 0)
     {
-
-        #prepare for back to url after SAVE#
-        if (!$request->session()->has('backurl')) {
-            $request->session()->put('backurl', redirect()->back()->getTargetUrl());
-        }
-
         $obj_info = $this->obj_info;
-
-        $default = $this->default();
-        $definelevel = $this->definelevel;
-        $input = null;
-
         #Retrieve Data#
         if (empty($id)) {
             $editid = $this->args['routeinfo']['id'];
@@ -407,13 +363,10 @@ class MediaController extends Controller
             $editid = $id;
         }
 
-        if ($request->has('level_id')) {
-            $editid = $request->input('level_id');
-        }
+        $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
+        $trash = $this->model->where($this->fprimarykey, $editid)->update(["trash" => "yes"]);
 
-        $input = $this->model->where($this->fprimarykey, (int)$editid)->where('trash', '<>', 'yes')->get();
-        if ($input->isEmpty()) {
-            $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
+        if ($trash) {
             return response()
                 ->json(
                     [
@@ -427,159 +380,16 @@ class MediaController extends Controller
                 );
         }
 
-        $input = $input->toArray()[0];
-        $x = [];
-        foreach ($input as $key => $value) {
-            $x[$key] = $value;
-        }
-        $x['levelsetting'] = json_decode($x['levelsetting'], true);
-        $input = $x;
-
-        $sumit_route = url_builder(
-            $this->obj_info['routing'],
-            [$this->obj_info['name'], 'update', ''],
-            [],
-        );
-        $cancel_route = redirect()->back()->getTargetUrl();
 
 
-        $active_permission = [];
-        foreach ($input['levelsetting'] as $key => $val) {
-            list($controller, $method) = explode('-', $val);
-            $active_permission[$controller][] = $method;
-        }
-
-        return view('app.' . $this->obj_info['name'] . '.create')
-            ->with([
-                'obj_info'  => $this->obj_info,
-                'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route],
-                'form' => ['save_type' => 'save'],
-                'fprimarykey'     => $this->fprimarykey,
-                'caption' => 'Edit',
-                'definelevel' => $this->definelevel,
-                'istrush' => false,
-                'input' => $input,
-                'active_permission' => $active_permission
-            ]);
-    } /*../end fun..*/
-
-    public function update(Request $request)
-    {
-        $obj_info = $this->obj_info;
-        $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'create']);
-        if ($request->isMethod('post')) {
-            $validator = $this->validator($request, true);
-            if ($validator->fails()) {
-
-                $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'create']);
-                return response()
-                    ->json(
-                        [
-                            "type" => "validator",
-                            'status' => false,
-                            'route' => ['url' => $routing],
-                            "message" => __('me.forminvalid'),
-                            "data" => $validator->errors()
-                        ],
-                        422
-                    );
-            }
-
-            $data = $this->setinfo($request, true);
-            return $this->proceed_update($request, $data, $obj_info);
-        } /*end if is post*/
-
-        return response()
-            ->json(
-                [
-                    "type" => "error",
-                    "message" => __('me.forminvalid'),
-                    "data" => []
-                ],
-                422
-            );
-    }/*../end fun..*/
-
-    function proceed_update($request, $data, $obj_info)
-    {
-
-        $update_status = $this->model
-            ->where($this->fprimarykey, $data['id'])
-            ->update($data['tableData']);
-
-        if ($update_status) {
-            $savetype = strtolower($request->input('savetype'));
-            $id = $data['id'];
-            $rout_to = save_type_route($savetype, $obj_info, $id);
-            $success_ms = __('ccms.suc_save');
-            $callback = '';
-            if (is_axios()) {
-                $callback = $request->input('jscallback');
-            }
-            return response()
-                ->json(
-                    [
-                        "type" => "success",
-                        "status" => $update_status,
-                        "message" => $success_ms,
-                        "route" => $rout_to,
-                        "callback" => $callback,
-                        "data" => [
-                            $this->fprimarykey => $data['id'],
-                            'id' => $data['id']
-                        ]
-                    ],
-                    200
-                );
-        }
-        return response()
-            ->json(
-                [
-                    "type" => "error",
-                    'status' => false,
-                    "message" => 'Your update is not affected',
-                    "data" => []
-                ],
-                422
-            );
-    }
-    /* end function*/
-
-    public function totrash(Request $request, $id = 0)
-    {
-        $obj_info = $this->obj_info;
-        #Retrieve Data#
-        if (empty($id)) {
-            $editid = $this->args['routeinfo']['id'];
-        } else {
-            $editid = $id;
-        }
-
-        $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
-        $trash = $this->model->where($this->fprimarykey, $editid)->where($this->fprimarykey, '<>', 1)->update(["trash" => "yes"]);
-
-        return response()
-            ->json(
+        return \Redirect::to($routing)
+            ->with(
                 [
                     "type" => "url",
-                    'status' => true,
+                    'status' => false,
                     'route' => ['url' => redirect()->back()->getTargetUrl()],
                     "message" => __('ccms.suc_delete'),
-                    "data" => ['id' => $editid]
-                ],
-                422
+                ]
             );
-
-
-
-        // return \Redirect::to($routing)
-        // ->with(
-        //     [
-        //         "type"=>"url", 
-        //         'status' => false,
-        //         'route'=>[ 'url' => redirect()->back()->getTargetUrl()],
-        //         "message"=> __('ccms.suc_delete'), 
-        //     ]
-        // );
     }
 }

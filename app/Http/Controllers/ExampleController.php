@@ -296,23 +296,7 @@ class ExampleController extends Controller
 
 
 
-    public function indexmobile(Request $request, $condition = [], $setting = [])
-    {
-        $default = $this->default();
-        $slider = $default['img'];
 
-        return response()->json(
-            [
-
-                // 'obj_info'  => $this->obj_info,
-                // 'fprimarykey'     => $this->fprimarykey,
-                // 'caption' => 'Active',
-                'slider' => $slider,
-                // 'setting' => $setting,
-
-            ]
-        );
-    }
     public function edit(Request $request, $id = 0)
     {
 

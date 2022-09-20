@@ -15,6 +15,18 @@ foreach (config('me.app.project_lang') as $lang) {
 @extends('layouts.' . $extends)
 
 @section('blade_css')
+    <style>
+        .img-box i {
+            font-size: 70px !important;
+            cursor: pointer;
+
+        }
+
+        .img-box {
+            display: flex;
+            justify-content: center
+        }
+    </style>
 @endsection
 
 @section('blade_scripts')
@@ -22,6 +34,7 @@ foreach (config('me.app.project_lang') as $lang) {
         $(document).ready(function() {
             $(document).on("change", ".tab_title", function(ev) {
                 ///
+
 
                 var $value = $(this).val();
                 helper.enableDisableByLang($(this), {!! json_encode($langcode, true) !!}, 'title-', $value);
@@ -46,7 +59,7 @@ foreach (config('me.app.project_lang') as $lang) {
                 mode: "{{ $extends }}"
             };
             $(".btnsave_{{ $obj_info['name'] }}").click(function(e) {
-                // alert(1);
+
                 e.preventDefault();
                 $("#frm-{{ $obj_info['name'] }} .error").html('').hide();
                 helper.silentHandler(route_submit, "frm-{{ $obj_info['name'] }}", extraFrm, setting,
@@ -66,12 +79,10 @@ foreach (config('me.app.project_lang') as $lang) {
                 //     loading_indicator);
             });
 
-            $(".btnprint_{{ $obj_info['name'] }}").click(function(e) {
-                //window.location.replace(route_cancel);
-                //window.location = route_print;
-                window.open(
-                    route_print);
-            });
+
+            $('#img_box').click(function(e)) {
+                alert(1);
+            }
 
 
 
@@ -144,17 +155,21 @@ foreach (config('me.app.project_lang') as $lang) {
                             <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error"
                                 class="error invalid-feedback" style="display: none"></span>
                         </div><br>
+                        <div class="card">
+
+                            <div class="card-body">
+
+                                <div class="container img-box" id="img_box">
+                                    <i class="fas fa-images"></i>
+                                    <div id="images"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-6">
 
 
-                        <div class="mb-2">
-                            <input type="file" class="dropify" data-height="200" multiple />
-                        </div>
-                        <div class="mb-0">
-                            <input id="demo" type="file" name="files"
-                                accept=" image/jpeg, image/png, text/html, application/zip, text/css, text/js" multiple />
-                        </div>
+
 
 
                     </div>
