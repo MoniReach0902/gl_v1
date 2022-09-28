@@ -163,10 +163,18 @@ let helper = {
                 }
 
                 if (!!container) {
-                    if (popModal.modal == "modal_media") {
-                        $("#air_media").html("").html(get_content);
+                    if (popModal.modal == "Extra") {
+                        $("#extra_modal").html("").html(get_content);
+
                         return null;
                     } else {
+                        // if (
+                        //     $("#Extra").is(":visible") &&
+                        //     container == "extra_modal"
+                        // ) {
+                        //     $("#extra_modal").html("").html(get_content);
+                        //     return null;
+                        // }
                         if (
                             $("#modal_windows").is(":visible") &&
                             container == "air_windows"

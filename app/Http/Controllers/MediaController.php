@@ -178,6 +178,44 @@ class MediaController extends Controller
             ],
         );
 
+
+        return view('app.' . $this->obj_info['name'] . '.index')
+            ->with([
+
+                'obj_info'  => $this->obj_info,
+
+                'route' => ['create'  => $create_route, 'trash' => $trash_route, 'submit' => $sumit_route],
+                'fprimarykey'     => $this->fprimarykey,
+                'caption' => 'Active',
+            ])
+            ->with(['act' => 'index'])
+            ->with($sfp)
+            ->with($setting);
+    }
+    public function create(Request $request, $condition = [], $setting = [])
+    {
+        $results = $this->listingmodel();
+        $sfp = $this->sfp($request, $results);
+        // dd($sfp);
+        $sumit_route = url_builder(
+            $this->obj_info['routing'],
+            [$this->obj_info['name'], 'store', ''],
+            [],
+        );
+        $create_route = url_builder(
+            $this->obj_info['routing'],
+            [
+                $this->obj_info['name'], 'create', ''
+            ],
+        );
+
+        $trash_route = url_builder(
+            $this->obj_info['routing'],
+            [
+                $this->obj_info['name'], 'trash', ''
+            ],
+        );
+
         return view('app.' . $this->obj_info['name'] . '.index')
             ->with([
 
@@ -250,26 +288,7 @@ class MediaController extends Controller
         return ['tableData' => $tableData];
     }
 
-    public function create()
-    {
-        $sumit_route = url_builder(
-            $this->obj_info['routing'],
-            [$this->obj_info['name'], 'store', ''],
-            [],
-        );
 
-        $cancel_route = redirect()->back()->getTargetUrl();
-        return view('app.' . $this->obj_info['name'] . '.create')
-            ->with([
-                'obj_info'  => $this->obj_info,
-                'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route],
-                'form' => ['save_type' => 'save'],
-                'fprimarykey'     => $this->fprimarykey,
-                'caption' => 'New',
-                'definelevel' => $this->definelevel,
-                'istrush' => false,
-            ]);
-    } /*../function..*/
 
     public function store(Request $request)
     {

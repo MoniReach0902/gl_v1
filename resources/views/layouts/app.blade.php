@@ -45,7 +45,6 @@
     <link href="{{ asset('public/assets/switcher/demo.css') }}" rel="stylesheet" />
     @yield('blade_css')
 
-    @stack('page_css')
 
     <style>
         body {
@@ -57,10 +56,11 @@
             display: none;
         }
     </style>
+    @stack('page_css')
 </head>
 
 <body class="ltr main-body app sidebar-mini">
-    @include('layouts.switcher')
+    {{-- @include('layouts.switcher') --}}
     <!-- Loader -->
     <div id="global-loader" class="global_loading">
         <img src="{{ asset('public/assets/img/loader.svg') }}" class="loader-img" alt="Loader">
@@ -92,6 +92,7 @@
             <!-- /Container -->
         </div>
 
+        @include('layouts.extra_modal')
 
 
         <!-- /main-content -->
@@ -223,6 +224,9 @@
     <script src="{{ asset('public/assets/plugins/sweet-alert/sweetalert.min.js') }}"></script>
     <script src="{{ asset('public/assets/js/sweet-alert.js') }}"></script>
 
+
+    <!-- modal js -->
+    <script src="{{ asset('public/assets/js/modal.js') }}"></script>
 
     {{-- js default --}}
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

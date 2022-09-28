@@ -5,6 +5,11 @@
 @section('blade_css')
     {{-- <link href="{{ asset('public/assets/css/ace.min.css') }}" rel="stylesheet"> --}}
 
+
+    <!-- Stylesheet -->
+    {{-- <link rel="stylesheet" href="{{ asset('public/css/style.css') }}"> --}}
+@endsection
+@push('page_css')
     <style>
         .media-upload {
             /* float: right; */
@@ -89,9 +94,7 @@
             height: 100px;
         }
     </style>
-    <!-- Stylesheet -->
-    {{-- <link rel="stylesheet" href="{{ asset('public/css/style.css') }}"> --}}
-@endsection
+@endpush
 @section('blade_scripts')
     <!--Internal Fancy uploader js-->
     {{-- <script src="{{ asset('public/assets/js/ace.min.js') }}"></script>
@@ -99,20 +102,7 @@
     <script>
         $(document).ready(function() {
             /*Please dont delete this code*/
-            @if (null !== session('status') && session('status') == false)
-                helper.successAlert("{{ session('message') }}");
-            @endif
-            @if (null !== session('status') && session('status') == true)
 
-                // notif({
-                //     msg: 'delete success',
-                //     type: "success",
-                //     position: "right",
-                //     fade: true,
-                //     clickable: true,
-                //     timeout: 2000,
-                // });
-            @endif
             $("#btnnew_{{ $obj_info['name'] }}").click(function(e) {
 
                 let route_create = "{{ $route['create'] }}";
