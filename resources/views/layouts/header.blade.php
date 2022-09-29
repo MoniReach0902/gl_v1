@@ -4,10 +4,10 @@
          <div class="main-header-left ">
              <div class="responsive-logo">
                  <a href="{{ url_builder('admin.controller', ['home']) }}" class="header-logo">
-                     <img src="{{ asset('public/images/gl_logo.png') }}" class="mobile-logo logo-1" alt="logo"
+                     <img src="{{ asset('public/images/gl_gentleman_light.png') }}" class="mobile-logo logo-1" alt="logo"
                          style="height: 50px">
 
-                     <img src="{{ asset('public/images/gl_logo.jpg') }}" class="mobile-logo dark-logo-1" alt="logo"
+                     <img src="{{ asset('public/images/gl_gentleman_dark.png') }}" class="mobile-logo dark-logo-1" alt="logo"
                          style="height: 50px">
                  </a>
              </div>
@@ -17,9 +17,9 @@
              </div>
              <div class="logo-horizontal">
                  <a href="{{ url_builder('admin.controller', ['home']) }}" class="header-logo">
-                     <img src="{{ asset('public/images/gl_logo.png') }}" class="mobile-logo logo-1" alt="logo"
+                     <img src="{{ asset('public/images/gl_gentleman_light.png') }}" class="mobile-logo logo-1" alt="logo"
                          style="height: 50px">
-                     <img src="{{ asset('public/images/gl_logo.jpg') }}" class="mobile-logo dark-logo-1" alt="logo"
+                     <img src="{{ asset('public/images/gl_gentleman_dark.png') }}" class="mobile-logo dark-logo-1" alt="logo"
                          style="height: 50px">
                  </a>
              </div>
@@ -53,9 +53,11 @@
 
                                      <a class="dropdown-item" href="?lang=kh">
                                          <img src="{{ asset('public/images/kh1.png') }}">
+                                         ខ្មែរ
                                      </a>
                                      <a class="dropdown-item" href="?lang=en">
                                          <img src="{{ asset('public/images/uk1.png') }}">
+                                         Eng
                                      </a>
                                  </ul>
                              </div>

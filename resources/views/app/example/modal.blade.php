@@ -78,7 +78,7 @@ $action_btn = ['save' => true, 'cancel' => true];
                         {!! $obj_info['icon'] !!}
                         <a href="{{ url_builder($obj_info['routing'], [$obj_info['name']]) }}"
                             class="ct-title-nav text-md">{{ $obj_info['title'] }}</a>
-                        <small class="text-sm">
+                        <small class="text-sm text-muted">
                             <i class="ace-icon fa fa-angle-double-right text-xs"></i>
                             Create Slider
                         </small>
