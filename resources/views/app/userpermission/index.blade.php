@@ -50,7 +50,11 @@
 @endsection
 @section('content')
     {{-- Header --}}
+<<<<<<< HEAD
     {{-- <section class="content-header bg-light sticky-top ct-bar-action ct-bar-action-shaddow">
+=======
+    <section class="content-header bg-light d-flex ct-bar-action ct-bar-action-shaddow">
+>>>>>>> menghonghai
         <div class="container-fluid">
             <div class="d-flex  border br-5">
                 <div class="flex-grow-1">
@@ -58,7 +62,7 @@
                         {!! $obj_info['icon'] !!}
                         <a href="{{ url_builder($obj_info['routing'], [$obj_info['name']]) }}"
                             class="ct-title-nav text-md">{{ $obj_info['title'] }}</a>
-                        <small class="text-sm">
+                        <small class="text-sm text-muted">
                             <i class="ace-icon fa fa-angle-double-right text-xs"></i>
                             {{ $caption ?? '' }}
                         </small>
