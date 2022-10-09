@@ -9,7 +9,7 @@ use DB;
 
 class Example extends Model
 {
-    protected $table = 'tbl_example';
+    protected $table = 'example';
     protected $primaryKey = 'exmaple_id  ';
     public $timestamps = false;
     /*protected $fillable = array(

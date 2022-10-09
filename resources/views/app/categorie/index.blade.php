@@ -153,15 +153,25 @@
                             @endif
                             <tr>
                                 <th style="width: 10px">ID</th>
-                                <th style="width: 10px">Example title</th>
+                                <th>Name</th>
+                                <th style="width: 10%">Create date</th>
+                                <th style="width: 10%">Update date</th>
+                                <th style="width: 10%">CreateBy ID</th>
+                                <th style="width: 10%">Status</th>
+                                <th style="width: 20%">Option</th>
+
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($example as $val)
+                            @foreach ($categorie as $categories)
                                 <tr>
-                                    <td>{{ $val['exmaple_id'] }}</td>
-                                    <td>{{ $val['title'] }}</td>
-
+                                    <td>{{ $categories['categorie_id'] }}</td>
+                                    <td>{{ $categories['text'] }}</td>
+                                    <td style="width: 10%">{{ $categories['create_date'] }}</td>
+                                    <td style="width: 10%">{{ $categories['update_date'] }}</td>
+                                    <td style="width: 10%">{{ $categories['blongto'] }}</td>
+                                    <td style="width: 10%">{{ $categories['status'] }}</td>
+                                    <td style="width: 20%"><Button>Update</Button><Button>Delete</Button></td>
                                 </tr>
                             @endforeach
                         </tbody>

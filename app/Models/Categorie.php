@@ -7,10 +7,10 @@ use DB;
 
 
 
-class Media extends Model
+class Categorie extends Model
 {
-    protected $table = 'media';
-    protected $primaryKey = 'media_id';
+    protected $table = 'tblcategories';
+    protected $primaryKey = 'categorie_id';
     public $timestamps = false;
     /*protected $fillable = array(
         'name',
