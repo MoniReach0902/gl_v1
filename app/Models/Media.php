@@ -9,7 +9,7 @@ use DB;
 
 class Media extends Model
 {
-    protected $table = 'tbl_media';
+    protected $table = 'media';
     protected $primaryKey = 'media_id';
     public $timestamps = false;
     /*protected $fillable = array(

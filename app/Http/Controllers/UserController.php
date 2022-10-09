@@ -94,8 +94,8 @@ class UserController extends Controller
     {
 
         /*location*/
-        $location = Location::getlocation($this->dflang[0])->get();
-        $provinces = $location->pluck('title', 'id')->toArray();
+        // $location = Location::getlocation($this->dflang[0])->get();
+        // $provinces = $location->pluck('title', 'id')->toArray();
 
         /*permission*/
         $permission = UserPermission::select('permission_id', 'title')->where('trash', '<>', 'yes')
@@ -104,7 +104,7 @@ class UserController extends Controller
             ->toArray();
 
         return [
-            'provinces' => $provinces,
+            // 'provinces' => $provinces,
             'permission' => $permission,
         ];
     } /*../function..*/
@@ -237,7 +237,7 @@ class UserController extends Controller
     public function index(Request $request, $condition = [], $setting = [])
     {
         $default = $this->default();
-        $provinces = $default['provinces'];
+        // $provinces = $default['provinces'];
 
         $results = $this->listingmodel();
         $sfp = $this->sfp($request, $results);
@@ -257,7 +257,7 @@ class UserController extends Controller
             ],
         );
 
-        return view('app.' . $this->obj_info['name'] . '.index', compact(['provinces']))
+        return view('app.' . $this->obj_info['name'] . '.index',)
             ->with([
 
                 'obj_info'  => $this->obj_info,
@@ -352,7 +352,7 @@ class UserController extends Controller
     public function create()
     {
         $default = $this->default();
-        $provinces = $default['provinces'];
+        // $provinces = $default['provinces'];
         $permission = $default['permission'];
         $districts = [];
         $communes = [];
@@ -363,7 +363,7 @@ class UserController extends Controller
         );
 
         $cancel_route = redirect()->back()->getTargetUrl();
-        return view('app.' . $this->obj_info['name'] . '.create',  compact(['permission', 'provinces', 'districts', 'communes']))
+        return view('app.' . $this->obj_info['name'] . '.create',  compact(['permission']))
             ->with([
                 'obj_info'  => $this->obj_info,
                 'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route],
@@ -451,7 +451,7 @@ class UserController extends Controller
         $obj_info = $this->obj_info;
 
         $default = $this->default();
-        $provinces = $default['provinces'];
+        // $provinces = $default['provinces'];
         $permission = $default['permission'];
         $input = null;
 
@@ -495,7 +495,6 @@ class UserController extends Controller
         }
 
         $input = $x;
-        // $input['formtype'] = str_replace("'g
         // $input['formtype'] = str_replace("'", '', $input['formtype']);
         // $input['formtype'] = explode(',', $input['formtype']);
         // $input['userlevel'] = str_replace("'", '', $input['userlevel']);
@@ -512,18 +511,8 @@ class UserController extends Controller
             [],
         );
         $cancel_route = redirect()->back()->getTargetUrl();
-        $province_id = empty($input['province_id']) ? -1 : $input['province_id'];
-        $districts = [];
-        $where = [['trash', '<>', 'yes'], ['parent_id', '=', $province_id]];
-        $location = Location::getlocation($this->dflang[0], $where)->get();
-        $districts = $location->pluck('title', 'id')->toArray();
-        $district_id = empty($input['district_id']) ? -1 : $input['district_id'];
-        $communes = [];
-        $where = [['trash', '<>', 'yes'], ['parent_id', '=', $district_id]];
-        $location = Location::getlocation($this->dflang[0], $where)->get();
-        $communes = $location->pluck('title', 'id')->toArray();
-        //dd($input);
-        return view('app.' . $this->obj_info['name'] . '.create', compact(['permission', 'provinces', 'districts', 'communes']))
+
+        return view('app.' . $this->obj_info['name'] . '.create', compact(['permission']))
             ->with([
                 'obj_info'  => $this->obj_info,
                 'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route],

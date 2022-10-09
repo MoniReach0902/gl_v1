@@ -1,6 +1,6 @@
 @php
 $extends = 'app';
-$action_btn = ['save' => true, 'print' => false, 'cancel' => false, 'new' => true];
+$action_btn = ['save' => true, 'print' => false, 'cancel' => true, 'new' => true];
 foreach (config('me.app.project_lang') as $lang) {
     $langcode[] = $lang[0];
 }
@@ -15,19 +15,24 @@ foreach (config('me.app.project_lang') as $lang) {
 @extends('layouts.' . $extends)
 
 @section('blade_css')
+    <style>
+        .img-box i {
+            font-size: 70px !important;
+            cursor: pointer;
+
+        }
+
+        .img-box {
+            display: flex;
+            justify-content: center
+        }
+    </style>
 @endsection
 
 @section('blade_scripts')
     <script>
         $(document).ready(function() {
-            $(document).on("change", ".tab_title", function(ev) {
-                ///
 
-                var $value = $(this).val();
-                helper.enableDisableByLang($(this), {!! json_encode($langcode, true) !!}, 'title-', $value);
-
-                ///
-            });
             let route_submit = "{{ $route['submit'] }}";
             let route_cancel = "{{ $route['cancel'] ?? '' }}";
             let route_print = "{{ $route['print'] ?? '' }}";
@@ -59,18 +64,25 @@ foreach (config('me.app.project_lang') as $lang) {
                 //window.location.replace(route_cancel);
                 window.location = route_cancel;
             });
-            $("#btnnew_{{ $obj_info['name'] }}").click(function(e) {
+            $('#img_box').click(function() {
+                let route_import =
+                    "{{ url_builder('admin.controller', ['user', 'create']) }}";
 
+                let extraFrm = {
 
-                window.location = route_new;
-                //     loading_indicator);
-            });
+                }; //{jscallback:'test'};
+                let setting = {}; //{fnSuccess:foo};
+                let popModal = {
+                    show: true,
+                    size: 'modal-xl',
+                    modal: 'Extra',
+                    //modal-sm, modal-lg, modal-xl
+                };
 
-            $(".btnprint_{{ $obj_info['name'] }}").click(function(e) {
-                //window.location.replace(route_cancel);
-                //window.location = route_print;
-                window.open(
-                    route_print);
+                let loading_indicator = '';
+                helper.silentHandler(route_import, '', '', setting, popModal,
+                    'extra_modal',
+                    loading_indicator);
             });
 
 
@@ -119,13 +131,39 @@ foreach (config('me.app.project_lang') as $lang) {
                 <div class="row">
                     <div class="col-md-6">
                         <label for="">Exmaple Title</label>
-                        <input type="text" class="form-control" name="example-title">
+                        <input type="text" class="form-control" name="example-title"
+                            value="{{ $input['title'] ?? '' }}">
 
                         <span id="example-title-error" class="error invalid-feedback" style="display: none"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+
+                            <div class="card-body">
+
+                                <div class="container img-box" id="img_box">
+                                    <i class="fas fa-images"></i>
+                                    <div id="images"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 col-md-6 col-lg-4">
+                <div class="card custom-card">
+                    <div class="card-body">
+                        <div>
+                            <h6 class="card-title">Extra-large</h6>
+                        </div>
+                        <a class="btn ripple btn-primary" data-bs-target="#Extra" data-bs-toggle="modal" href="">View
+                            Demo</a>
+
                     </div>
                 </div>
             </div>
 
         </form>
     </div>
+    {{-- @include('layouts.extra_modal') --}}
 @endsection

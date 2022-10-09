@@ -23,17 +23,14 @@
             @endif
 
             @if (null !== session('status') && session('status') == true)
-                alert(1);
-                $(document).Toasts('create', {
-                    class: 'bg-success ct-min-toast-width',
-                    title: 'Success',
-                    subtitle: '',
-                    body: "{{ session('message') }}",
-                    fade: true,
-                    autohide: true,
-                    delay: 3000,
-                    //position: 'bottomLeft',
 
+                notif({
+                    msg: 'delete success',
+                    type: "success",
+                    position: "right",
+                    fade: true,
+                    clickable: true,
+                    timeout: 2000,
                 });
             @endif
             /*please dont delete this above code*/
@@ -138,7 +135,7 @@
             @CSRF
             <input type="hidden" name="{{ $fprimarykey }}" id="{{ $fprimarykey }}"
                 value="{{ $input[$fprimarykey] ?? '' }}">
-            <input type="hidden" name="jscallback" value="{{ $jscallback ?? (request()->get('jscallback') ?? '') }}">
+            <input type="hidden" name="jscallback" value="{{ $jscallback ?? 'formreset' }}">
 
 
 
@@ -153,6 +150,8 @@
                             @endif
                             <tr>
                                 <th style="width: 10px">example title</th>
+                                <th style="width: 10px">example title</th>
+                                <th style="width: 10px">example title</th>
 
                             </tr>
                         </thead>
@@ -162,6 +161,14 @@
                                     <td>{{ $val['exmaple_id'] }}</td>
                                     <td>{{ $val['title'] }}</td>
 
+                                    <td>
+                                        @include('app._include.btn_record', [
+                                            'rowid' => $val['exmaple_id'],
+                                            'edit' => true,
+                                            'trash' => true,
+                                            'delete' => true,
+                                        ])
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

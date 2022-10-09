@@ -45,7 +45,6 @@
     <link href="{{ asset('public/assets/switcher/demo.css') }}" rel="stylesheet" />
     @yield('blade_css')
 
-    @stack('page_css')
 
     <style>
         body {
@@ -57,10 +56,11 @@
             display: none;
         }
     </style>
+    @stack('page_css')
 </head>
 
 <body class="ltr main-body app sidebar-mini">
-    @include('layouts.switcher')
+    {{-- @include('layouts.switcher') --}}
     <!-- Loader -->
     <div id="global-loader" class="global_loading">
         <img src="{{ asset('public/assets/img/loader.svg') }}" class="loader-img" alt="Loader">
@@ -71,7 +71,7 @@
     <!-- /Loader -->
 
     <!-- Page -->
-    <div class="page">
+    <div class="">
 
         <div>
             {{-- Header --}}
@@ -92,6 +92,7 @@
             <!-- /Container -->
         </div>
 
+        @include('layouts.extra_modal')
 
 
         <!-- /main-content -->
@@ -182,6 +183,7 @@
     <!-- custom js -->
     <script src="{{ asset('public/assets/js/custom1.js') }}"></script>
     {{-- <script src="{{ asset('public/assets/js/custom.js') }}"></script> --}}
+
     <!-- Switcher js -->
     <script src="{{ asset('public/assets/switcher/js/switcher.js') }}"></script>
 
@@ -218,12 +220,21 @@
     <script src="{{ asset('public/assets/plugins/fancyuploder/jquery.fancy-fileupload.js') }}"></script>
     <script src="{{ asset('public/assets/plugins/fancyuploder/fancy-uploader.js') }}"></script>
 
+    <!-- Sweet-alert js  -->
+    <script src="{{ asset('public/assets/plugins/sweet-alert/sweetalert.min.js') }}"></script>
+    <script src="{{ asset('public/assets/js/sweet-alert.js') }}"></script>
+
+
+    <!-- modal js -->
+    <script src="{{ asset('public/assets/js/modal.js') }}"></script>
 
     {{-- js default --}}
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     {{-- <script src="{{ asset('public/js/app.js') }}" defer></script> --}}
     <script src="{{ asset('public/js/helper.js') }}" defer></script>
 
+    {{-- ========== toggle form ================ --}}
+    {{-- <script src="{{ asset('public/js/toggle_form.js') }}"></script> --}}
 
 
     {{-- yield use @saction --}}
@@ -286,6 +297,20 @@
         //     //$( ".sidebar-remove" ).trigger( "click" );
         //     $("#air_media").html('');
         // })
+
+
+        const dark_form = document.getElementById("light-layout");
+        const light_form = document.getElementById("dark-layout");
+        const card_body = document.getElementById("card-body");
+
+        light_form.addEventListener("click", function() {
+            card_body.classList.add("dark-input-form");
+            card_body.classList.remove('light-input-form');
+        });
+        dark_form.addEventListener("click", function() {
+            card_body.classList.add("light-input-form");
+            card_body.classList.remove('dark-input-form');
+        });
     </script>
 
     {{-- stack use @push --}}

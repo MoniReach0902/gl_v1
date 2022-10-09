@@ -91,6 +91,73 @@ License        :   Licensed under ThemeForest License
 /* ######## FONT ######## */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
+:root {
+    --dark-background-color: #2a2e3f;
+    --bg1:#040406;
+    --bg2:#323234;
+
+    --dark-box-shadow: 5px 5px 8px #1a1c26, -5px -5px 8px #2a2e3f;
+    --dark-box-shadow-hover: inset 5px 5px 8px #1a1c26, inset -5px -5px 8px #2a2e3f;
+    --light-box-shadow:  
+    --light-background-color: #fff;
+    --light-box-shadow-hover: inset 8px 8px 8px #cbced1,
+    inset -8px -8px 8px #ffffff;
+    --color: #2ad181;
+    --boxshadow--img: -3px -3px 7px #fff, 3px 3px 5px #ceced1;
+}
+
+.dark-input-form input {
+    width: 100%;
+    padding:25px;
+    box-sizing: border-box;
+    box-shadow: var(--dark-box-shadow);
+    background: var(--dark-background-color);
+    color: var(--color);
+    border-radius: 15px;
+    border: none;
+    outline: none;
+}
+
+.dark-input-form input:focus,
+.dark-input-form input:hover {
+    box-shadow: var(--dark-box-shadow-hover);
+}
+
+.dark-input-form input::placeholder {
+    color: #fff;
+}
+
+.dark-input-form input:first-child {
+    margin-top: 20px;
+}
+
+.light-input-form input {
+    width: 100%;
+    padding:25px;
+    box-sizing: border-box;
+    box-shadow: 13px 13px 20px #dde1e7,
+    -13px -13px 20px #ffffff;
+    /* background: #dde1e7; */
+    color: var(--color);
+    border-radius: 15px;
+    border: none;
+    outline: none;
+}
+
+.light-input-form input:focus,
+.light-input-form input:hover {
+    box-shadow: var(--light-box-shadow-hover);
+}
+
+.light-input-form input::placeholder {
+    color: var(--color);
+}
+
+.light-input-form input:first-child {
+    margin-top: 20px;
+}
+
+
 /* ######## BOOTSTRAP ######## */
 .accordion>.card:not(:first-of-type) .card-header:first-child {
     border-radius: 0;
@@ -9645,7 +9712,7 @@ textarea.custom-file-input.parsley-error:focus~.custom-file-label {
 }
 
 .nav .nav-item .dropdown-menu {
-    top: 48px;
+    /* top: 48px; */
     border-radius: 0px 0px 5px 5px;
     min-width: 245px;
     -webkit-box-shadow: 0px 0px 15px 1px rgba(69, 65, 78, 0.2);
@@ -23210,7 +23277,7 @@ html.fullscreen-button .app-content {
     background: #fff;
     position: absolute;
     top: -7px;
-    left: 10px;
+    right: 45px;
     transform: rotate(45deg);
     border-top: 1px solid #e9edf4;
     border-left: 1px solid #e9edf4;
@@ -23506,7 +23573,7 @@ html.fullscreen-button .app-content {
     left: auto;
     right: 0px;
     bottom: auto;
-    width: 230px;
+    width: 50px;
 }
 
 .main-profile-menu .dropdown-item {

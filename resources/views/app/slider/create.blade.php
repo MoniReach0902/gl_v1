@@ -1,6 +1,6 @@
 @php
 $extends = 'app';
-$action_btn = ['save' => true, 'print' => false, 'cancel' => false, 'new' => true];
+$action_btn = ['save' => true, 'print' => false, 'cancel' => true, 'new' => true];
 foreach (config('me.app.project_lang') as $lang) {
     $langcode[] = $lang[0];
 }
@@ -15,19 +15,24 @@ foreach (config('me.app.project_lang') as $lang) {
 @extends('layouts.' . $extends)
 
 @section('blade_css')
+    <style>
+        .img-box i {
+            font-size: 70px !important;
+            cursor: pointer;
+
+        }
+
+        .img-box {
+            display: flex;
+            justify-content: center
+        }
+    </style>
 @endsection
 
 @section('blade_scripts')
     <script>
         $(document).ready(function() {
-            $(document).on("change", ".tab_title", function(ev) {
-                ///
 
-                var $value = $(this).val();
-                helper.enableDisableByLang($(this), {!! json_encode($langcode, true) !!}, 'title-', $value);
-
-                ///
-            });
             let route_submit = "{{ $route['submit'] }}";
             let route_cancel = "{{ $route['cancel'] ?? '' }}";
             let route_print = "{{ $route['print'] ?? '' }}";
@@ -59,18 +64,25 @@ foreach (config('me.app.project_lang') as $lang) {
                 //window.location.replace(route_cancel);
                 window.location = route_cancel;
             });
-            $("#btnnew_{{ $obj_info['name'] }}").click(function(e) {
+            $('#img_box').click(function() {
+                let route_import =
+                    "{{ url_builder('admin.controller', ['user', 'create']) }}";
 
+                let extraFrm = {
 
-                window.location = route_new;
-                //     loading_indicator);
-            });
+                }; //{jscallback:'test'};
+                let setting = {}; //{fnSuccess:foo};
+                let popModal = {
+                    show: true,
+                    size: 'modal-xl',
+                    modal: 'Extra',
+                    //modal-sm, modal-lg, modal-xl
+                };
 
-            $(".btnprint_{{ $obj_info['name'] }}").click(function(e) {
-                //window.location.replace(route_cancel);
-                //window.location = route_print;
-                window.open(
-                    route_print);
+                let loading_indicator = '';
+                helper.silentHandler(route_import, '', '', setting, popModal,
+                    'extra_modal',
+                    loading_indicator);
             });
 
 
@@ -115,54 +127,47 @@ foreach (config('me.app.project_lang') as $lang) {
             <br>
 
 
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="input-group my-group" style="width:100%;">
-
-                            <select class="form-control form-select input-sm tab_title" style="width:20%;">
-                                @foreach (config('me.app.project_lang') as $lang)
-                                    <option value="@lang($lang[0])">@lang($lang[1])</option>
-                                @endforeach
-
-                            </select>
-                            @php
-                                $active = '';
-                            @endphp
-                            @foreach (config('me.app.project_lang') as $lang)
-                                @php
-                                    // dd($lang);
-                                    $title = json_decode($input['title'] ?? '', true);
-                                @endphp
-                                <input type="text" class="form-control input-sm {{ $active }}" style="width:80%;"
-                                    name="title-{{ $lang[0] }}" id="title-{{ $lang[0] }}"
-                                    placeholder="{{ $lang[1] }}" value="{{ $title[$lang[0]] ?? '' }}">
-                                @php
-                                    $active = 'hide';
-                                @endphp
-                            @endforeach
-                            <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error"
-                                class="error invalid-feedback" style="display: none"></span>
-                        </div><br>
-                    </div>
-                    <div class="col-md-6">
-
-
-                        <div class="mb-2">
-                            <input type="file" class="dropify" data-height="200" multiple />
+            
+<div class="container-fluid">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-10 col-sm-6 offset-sm-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="pd-20 pd-sm-20">
+                            <div class="row row-xs">
+                                <div class="col-md-12 input--form">
+                                    <label for="name">Category Name: </label>
+                                    <input class="form-control" placeholder="Enter category name" type="text">
+                                </div>
+                                
+                            
+                            <div class="form-group col-md-12 mg-t-10">
+                                <label for="permission_id">Belongto</label>
+                                <select class="form-control input-sm input--form" name="permission_id" id="permission_id">
+                                    <option value="">-- Select --</option>
+                                    <option value="1">Top Admin</option>
+                                    
+                                </select>
+                                <span id="permission_id-error" class="error invalid-feedback" style="display: none"></span>
+                            </div>
+                               
+                                <div class=" col-md-12">
+                                    <label for="password_confirmation">@lang('dev.status')</label>
+                                    <br>
+                                    {!! check_select('userstatus', ['Enable' => 'yes', 'Disable' => 'no'], $input['userstatus'] ?? '', '') !!}
+                                </div>
+                            
+                            </div>
                         </div>
-                        <div class="mb-0">
-                            <input id="demo" type="file" name="files"
-                                accept=" image/jpeg, image/png, text/html, application/zip, text/css, text/js" multiple />
-                        </div>
-
-
                     </div>
                 </div>
             </div>
-
+        </div>
+            
     </div>
-
-    </form>
+</div>
+        </form>
     </div>
+    {{-- @include('layouts.extra_modal') --}}
 @endsection

@@ -1,6 +1,6 @@
 @php
 $extends = 'app';
-$action_btn = ['save' => true, 'print' => false, 'cancel' => false, 'new' => true];
+$action_btn = ['save' => true, 'print' => false, 'cancel' => true, 'new' => true];
 foreach (config('me.app.project_lang') as $lang) {
     $langcode[] = $lang[0];
 }
@@ -15,19 +15,24 @@ foreach (config('me.app.project_lang') as $lang) {
 @extends('layouts.' . $extends)
 
 @section('blade_css')
+    <style>
+        .img-box i {
+            font-size: 70px !important;
+            cursor: pointer;
+
+        }
+
+        .img-box {
+            display: flex;
+            justify-content: center
+        }
+    </style>
 @endsection
 
 @section('blade_scripts')
     <script>
         $(document).ready(function() {
-            $(document).on("change", ".tab_title", function(ev) {
-                ///
 
-                var $value = $(this).val();
-                helper.enableDisableByLang($(this), {!! json_encode($langcode, true) !!}, 'title-', $value);
-
-                ///
-            });
             let route_submit = "{{ $route['submit'] }}";
             let route_cancel = "{{ $route['cancel'] ?? '' }}";
             let route_print = "{{ $route['print'] ?? '' }}";
@@ -52,31 +57,51 @@ foreach (config('me.app.project_lang') as $lang) {
                 helper.silentHandler(route_submit, "frm-{{ $obj_info['name'] }}", extraFrm, setting,
                     popModal, container,
                     loading_indicator);
+
             });
+
             $(".btncancel_{{ $obj_info['name'] }}").click(function(e) {
                 //window.location.replace(route_cancel);
                 window.location = route_cancel;
             });
-            $(".btnprint_{{ $obj_info['name'] }}").click(function(e) {
-                //window.location.replace(route_cancel);
-                //window.location = route_print;
-                window.open(
-                    route_print);
+            $('#img_box').click(function() {
+                let route_import =
+                    "{{ url_builder('admin.controller', ['user', 'create']) }}";
+
+                let extraFrm = {
+
+                }; //{jscallback:'test'};
+                let setting = {}; //{fnSuccess:foo};
+                let popModal = {
+                    show: true,
+                    size: 'modal-xl',
+                    modal: 'Extra',
+                    //modal-sm, modal-lg, modal-xl
+                };
+
+                let loading_indicator = '';
+                helper.silentHandler(route_import, '', '', setting, popModal,
+                    'extra_modal',
+                    loading_indicator);
             });
+
+
+
+
         });
     </script>
 @endsection
 @section('content')
     {{-- Header --}}
-    <section class="content-header bg-light sticky-top ct-bar-action ct-bar-action-shaddow">
+    <section class="content-header bg-light d-flex ct-bar-action ct-bar-action-shaddow">
         <div class="container-fluid">
             <div class="d-flex  border br-5">
                 <div class="flex-grow-1">
                     <h5 class="mb-2 mg-t-20 mg-l-20">
-                        {!! $obj_info['icon'] !!}
+                        {{-- {!! $obj_info['icon'] !!} --}}
                         <a href="{{ url_builder($obj_info['routing'], [$obj_info['name']]) }}"
                             class="ct-title-nav text-md">{{ $obj_info['title'] }}</a>
-                        <small class="text-sm">
+                        <small class="text-sm text-muted">
                             <i class="ace-icon fa fa-angle-double-right text-xs"></i>
                             {{ $caption ?? '' }}
                         </small>
@@ -99,41 +124,58 @@ foreach (config('me.app.project_lang') as $lang) {
             <input type="hidden" name="{{ $fprimarykey }}" id="{{ $fprimarykey }}"
                 value="{{ $input[$fprimarykey] ?? '' }}">
             <input type="hidden" name="jscallback" value="{{ $jscallback ?? (request()->get('jscallback') ?? '') }}">
-            <div class="col-md-6">
+            <br>
 
 
+            
+<div class="container-fluid">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-md-10 col-sm-10 offset-sm-1">
                 <div class="card">
                     <div class="card-body">
-                        <div>
-                            <h6 class="card-title mb-1">File Upload</h6>
-                            <p class="text-muted card-sub-title">Dropify is a jQuery plugin to create a beautiful file
-                                uploader that converts a standard <code>input type="file"</code> into a nice drag & drop
-                                zone with previews and custom styles.</p>
-                        </div>
-                        <div class="row mb-4">
-                            <div class="col-sm-12 col-md-4">
-                                <input type="file" class="dropify" data-height="200" />
+                        <div class="pd-20 pd-sm-20">
+                            <div class="row row-xs">
+                                
+                                <div class="col-md-12">
+                                    <label for="name">	Name: </label>
+                                    <input class="form-control" placeholder="Enter name" type="text">
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="name">	Title: </label>
+                                    <input class="form-control" placeholder="Enter name" type="text">
+                                </div>
+                               
+                                <div class="col-md-12 mg-t-10">
+                                    <label for="name"> Creat Date: </label>
+                                    <input class="form-control" type="date">
+                                </div>
+                                <div class="col-md-12 mg-t-10">
+                                    <label for="name">	Description: </label>
+                                    <textarea class="form-control" name="" id="" cols="30" rows="8"></textarea>
+                                </div>
+                                <div class="col-sm-12 col-md-12 mg-t-10">
+                                    <input type="file" class="dropify" data-height="200" />
+                                </div>
+                              
+                                <div class=" col-md-12 mg-t-10">
+                                    <label class="custom-switch ps-0">
+                                        <span class="custom-switch-description me-2">Status</span>
+                                        <input type="checkbox" name="custom-switch-checkbox1" class="custom-switch-input">
+                                        <span class="custom-switch-indicator"></span>
+                                    </label>
+                                </div>
+                            
                             </div>
-                            <div class="col-sm-12 col-md-4 mg-t-10 mg-md-t-0">
-                                <input type="file" class="dropify" data-default-file="../assets/img/photos/1.jpg"
-                                    data-height="200" />
-                            </div>
-                            <div class="col-sm-12 col-md-4 mg-t-10 mg-md-t-0">
-                                <input type="file" class="dropify" disabled="disabled" />
-                            </div>
-                        </div>
-                        <div>
-                            <input id="demo" type="file" name="files"
-                                accept=" image/jpeg, image/png, text/html, application/zip, text/css, text/js" multiple />
                         </div>
                     </div>
                 </div>
-
-
             </div>
-
-
-        </form>
-
+        </div>
+            
     </div>
+</div>
+        </form>
+    </div>
+    {{-- @include('layouts.extra_modal') --}}
 @endsection
