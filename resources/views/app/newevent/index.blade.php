@@ -163,7 +163,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($categorie as $categories)
+                            {{--@foreach ($categorie as $categories)
                                 <tr>
                                     <td>{{ $categories['categorie_id'] }}</td>
                                     <td>{{ $categories['text'] }}</td>
@@ -188,7 +188,7 @@
                                         'delete' => true,
                                     ])</td>
                                 </tr>
-                            @endforeach
+                            @endforeach--}}
                         </tbody>
                     </table>
 

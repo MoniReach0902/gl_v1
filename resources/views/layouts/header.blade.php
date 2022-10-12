@@ -52,10 +52,10 @@
                                  <ul class="dropdown-menu mg-r-20">
 
                                      <a class="dropdown-item" href="?lang=kh">
-                                         <img src="{{ asset('public/images/kh1.png') }}">
+                                         <img src="{{ asset('public/images/kh1.png') }}"> ភាសាខ្មែរ
                                      </a>
                                      <a class="dropdown-item" href="?lang=en">
-                                         <img src="{{ asset('public/images/uk1.png') }}">
+                                         <img src="{{ asset('public/images/uk1.png') }}"> English
                                      </a>
                                  </ul>
                              </div>
@@ -132,12 +132,6 @@
                                  </div>
                                  <a class="dropdown-item" href="profile.html"><i
                                          class="far fa-user-circle"></i>Profile</a>
-                                 <a class="dropdown-item" href="chat.html"><i class="far fa-smile"></i>
-                                     chat</a>
-                                 <a class="dropdown-item" href="mail-read.html"><i
-                                         class="far fa-envelope "></i>Inbox</a>
-                                 <a class="dropdown-item" href="mail.html"><i
-                                         class="far fa-comment-dots"></i>Messages</a>
                                  <a class="dropdown-item" href="mail-settings.html"><i class="far fa-sun"></i>
                                      Settings</a>
 

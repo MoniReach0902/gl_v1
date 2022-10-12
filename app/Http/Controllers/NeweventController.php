@@ -12,21 +12,22 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\UserPermission;
 use App\Models\Location;
+use App\Models\Newevent;
 use App\Models\Room;
 use App\Models\Slider;
 use Illuminate\Support\Facades\Auth;
 
-class CategorieController extends Controller
+class NeweventController extends Controller
 {
     //
-    private $obj_info = ['name' => 'categorie', 'routing' => 'admin.controller', 'title' => 'Categorie', 'icon' => '<i class="fa fa-tags"></i>'];
+    private $obj_info = ['name' => 'newevent', 'routing' => 'admin.controller', 'title' => 'News & Events', 'icon' => '<i class="far fa-calendar-check"></i>'];
     public $args;
 
     private $model;
     private $submodel;
     private $tablename;
     private $columns = [];
-    private $fprimarykey = 'categorie_id';
+    private $fprimarykey = 'newevent_id';
     private $protectme = null;
 
     public $dflang;
@@ -43,7 +44,7 @@ class CategorieController extends Controller
     {
         //$this->middleware('auth');
         // dd($args['userinfo']);
-        $this->obj_info['title'] =  'Categories';
+        $this->obj_info['title'] =  'News & Events';
 
         $default_protectme = config('me.app.protectme');
         $this->protectme = [
@@ -54,7 +55,7 @@ class CategorieController extends Controller
                 'index' => $default_protectme['index'],
                 // 'show' => $default_protectme['show'],
                 'create' => $default_protectme['create'],
-                'edit' => $default_protectme['edit'],
+                //'edit' => $default_protectme['edit'],
                 'delete' => $default_protectme['delete'],
                 // 'destroy' => $default_protectme['destroy'],
                 // 'restore' => $default_protectme['restore'],
@@ -62,7 +63,7 @@ class CategorieController extends Controller
         ];
 
         $this->args = $args;
-        $this->model = new Categorie;
+        $this->model = new Newevent;
         $this->tablename = $this->model->gettable();
         $this->dflang = df_lang();
         // dd($this->tablename);
@@ -97,14 +98,14 @@ class CategorieController extends Controller
 
     public function default()
     {
-        $categorie = $this->model
+        $new_event = $this->model
             ->select(
                 \DB::raw($this->tablename . ".* "),
                 DB::raw("JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text"),
 
             )
             ->whereRaw('trash <> "yes"')->get();
-        return ['categorie' => $categorie];
+        return ['newevent' => $new_event];
     } /*../function..*/
     /**
      * Show the application dashboard.
@@ -115,7 +116,7 @@ class CategorieController extends Controller
     {
 
         $default = $this->default();
-        $categorie = $default['categorie'];
+        $new_event = $default['newevent'];
          //dd('aaa');
 
 
@@ -156,7 +157,7 @@ class CategorieController extends Controller
                 'caption' => 'Active',
             ])
             ->with(['act' => 'index'])
-            ->with(['categorie' => $categorie])
+            ->with(['new_event' => $new_event])
             // ->with($setting)
         ;
     }

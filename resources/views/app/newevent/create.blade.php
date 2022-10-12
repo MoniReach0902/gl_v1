@@ -118,7 +118,6 @@ foreach (config('me.app.project_lang') as $lang) {
             <div class="container">
                 <div class="row">
                     <div class="col-md-6">
-                        <label for="">Name English & Khmer</label>
                         <div class="input-group my-group" style="width:100%;">
 
                             <select class="form-control form-select input-sm tab_title" style="width:20%;">

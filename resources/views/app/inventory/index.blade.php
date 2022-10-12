@@ -163,15 +163,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($categorie as $categories)
+                            @foreach ($inventory as $inventorys)
                                 <tr>
-                                    <td>{{ $categories['categorie_id'] }}</td>
-                                    <td>{{ $categories['text'] }}</td>
-                                    <td style="width: 10%">{{ $categories['create_date'] }}</td>
-                                    <td style="width: 10%">{{ $categories['update_date'] }}</td>
-                                    <td style="width: 10%">{{ $categories['blongto'] }}</td>
+                                    <td>{{ $inventorys['inventory_id'] }}</td>
+                                    <td>{{ $inventorys['text'] }}</td>
+                                    <td style="width: 10%">{{ $inventorys['create_date'] }}</td>
+                                    <td style="width: 10%">{{ $inventorys['update_date'] }}</td>
+                                    <td style="width: 10%">{{ $inventorys['blongto'] }}</td>
                                     <td style="width: 10%">
-                                        @if ($categories->status == 'yes')
+                                        @if ($inventorys->status == 'yes')
                                         <span class="badge bg-dark">
                                             Enable
                                         @else
@@ -182,13 +182,14 @@
                                     </td>
                                     <td> 
                                     @include('app._include.btn_record', [
-                                        'rowid' => $categories->categorie_id,
+                                        'rowid' => $inventorys->inventory_id,
                                         'edit' => true,
                                         'trash' => true,
                                         'delete' => true,
                                     ])</td>
                                 </tr>
                             @endforeach
+                            
                         </tbody>
                     </table>
 

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Categorie;
+use App\Models\Customer;
 use App\Models\Example;
 use Illuminate\Http\Request;
 use Validator;
@@ -16,17 +16,17 @@ use App\Models\Room;
 use App\Models\Slider;
 use Illuminate\Support\Facades\Auth;
 
-class CategorieController extends Controller
+class CustomerController extends Controller
 {
     //
-    private $obj_info = ['name' => 'categorie', 'routing' => 'admin.controller', 'title' => 'Categorie', 'icon' => '<i class="fa fa-tags"></i>'];
+    private $obj_info = ['name' => 'customer', 'routing' => 'admin.controller', 'title' => 'Customer', 'icon' => '<i class="fas fa-plus"></i>'];
     public $args;
 
     private $model;
     private $submodel;
     private $tablename;
     private $columns = [];
-    private $fprimarykey = 'categorie_id';
+    private $fprimarykey = 'customer_id';
     private $protectme = null;
 
     public $dflang;
@@ -43,7 +43,7 @@ class CategorieController extends Controller
     {
         //$this->middleware('auth');
         // dd($args['userinfo']);
-        $this->obj_info['title'] =  'Categories';
+        $this->obj_info['title'] =  'Customer';
 
         $default_protectme = config('me.app.protectme');
         $this->protectme = [
@@ -62,7 +62,7 @@ class CategorieController extends Controller
         ];
 
         $this->args = $args;
-        $this->model = new Categorie;
+        $this->model = new Customer;
         $this->tablename = $this->model->gettable();
         $this->dflang = df_lang();
         // dd($this->tablename);
@@ -97,14 +97,14 @@ class CategorieController extends Controller
 
     public function default()
     {
-        $categorie = $this->model
+        $customer = $this->model
             ->select(
                 \DB::raw($this->tablename . ".* "),
                 DB::raw("JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text"),
 
             )
             ->whereRaw('trash <> "yes"')->get();
-        return ['categorie' => $categorie];
+        return ['customer' => $customer];
     } /*../function..*/
     /**
      * Show the application dashboard.
@@ -115,8 +115,8 @@ class CategorieController extends Controller
     {
 
         $default = $this->default();
-        $categorie = $default['categorie'];
-         //dd('aaa');
+        $customer = $default['customer'];
+        // dd($slider);
 
 
         $create_modal = url_builder(
@@ -156,7 +156,7 @@ class CategorieController extends Controller
                 'caption' => 'Active',
             ])
             ->with(['act' => 'index'])
-            ->with(['categorie' => $categorie])
+            ->with(['customer' => $customer])
             // ->with($setting)
         ;
     }
@@ -183,8 +183,8 @@ class CategorieController extends Controller
 
 
         $tableData = [
-            'categorie_id' => $newid,
-            'name' => $request->input('categorie-title'),
+            'exmaple_id' => $newid,
+            'title' => $request->input('example-title'),
 
         ];
         if ($isupdate) {

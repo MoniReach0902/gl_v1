@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Categorie;
 use App\Models\Example;
+use App\Models\Inventory;
 use Illuminate\Http\Request;
 use Validator;
 use DB;
@@ -16,17 +16,17 @@ use App\Models\Room;
 use App\Models\Slider;
 use Illuminate\Support\Facades\Auth;
 
-class CategorieController extends Controller
+class InventoryController extends Controller
 {
     //
-    private $obj_info = ['name' => 'categorie', 'routing' => 'admin.controller', 'title' => 'Categorie', 'icon' => '<i class="fa fa-tags"></i>'];
+    private $obj_info = ['name' => 'inventory', 'routing' => 'admin.controller', 'title' => 'Inventory', 'icon' => '<i class="fas fa-dumpster"></i>'];
     public $args;
 
     private $model;
     private $submodel;
     private $tablename;
     private $columns = [];
-    private $fprimarykey = 'categorie_id';
+    private $fprimarykey = 'inventory_id';
     private $protectme = null;
 
     public $dflang;
@@ -43,7 +43,7 @@ class CategorieController extends Controller
     {
         //$this->middleware('auth');
         // dd($args['userinfo']);
-        $this->obj_info['title'] =  'Categories';
+        $this->obj_info['title'] =  'Inventory';
 
         $default_protectme = config('me.app.protectme');
         $this->protectme = [
@@ -62,7 +62,7 @@ class CategorieController extends Controller
         ];
 
         $this->args = $args;
-        $this->model = new Categorie;
+        $this->model = new Inventory;
         $this->tablename = $this->model->gettable();
         $this->dflang = df_lang();
         // dd($this->tablename);
@@ -97,14 +97,14 @@ class CategorieController extends Controller
 
     public function default()
     {
-        $categorie = $this->model
-            ->select(
-                \DB::raw($this->tablename . ".* "),
-                DB::raw("JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text"),
+        $inventory = $this->model
+        ->select(
+            \DB::raw($this->tablename . ".* "),
+            DB::raw("JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text"),
 
-            )
-            ->whereRaw('trash <> "yes"')->get();
-        return ['categorie' => $categorie];
+        )
+        ->whereRaw('trash <> "yes"')->get();
+    return ['inventory' => $inventory];
     } /*../function..*/
     /**
      * Show the application dashboard.
@@ -115,8 +115,8 @@ class CategorieController extends Controller
     {
 
         $default = $this->default();
-        $categorie = $default['categorie'];
-         //dd('aaa');
+        $inventory = $default['inventory'];
+        // dd($slider);
 
 
         $create_modal = url_builder(
@@ -156,7 +156,7 @@ class CategorieController extends Controller
                 'caption' => 'Active',
             ])
             ->with(['act' => 'index'])
-            ->with(['categorie' => $categorie])
+            ->with(['inventory' => $inventory])
             // ->with($setting)
         ;
     }
@@ -183,8 +183,8 @@ class CategorieController extends Controller
 
 
         $tableData = [
-            'categorie_id' => $newid,
-            'name' => $request->input('categorie-title'),
+            'inventory_id' => $newid,
+            'name' => $request->input('inventory-title'),
 
         ];
         if ($isupdate) {

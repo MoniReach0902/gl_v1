@@ -152,7 +152,7 @@
                                     <thead style="color: var(--info)">
                             @endif
                             <tr>
-                                <th style="width: 10px">ID</th>
+                                <th style="width: 10px">Image</th>
                                 <th>Name</th>
                                 <th>Create date</th>
                                 <th>Update date</th>
@@ -163,15 +163,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($categorie as $categories)
+                            @foreach ($customer as $customers)
                                 <tr>
-                                    <td>{{ $categories['categorie_id'] }}</td>
-                                    <td>{{ $categories['text'] }}</td>
-                                    <td style="width: 10%">{{ $categories['create_date'] }}</td>
-                                    <td style="width: 10%">{{ $categories['update_date'] }}</td>
-                                    <td style="width: 10%">{{ $categories['blongto'] }}</td>
+                                    <td><img class="rounded-circle" width="70px" src="{{ $customers['image_url'] }}"></td>
+                                    <td>{{ $customers['text'] }}</td>
+                                    <td style="width: 10%">{{ $customers['create_date'] }}</td>
+                                    <td style="width: 10%">{{ $customers['update_date'] }}</td>
+                                    <td style="width: 10%">{{ $customers['blongto'] }}</td>
                                     <td style="width: 10%">
-                                        @if ($categories->status == 'yes')
+                                        @if ($customers->status == 'yes')
                                         <span class="badge bg-dark">
                                             Enable
                                         @else
@@ -182,7 +182,7 @@
                                     </td>
                                     <td> 
                                     @include('app._include.btn_record', [
-                                        'rowid' => $categories->categorie_id,
+                                        'rowid' => $customers->customers_id,
                                         'edit' => true,
                                         'trash' => true,
                                         'delete' => true,

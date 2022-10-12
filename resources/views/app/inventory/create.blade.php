@@ -149,8 +149,6 @@ foreach (config('me.app.project_lang') as $lang) {
                 </div>
             </div>
 
-    </div>
-
-    </form>
+        </form>
     </div>
 @endsection

@@ -82,7 +82,7 @@
             @include('layouts.sidebar')
             {{-- End Sidebar --}}
         </div>
-        {{-- @include('layouts.sidebarright') --}}
+        @include('layouts.sidebarright')
 
         <!-- main-content -->
         <div class="main-content app-content">
@@ -291,5 +291,6 @@
     {{-- stack use @push --}}
     @stack('page_scripts')
 </body>
+
 
 </html>

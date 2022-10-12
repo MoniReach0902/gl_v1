@@ -26,7 +26,7 @@ return [
     'edit' => 'Edit',
     'print' => 'Print',
     'save' => 'Save',
-    'new' => 'New',
+    'new' => 'Add New',
     'back' => 'Back',
     'alltable' => 'Home',
     'home' => 'Home',
