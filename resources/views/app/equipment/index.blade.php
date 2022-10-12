@@ -5,7 +5,6 @@
 @section('blade_css')
 @endsection
 @section('blade_scripts')
-
     <script>
         $(document).ready(function() {
 
@@ -132,6 +131,27 @@
     </section>
     {{-- end header --}}
     <div class="container-fluid">
+        <div class="card custom-card">
+            <div class="card-body pb-0">
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control" placeholder="Searching.....">
+                    <span class="input-group-append">
+                        <button class="btn ripple btn-primary" type="button">Search</button>
+                    </span>
+                </div>
+            </div>
+            <div class="card-body ps-0 pe-0 bd-t-0 pt-0">
+                <div class="main-content-body-profile mb-3">
+                    <nav class="nav main-nav-line">
+                        <a class="nav-link active" data-bs-toggle="tab" href="#tab1">All</a>
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab2">Inventory name1</a>
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab3">Inventory name2</a>
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab4">Inventory name3</a>
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab5">Inventory name4</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
 
         <form name="frm-2{{ $obj_info['name'] }}" id="frm-2{{ $obj_info['name'] }}" method="POST"
             action="{{ $route['submit'] }}" enctype="multipart/form-data">
@@ -152,31 +172,30 @@
                                 @else
                                     <thead style="color: var(--info)">
                             @endif
-                            <tr >
-                                <th>Image</th>
-                                <th style="width: 10%">Name</th>
-                                <th>Email</th>
-                                <th>Address</th>
-                                <th>Create date</th>
-                                <th>Update date</th>
-                                <th>CreateBy ID</th>
+                            <tr>
+                                <th>Name</th>
+                                <th>Seria code</th>
+                                <th>Location</th>
+                                <th>Model</th>
+                                <th>Description</th>
+                                <th>Cost</th>
+                                <th>Brand</th>
                                 <th style="width: 40px">Status</th>
                                 <th style="width: 40px; text-align: center"><i class="fa fa-ellipsis-h"></i></th>
-
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($customer as $customers)
+                            @foreach ($equipment as $equipments)
                                 <tr>
-                                    <td><img class="rounded-circle" width="70px" src="{{ $customers['image_url'] }}"></td>
-                                    <td>{{ $customers['text'] }}</td>
-                                    <td>{{ $customers['email'] }}</td>
-                                    <td>{{ $customers['address'] }}</td>
-                                    <td style="width: 10%">{{ $customers['create_date'] }}</td>
-                                    <td style="width: 10%">{{ $customers['update_date'] }}</td>
-                                    <td style="width: 10%">{{ $customers['blongto'] }}</td>
-                                    <td>
-                                        @if ($customers->status == 'yes')
+                                    <td>{{ $equipments['text'] }}</td>
+                                    <td>{{ $equipments['seria_number'] }}</td>
+                                    <td>{{ $equipments['location'] }}</td>
+                                    <td>{{ $equipments['model'] }}</td>
+                                    <td>{{ $equipments['description'] }}</td>
+                                    <td>{{ $equipments['cost'] }} USD</td>
+                                    <td>{{ $equipments['brand_id'] }}</td>
+                                    <td style="width: 10%">
+                                        @if ($equipments->status == 'yes')
                                         <span class="badge bg-dark">
                                             Enable
                                         @else
@@ -187,11 +206,13 @@
                                     </td>
                                     <td> 
                                     @include('app._include.btn_record', [
-                                        'rowid' => $customers->customers_id,
+                                        'rowid' => $equipments->equipments_id,
                                         'edit' => true,
                                         'trash' => true,
                                         'delete' => true,
                                     ])</td>
+                                </tr>
+
                                 </tr>
                             @endforeach
                         </tbody>

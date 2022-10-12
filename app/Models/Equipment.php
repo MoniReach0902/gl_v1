@@ -9,8 +9,8 @@ use DB;
 
 class Equipment extends Model
 {
-    protected $table = 'example';
-    protected $primaryKey = 'exmaple_id  ';
+    protected $table = 'tblequipments';
+    protected $primaryKey = 'equipment_id  ';
     public $timestamps = false;
     /*protected $fillable = array(
         'name',

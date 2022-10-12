@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Customer;
+use App\Models\Equipment;
 use App\Models\Example;
 use Illuminate\Http\Request;
 use Validator;
@@ -16,17 +16,17 @@ use App\Models\Room;
 use App\Models\Slider;
 use Illuminate\Support\Facades\Auth;
 
-class CustomerController extends Controller
+class EquipmentController extends Controller
 {
     //
-    private $obj_info = ['name' => 'customer', 'routing' => 'admin.controller', 'title' => 'Customer', 'icon' => '<i class="fa fa-address-card"></i>'];
+    private $obj_info = ['name' => 'equipment', 'routing' => 'admin.controller', 'title' => 'Equipment', 'icon' => '<i class="fas fa-hammer"></i>'];
     public $args;
 
     private $model;
     private $submodel;
     private $tablename;
     private $columns = [];
-    private $fprimarykey = 'customer_id';
+    private $fprimarykey = 'equipment_id';
     private $protectme = null;
 
     public $dflang;
@@ -43,7 +43,7 @@ class CustomerController extends Controller
     {
         //$this->middleware('auth');
         // dd($args['userinfo']);
-        $this->obj_info['title'] =  'Customer';
+        $this->obj_info['title'] =  'Equipment';
 
         $default_protectme = config('me.app.protectme');
         $this->protectme = [
@@ -62,7 +62,7 @@ class CustomerController extends Controller
         ];
 
         $this->args = $args;
-        $this->model = new Customer;
+        $this->model = new Equipment;
         $this->tablename = $this->model->gettable();
         $this->dflang = df_lang();
         // dd($this->tablename);
@@ -97,14 +97,14 @@ class CustomerController extends Controller
 
     public function default()
     {
-        $customer = $this->model
+        $equipment = $this->model
             ->select(
                 \DB::raw($this->tablename . ".* "),
                 DB::raw("JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text"),
 
             )
             ->whereRaw('trash <> "yes"')->get();
-        return ['customer' => $customer];
+        return ['equipment' => $equipment];
     } /*../function..*/
     /**
      * Show the application dashboard.
@@ -115,8 +115,8 @@ class CustomerController extends Controller
     {
 
         $default = $this->default();
-        $customer = $default['customer'];
-        // dd($slider);
+        $equipment = $default['equipment'];
+        //dd($equipment);
 
 
         $create_modal = url_builder(
@@ -156,7 +156,7 @@ class CustomerController extends Controller
                 'caption' => 'Active',
             ])
             ->with(['act' => 'index'])
-            ->with(['customer' => $customer])
+            ->with(['equipment' => $equipment])
             // ->with($setting)
         ;
     }
@@ -166,7 +166,7 @@ class CustomerController extends Controller
         $newid = ($isupdate) ? $request->input($this->fprimarykey)  : $this->model->max($this->fprimarykey) + 1;
         $update_rules = [$this->fprimarykey => 'required'];
 
-        $rules['example-title'] = ['required'];
+        $rules['equipment-title'] = ['required'];
         // $rules['img'] = ['required'];
         $validatorMessages = [
             /*'required' => 'The :attribute field can not be blank.'*/
@@ -183,8 +183,8 @@ class CustomerController extends Controller
 
 
         $tableData = [
-            'exmaple_id' => $newid,
-            'title' => $request->input('example-title'),
+            'equipment_id' => $newid,
+            'title' => $request->input('equipment-name'),
 
         ];
         if ($isupdate) {

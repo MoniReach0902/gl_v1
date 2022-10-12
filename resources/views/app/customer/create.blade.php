@@ -117,11 +117,72 @@ foreach (config('me.app.project_lang') as $lang) {
 
             <div class="container">
                 <div class="row">
-                    <div class="col-md-6">
-                        <label for="">Exmaple Title</label>
-                        <input type="text" class="form-control" name="example-title">
+                    <div class="col-sm-6 offset-sm-3">
+                        <div class="card card-default color-palette-box">
+    
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="">Name English & Khmer</label>
+                                    <div class="input-group my-group" style="width:100%;">
 
-                        <span id="example-title-error" class="error invalid-feedback" style="display: none"></span>
+                                        <select class="form-control form-select input-sm tab_title" style="width:20%;">
+                                            @foreach (config('me.app.project_lang') as $lang)
+                                                <option value="@lang($lang[0])">@lang($lang[1])</option>
+                                            @endforeach
+            
+                                        </select>
+                                        @php
+                                            $active = '';
+                                        @endphp
+                                        @foreach (config('me.app.project_lang') as $lang)
+                                            @php
+                                                // dd($lang);
+                                                $title = json_decode($input['title'] ?? '', true);
+                                            @endphp
+                                            <input type="text" class="form-control input-sm {{ $active }}" style="width:80%;"
+                                                name="title-{{ $lang[0] }}" id="title-{{ $lang[0] }}"
+                                                placeholder="{{ $lang[1] }}" value="{{ $title[$lang[0]] ?? '' }}">
+                                            @php
+                                                $active = 'hide';
+                                            @endphp
+                                        @endforeach
+                                        <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error"
+                                            class="error invalid-feedback" style="display: none"></span>
+                                    </div>
+                                    <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="name">Email</label>
+                                    <input type="email" class="form-control" name="name" id="name"
+                                        placeholder="Enter email" value="">
+                                    <span id="name-error" class="error invalid-feedback" style="display: none"></span>
+                                </div>
+    
+                                <div class="form-group">
+                                    <label for="email">@lang('dev.phone')</label>
+                                    <input type="tel" class="form-control" name="phone" id="phone"
+                                        placeholder="Phone Number" value="">
+                                    <span id="phone-error" class="error invalid-feedback" style="display: none"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="address">Address</label>
+                                        <textarea class="form-control" placeholder="Address" rows="3"></textarea>
+                                    <span id="phone-error" class="error invalid-feedback" style="display: none"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="permission_id">Image upload</label>
+                                    <div class="mb-2">
+                                        <input type="file" class="dropify" data-height="200" />
+                                    </div>
+                                    <span id="permission_id-error" class="error invalid-feedback" style="display: none"></span>
+                                </div>
+    
+    
+    
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        {{--  --}}
                     </div>
                 </div>
             </div>
