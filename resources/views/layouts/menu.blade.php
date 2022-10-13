@@ -71,17 +71,20 @@
     {{-- ===================== End Category ================= --}}
     
     <li class="side-item side-item-category">@lang("dev.category")</li>
-    <li class="slide {{ nav_checkactive(['category'], $args, 'is-expanded') }}">
-        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="fa-solid fa-list"></i></i>&nbsp;<span
-                class="side-menu__label">Categories</span><i class="angle fe fe-chevron-right"></i></a>
+    <li class="slide {{ nav_checkactive(['categorie'], $args, 'is-expanded') }}">
+        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i
+                class="fa fa-tags"></i>&nbsp;<span class="side-menu__label">Categories</span><i
+                class="angle fe fe-chevron-right"></i></a>
         <ul class="slide-menu ">
             <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
-            <li><a class="slide-item {{ nav_checkactive(['category-index'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['category', 'index']) }}">@lang("dev.category")</a>
+            {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
+            <li><a class="slide-item {{ nav_checkactive(['categorie-index'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['categorie']) }}">All Categories</a>
             </li>
             <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
-            <li><a class="slide-item {{ nav_checkactive(['category-create'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['category', 'create']) }}">@lang("dev.new_category")</a>
+            {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
+            <li><a class="slide-item {{ nav_checkactive(['categorie-create'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['categorie', 'create']) }}">Add New</a>
             </li>
         </ul>
     </li>
