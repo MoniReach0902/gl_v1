@@ -72,8 +72,8 @@
     
     <li class="side-item side-item-category">@lang("dev.category")</li>
     <li class="slide {{ nav_checkactive(['categorie'], $args, 'is-expanded') }}">
-        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i
-                class="fa fa-tags"></i>&nbsp;<span class="side-menu__label">Categories</span><i
+        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);">
+            <i class="fa-solid fa-list"></i>&nbsp;<span class="side-menu__label">Categories</span><i
                 class="angle fe fe-chevron-right"></i></a>
         <ul class="slide-menu ">
             <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
@@ -95,7 +95,7 @@
     
     {{-- ===================== Start Brand ================= --}}
     <li class="slide {{ nav_checkactive(['brands'], $args, 'is-expanded') }}">
-        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="fas fa-image"></i>&nbsp;<span
+        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="fa-sharp fa-solid fa-ring"></i>&nbsp;<span
                 class="side-menu__label">Brands</span><i class="angle fe fe-chevron-right"></i></a>
         <ul class="slide-menu ">
             <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
@@ -112,7 +112,7 @@
 
 
 
-    {{-- ===================== Start Brand ================= --}}
+    {{-- ===================== Start Product ================= --}}
     <li class="slide {{ nav_checkactive(['products'], $args, 'is-expanded') }}">
         <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="fas fa-image"></i>&nbsp;<span
                 class="side-menu__label">Products</span><i class="angle fe fe-chevron-right"></i></a>
@@ -134,7 +134,7 @@
 
     {{-- ===================== Start Currency ================= --}}
     <li class="slide {{ nav_checkactive(['currency'], $args, 'is-expanded') }}">
-        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="fas fa-image"></i>&nbsp;<span
+        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="fa-solid fa-dollar-sign"></i>&nbsp;<span
                 class="side-menu__label">Currency</span><i class="angle fe fe-chevron-right"></i></a>
         <ul class="slide-menu ">
             <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
@@ -149,9 +149,9 @@
     </li>
     {{-- ===================== End Currency ================= --}}
 
-    {{-- ===================== Start Currency ================= --}}
+    {{-- ===================== Start Colors ================= --}}
     <li class="slide {{ nav_checkactive(['colors'], $args, 'is-expanded') }}">
-        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="fas fa-image"></i>&nbsp;<span
+        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="fa-solid fa-palette"></i>&nbsp;<span
                 class="side-menu__label">Colors</span><i class="angle fe fe-chevron-right"></i></a>
         <ul class="slide-menu ">
             <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
@@ -167,7 +167,8 @@
     {{-- ===================== End Currency ================= --}}
     {{-- ===================== Start Customer ================= --}}
     <li class="slide {{ nav_checkactive(['customer'], $args, 'is-expanded') }}">
-        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="fas fa-image"></i>&nbsp;<span
+        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="fa fa-users" aria-hidden="true"></i>
+            &nbsp;<span
                 class="side-menu__label">Customer</span><i class="angle fe fe-chevron-right"></i></a>
         <ul class="slide-menu ">
             <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
@@ -184,7 +185,7 @@
 
     {{-- ===================== Start Equipment ================= --}}
     <li class="slide {{ nav_checkactive(['equipment'], $args, 'is-expanded') }}">
-        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="fas fa-image"></i>&nbsp;<span
+        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="fa-solid fa-credit-card"></i>&nbsp;<span
                 class="side-menu__label">Equipment</span><i class="angle fe fe-chevron-right"></i></a>
         <ul class="slide-menu ">
             <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
@@ -201,7 +202,7 @@
 
     {{-- ===================== Start Inventory ================= --}}
     <li class="slide {{ nav_checkactive(['inventory'], $args, 'is-expanded') }}">
-        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="fas fa-image"></i>&nbsp;<span
+        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="fa-solid fa-cart-shopping"></i>&nbsp;<span
                 class="side-menu__label">Inventory</span><i class="angle fe fe-chevron-right"></i></a>
         <ul class="slide-menu ">
             <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
@@ -235,7 +236,7 @@
 
     {{-- ===================== Start Media ================= --}}
     <li class="slide {{ nav_checkactive(['events'], $args, 'is-expanded') }}">
-        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="fas fa-image"></i>&nbsp;<span
+        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="fa-solid fa-calendar-days"></i>&nbsp;<span
                 class="side-menu__label">Events</span><i class="angle fe fe-chevron-right"></i></a>
         <ul class="slide-menu ">
             <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
@@ -275,7 +276,8 @@
     <li class="slide {{ nav_checkactive(['user'], $args, 'is-expanded') }}">
         <a class="side-menu__item {{ nav_checkactive(['user'], $args, 'active is-expanded') }}" data-bs-toggle="slide"
             href="javascript:void(0);">
-            <i class="fas fa-users pd-r-10"></i>
+            <i class="fa fa-user" aria-hidden="true"></i>
+&nbsp;
             <span class="side-menu__label">Users</span><i class="angle fe fe-chevron-right"></i>
         </a>
         <ul class="slide-menu">
