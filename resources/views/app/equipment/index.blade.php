@@ -148,6 +148,14 @@
                         <a class="nav-link" data-bs-toggle="tab" href="#tab3">Inventory name2</a>
                         <a class="nav-link" data-bs-toggle="tab" href="#tab4">Inventory name3</a>
                         <a class="nav-link" data-bs-toggle="tab" href="#tab5">Inventory name4</a>
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab2">Inventory name1</a>
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab3">Inventory name2</a>
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab4">Inventory name3</a>
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab5">Inventory name4</a>
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab2">Inventory name1</a>
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab3">Inventory name2</a>
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab4">Inventory name3</a>
+                        <a class="nav-link" data-bs-toggle="tab" href="#tab5">Inventory name4</a>
                     </nav>
                 </div>
             </div>

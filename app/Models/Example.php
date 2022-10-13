@@ -7,7 +7,7 @@ use DB;
 
 
 
-class Equipment extends Model
+class Example extends Model
 {
     protected $table = 'example';
     protected $primaryKey = 'exmaple_id  ';

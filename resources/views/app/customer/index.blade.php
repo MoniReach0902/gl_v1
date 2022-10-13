@@ -144,7 +144,8 @@
 
 
             <div class="card-body">
-                <div class="table-responsive">
+                
+                <div class="card-body table-responsive p-0">
                     <table class="table table-bordered table-hover mb-0 text-md-nowrap">
                         <thead>
                             @if (isset($istrash) && $istrash)
@@ -198,6 +199,7 @@
                     </table>
 
                 </div>
+
             </div>
 
         </form>
