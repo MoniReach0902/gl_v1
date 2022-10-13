@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>Document</title>
+<style>
+    input {
+        position: relative;
+        width: 150px; height: 20px;
+        color: white;
+    }
+
+    input:before {
+        position: absolute;
+        top: 3px; left: 3px;
+        content: attr(data-date);
+        display: inline-block;
+        color: black;
+    }
+
+    input::-webkit-datetime-edit, input::-webkit-inner-spin-button, input::-webkit-clear-button {
+        display: none;
+    }
+
+    input::-webkit-calendar-picker-indicator {
+        position: absolute;
+        top: 3px;
+        right: 0;
+        color: black;
+        opacity: 1;
+    }
+</style>
+
+</head>
+<body>
+    <div class="container hidden">
+        <ul class="nav nav-pills">
+            <li><a data-target="#home" data-toggle="tab">Home</a></li>
+            <li><a data-target="#about" data-toggle="tab">About</a></li>
+            <li><a data-target="#contacts" data-toggle="tab">Contacts</a></li>
+        </ul>
+    </div>
+
+    <div class="sidebar-menu">
+        <ul class="sidebar-nav">
+          <li class="icon_links">
+            <a href="/home" class="links">
+              <div class="icon">
+                <i class="fa fa-tasks" aria-hidden="true"></i>
+              </div>
+              <div class="title">Dashboard</div>
+            </a>
+          </li>
+          <li class="icon_links">
+            <a href="/messaging" class="links">
+              <div class="icon">
+                <i class="fa fa-comments" aria-hidden="true"></i>
+              </div>
+              <div class="title">Messaging</div>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="active">
+        Homepage content
+     </div>
+   
+</body>
+
+<input type="date" data-date="" data-date-format="DD/MM/YYYY" value="2020-08-29">
+
+<script>
+    $(document).ready(function() {
+        $("input").on("change", function() {
+        this.setAttribute(
+            "data-date",
+            moment(this.value, "YYYY-MM-DD")
+            .format( this.getAttribute("data-date-format") )
+        )
+    }).trigger("change")
+$(function() {
+  var lastTab = localStorage.getItem('lastTab');
+  $('.container, .tab-content').removeClass('hidden');
+  if (lastTab) {
+    $('[data-target="' + lastTab + '"]').tab('show');
+  }
+  $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+    localStorage.setItem('lastTab', $(this).data('target'));
+  });
+});
+
+var selector = '.sidebar-nav li';
+    var url = window.location.href;
+    var target = url.split('/');
+     $(selector).each(function(){
+        if($(this).find('a').attr('href')===('/'+target[target.length-1])){
+          $(selector).removeClass('active');
+          $(this).removeClass('active').addClass('active');
+        }
+
+    });
+
+    $("#link-link1 , #link-link2 , #link-link3 , #link-link4 , #link-link5").click(function() {
+        $(".active").css("display", "none");
+     })
+     // store
+localStorage.setItem("hello", "Hello World!");
+
+// retrieve
+console.log(localStorage.getItem("hello"));
+  })
+</script>
+</html>
