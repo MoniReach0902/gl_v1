@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Categorie;
+use App\Models\Currency;
 use App\Models\Example;
 use Illuminate\Http\Request;
 use Validator;
@@ -12,22 +12,21 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\UserPermission;
 use App\Models\Location;
-use App\Models\Newevent;
 use App\Models\Room;
 use App\Models\Slider;
 use Illuminate\Support\Facades\Auth;
 
-class NeweventController extends Controller
+class CurrencyController extends Controller
 {
     //
-    private $obj_info = ['name' => 'newevent', 'routing' => 'admin.controller', 'title' => 'News & Events', 'icon' => '<i class="far fa-calendar-check"></i>'];
+    private $obj_info = ['name' => 'currency', 'routing' => 'admin.controller', 'title' => 'Currency', 'icon' => '<i class="fab fa-cc-mastercard"></i>'];
     public $args;
 
     private $model;
     private $submodel;
     private $tablename;
     private $columns = [];
-    private $fprimarykey = 'newevent_id';
+    private $fprimarykey = 'currency_id';
     private $protectme = null;
 
     public $dflang;
@@ -44,7 +43,7 @@ class NeweventController extends Controller
     {
         //$this->middleware('auth');
         // dd($args['userinfo']);
-        $this->obj_info['title'] =  'News & Events';
+        $this->obj_info['title'] =  'Currency';
 
         $default_protectme = config('me.app.protectme');
         $this->protectme = [
@@ -55,7 +54,7 @@ class NeweventController extends Controller
                 'index' => $default_protectme['index'],
                 // 'show' => $default_protectme['show'],
                 'create' => $default_protectme['create'],
-                //'edit' => $default_protectme['edit'],
+                'edit' => $default_protectme['edit'],
                 'delete' => $default_protectme['delete'],
                 // 'destroy' => $default_protectme['destroy'],
                 // 'restore' => $default_protectme['restore'],
@@ -63,7 +62,7 @@ class NeweventController extends Controller
         ];
 
         $this->args = $args;
-        $this->model = new Newevent;
+        $this->model = new Currency;
         $this->tablename = $this->model->gettable();
         $this->dflang = df_lang();
         // dd($this->tablename);
@@ -98,14 +97,14 @@ class NeweventController extends Controller
 
     public function default()
     {
-        $new_event = $this->model
+        $currency = $this->model
             ->select(
                 \DB::raw($this->tablename . ".* "),
                 DB::raw("JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text"),
 
             )
             ->whereRaw('trash <> "yes"')->get();
-        return ['newevent' => $new_event];
+        return ['currency' => $currency];
     } /*../function..*/
     /**
      * Show the application dashboard.
@@ -116,8 +115,8 @@ class NeweventController extends Controller
     {
 
         $default = $this->default();
-        $new_event = $default['newevent'];
-         //dd('aaa');
+        $currency = $default['currency'];
+        // dd($slider);
 
 
         $create_modal = url_builder(
@@ -157,7 +156,7 @@ class NeweventController extends Controller
                 'caption' => 'Active',
             ])
             ->with(['act' => 'index'])
-            ->with(['new_event' => $new_event])
+            ->with(['currency' => $currency])
             // ->with($setting)
         ;
     }
@@ -184,8 +183,8 @@ class NeweventController extends Controller
 
 
         $tableData = [
-            'categorie_id' => $newid,
-            'name' => $request->input('categorie-title'),
+            'exmaple_id' => $newid,
+            'title' => $request->input('example-title'),
 
         ];
         if ($isupdate) {
