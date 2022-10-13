@@ -124,10 +124,6 @@ foreach (config('me.app.project_lang') as $lang) {
                 value="{{ $input[$fprimarykey] ?? '' }}">
             <input type="hidden" name="jscallback" value="{{ $jscallback ?? (request()->get('jscallback') ?? '') }}">
             <br>
-            <div class="container-fluid">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-10 col-md-10 col-sm-10 offset-sm-1">
                 <div class="card">
                     <div class="card-body">
                         <div class="pd-20 pd-sm-20">
@@ -159,11 +155,7 @@ foreach (config('me.app.project_lang') as $lang) {
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-            
-    </div>
-</div>
+
         </form>
 
  

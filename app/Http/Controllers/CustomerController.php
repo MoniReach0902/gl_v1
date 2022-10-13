@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Auth;
 class CustomerController extends Controller
 {
     //
-    private $obj_info = ['name' => 'customer', 'routing' => 'admin.controller', 'title' => 'Customer', 'icon' => '<i class="fas fa-plus"></i>'];
+    private $obj_info = ['name' => 'customer', 'routing' => 'admin.controller', 'title' => 'Customer', 'icon' => '<i class="fa fa-users" aria-hidden="true"></i>'];
     public $args;
 
     private $model;

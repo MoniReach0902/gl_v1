@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Auth;
 class EquipmentController extends Controller
 {
     //
-    private $obj_info = ['name' => 'equipment', 'routing' => 'admin.controller', 'title' => 'Equipment', 'icon' => '<i class="fas fa-plus"></i>'];
+    private $obj_info = ['name' => 'equipment', 'routing' => 'admin.controller', 'title' => 'Equipment', 'icon' => '<i class="fa-solid fa-credit-card"></i>'];
     public $args;
 
     private $model;

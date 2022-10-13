@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Auth;
 class CategorieController extends Controller
 {
     //
-    private $obj_info = ['name' => 'categorie', 'routing' => 'admin.controller', 'title' => 'Categorie', 'icon' => '<i class="fa fa-tags"></i>'];
+    private $obj_info = ['name' => 'categorie', 'routing' => 'admin.controller', 'title' => 'Categorie', 'icon' => '<i class="fa-solid fa-list"></i>'];
     public $args;
 
     private $model;

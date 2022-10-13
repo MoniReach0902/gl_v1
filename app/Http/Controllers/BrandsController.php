@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Auth;
 class BrandsController extends Controller
 {
     //
-    private $obj_info = ['name' => 'brands', 'routing' => 'admin.controller', 'title' => 'brands', 'icon' => '<i class="fas fa-plus"></i>'];
+    private $obj_info = ['name' => 'brands', 'routing' => 'admin.controller', 'title' => 'brands', 'icon' => '<i class="fa-sharp fa-solid fa-ring"></i>'];
     public $args;
 
     private $model;

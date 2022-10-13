@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Auth;
 class CurrencyController extends Controller
 {
     //
-    private $obj_info = ['name' => 'currency', 'routing' => 'admin.controller', 'title' => 'Currency', 'icon' => '<i class="fas fa-plus"></i>'];
+    private $obj_info = ['name' => 'currency', 'routing' => 'admin.controller', 'title' => 'Currency', 'icon' => '<i class="fa-solid fa-dollar-sign"></i>'];
     public $args;
 
     private $model;

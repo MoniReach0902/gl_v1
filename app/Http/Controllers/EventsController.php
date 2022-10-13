@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Auth;
 class EventsController extends Controller
 {
     //
-    private $obj_info = ['name' => 'events', 'routing' => 'admin.controller', 'title' => 'Events', 'icon' => '<i class="fas fa-plus"></i>'];
+    private $obj_info = ['name' => 'events', 'routing' => 'admin.controller', 'title' => 'Events', 'icon' => '<i class="fa-solid fa-calendar-days"></i>'];
     public $args;
 
     private $model;

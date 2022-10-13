@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Auth;
 class ColorsController extends Controller
 {
     //
-    private $obj_info = ['name' => 'colors', 'routing' => 'admin.controller', 'title' => 'Colors', 'icon' => '<i class="fas fa-plus"></i>'];
+    private $obj_info = ['name' => 'colors', 'routing' => 'admin.controller', 'title' => 'Colors', 'icon' => '<i class="fa-solid fa-palette"></i>'];
     public $args;
 
     private $model;
