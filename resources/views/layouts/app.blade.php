@@ -43,19 +43,9 @@
     <!-- INTERNAL Switcher css -->
     <link href="{{ asset('public/assets/switcher/css/switcher.css') }}" rel="stylesheet" />
     <link href="{{ asset('public/assets/switcher/demo.css') }}" rel="stylesheet" />
+    
     @yield('blade_css')
 
-
-    <style>
-        body {
-            font-family: 'JetBrains Mono', monospace;
-            font-family: 'Siemreap', 'JetBrains Mono';
-        }
-
-        .hide {
-            display: none;
-        }
-    </style>
     @stack('page_css')
 </head>
 
@@ -91,7 +81,7 @@
             @yield('content')
             <!-- /Container -->
         </div>
-
+        @include('layouts.switcher')
         @include('layouts.extra_modal')
 
 
@@ -237,9 +227,13 @@
     {{-- <script src="{{ asset('public/js/toggle_form.js') }}"></script> --}}
 
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
+   
     {{-- yield use @saction --}}
     @yield('blade_scripts')
 
+    <script src="jquery-3.6.0.min.js"></script>
     <script>
         var env = {!! json_encode(config('me.app.js_env')) !!};
         env.token = "{{ csrf_token() }}";
@@ -299,17 +293,46 @@
         // })
 
 
-        const dark_form = document.getElementById("light-layout");
-        const light_form = document.getElementById("dark-layout");
-        const card_body = document.getElementById("card-body");
+        // const dark_form = document.getElementById("light-layout");
+        // const light_form = document.getElementById("dark-layout");
+        // const card_body = document.getElementById("card-body");
 
-        light_form.addEventListener("click", function() {
-            card_body.classList.add("dark-input-form");
-            card_body.classList.remove('light-input-form');
-        });
-        dark_form.addEventListener("click", function() {
-            card_body.classList.add("light-input-form");
-            card_body.classList.remove('dark-input-form');
+        // light_form.addEventListener("click", function() {
+        //     card_body.classList.add("dark-input-form");
+        //     card_body.classList.remove('light-input-form');
+
+        // });
+        // dark_form.addEventListener("click", function() {
+        //     card_body.classList.add("light-input-form");
+        //     card_body.classList.remove('dark-input-form');
+        // });
+
+
+        $(document).ready(function(){
+          
+            $("#light-layout").click(function(){
+                $("#card-body").addClass("light-input-form");
+                $("#card-body").removeClass("dark-input-form");
+
+                if(window.load()){
+                    
+                }
+                
+                
+            });
+            $("#dark-layout").click(function(){
+                $("#card-body").addClass("dark-input-form");
+                $("#card-body").removeClass("light-input-form");
+            });
+
+            $("input").on("change", function() {
+            this.setAttribute(
+                "data-date",
+                moment(this.value, "YYYY-MM-DD").format( this.getAttribute("data-date-format") )
+            )
+            }).trigger("change");
+
+
         });
     </script>
 

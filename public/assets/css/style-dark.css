@@ -243,6 +243,8 @@ body.dark-theme {
 
 .dark-theme .form-control:focus {
     border-color: var(--primary-bg-color);
+    box-shadow: inset 5px 5px 8px #1a1c26, inset -5px -5px 8px #2a2e3f;
+
 }
 
 .dark-theme .btn-white:not(:disabled):not(.disabled):active,
@@ -3657,8 +3659,16 @@ body.dark-theme {
 
 .dark-theme .form-control {
     color: #c0c2c7;
-    background-color: #2a2e3f;
     border: 1px solid #484863;
+    width: 100%;
+    padding:25px;
+    box-sizing: border-box;
+    box-shadow: 5px 5px 8px #1a1c26, -5px -5px 8px #2a2e3f;;
+    background: #2a2e3f;
+    border-color: var(--primary-bg-color);
+    border-radius: 15px;
+    border: none;
+    outline: none;
 }
 
 .dark-theme .breadcrumb-style1 .breadcrumb-item+.breadcrumb-item::before,

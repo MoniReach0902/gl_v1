@@ -128,10 +128,6 @@ foreach (config('me.app.project_lang') as $lang) {
 
 
             
-<div class="container-fluid">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-10 col-md-10 col-sm-10 offset-sm-1">
                 <div class="card">
                     <div class="card-body">
                         <div class="pd-20 pd-sm-20">
@@ -142,20 +138,13 @@ foreach (config('me.app.project_lang') as $lang) {
                                     <input class="form-control" placeholder="Enter name" type="text">
                                 </div>
                                
-                                <div class="col-md-12 mg-t-10">
-                                    <label for="name"> Creat Date: </label>
-                                    <input class="form-control" type="date">
-                                </div>
-                                <div class="col-md-12 mg-t-10">
-                                    <label for="name"> Update Date: </label>
-                                    <input class="form-control" type="date">
-                                </div>
+                               
                                 <div class="col-md-12 mg-t-10">
                                     <label for="name">	Description: </label>
                                     <textarea class="form-control" name="decription" id="decription" cols="30" rows="8"></textarea>
                                 </div>
                                 <div class="col-sm-12 col-md-12 mg-t-10">
-                                    <input type="file" class="dropify" data-height="200" />
+                                    <input type="file" class="dropify" data-height="200" accept=".png,.jpg,.jpeg"/>
                                 </div>
                                 <div class=" col-md-12 mg-t-10">
                                     <label class="custom-switch ps-0">
@@ -169,11 +158,7 @@ foreach (config('me.app.project_lang') as $lang) {
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-            
-    </div>
-</div>
+    
         </form>
     </div>
     {{-- @include('layouts.extra_modal') --}}

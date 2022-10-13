@@ -1,5 +1,6 @@
 @php
 $extends = 'app';
+
 $action_btn = ['save' => true, 'print' => false, 'cancel' => true, 'new' => true];
 foreach (config('me.app.project_lang') as $lang) {
     $langcode[] = $lang[0];
@@ -30,6 +31,7 @@ foreach (config('me.app.project_lang') as $lang) {
 @endsection
 
 @section('blade_scripts')
+
     <script>
         $(document).ready(function() {
 
@@ -85,11 +87,8 @@ foreach (config('me.app.project_lang') as $lang) {
                     loading_indicator);
             });
 
-
-
-
-        });
     </script>
+
 @endsection
 @section('content')
     {{-- Header --}}
@@ -125,10 +124,7 @@ foreach (config('me.app.project_lang') as $lang) {
                 value="{{ $input[$fprimarykey] ?? '' }}">
             <input type="hidden" name="jscallback" value="{{ $jscallback ?? (request()->get('jscallback') ?? '') }}">
             <br>
-
-
-            
-<div class="container-fluid">
+            <div class="container-fluid">
     <div class="container">
         <div class="row">
             <div class="col-lg-10 col-md-10 col-sm-10 offset-sm-1">
@@ -137,30 +133,20 @@ foreach (config('me.app.project_lang') as $lang) {
                         <div class="pd-20 pd-sm-20">
                             <div class="row row-xs">
                                 
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <label for="name">	Name: </label>
                                     <input class="form-control" placeholder="Enter name" type="text">
                                 </div>
                                
-                                <div class="col-md-6">
-                                    <label for="name">	Type: </label>
+                                <div class="col-md-12 mg-t-10">
+                                    <label for="name">	Exchange Rate: </label>
                                     <input class="form-control" placeholder="Enter price" type="text">
                                 </div>
-                                <div class="col-md-6 mg-t-10">
-                                    <label for="name">	Crate Date: </label>
+                                <div class="col-md-12 mg-t-10">
+                                    <label for="name"> Date: </label>
                                     <input class="form-control" type="date">
                                 </div>
-                                <div class="col-md-6 mg-t-10">
-                                    <label for="name">	Update Date: </label>
-                                    <input class="form-control" type="date">
-                                </div>
-                                
-                            
-                           
-                            
-                            <div class="col-sm-12 col-md-12">
-                                <input type="file" class="dropify" data-height="200" />
-                            </div>
+                        
                                 <div class=" col-md-12 mg-t-10">
                                     <label class="custom-switch ps-0">
                                         <span class="custom-switch-description me-2">Status</span>
@@ -179,6 +165,7 @@ foreach (config('me.app.project_lang') as $lang) {
     </div>
 </div>
         </form>
-    </div>
+
+ 
     {{-- @include('layouts.extra_modal') --}}
 @endsection

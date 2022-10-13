@@ -144,7 +144,7 @@ return [
     //dma_01
     'dma_one' => 'C/S-SDG ................... Assessment Result of District/Municipality Administration',
     //DMA_02
-    'dma_two' => 'C/S-SDG ................... ​Verification Result of District/Municipality Administration',
+    'dma_two' => 'C/S-SDG ................... Verification Result of District/Municipality Administration',
     //dma_05
     'dma_five' => 'C/S-SDG Assessment of District/Municipality Administration Demonstrated by Indicators',
     //dma_06

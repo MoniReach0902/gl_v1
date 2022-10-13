@@ -128,10 +128,7 @@ foreach (config('me.app.project_lang') as $lang) {
 
 
             
-<div class="container-fluid">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-10 col-md-10 col-sm-10 offset-sm-1">
+<
                 <div class="card">
                     <div class="card-body">
                         <div class="pd-20 pd-sm-20">
@@ -176,14 +173,7 @@ foreach (config('me.app.project_lang') as $lang) {
                                     </select>
                                     <span id="permission_id-error" class="error invalid-feedback" style="display: none"></span>
                                 </div>
-                                <div class="col-md-6 ">
-                                    <label for="name"> Creat Date: </label>
-                                    <input class="form-control" type="date">
-                                </div>
-                                <div class="col-md-6 ">
-                                    <label for="name"> Update Date: </label>
-                                    <input class="form-control" type="date">
-                                </div>
+                               
                                 <div class="col-md-6 ">
                                     <label for="name"> Warranty Date: </label>
                                     <input class="form-control" type="date">
@@ -204,11 +194,7 @@ foreach (config('me.app.project_lang') as $lang) {
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-            
-    </div>
-</div>
+  
         </form>
     </div>
     {{-- @include('layouts.extra_modal') --}}

@@ -118,58 +118,59 @@ foreach (config('me.app.project_lang') as $lang) {
         {{-- Start Form --}}
 
         <form name="frm-{{ $obj_info['name'] }}" id="frm-{{ $obj_info['name'] }}" method="POST"
-            action="{{ $route['submit'] }}">
-            {{-- please dont delete these default Field --}}
-            @CSRF
-            <input type="hidden" name="{{ $fprimarykey }}" id="{{ $fprimarykey }}"
-                value="{{ $input[$fprimarykey] ?? '' }}">
-            <input type="hidden" name="jscallback" value="{{ $jscallback ?? (request()->get('jscallback') ?? '') }}">
-            <br>
+                action="{{ $route['submit'] }}">
+                {{-- please dont delete these default Field --}}
+                @CSRF
+                <input type="hidden" name="{{ $fprimarykey }}" id="{{ $fprimarykey }}"
+                    value="{{ $input[$fprimarykey] ?? '' }}">
+                <input type="hidden" name="jscallback" value="{{ $jscallback ?? (request()->get('jscallback') ?? '') }}">
+                <br>
 
 
-            
-<div class="container-fluid">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6 col-md-10 col-sm-6 offset-sm-3">
-                <div class="card">
-                    <div class="card-body dark-input-form" id="card-body">
-                        <div class="pd-20 pd-sm-20 ">
-                            <div class="row row-xs">
-                                <div class="col-md-12">
-                                    <label for="name">Category Name:</label>
-                                    <input class="form-control" placeholder="Enter category name" type="text">
+                            <div class="card card-default color-palette-box">
+                                <div class="card-body dark-input-form" id="card-body">
+                                    <div class="pd-20 pd-sm-20 ">
+                                        <div class="row row-xs">
+                                            <div class="col-md-12">
+                                                <label for="name">Name:</label>
+                                                <input type="text" class="form-control input-sm {{ $active }}" style="width:80%;"
+                                                name="title-{{ $lang[0] }}" id="title-{{ $lang[0] }}"
+                                                placeholder="{{ $lang[1] }}" value="{{ $title[$lang[0]] ?? '' }}">
+                                    </div>
+                                    <div class="col-md-12 mg-t-10">
+                                        <label for="name">Category Name:</label>
+                                        <input class="form-control" placeholder="Enter category name" type="text">
+                                    </div>
+                                    <div class="col-md-12 mg-t-10">
+                                        <label for="name">Category Name:</label>
+                                        <input class="form-control" placeholder="Enter category name" type="text">
+                                    </div>
+                                    
+                                    
+                                    <div class="form-group col-md-12 mg-t-10">
+                                    <label for="permission_id">Belongto</label>
+                                    <select class="form-control input-sm" name="permission_id" id="permission_id">
+                                        <option value="">-- Select --</option>
+                                        <option value="1">Top Admin</option>
+                                        
+                                    </select>
+                                    <span id="permission_id-error" class="error invalid-feedback" style="display: none"></span>
                                 </div>
                                 
-                            
-                            <div class="form-group col-md-12 mg-t-10">
-                                <label for="permission_id">Belongto</label>
-                                <select class="form-control input-sm" name="permission_id" id="permission_id">
-                                    <option value="">-- Select --</option>
-                                    <option value="1">Top Admin</option>
-                                    
-                                </select>
-                                <span id="permission_id-error" class="error invalid-feedback" style="display: none"></span>
-                            </div>
-                               
-                                <div class=" col-md-12">
+                                <div class=" col-md-12 mg-t-10">
                                     <label class="custom-switch ps-0">
-                                        <span class="custom-switch-description me-2">Check Box</span>
-                                        <input type="checkbox" name="custom-switch-checkbox1" class="custom-switch-input">
-                                        <span class="custom-switch-indicator"></span>
-                                    </label>
+                                            <span class="custom-switch-description me-2">Check Box</span>
+                                            <input type="checkbox" name="custom-switch-checkbox1" class="custom-switch-input">
+                                            <span class="custom-switch-indicator"></span>
+                                        </label>
+                                    </div>
+                                    
                                 </div>
-                            
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-            
-    </div>
-</div>
+               
         </form>
     </div>
+    </div>
     {{-- @include('layouts.extra_modal') --}}
-@endsection
+    @endsection

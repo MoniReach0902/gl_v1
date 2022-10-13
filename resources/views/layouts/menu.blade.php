@@ -68,20 +68,20 @@
         </ul>
     </li> --}}
 
-    {{-- ===================== End Slider ================= --}}
+    {{-- ===================== End Category ================= --}}
     
-    <li class="side-item side-item-category">Categories</li>
+    <li class="side-item side-item-category">@lang("dev.category")</li>
     <li class="slide {{ nav_checkactive(['category'], $args, 'is-expanded') }}">
-        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="fas fa-image"></i>&nbsp;<span
+        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="fa-solid fa-list"></i></i>&nbsp;<span
                 class="side-menu__label">Categories</span><i class="angle fe fe-chevron-right"></i></a>
         <ul class="slide-menu ">
             <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
             <li><a class="slide-item {{ nav_checkactive(['category-index'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['category', 'index']) }}">Category</a>
+                    href="{{ url_builder('admin.controller', ['category', 'index']) }}">@lang("dev.category")</a>
             </li>
             <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
             <li><a class="slide-item {{ nav_checkactive(['category-create'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['category', 'create']) }}">New Category</a>
+                    href="{{ url_builder('admin.controller', ['category', 'create']) }}">@lang("dev.new_category")</a>
             </li>
         </ul>
     </li>
@@ -128,22 +128,6 @@
 
 
 
-    {{-- ===================== Start Colors ================= --}}
-    <li class="slide {{ nav_checkactive(['color'], $args, 'is-expanded') }}">
-        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="fas fa-image"></i>&nbsp;<span
-                class="side-menu__label">Colors</span><i class="angle fe fe-chevron-right"></i></a>
-        <ul class="slide-menu ">
-            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
-            <li><a class="slide-item {{ nav_checkactive(['colors-index'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['colors', 'index']) }}">Colors</a>
-            </li>
-            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
-            <li><a class="slide-item {{ nav_checkactive(['colors-create'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['colors', 'create']) }}">New Colors</a>
-            </li>
-        </ul>
-    </li>
-    {{-- ===================== End Colors ================= --}}
 
     {{-- ===================== Start Currency ================= --}}
     <li class="slide {{ nav_checkactive(['currency'], $args, 'is-expanded') }}">
@@ -157,6 +141,23 @@
             <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
             <li><a class="slide-item {{ nav_checkactive(['currency-create'], $args) }}"
                     href="{{ url_builder('admin.controller', ['currency', 'create']) }}">New Currency</a>
+            </li>
+        </ul>
+    </li>
+    {{-- ===================== End Currency ================= --}}
+
+    {{-- ===================== Start Currency ================= --}}
+    <li class="slide {{ nav_checkactive(['colors'], $args, 'is-expanded') }}">
+        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="fas fa-image"></i>&nbsp;<span
+                class="side-menu__label">Colors</span><i class="angle fe fe-chevron-right"></i></a>
+        <ul class="slide-menu ">
+            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
+            <li><a class="slide-item {{ nav_checkactive(['colors-index'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['colors', 'index']) }}">All Colors</a>
+            </li>
+            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
+            <li><a class="slide-item {{ nav_checkactive(['colors-create'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['colors', 'create']) }}">New Colors</a>
             </li>
         </ul>
     </li>

@@ -25,7 +25,7 @@ class ColorsController extends Controller
     private $submodel;
     private $tablename;
     private $columns = [];
-    private $fprimarykey = 'color_id';
+    private $fprimarykey = 'color_id ';
     private $protectme = null;
 
     public $dflang;
@@ -42,7 +42,7 @@ class ColorsController extends Controller
     {
         //$this->middleware('auth');
         // dd($args['userinfo']);
-        $this->obj_info['title'] = 'Colors';
+        $this->obj_info['title'] = 'Currency';
 
         $default_protectme = config('me.app.protectme');
         $this->protectme = [
@@ -96,9 +96,9 @@ class ColorsController extends Controller
 
     public function default()
     {
-        $brands = $this->model->where('trash', '<>', 'yes')->get();
+        $colors = $this->model->where('trash', '<>', 'yes')->get();
         // dd($example);
-        return ['brands' => $brands];
+        return ['colors' => $colors];
     } /*../function..*/
     /**
      * Show the application dashboard.
@@ -109,7 +109,7 @@ class ColorsController extends Controller
     {
 
         $default = $this->default();
-        $brands = $default['brands'];
+        $colors = $default['colors'];
         // dd($slider);
 
 
@@ -150,7 +150,7 @@ class ColorsController extends Controller
                 'caption' => 'Active',
             ])
             ->with(['act' => 'index'])
-            ->with(['brands' => $brands])
+            ->with(['colors' => $colors])
             // ->with($setting)
         ;
     }

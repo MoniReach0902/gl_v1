@@ -50,11 +50,7 @@
 @endsection
 @section('content')
     {{-- Header --}}
-<<<<<<< HEAD
-    <section class="content-header bg-light d-flex ct-bar-action ct-bar-action-shaddow">
-=======
     {{-- <section class="content-header bg-light sticky-top ct-bar-action ct-bar-action-shaddow">
->>>>>>> master
         <div class="container-fluid">
             <div class="d-flex  border br-5">
                 <div class="flex-grow-1">

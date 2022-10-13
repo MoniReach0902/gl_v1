@@ -127,50 +127,36 @@ foreach (config('me.app.project_lang') as $lang) {
             <br>
 
 
-            
-<div class="container-fluid">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-10 col-md-10 col-sm-10 offset-sm-1">
+
                 <div class="card">
                     <div class="card-body">
                         <div class="pd-20 pd-sm-20">
                             <div class="row row-xs">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="name">Code: </label>
                                     <input class="form-control" placeholder="Enter code" type="text">
                                 </div>
                                 
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="name">	Name: </label>
                                     <input class="form-control" placeholder="Enter name" type="text">
                                 </div>
                                 
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="name">	Stock: </label>
                                     <input class="form-control" placeholder="Enter Qty stock" type="text">
                                 </div>
                                 
-                                <div class="col-md-6">
+                                <div class="col-md-4 mg-t-10">
                                     <label for="name">Cost: </label>
                                     <input class="form-control" placeholder="Enter 	cost" type="text">
                                 </div>
                                 
-                                <div class="col-md-6">
+                                <div class="col-md-4 mg-t-10">
                                     <label for="name">	Price: </label>
                                     <input class="form-control" placeholder="Enter price" type="text">
                                 </div>
-                                <div class="col-md-6">
-                                    <label for="name">	Price: </label>
-                                    <input class="form-control" placeholder="Enter price" type="text">
-                                </div>
-                                <div class="col-md-6 mg-t-10">
-                                    <label for="name">	Crate Date: </label>
-                                    <input class="form-control" type="date">
-                                </div>
-                                
-                            
-                            <div class="form-group col-md-6 mg-t-10">
+                            <div class="form-group col-md-4 mg-t-10">
                                 <label for="permission_id">Color ID:</label>
                                 <select class="form-control input-sm" name="permission_id" id="permission_id">
                                     <option value="">-- Select --</option>
@@ -179,7 +165,7 @@ foreach (config('me.app.project_lang') as $lang) {
                                 </select>
                                 <span id="permission_id-error" class="error invalid-feedback" style="display: none"></span>
                             </div>
-                            <div class="form-group col-md-6 mg-t-10">
+                            <div class="form-group col-md-4">
                                 <label for="permission_id">Type ID:</label>
                                 <select class="form-control input-sm" name="permission_id" id="permission_id">
                                     <option value="">-- Select --</option>
@@ -188,7 +174,7 @@ foreach (config('me.app.project_lang') as $lang) {
                                 </select>
                                 <span id="permission_id-error" class="error invalid-feedback" style="display: none"></span>
                             </div>
-                            <div class="form-group col-md-6 mg-t-10">
+                            <div class="form-group col-md-4">
                                 <label for="permission_id">Categories ID:</label>
                                 <select class="form-control input-sm" name="permission_id" id="permission_id">
                                     <option value="">-- Select --</option>
@@ -197,17 +183,8 @@ foreach (config('me.app.project_lang') as $lang) {
                                 </select>
                                 <span id="permission_id-error" class="error invalid-feedback" style="display: none"></span>
                             </div>
-                            <div class="form-group col-md-6 mg-t-10">
+                            <div class="form-group col-md-4">
                                 <label for="permission_id">Brand ID:</label>
-                                <select class="form-control input-sm" name="permission_id" id="permission_id">
-                                    <option value="">-- Select --</option>
-                                    <option value="1">Top Admin</option>
-                                    
-                                </select>
-                                <span id="permission_id-error" class="error invalid-feedback" style="display: none"></span>
-                            </div>
-                            <div class="form-group col-md-6 mg-t-10">
-                                <label for="permission_id">Gender:</label>
                                 <select class="form-control input-sm" name="permission_id" id="permission_id">
                                     <option value="">-- Select --</option>
                                     <option value="1">Top Admin</option>
@@ -217,10 +194,10 @@ foreach (config('me.app.project_lang') as $lang) {
                             </div>
                             <div class="col-md-12 mg-t-10">
                                 <label for="name">	Description: </label>
-                                <textarea class="form-control" name="" id="" cols="30" rows="10"></textarea>
+                                <textarea class="form-control" name="" id="" cols="30" rows="8"></textarea>
                             </div>
                             <div class="col-sm-12 col-md-12 mg-t-10">
-                                <input type="file" class="dropify" data-height="200" />
+                                <input type="file" class="dropify" data-height="200" accept=".png,.jpg,.jpeg"/>
                             </div>
                                 <div class=" col-md-12 mg-t-10">
                                     <label class="custom-switch ps-0">
@@ -229,13 +206,9 @@ foreach (config('me.app.project_lang') as $lang) {
                                         <span class="custom-switch-indicator"></span>
                                     </label>
                                 </div>
-                            
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+              
             
     </div>
 </div>

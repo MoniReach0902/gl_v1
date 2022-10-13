@@ -7,7 +7,7 @@ use DB;
 
 
 
-class Category extends Model
+class Categorie extends Model
 {
     protected $table = 'tblcategories';
     protected $primaryKey = 'categorie_id';

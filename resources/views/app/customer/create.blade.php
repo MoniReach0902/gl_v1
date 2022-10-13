@@ -127,11 +127,6 @@ foreach (config('me.app.project_lang') as $lang) {
             <br>
 
 
-            
-<div class="container-fluid">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-10 col-md-10 col-sm-10 offset-sm-1">
                 <div class="card">
                     <div class="card-body">
                         <div class="pd-20 pd-sm-20">
@@ -154,15 +149,7 @@ foreach (config('me.app.project_lang') as $lang) {
                                     <label for="name">	Address: </label>
                                     <input class="form-control" placeholder="Enter address" type="text">
                                 </div>
-                                <div class="col-md-12 mg-t-10">
-                                    <label for="name"> Creat Date: </label>
-                                    <input class="form-control" type="date">
-                                </div>
-                                <div class="col-md-12 mg-t-10">
-                                    <label for="name"> Update Date: </label>
-                                    <input class="form-control" type="date">
-                                </div>
-                        
+                                
                                 <div class=" col-md-12 mg-t-10">
                                     <label class="custom-switch ps-0">
                                         <span class="custom-switch-description me-2">Status</span>
@@ -174,11 +161,7 @@ foreach (config('me.app.project_lang') as $lang) {
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-            
-    </div>
+   
 </div>
         </form>
     </div>
