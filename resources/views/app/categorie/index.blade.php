@@ -109,15 +109,15 @@
 @endsection
 @section('content')
     {{-- Header --}}
-    <section class="content-header bg-light sticky-top ct-bar-action ct-bar-action-shaddow">
+    <section class="content-header bg-light d-flex ct-bar-action ct-bar-action-shaddow">
         <div class="container-fluid">
-            <div class="d-flex  border br-5">
+            <div class="d-flex border br-5">
                 <div class="flex-grow-1">
                     <h5 class="mb-2 mg-t-20 mg-l-20">
-                        {!! $obj_info['icon'] !!}
+                        {{-- {!! $obj_info['icon'] !!} --}}
                         <a href="{{ url_builder($obj_info['routing'], [$obj_info['name']]) }}"
                             class="ct-title-nav text-md">{{ $obj_info['title'] }}</a>
-                        <small class="text-sm">
+                        <small class="text-sm text-muted">
                             <i class="ace-icon fa fa-angle-double-right text-xs"></i>
                             {{ $caption ?? '' }}
                         </small>
@@ -141,40 +141,71 @@
             <input type="hidden" name="jscallback" value="{{ $jscallback ?? (request()->get('jscallback') ?? '') }}">
 
 
-
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover mb-0 text-md-nowrap">
-                        <thead>
-                            @if (isset($istrash) && $istrash)
-                                <thead style="color: var(--warning)">
-                                @else
-                                    <thead style="color: var(--info)">
-                            @endif
+            <div class="card-body table-responsive p-0">
+                <table class="table  table-striped table-hover text-nowrap table-bordered">
+                    <tr>
+                        <th style="width: 10px">ID</th>
+                        <th>Category Name</th>
+                        <th>Create Date</th>
+                        <th>Update Date</th>
+    
+                        <th>Permission</th>
+                        <th style="width: 40px">Status</th>
+                        <th style="width: 40px; text-align: center"><i class="fa fa-ellipsis-h"></i></th>
+                    </tr>
+                    </thead>
+                    <tbody>
                             <tr>
-                                <th style="width: 10px">@lang('dev.home')</th>
-
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+    
+                                <td>1</td>
+                                <td>
+                                   1
+                                </td>
+                                <td>
+                                    1
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($slider as $slide)
-                                <tr>
-                                    <td>{{ $slide['text'] }}</td>
-                                    <td>{{ $slide['img_id'] }}</td>
-                                    <td>{{ $slide['blongto'] }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-
-                </div>
+                            <tr>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+    
+                                <td>1</td>
+                                <td>
+                                   1
+                                </td>
+                                <td>
+                                    1
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+    
+                                <td>1</td>
+                                <td>
+                                   1
+                                </td>
+                                <td>
+                                    1
+                                </td>
+                            </tr>
+                    </tbody>
+                </table>
+    
+                <!-- Pagination and Record info -->
+                {{-- @include('app._include.pagination') --}}
+    
+                <!-- /. end -->
+    
             </div>
-
         </form>
-
-
-
-
-        {{--  --}}
     </div>
 @endsection

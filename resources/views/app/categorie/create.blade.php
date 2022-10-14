@@ -15,18 +15,6 @@ foreach (config('me.app.project_lang') as $lang) {
 @extends('layouts.' . $extends)
 
 @section('blade_css')
-    <style>
-        .img-box i {
-            font-size: 70px !important;
-            cursor: pointer;
-
-        }
-
-        .img-box {
-            display: flex;
-            justify-content: center
-        }
-    </style>
 @endsection
 
 @section('blade_scripts')
@@ -34,7 +22,6 @@ foreach (config('me.app.project_lang') as $lang) {
         $(document).ready(function() {
             $(document).on("change", ".tab_title", function(ev) {
                 ///
-
 
                 var $value = $(this).val();
                 helper.enableDisableByLang($(this), {!! json_encode($langcode, true) !!}, 'title-', $value);
@@ -59,7 +46,7 @@ foreach (config('me.app.project_lang') as $lang) {
                 mode: "{{ $extends }}"
             };
             $(".btnsave_{{ $obj_info['name'] }}").click(function(e) {
-
+                // alert(1);
                 e.preventDefault();
                 $("#frm-{{ $obj_info['name'] }} .error").html('').hide();
                 helper.silentHandler(route_submit, "frm-{{ $obj_info['name'] }}", extraFrm, setting,
@@ -79,10 +66,12 @@ foreach (config('me.app.project_lang') as $lang) {
                 //     loading_indicator);
             });
 
-
-            $('#img_box').click(function(e)) {
-                alert(1);
-            }
+            $(".btnprint_{{ $obj_info['name'] }}").click(function(e) {
+                //window.location.replace(route_cancel);
+                //window.location = route_print;
+                window.open(
+                    route_print);
+            });
 
 
 
@@ -125,59 +114,43 @@ foreach (config('me.app.project_lang') as $lang) {
             <input type="hidden" name="jscallback" value="{{ $jscallback ?? (request()->get('jscallback') ?? '') }}">
             <br>
 
-
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="input-group my-group" style="width:100%;">
-
-                            <select class="form-control form-select input-sm tab_title" style="width:20%;">
-                                @foreach (config('me.app.project_lang') as $lang)
-                                    <option value="@lang($lang[0])">@lang($lang[1])</option>
-                                @endforeach
-
-                            </select>
-                            @php
-                                $active = '';
-                            @endphp
-                            @foreach (config('me.app.project_lang') as $lang)
-                                @php
-                                    // dd($lang);
-                                    $title = json_decode($input['title'] ?? '', true);
-                                @endphp
-                                <input type="text" class="form-control input-sm {{ $active }}" style="width:80%;"
-                                    name="title-{{ $lang[0] }}" id="title-{{ $lang[0] }}"
-                                    placeholder="{{ $lang[1] }}" value="{{ $title[$lang[0]] ?? '' }}">
-                                @php
-                                    $active = 'hide';
-                                @endphp
-                            @endforeach
-                            <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error"
-                                class="error invalid-feedback" style="display: none"></span>
-                        </div><br>
-                        <div class="card">
-
+    
                             <div class="card-body">
+                                <div class="form-group">
+                                    <label for="">Name English & Khmer</label>
+                                    <div class="input-group my-group" style="width:100%;">
 
-                                <div class="container img-box" id="img_box">
-                                    <i class="fas fa-images"></i>
-                                    <div id="images"></div>
+                                        <select class="form-control form-select input-sm tab_title" style="width:20%;">
+                                            @foreach (config('me.app.project_lang') as $lang)
+                                                <option value="@lang($lang[0])">@lang($lang[1])</option>
+                                            @endforeach
+            
+                                        </select>
+                                        @php
+                                            $active = '';
+                                        @endphp
+                                        @foreach (config('me.app.project_lang') as $lang)
+                                            @php
+                                                // dd($lang);
+                                                $title = json_decode($input['title'] ?? '', true);
+                                            @endphp
+                                            <input type="text" class="form-control input-sm {{ $active }}" style="width:80%;"
+                                                name="title-{{ $lang[0] }}" id="title-{{ $lang[0] }}"
+                                                placeholder="{{ $lang[1] }}" value="{{ $title[$lang[0]] ?? '' }}">
+                                            @php
+                                                $active = 'hide';
+                                            @endphp
+                                        @endforeach
+                                        <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error"
+                                            class="error invalid-feedback" style="display: none"></span>
+                                    </div>
+                                    <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
                                 </div>
                             </div>
+                            <!-- /.card-body -->
                         </div>
-                    </div>
-                    <div class="col-md-6">
-
-
-
-
-
-                    </div>
-                </div>
-            </div>
-
-    </div>
-
+                        {{--  --}}
+   
     </form>
     </div>
 @endsection

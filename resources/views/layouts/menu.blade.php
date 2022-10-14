@@ -51,22 +51,23 @@
 
 
 <ul class="side-menu">
-    {{-- ===================== Start Slider ================= --}}
-    {{-- <li class="side-item side-item-category">Sliders</li>
+    <li class="side-item side-item-category">Sliders</li>
     <li class="slide {{ nav_checkactive(['slider'], $args, 'is-expanded') }}">
         <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="fas fa-image"></i>&nbsp;<span
-                class="side-menu__label">Sliders</span><i class="angle fe fe-chevron-right"></i></a>
+                class="side-menu__label">Slide Image</span><i class="angle fe fe-chevron-right"></i></a>
         <ul class="slide-menu ">
             <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
+            {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
             <li><a class="slide-item {{ nav_checkactive(['slider-index'], $args) }}"
                     href="{{ url_builder('admin.controller', ['slider', 'index']) }}">Slider</a>
             </li>
             <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
+            {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
             <li><a class="slide-item {{ nav_checkactive(['slider-create'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['slider', 'create']) }}">New Slider</a>
+                    href="{{ url_builder('admin.controller', ['slider', 'create']) }}">New slider</a>
             </li>
         </ul>
-    </li> --}}
+    </li>
 
     {{-- ===================== End Category ================= --}}
     
