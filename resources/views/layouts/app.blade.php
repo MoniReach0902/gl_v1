@@ -50,6 +50,11 @@
     @yield('blade_css')
 
     @stack('page_css')
+    <style>
+        .hide {
+            display: none;
+        }
+    </style>
 </head>
 
 <body class="ltr main-body app sidebar-mini">
@@ -84,27 +89,27 @@
             @yield('content')
             <!-- /Container -->
         </div>
-        <<<<<<< HEAD=======@include('layouts.switcher')>>>>>>> menghonghai
-            @include('layouts.extra_modal')
+
+        @include('layouts.extra_modal')
 
 
-            <!-- /main-content -->
+        <!-- /main-content -->
 
 
 
 
 
-            <!-- Footer opened -->
-            <div class="main-footer">
-                <div class="col-md-12 col-sm-12 text-center">
-                    <div class="container-fluid pt-0 ht-100p">
-                        Copyright © 2022 <a href="javascript:void(0);" class="text-primary">nowa</a>. Designed with
-                        <span class="fa fa-heart text-danger"></span> by <a href="javascript:void(0);"> Spruko </a> All
-                        rights reserved
-                    </div>
+        <!-- Footer opened -->
+        <div class="main-footer">
+            <div class="col-md-12 col-sm-12 text-center">
+                <div class="container-fluid pt-0 ht-100p">
+                    Copyright © 2022 <a href="javascript:void(0);" class="text-primary">nowa</a>. Designed with
+                    <span class="fa fa-heart text-danger"></span> by <a href="javascript:void(0);"> Spruko </a> All
+                    rights reserved
                 </div>
             </div>
-            <!-- Footer closed -->
+        </div>
+        <!-- Footer closed -->
     </div>
     <!-- End Page -->
     {{-- modal for support Air Window --}}
