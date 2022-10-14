@@ -149,68 +149,28 @@
                                     <thead style="color: var(--info)">
                             @endif
                             <tr>
-                                <th style="width: 10px">ID</th>
-                                <th style="width: 10px">Image</th>
-                                <th style="width: 10px">Name</th>
-                                <th style="width: 10px">Type</th>
-                                <th style="width: 10px">Create Date</th>
-                                <th style="width: 10px">Update Date</th>
-                                <th style="width: 10px">Status</th>
+                                <th style="width: 10px">example title</th>
+                                <th style="width: 10px">example title</th>
+                                <th style="width: 10px">example title</th>
 
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach ($example as $val)
+                            @foreach ($brands as $val)
                                 <tr>
-                                    <td>{{ $val['exmaple_id'] }}</td>
-                                    <td>{{ $val['title'] }}</td>
+                                    <td>{{ $val['brand_id'] }}</td>
+                                    <td>{{ $val['name'] }}</td>
 
                                     <td>
                                         @include('app._include.btn_record', [
-                                            'rowid' => $val['exmaple_id'],
+                                            'rowid' => $val['brand_id'],
                                             'edit' => true,
                                             'trash' => true,
                                             'delete' => true,
                                         ])
                                     </td>
                                 </tr>
-                            @endforeach --}}
-                            <tr>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                            </tr>
-                            <tr>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                            </tr>
-                            <tr>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                            </tr>
-                            <tr>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
 

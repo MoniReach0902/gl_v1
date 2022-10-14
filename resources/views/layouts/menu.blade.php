@@ -51,6 +51,7 @@
 
 
 <ul class="side-menu">
+    
     <li class="side-item side-item-category">Sliders</li>
     <li class="slide {{ nav_checkactive(['slider'], $args, 'is-expanded') }}">
         <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="fas fa-image"></i>&nbsp;<span
@@ -254,6 +255,24 @@
 
     
 
+    <li class="side-item side-item-category">Brand</li>
+    <li class="slide {{ nav_checkactive(['brand'], $args, 'is-expanded') }}">
+        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i
+                class="fas fa-image"></i>&nbsp;<span class="side-menu__label">brand</span><i
+                class="angle fe fe-chevron-right"></i></a>
+        <ul class="slide-menu ">
+            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
+            {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
+            <li><a class="slide-item {{ nav_checkactive(['brand-index'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['brand', 'index']) }}">Index Brand</a>
+            </li>
+            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
+            {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
+            <li><a class="slide-item {{ nav_checkactive(['brand-create'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['brand', 'create']) }}">New Brand</a>
+            </li>
+        </ul>
+    </li>
     <li class="side-item side-item-category">Example</li>
     <li class="slide {{ nav_checkactive(['example'], $args, 'is-expanded') }}">
         <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i

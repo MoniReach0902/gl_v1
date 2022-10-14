@@ -58,7 +58,7 @@
                      <ul class="nav nav-item header-icons navbar-nav-right ms-auto mg-r-15">
                          <li class="dropdown main-profile-menu  nav nav-item nav-link ps-lg-2">
                                <div class="btn-group ">
-                                   <button type="button" class="btn btn-light  pd-0 radius" data-bs-toggle="dropdown"
+                                   <button type="button" class="btn" data-bs-toggle="dropdown"
                                        aria-expanded="true">
                                        @if ($dflang[0] == 'kh')
                                            <img src="{{ asset('public/images/kh1.png') }}">

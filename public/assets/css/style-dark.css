@@ -651,8 +651,9 @@ body.dark-theme {
 
 .dark-theme .btn-light {
     color: #fff;
-    background-color: #404353;
+    background-color: #1d1d2a;
     border-color: rgba(189, 198, 214, 0.2);
+    border: none;
 }
 
 .dark-theme .main-nav-column .nav-link:hover i:not([class*=" tx-"]),
@@ -3663,7 +3664,8 @@ body.dark-theme {
     width: 100%;
     padding:25px;
     box-sizing: border-box;
-    box-shadow: 5px 5px 8px #1a1c26, -5px -5px 8px #2a2e3f;;
+    /* box-shadow: 5px 5px 8px #1a1c26, -5px -5px 8px #2a2e3f; */
+    box-shadow: inset 5px 5px 8px #1a1c26, inset -5px -5px 8px #2a2e3f;
     background: #2a2e3f;
     border-color: var(--primary-bg-color);
     border-radius: 15px;
