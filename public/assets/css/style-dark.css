@@ -3657,7 +3657,7 @@ body.dark-theme {
     box-shadow: 0px 1px 6px 0px #424449;
 }
 
-/* .dark-theme .form-control {
+.dark-theme .form-control {
     color: #c0c2c7;
     border: 1px solid #484863;
     width: 100%;
@@ -3669,7 +3669,7 @@ body.dark-theme {
     border-radius: 15px;
     border: none;
     outline: none;
-} */
+}
 
 .dark-theme .breadcrumb-style1 .breadcrumb-item+.breadcrumb-item::before,
 .dark-theme .breadcrumb-style2 .breadcrumb-item+.breadcrumb-item::before,
