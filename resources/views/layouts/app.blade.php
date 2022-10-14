@@ -91,13 +91,10 @@
         </div>
 
         @include('layouts.extra_modal')
+        @include('layouts.switcher')
 
 
         <!-- /main-content -->
-
-
-
-
 
         <!-- Footer opened -->
         <div class="main-footer">
