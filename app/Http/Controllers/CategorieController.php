@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Auth;
 class CategorieController extends Controller
 {
     //
-    private $obj_info = ['name' => 'categorie', 'routing' => 'admin.controller', 'title' => 'Categorie', 'icon' => '<i class="fa-solid fa-list"></i>'];
+    private $obj_info = ['name' => 'categorie', 'routing' => 'admin.controller', 'title' => 'Categorie', 'icon' => '<i class="fa fa-tags"></i>'];
     public $args;
 
     private $model;
@@ -166,11 +166,11 @@ class CategorieController extends Controller
         $newid = ($isupdate) ? $request->input($this->fprimarykey)  : $this->model->max($this->fprimarykey) + 1;
         $update_rules = [$this->fprimarykey => 'required'];
 
-        $rules['example-title'] = ['required'];
+        $rules['title-en'] = ['required'];
         // $rules['img'] = ['required'];
         $validatorMessages = [
             /*'required' => 'The :attribute field can not be blank.'*/
-            'required' => 'abc123',
+            'required' => "field can't be blank",
         ];
 
         return Validator::make($request->all(), $rules, $validatorMessages);
@@ -181,11 +181,14 @@ class CategorieController extends Controller
         $newid = ($isupdate) ? $request->input($this->fprimarykey)  : $this->model->max($this->fprimarykey) + 1;
         $tableData = [];
 
-
+        $data=toTranslate($request, 'title', 0, true);
         $tableData = [
             'categorie_id' => $newid,
-            'name' => $request->input('categorie-title'),
-
+            'name' => json_encode($data),
+            'create_date' => date("Y-m-d"),
+            'blongto' => $this->args['userinfo']['id'],
+            'trash' => 'no',
+            'status' => 'yes',
         ];
         if ($isupdate) {
             $tableData = array_except($tableData, [$this->fprimarykey, 'password', 'trash']);
@@ -238,7 +241,7 @@ class CategorieController extends Controller
                             'status' => false,
                             "message" => __('ccms.fail_save'),
                             "data" => $validate->errors()
-                        ],
+                       ],
                         422
                     );
             }
