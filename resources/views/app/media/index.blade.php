@@ -22,20 +22,30 @@
             transition-duration: 1s;
             overflow: scroll;
             z-index: 1;
+<<<<<<< HEAD
 
 
         }
 
+=======
+        }
+>>>>>>> menghonghai
         #arrow-upload {
             font-size: 25px;
             cursor: pointer;
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> menghonghai
         #upload {
             font-size: 18px;
             padding: 5px 20px;
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> menghonghai
         .container {
             background-color: --primary;
             width: 60%;
@@ -46,6 +56,7 @@
             border-radius: 7px;
             box-shadow: 0 20px 35px rgba(0, 0, 0, 0.05);
         }
+<<<<<<< HEAD
 
         input[type="file"] {
             display: none;
@@ -55,6 +66,14 @@
             display: block;
             position: relative;
 
+=======
+        input[type="file"] {
+            display: none;
+        }
+        label {
+            display: block;
+            position: relative;
+>>>>>>> menghonghai
             font-size: 50px;
             text-align: center;
             width: 300px;
@@ -63,12 +82,18 @@
             border-radius: 5px;
             cursor: pointer;
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> menghonghai
         .container p {
             text-align: center;
             margin: 20px 0 30px 0;
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> menghonghai
         #images {
             width: 90%;
             position: relative;
@@ -78,17 +103,26 @@
             gap: 20px;
             flex-wrap: wrap;
         }
+<<<<<<< HEAD
 
         figure {
             width: 45%;
         }
 
+=======
+        figure {
+            width: 45%;
+        }
+>>>>>>> menghonghai
         figcaption {
             text-align: center;
             font-size: 5px;
             margin-top: 0.5vmin;
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> menghonghai
         .file-manger-icon img {
             width: 100px;
             height: 100px;
@@ -102,9 +136,11 @@
     <script>
         $(document).ready(function() {
             /*Please dont delete this code*/
+<<<<<<< HEAD
 
+=======
+>>>>>>> menghonghai
             $("#btnnew_{{ $obj_info['name'] }}").click(function(e) {
-
                 let route_create = "{{ $route['create'] }}";
                 let extraFrm = {}; //{jscallback:'test'};
                 let setting = {}; //{fnSuccess:foo};
@@ -113,10 +149,10 @@
                     size: 'modal-xl'
                     //modal-sm, modal-lg, modal-xl
                 };
-
                 let loading_indicator = '';
                 helper.silentHandler(route_create, null, extraFrm, setting, popModal, 'air_windows',
                     loading_indicator);
+<<<<<<< HEAD
 
             });
 
@@ -128,12 +164,24 @@
             });
             $("#arrow-upload").click(function(e) {
 
+=======
+            });
+            $("#upload").click(function(e) {
+                $('.media-upload').css({
+                    "width": "28%"
+                })
+            });
+            $("#arrow-upload").click(function(e) {
+>>>>>>> menghonghai
                 $('.media-upload').css({
                     "width": "0%"
                 })
             });
             $("#media-box").click(function(e) {
+<<<<<<< HEAD
 
+=======
+>>>>>>> menghonghai
                 $('.media-upload').css({
                     "width": "0%"
                 })
@@ -149,10 +197,15 @@
                 let aftersave = (data) => {
                     // console.log(data['data'].tableData);
                     setTimeout(() => {
+<<<<<<< HEAD
 
                         // window.location.reload();
                     }, 2000);
 
+=======
+                        // window.location.reload();
+                    }, 2000);
+>>>>>>> menghonghai
                     $('#' + frm)[0].reset();
                     $('#images').html('');
                     $('#num-of-files').html('No Files Chosen');
@@ -174,9 +227,13 @@
                     setting,
                     popModal, container,
                     loading_indicator);
+<<<<<<< HEAD
 
             });
 
+=======
+            });
+>>>>>>> menghonghai
             $('.delete').click(function(e) {
                 e.preventDefault();
                 var link = $(this).attr("href");
@@ -198,7 +255,10 @@
             $('#trash').click(function() {
                 // alert(1);
             })
+<<<<<<< HEAD
 
+=======
+>>>>>>> menghonghai
         });
     </script>
 @endsection
@@ -377,4 +437,8 @@
     </div>
     </div>
     <script src="{{ asset('public/js/script.js') }}"></script>
+<<<<<<< HEAD
 @endsection
+=======
+@endsection
+>>>>>>> menghonghai

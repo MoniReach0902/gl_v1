@@ -60,7 +60,7 @@ $action_btn = ['save' => true, 'cancel' => true];
     {{-- Header --}}
     <section class="content-header bg-light d-flex ct-bar-action ct-bar-action-shaddow">
         <div class="container-fluid">
-            <div class="d-flex  border br-5">
+            <div class="d-flex border br-5">
                 <div class="flex-grow-1">
                     <h5 class="mb-2 mg-t-20 mg-l-20">
                         {!! $obj_info['icon'] !!}
@@ -89,6 +89,8 @@ $action_btn = ['save' => true, 'cancel' => true];
                 value="{{ $input[$fprimarykey] ?? '' }}">
             <input type="hidden" name="jscallback" value="{{ $jscallback ?? (request()->get('jscallback') ?? '') }}">
             {{--  --}}
+
+            <div class="card mg-t-20">
             <div class="card card-default color-palette-box">
                 <div class="card-header">
                     <div class="input-group mb-3">
@@ -169,7 +171,7 @@ $action_btn = ['save' => true, 'cancel' => true];
                 <!-- /.card-body -->
             </div>
             {{--  --}}
-
+                       </div>
 
         </form>
         {{-- End From --}}
