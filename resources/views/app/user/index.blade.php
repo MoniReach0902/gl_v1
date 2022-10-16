@@ -35,47 +35,19 @@
                 });
             @endif
             /*please dont delete this above code*/
-
-
-
-            // let foo = (bar)=>{
-            //     console.log('foo-bar');
-            // };
-
             $("#btnnew_{{ $obj_info['name'] }}").click(function(e) {
                 let route_create = "{{ $route['create'] }}";
-                // let extraFrm = {}; //{jscallback:'test'};
-                // let setting = {};//{fnSuccess:foo};
-                // let popModal = {
-                //     show: true,
-                //     size: 'modal-lg'
-                //     //modal-sm, modal-lg, modal-xl
-                // };
-
-                // let loading_indicator = '';
-                // helper.silentHandler(route_create, null, extraFrm, setting, popModal, 'air_windows',
-                // loading_indicator);
-
-                //window.location.replace(route_create);
                 window.location = route_create;
-
             });
-
             $("#btntrash_{{ $obj_info['name'] }}").click(function(e) {
                 let route_create = "{{ $route['trash'] ?? '' }}";
                 window.location = route_create;
 
             });
-
             $("#btnactive_{{ $obj_info['name'] }}").click(function(e) {
                 let route_create = "{{ $route['active'] ?? '' }}";
                 window.location = route_create;
-
             });
-
-
-
-
         });
     </script>
 @endsection
@@ -98,15 +70,41 @@
                 <div class="pd-10 ">
                     @include('app._include.btn_index', ['new' => true, 'trash' => true, 'active' => true])
                 </div>
-
             </div>
     </section>
-    {{-- end header --}}
+
     <div class="container-fluid">
-        {{--  --}}
-
-
-
+        <div class="card-header">
+            <form class="frmsearch-{{ $obj_info['name'] }}">
+                <div class="form-row" style="font-size: 11px">
+                    <div class="form-group col-md-2">
+                        <label for="txt">@lang('dev.search')</label>
+                        <input type="text" class="form-control input-sm" name="txt" id="txt"
+                            value="{{ request()->get('txt') ?? '' }}">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="year">@lang('dev.year')</label>
+                        <select class="form-control input-sm" name="status" id="status">
+                            <option value="">-- {{ __('dev.noneselected') }} --</option>
+                            {!! cmb_listing(['yes' => 'Enable', 'no' => 'Disable'], [request()->get('status') ?? ''], '', '', '') !!}
+                        </select>
+                    </div>
+                    <div class="form-group col-md-1">
+                        <label>&nbsp;</label>
+                        <button type="submit" value="filter"
+                            class="btn btn-outline-secondary btn-block formactionbutton"><i
+                                class="fa fa-search"></i></button>
+                    </div>
+                    <div class="form-group col-md-1">
+                        <label>&nbsp;</label>
+                        <button type="button"
+                            class="btn btn-outline-light btn-block formactionbutton border border-secondary"
+                            onclick="location.href='{{ url()->current() }}'">reset
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
         <div class="card-body table-responsive p-0">
             <table class="table  table-striped table-hover text-nowrap table-bordered">
                 @if (isset($istrash) && $istrash)
@@ -114,27 +112,23 @@
                     @else
                         <thead style="color: var(--info)">
                 @endif
-
                 <tr>
                     <th style="width: 10px">ID</th>
                     <th>Full Name</th>
                     <th>User Name</th>
                     <th>Email</th>
-
                     <th>Permission</th>
                     <th style="width: 40px">Status</th>
                     <th style="width: 40px; text-align: center"><i class="fa fa-ellipsis-h"></i></th>
                 </tr>
                 </thead>
                 <tbody>
-
                     @foreach ($results as $row)
                         <tr>
                             <td>{{ $row->id }}</td>
                             <td>{!! $row->fullname !!}</td>
                             <td>{!! $row->name !!}</td>
                             <td>{!! $row->email !!}</td>
-
                             <td>{!! $row->permission !!}</td>
                             <td>
                                 @if ($row->userstatus == 'yes')

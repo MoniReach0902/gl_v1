@@ -136,32 +136,10 @@ foreach (config('me.app.project_lang') as $lang) {
 
                         <span id="example-title-error" class="error invalid-feedback" style="display: none"></span>
                     </div>
-                    <div class="col-md-6">
-                        <div class="card">
 
-                            <div class="card-body">
-
-                                <div class="container img-box" id="img_box">
-                                    <i class="fas fa-images"></i>
-                                    <div id="images"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
-            <div class="col-sm-4 col-md-6 col-lg-4">
-                <div class="card custom-card">
-                    <div class="card-body">
-                        <div>
-                            <h6 class="card-title">Extra-large</h6>
-                        </div>
-                        <a class="btn ripple btn-primary" data-bs-target="#Extra" data-bs-toggle="modal" href="">View
-                            Demo</a>
 
-                    </div>
-                </div>
-            </div>
 
         </form>
     </div>

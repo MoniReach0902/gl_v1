@@ -173,7 +173,7 @@
                             @endforeach
                         </tbody>
                     </table>
-
+                    {{-- @include('app._include.pagination') --}}
                 </div>
             </div>
 

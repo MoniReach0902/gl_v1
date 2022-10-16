@@ -116,7 +116,7 @@ class CategorieController extends Controller
 
         $default = $this->default();
         $categorie = $default['categorie'];
-         //dd('aaa');
+        //dd('aaa');
 
 
         $create_modal = url_builder(
@@ -181,7 +181,7 @@ class CategorieController extends Controller
         $newid = ($isupdate) ? $request->input($this->fprimarykey)  : $this->model->max($this->fprimarykey) + 1;
         $tableData = [];
 
-        $data=toTranslate($request, 'title', 0, true);
+        $data = toTranslate($request, 'title', 0, true);
         $tableData = [
             'categorie_id' => $newid,
             'name' => json_encode($data),
@@ -191,7 +191,7 @@ class CategorieController extends Controller
             'status' => 'yes',
         ];
         if ($isupdate) {
-            $tableData = array_except($tableData, [$this->fprimarykey, 'password', 'trash']);
+            $tableData = array_except($tableData, [$this->fprimarykey,  'trash']);
         }
         return ['tableData' => $tableData, $this->fprimarykey => $newid];
     }
@@ -241,7 +241,7 @@ class CategorieController extends Controller
                             'status' => false,
                             "message" => __('ccms.fail_save'),
                             "data" => $validate->errors()
-                       ],
+                        ],
                         422
                     );
             }
@@ -319,97 +319,60 @@ class CategorieController extends Controller
                 422
             );
     }
-    function proceed_update_slide($request, $data, $obj_info)
-    {
-        $value = $data['tableData'];
-
-        for ($i = 0; $i < count($value); $i++) {
-            if ($value[$i]['img_id'] < 1) {
-                $update_status = $this->model->where($this->fprimarykey, (int)$value[$i]['img_id'] * -1)
-                    ->update(['trash' => 'yes', 'img' => '']);
-                // if (!empty($value[$i]['img_path'])) {
-                //     unlink('public/sliders/' . $value[$i]['img_path']);
-                // }
-            }
-        }
-        if ($update_status) {
-            $savetype = strtolower($request->input('savetype'));
-            // $id = $data['id'];
-            // $rout_to = save_type_route($savetype, $obj_info, $id);
-            $success_ms = __('ccms.suc_save');
-            return response()
-                ->json(
-                    [
-                        "type" => "success",
-                        "status" => $update_status,
-                        "message" => $success_ms,
-                        // "route" => $rout_to,
-                    ],
-                    200
-                );
-        }
-        return response()
-            ->json(
-                [
-                    "type" => "error",
-                    'status' => false,
-                    "message" => 'Your update is not affected',
-                    "data" => []
-                ],
-                422
-            );
-    }
-    /* end function*/
-    public function setinfo_slide($request, $isupdate = false)
+    public function edit(Request $request, $id = 0)
     {
 
-        $newid = ($isupdate) ? $request->input($this->fprimarykey)  : $this->model->max($this->fprimarykey) + 1;
-        $tableData = [];
-
-
-        $count = count($request->img_id);
-        // dd($request->img_id);
-        for ($i = 0; $i < $count; $i++) {
-            $record = [
-                'img_id' => $request->input('img_id')[$i],
-                'img_path' => $request->input('img_path')[$i],
-            ];
-            array_push($tableData, $record);
+        #prepare for back to url after SAVE#
+        if (!$request->session()->has('backurl')) {
+            $request->session()->put('backurl', redirect()->back()->getTargetUrl());
         }
 
+        $obj_info = $this->obj_info;
 
-        $img = $request->file('img');
-        if (!empty($img)) {
-            $img_name = hexdec(uniqid()) . '-' . $img->getClientOriginalName();
-            $img->move('public/sliders', $img_name);
-        } else {
-            $img_name = '';
-        }
-
-
-        if ($isupdate) {
-            $tableData = array_except($tableData, [$this->fprimarykey, 'password', 'trash']);
-        }
-        return ['tableData' => $tableData];
-    }
-
-
-
-    public function indexmobile(Request $request, $condition = [], $setting = [])
-    {
         $default = $this->default();
-        $slider = $default['img'];
+        // $provinces = $default['provinces'];
+        // $permission = $default['permission'];
+        $input = null;
 
-        return response()->json(
-            [
+        #Retrieve Data#
+        if (empty($id)) {
+            $editid = $this->args['routeinfo']['id'];
+        } else {
+            $editid = $id;
+        }
 
-                // 'obj_info'  => $this->obj_info,
-                // 'fprimarykey'     => $this->fprimarykey,
-                // 'caption' => 'Active',
-                'slider' => $slider,
-                // 'setting' => $setting,
+        if ($request->has($this->fprimarykey)) {
+            $editid = $request->input($this->fprimarykey);
+        }
+        $input = $this->model->where($this->fprimarykey, $editid)->get();
+        $input = $input->toArray()[0];
+        $x = [];
+        foreach ($input as $key => $value) {
+            $x[$key] = $value;
+        }
 
-            ]
+        $input = $x;
+
+        // dd($input);
+        $name = json_decode($input['name'], true);
+
+        $sumit_route = url_builder(
+            $this->obj_info['routing'],
+            [$this->obj_info['name'], 'update', ''],
+            [],
         );
-    }
+        $cancel_route = redirect()->back()->getTargetUrl();
+
+        return view('app.' . $this->obj_info['name'] . '.create')
+            ->with([
+                'obj_info'  => $this->obj_info,
+                'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route],
+                'form' => ['save_type' => 'save'],
+                'fprimarykey'     => $this->fprimarykey,
+                'caption' => 'Edit',
+                'isupdate' => true,
+                'input' => $input,
+                'name' => $name,
+            ]);
+    } /*../end fun..*/
 }
