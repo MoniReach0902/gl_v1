@@ -9,8 +9,8 @@ use DB;
 
 class Customer extends Model
 {
-    protected $table = 'tblcustomers';
-    protected $primaryKey = 'customer_id  ';
+    protected $table = ' tblcustomers';
+    protected $primaryKey = 'customer_id';
     public $timestamps = false;
     /*protected $fillable = array(
         'name',

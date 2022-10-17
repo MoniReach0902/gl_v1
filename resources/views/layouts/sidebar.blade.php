@@ -3,10 +3,10 @@
     <aside class="app-sidebar sidebar-scroll">
         <div class="main-sidebar-header active">
             <a class="header-logo active" href="{{ url_builder('admin.controller', ['home']) }}">
-                <img src="{{ asset('public/images/gl_logo.png') }}" class="main-logo  desktop-logo" alt="logo">
-                <img src="{{ asset('public/images/gl_logo.png') }}" class="main-logo  desktop-dark" alt="logo">
-                <img src="{{ asset('public/images/gl_logo.png') }}" class="main-logo  mobile-logo" alt="logo">
-                <img src="{{ asset('public/images/gl_logo.png') }}" class="main-logo  mobile-dark" alt="logo">
+                <img src="{{ asset('public/images/gl_gentleman_light.png') }}" class="main-logo  desktop-logo" alt="logo">
+                <img src="{{ asset('public/images/gl_gentleman_dark.png') }}" class="main-logo  desktop-dark" alt="logo">
+                <img src="{{ asset('public/images/gl_gentleman_light.png') }}" class="main-logo  mobile-logo" alt="logo">
+                <img src="{{ asset('public/images/gl_gentleman_dark.png') }}" class="main-logo  mobile-dark" alt="logo">
             </a>
         </div>
         <div class="main-sidemenu">

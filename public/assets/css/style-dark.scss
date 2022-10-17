@@ -257,6 +257,8 @@ body.dark-theme {
 
   .form-control:focus {
     border-color: $primary;
+    box-shadow: inset 5px 5px 8px #1a1c26, inset -5px -5px 8px #2a2e3f;
+
   }
 
   .btn-white:not(:disabled):not(.disabled):active,
@@ -390,6 +392,7 @@ body.dark-theme {
     color: $white;
     background-color: $dark-theme;
     border: 1px solid #404353;
+    
   }
 
   .list-group-item {

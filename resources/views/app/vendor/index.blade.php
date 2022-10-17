@@ -23,17 +23,14 @@
             @endif
 
             @if (null !== session('status') && session('status') == true)
-                alert(1);
-                $(document).Toasts('create', {
-                    class: 'bg-success ct-min-toast-width',
-                    title: 'Success',
-                    subtitle: '',
-                    body: "{{ session('message') }}",
-                    fade: true,
-                    autohide: true,
-                    delay: 3000,
-                    //position: 'bottomLeft',
 
+                notif({
+                    msg: 'delete success',
+                    type: "success",
+                    position: "right",
+                    fade: true,
+                    clickable: true,
+                    timeout: 2000,
                 });
             @endif
             /*please dont delete this above code*/
@@ -109,15 +106,15 @@
 @endsection
 @section('content')
     {{-- Header --}}
-    <section class="content-header bg-light sticky-top ct-bar-action ct-bar-action-shaddow">
+    <section class="content-header bg-light d-flex ct-bar-action ct-bar-action-shaddow">
         <div class="container-fluid">
             <div class="d-flex  border br-5">
                 <div class="flex-grow-1">
                     <h5 class="mb-2 mg-t-20 mg-l-20">
-                        {!! $obj_info['icon'] !!}
+                        {{-- {!! $obj_info['icon'] !!} --}}
                         <a href="{{ url_builder($obj_info['routing'], [$obj_info['name']]) }}"
                             class="ct-title-nav text-md">{{ $obj_info['title'] }}</a>
-                        <small class="text-sm">
+                        <small class="text-sm text-muted">
                             <i class="ace-icon fa fa-angle-double-right text-xs"></i>
                             {{ $caption ?? '' }}
                         </small>
@@ -138,30 +135,11 @@
             @CSRF
             <input type="hidden" name="{{ $fprimarykey }}" id="{{ $fprimarykey }}"
                 value="{{ $input[$fprimarykey] ?? '' }}">
-            <input type="hidden" name="jscallback" value="{{ $jscallback ?? (request()->get('jscallback') ?? '') }}">
+            <input type="hidden" name="jscallback" value="{{ $jscallback ?? 'formreset' }}">
 
 
 
             <div class="card-body">
-                <div class="card custom-card">
-                    <div class="card-body pb-0">
-                        <div class="input-group mb-2">
-                            <input type="text" class="form-control" placeholder="Searching.....">
-                            <span class="input-group-append">
-                                <button class="btn ripple btn-primary" type="button">Search</button>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="card-body ps-0 pe-0 bd-t-0 pt-0">
-                        <div class="main-content-body-profile mb-3">
-                            <nav class="nav main-nav-line">
-                                <a class="nav-link active" data-bs-toggle="tab" href="#tab1">All</a>
-                                <a class="nav-link" data-bs-toggle="tab" href="#tab2">Shop</a>
-                                <a class="nav-link" data-bs-toggle="tab" href="#tab3">Equipment</a>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover mb-0 text-md-nowrap">
                         <thead>

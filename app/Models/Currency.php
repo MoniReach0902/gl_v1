@@ -10,7 +10,7 @@ use DB;
 class Currency extends Model
 {
     protected $table = 'tblcurrencys';
-    protected $primaryKey = 'currency_id  ';
+    protected $primaryKey = 'curency_id';
     public $timestamps = false;
     /*protected $fillable = array(
         'name',

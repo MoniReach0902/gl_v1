@@ -23,17 +23,14 @@
             @endif
 
             @if (null !== session('status') && session('status') == true)
-                alert(1);
-                $(document).Toasts('create', {
-                    class: 'bg-success ct-min-toast-width',
-                    title: 'Success',
-                    subtitle: '',
-                    body: "{{ session('message') }}",
-                    fade: true,
-                    autohide: true,
-                    delay: 3000,
-                    //position: 'bottomLeft',
 
+                notif({
+                    msg: 'delete success',
+                    type: "success",
+                    position: "right",
+                    fade: true,
+                    clickable: true,
+                    timeout: 2000,
                 });
             @endif
             /*please dont delete this above code*/
@@ -109,15 +106,15 @@
 @endsection
 @section('content')
     {{-- Header --}}
-    <section class="content-header bg-light sticky-top ct-bar-action ct-bar-action-shaddow">
+    <section class="content-header bg-light d-flex ct-bar-action ct-bar-action-shaddow">
         <div class="container-fluid">
             <div class="d-flex  border br-5">
                 <div class="flex-grow-1">
                     <h5 class="mb-2 mg-t-20 mg-l-20">
-                        {!! $obj_info['icon'] !!}
+                        {{-- {!! $obj_info['icon'] !!} --}}
                         <a href="{{ url_builder($obj_info['routing'], [$obj_info['name']]) }}"
                             class="ct-title-nav text-md">{{ $obj_info['title'] }}</a>
-                        <small class="text-sm">
+                        <small class="text-sm text-muted">
                             <i class="ace-icon fa fa-angle-double-right text-xs"></i>
                             {{ $caption ?? '' }}
                         </small>
@@ -138,7 +135,7 @@
             @CSRF
             <input type="hidden" name="{{ $fprimarykey }}" id="{{ $fprimarykey }}"
                 value="{{ $input[$fprimarykey] ?? '' }}">
-            <input type="hidden" name="jscallback" value="{{ $jscallback ?? (request()->get('jscallback') ?? '') }}">
+            <input type="hidden" name="jscallback" value="{{ $jscallback ?? 'formreset' }}">
 
 
 
@@ -152,18 +149,28 @@
                                     <thead style="color: var(--info)">
                             @endif
                             <tr>
-                                <th style="width: 10px">ID</th>
-                                <th style="width: 10px">Example title</th>
+                                <th style="width: 10px">example title</th>
+                                <th style="width: 10px">example title</th>
+                                <th style="width: 10px">example title</th>
+
                             </tr>
                         </thead>
                         <tbody>
-                            {{--@foreach ($example as $val)
+                            @foreach ($brands as $val)
                                 <tr>
-                                    <td>{{ $val['exmaple_id'] }}</td>
-                                    <td>{{ $val['title'] }}</td>
+                                    <td>{{ $val['brand_id'] }}</td>
+                                    <td>{{ $val['name'] }}</td>
 
+                                    <td>
+                                        @include('app._include.btn_record', [
+                                            'rowid' => $val['brand_id'],
+                                            'edit' => true,
+                                            'trash' => true,
+                                            'delete' => true,
+                                        ])
+                                    </td>
                                 </tr>
-                            @endforeach--}}
+                            @endforeach
                         </tbody>
                     </table>
 

@@ -106,6 +106,85 @@ class CategorieController extends Controller
             ->whereRaw('trash <> "yes"')->get();
         return ['categorie' => $categorie];
     } /*../function..*/
+    public function listingModel()
+    {
+        #DEFIND MODEL#
+        return $this->model
+            ->leftJoin('users', 'users.id', 'tblcategories.blongto')
+            ->select(
+                \DB::raw($this->fprimarykey . ",tblcategories.name,tblcategories.create_date,
+                                                    tblcategories.update_date,users.name As username"),
+
+            )->whereRaw('tblcategories.trash <> "yes"');
+    } /*../function..*/
+    //JSON_UNQUOTE(JSON_EXTRACT(title, '$.".$this->dflang[0]."'))
+    public function sfp($request, $results)
+    {
+        #Sort Filter Pagination#
+
+        // CACHE SORTING INPUTS
+        $allowed = array('title', $this->fprimarykey);
+        $sort = in_array($request->input('sort'), $allowed) ? $request->input('sort') : $this->fprimarykey;
+        $order = $request->input('order') === 'asc' ? 'asc' : 'desc';
+        $results = $results->orderby($sort, $order);
+
+        // FILTERS
+        $appends = [];
+        $querystr = [];
+        if ($request->has('txtcategorie') && !empty($request->input('txtcategorie'))) {
+            $qry = $request->input('txtcategorie');
+            $results = $results->where(function ($query) use ($qry) {
+                $query->whereRaw("tblcategories.name like '%" . $qry . "%'");
+            });
+            array_push($querystr, 'tblcategories.name=' . $qry);
+            $appends = array_merge($appends, ['tblcategories.name' => $qry]);
+        }
+        if ($request->has('status') && !empty($request->input('status'))) {
+            $qry = $request->input('status');
+            $results = $results->where("userstatus", $qry);
+            array_push($querystr, 'userstatus=' . $qry);
+            $appends = array_merge($appends, ['userstatus' => $qry]);
+        }
+        // PAGINATION and PERPAGE
+        $perpage = null;
+        $perpage_query = [];
+        if ($request->has('perpage')) {
+            $perpage = $request->input('perpage');
+            $perpage_query = ['perpage=' . $perpage];
+            $appends = array_merge($appends, ['perpage' => $perpage]);
+        } elseif (null !== $this->rcdperpage && $this->rcdperpage != 0) {
+            $perpage = $this->rcdperpage < 0 ? config('me.app.rpp') ?? 15 : $this->rcdperpage;
+        }
+        if (null !== $perpage) {
+            $results = $results->paginate($perpage);
+        }
+
+        $appends = array_merge(
+            $appends,
+            [
+                'sort'      => $request->input('sort'),
+                'order'     => $request->input('order')
+            ]
+        );
+
+        $pagination = $results->appends(
+            $appends
+        );
+
+        // dd($pagination);
+        $recordinfo = recordInfo($pagination->currentPage(), $pagination->perPage(), $pagination->total());
+
+        return [
+            'results'           => $results,
+            'paginationlinks'    => $pagination->links("pagination::bootstrap-4"),
+            'recordinfo'    => $recordinfo,
+            'sort'          => $sort,
+            'order'         => $order,
+            'querystr'      => $querystr,
+            'perpage_query' => $perpage_query,
+
+        ];
+    } /*../function..*/
     /**
      * Show the application dashboard.
      *
@@ -117,6 +196,8 @@ class CategorieController extends Controller
         $default = $this->default();
         $categorie = $default['categorie'];
          //dd('aaa');
+         $results = $this->listingmodel();
+         $sfp = $this->sfp($request, $results);
 
 
         $create_modal = url_builder(
@@ -155,9 +236,9 @@ class CategorieController extends Controller
                 'fprimarykey'     => $this->fprimarykey,
                 'caption' => 'Active',
             ])
-            ->with(['act' => 'index'])
             ->with(['categorie' => $categorie])
-            // ->with($setting)
+            ->with($sfp)
+            ->with($setting)
         ;
     }
 
@@ -166,11 +247,11 @@ class CategorieController extends Controller
         $newid = ($isupdate) ? $request->input($this->fprimarykey)  : $this->model->max($this->fprimarykey) + 1;
         $update_rules = [$this->fprimarykey => 'required'];
 
-        $rules['example-title'] = ['required'];
+        $rules['title-en'] = ['required'];
         // $rules['img'] = ['required'];
         $validatorMessages = [
             /*'required' => 'The :attribute field can not be blank.'*/
-            'required' => 'abc123',
+            'required' => "field can't be blank",
         ];
 
         return Validator::make($request->all(), $rules, $validatorMessages);
@@ -180,11 +261,15 @@ class CategorieController extends Controller
 
         $newid = ($isupdate) ? $request->input($this->fprimarykey)  : $this->model->max($this->fprimarykey) + 1;
         $tableData = [];
-
+        $data = toTranslate($request, 'title', 0, true);
 
         $tableData = [
             'categorie_id' => $newid,
-            'name' => $request->input('categorie-title'),
+            'name' => json_encode($data),
+            'create_date' => date("Y-m-d"),
+            'blongto' => $this->args['userinfo']['id'],
+            'trash' => 'no',
+            'status' => 'yes',
 
         ];
         if ($isupdate) {
@@ -267,12 +352,17 @@ class CategorieController extends Controller
             // $request->file('img')->storeAs('slider', $data['tableData']['img']);
             $savetype = strtolower($request->input('savetype'));
             $success_ms = __('ccms.suc_save');
+            $callback = 'formreset';
+            if (is_axios()) {
+                $callback = $request->input('jscallback');
+            }
             return response()
                 ->json(
                     [
                         "type" => "success",
                         "status" => $save_status,
                         "message" => 'Success',
+                        "callback" => $callback,
                         "data" => []
                     ],
                     200
@@ -290,20 +380,119 @@ class CategorieController extends Controller
                 422
             );
     }
-    /* end function*/
-    public function update_slide(Request $request)
+    public function edit(Request $request, $id = 0)
     {
 
+         #prepare for back to url after SAVE#
+         if (!$request->session()->has('backurl')) {
+            $request->session()->put('backurl', redirect()->back()->getTargetUrl());
+        }
 
+        $obj_info = $this->obj_info;
+
+        $default = $this->default();
+        //change piseth
+        $input = null;
+
+        #Retrieve Data#
+        if (empty($id)) {
+            $editid = $this->args['routeinfo']['id'];
+        } else {
+            $editid = $id;
+        }
+
+        if ($request->has($this->fprimarykey)) {
+            $editid = $request->input($this->fprimarykey);
+        }
+
+        $input = $this->model
+            ->where($this->fprimarykey, (int)$editid)
+            //change piseth
+            ->get();
+        //dd($input->toSql());
+        if ($input->isEmpty()) {
+            $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
+            return response()
+                ->json(
+                    [
+                        "type" => "url",
+                        'status' => false,
+                        'route' => ['url' => redirect()->back()->getTargetUrl()],
+                        "message" => 'Your edit is not affected',
+                        "data" => ['id' => $editid]
+                    ],
+                    422
+                );
+        }
+
+
+        $input = $input->toArray()[0];
+        $x = [];
+        foreach ($input as $key => $value) {
+            $x[$key] = $value;
+        }
+
+        $input = $x;
+
+        $name =json_decode($input['name'],true);
+
+
+        $sumit_route = url_builder(
+            $this->obj_info['routing'],
+            [$this->obj_info['name'], 'update', ''],
+            [],
+        );
+        $cancel_route = redirect()->back()->getTargetUrl();
+        $province_id = empty($input['province_id']) ? -1 : $input['province_id'];
+        $districts = [];
+        $where = [['trash', '<>', 'yes'], ['parent_id', '=', $province_id]];
+        $location = Location::getlocation($this->dflang[0], $where)->get();
+        $districts = $location->pluck('title', 'id')->toArray();
+        $district_id = empty($input['district_id']) ? -1 : $input['district_id'];
+        $communes = [];
+        $where = [['trash', '<>', 'yes'], ['parent_id', '=', $district_id]];
+        $location = Location::getlocation($this->dflang[0], $where)->get();
+        $communes = $location->pluck('title', 'id')->toArray();
+        //dd($input);
+        return view('app.' . $this->obj_info['name'] . '.create', ) //change piseth
+            ->with([
+                'obj_info'  => $this->obj_info,
+                'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route],
+                'form' => ['save_type' => 'save'],
+                'fprimarykey' => $this->fprimarykey,
+                'caption' => 'Edit',
+                'isupdate' => true,
+                'input' => $input,
+                'name' => $name,
+            ]);
+    } /*../end fun..*/
+
+
+    public function update(Request $request)
+    {
         $obj_info = $this->obj_info;
         $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'create']);
         if ($request->isMethod('post')) {
+            $validator = $this->validator($request, true);
+            // dd($validator);
+            if ($validator->fails()) {
 
+                $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'create']);
+                return response()
+                    ->json(
+                        [
+                            "type" => "validator",
+                            'status' => false,
+                            'route' => ['url' => $routing],
+                            "message" => __('me.forminvalid'),
+                            "data" => $validator->errors()
+                        ],
+                        422
+                    );
+            }
 
-            $data = $this->setinfo_slide($request, true);
-            dd($data);
-
-            return $this->proceed_update_slide($request, $data, $obj_info);
+            $data = $this->setinfo($request, true);
+            return $this->proceed_update($request, $data, $obj_info);
         } /*end if is post*/
 
         return response()
@@ -315,32 +504,37 @@ class CategorieController extends Controller
                 ],
                 422
             );
-    }
-    function proceed_update_slide($request, $data, $obj_info)
-    {
-        $value = $data['tableData'];
+    }/*../end fun..*/
 
-        for ($i = 0; $i < count($value); $i++) {
-            if ($value[$i]['img_id'] < 1) {
-                $update_status = $this->model->where($this->fprimarykey, (int)$value[$i]['img_id'] * -1)
-                    ->update(['trash' => 'yes', 'img' => '']);
-                // if (!empty($value[$i]['img_path'])) {
-                //     unlink('public/sliders/' . $value[$i]['img_path']);
-                // }
-            }
-        }
+    function proceed_update($request, $data, $obj_info)
+    {
+        // dd($data);
+
+        $update_status = $this->model
+            ->where($this->fprimarykey, $data['categorie_id'])
+            ->update($data['tableData']);
+
         if ($update_status) {
             $savetype = strtolower($request->input('savetype'));
-            // $id = $data['id'];
-            // $rout_to = save_type_route($savetype, $obj_info, $id);
+            $id = $data['categorie_id'];
+            $rout_to = save_type_route($savetype, $obj_info, $id);
             $success_ms = __('ccms.suc_save');
+            $callback = '';
+            if (is_axios()) {
+                $callback = $request->input('jscallback');
+            }
             return response()
                 ->json(
                     [
                         "type" => "success",
                         "status" => $update_status,
                         "message" => $success_ms,
-                        // "route" => $rout_to,
+                        "route" => $rout_to,
+                        "callback" => $callback,
+                        "data" => [
+                            $this->fprimarykey => $data['categorie_id'],
+                            'id' => $data['categorie_id']
+                        ]
                     ],
                     200
                 );
@@ -357,56 +551,43 @@ class CategorieController extends Controller
             );
     }
     /* end function*/
-    public function setinfo_slide($request, $isupdate = false)
+
+    public function totrash(Request $request, $id = 0)
     {
-
-        $newid = ($isupdate) ? $request->input($this->fprimarykey)  : $this->model->max($this->fprimarykey) + 1;
-        $tableData = [];
-
-
-        $count = count($request->img_id);
-        // dd($request->img_id);
-        for ($i = 0; $i < $count; $i++) {
-            $record = [
-                'img_id' => $request->input('img_id')[$i],
-                'img_path' => $request->input('img_path')[$i],
-            ];
-            array_push($tableData, $record);
-        }
-
-
-        $img = $request->file('img');
-        if (!empty($img)) {
-            $img_name = hexdec(uniqid()) . '-' . $img->getClientOriginalName();
-            $img->move('public/sliders', $img_name);
+        $obj_info = $this->obj_info;
+        #Retrieve Data#
+        if (empty($id)) {
+            $editid = $this->args['routeinfo']['id'];
         } else {
-            $img_name = '';
+            $editid = $id;
         }
 
+        // $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
+        $trash = $this->model->where('categorie_id', $editid)->update(["trash" => "yes"]);
 
-        if ($isupdate) {
-            $tableData = array_except($tableData, [$this->fprimarykey, 'password', 'trash']);
+        if ($trash) {
+            return response()
+                ->json(
+                    [
+                        "type" => "url",
+                        'status' => true,
+                        'route' => ['url' => redirect()->back()->getTargetUrl()],
+                        "message" => __('Example remove'),
+                        "data" => ['id' => $editid]
+                    ],
+                    200
+                );
         }
-        return ['tableData' => $tableData];
-    }
-
-
-
-    public function indexmobile(Request $request, $condition = [], $setting = [])
-    {
-        $default = $this->default();
-        $slider = $default['img'];
-
-        return response()->json(
-            [
-
-                // 'obj_info'  => $this->obj_info,
-                // 'fprimarykey'     => $this->fprimarykey,
-                // 'caption' => 'Active',
-                'slider' => $slider,
-                // 'setting' => $setting,
-
-            ]
-        );
-    }
+        return response()
+            ->json(
+                [
+                    "type" => "error",
+                    'status' => false,
+                    'route' => ['url' => redirect()->back()->getTargetUrl()],
+                    "message" => 'Your update is not affected',
+                    "data" => ['id' => $editid]
+                ],
+                422
+            );
+        }
 }

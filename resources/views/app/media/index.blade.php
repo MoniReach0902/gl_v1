@@ -3,86 +3,263 @@
 @endphp
 @extends('layouts.app')
 @section('blade_css')
+    {{-- <link href="{{ asset('public/assets/css/ace.min.css') }}" rel="stylesheet"> --}}
+
+
+    <!-- Stylesheet -->
+    {{-- <link rel="stylesheet" href="{{ asset('public/css/style.css') }}"> --}}
 @endsection
+@push('page_css')
+    <style>
+        .media-upload {
+            /* float: right; */
+            position: fixed;
+            right: 0;
+            top: 15%;
+            width: 0;
+            height: 100%;
+            transition-property: width;
+            transition-duration: 1s;
+            overflow: scroll;
+            z-index: 1;
+<<<<<<< HEAD
+
+
+        }
+
+=======
+        }
+>>>>>>> menghonghai
+        #arrow-upload {
+            font-size: 25px;
+            cursor: pointer;
+        }
+<<<<<<< HEAD
+
+=======
+>>>>>>> menghonghai
+        #upload {
+            font-size: 18px;
+            padding: 5px 20px;
+        }
+<<<<<<< HEAD
+
+=======
+>>>>>>> menghonghai
+        .container {
+            background-color: --primary;
+            width: 60%;
+            min-width: 450px;
+            position: relative;
+            margin: auto;
+            padding: 50px 20px;
+            border-radius: 7px;
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.05);
+        }
+<<<<<<< HEAD
+
+        input[type="file"] {
+            display: none;
+        }
+
+        label {
+            display: block;
+            position: relative;
+
+=======
+        input[type="file"] {
+            display: none;
+        }
+        label {
+            display: block;
+            position: relative;
+>>>>>>> menghonghai
+            font-size: 50px;
+            text-align: center;
+            width: 300px;
+            padding: 18px 0;
+            margin: auto;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+<<<<<<< HEAD
+
+=======
+>>>>>>> menghonghai
+        .container p {
+            text-align: center;
+            margin: 20px 0 30px 0;
+        }
+<<<<<<< HEAD
+
+=======
+>>>>>>> menghonghai
+        #images {
+            width: 90%;
+            position: relative;
+            margin: auto;
+            display: flex;
+            justify-content: space-evenly;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+<<<<<<< HEAD
+
+        figure {
+            width: 45%;
+        }
+
+=======
+        figure {
+            width: 45%;
+        }
+>>>>>>> menghonghai
+        figcaption {
+            text-align: center;
+            font-size: 5px;
+            margin-top: 0.5vmin;
+        }
+<<<<<<< HEAD
+
+=======
+>>>>>>> menghonghai
+        .file-manger-icon img {
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+@endpush
 @section('blade_scripts')
+    <!--Internal Fancy uploader js-->
+    {{-- <script src="{{ asset('public/assets/js/ace.min.js') }}"></script>
+    <script src="{{ asset('public/assets/js/ace-elements.min.js') }}"></script> --}}
     <script>
         $(document).ready(function() {
-
             /*Please dont delete this code*/
-            @if (null !== session('status') && session('status') == false)
-                $(document).Toasts('create', {
-                    class: 'bg-danger ct-min-toast-width',
-                    title: 'Invalid',
-                    subtitle: '',
-                    body: "{{ session('message') }}",
-                    fade: true,
-                    autohide: true,
-                    delay: 3000,
-                    //position: 'bottomLeft',
-                });
-            @endif
+<<<<<<< HEAD
 
-            @if (null !== session('status') && session('status') == true)
-                alert(1);
-                $(document).Toasts('create', {
-                    class: 'bg-success ct-min-toast-width',
-                    title: 'Success',
-                    subtitle: '',
-                    body: "{{ session('message') }}",
-                    fade: true,
-                    autohide: true,
-                    delay: 3000,
-                    //position: 'bottomLeft',
-
-                });
-            @endif
-            /*please dont delete this above code*/
-
-            // let foo = (bar)=>{
-            //     console.log('foo-bar');
-            // };
-
-
+=======
+>>>>>>> menghonghai
             $("#btnnew_{{ $obj_info['name'] }}").click(function(e) {
-
                 let route_create = "{{ $route['create'] }}";
                 let extraFrm = {}; //{jscallback:'test'};
                 let setting = {}; //{fnSuccess:foo};
                 let popModal = {
                     show: true,
-                    size: 'modal-lg'
+                    size: 'modal-xl'
                     //modal-sm, modal-lg, modal-xl
                 };
-
                 let loading_indicator = '';
-                helper.silentHandler(route_create, null, extraFrm, setting, popModal, 'modal_windows',
+                helper.silentHandler(route_create, null, extraFrm, setting, popModal, 'air_windows',
                     loading_indicator);
-            });
-
-            $("#btntrash_{{ $obj_info['name'] }}").click(function(e) {
-                let route_create = "{{ $route['trash'] ?? '' }}";
-                window.location = route_create;
+<<<<<<< HEAD
 
             });
 
+            $("#upload").click(function(e) {
 
+                $('.media-upload').css({
+                    "width": "28%"
+                })
+            });
+            $("#arrow-upload").click(function(e) {
 
+=======
+            });
+            $("#upload").click(function(e) {
+                $('.media-upload').css({
+                    "width": "28%"
+                })
+            });
+            $("#arrow-upload").click(function(e) {
+>>>>>>> menghonghai
+                $('.media-upload').css({
+                    "width": "0%"
+                })
+            });
+            $("#media-box").click(function(e) {
+<<<<<<< HEAD
 
+=======
+>>>>>>> menghonghai
+                $('.media-upload').css({
+                    "width": "0%"
+                })
+            });
+            $("#save_img").click(function(e) {
+                // alert(1);
+                let route_submit = "{{ $route['submit'] }}";
+                // alert(route_submit);
+                // e.preventDefault();
+                // let route_import = "{{ $route['create'] }}";
+                let extraFrm = {}; //{jscallback:'test'};
+                let frm = "frm-{{ $obj_info['name'] }}";
+                let aftersave = (data) => {
+                    // console.log(data['data'].tableData);
+                    setTimeout(() => {
+<<<<<<< HEAD
 
+                        // window.location.reload();
+                    }, 2000);
+
+=======
+                        // window.location.reload();
+                    }, 2000);
+>>>>>>> menghonghai
+                    $('#' + frm)[0].reset();
+                    $('#images').html('');
+                    $('#num-of-files').html('No Files Chosen');
+                };
+                let setting = {
+                    mode: "",
+                    // or use jscallback = formreset
+                    // fnSuccess: aftersave,
+                };
+                let container = '';
+                let loading_indicator = '';
+                let popModal = {
+                    show: false,
+                    size: 'modal-xl'
+                    //modal-sm, modal-lg, modal-xl
+                };
+                helper.silentHandler(route_submit, frm,
+                    extraFrm,
+                    setting,
+                    popModal, container,
+                    loading_indicator);
+<<<<<<< HEAD
+
+            });
+
+=======
+            });
+>>>>>>> menghonghai
+            $('.delete').click(function(e) {
+                e.preventDefault();
+                var link = $(this).attr("href");
+                $('body').removeClass('timer-alert');
+                swal({
+                    title: "Are your sure to delete ?",
+                    text: "",
+                    type: "warning",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true
+                }, function() {
+                    setInterval(() => {
+                        window.location.href = link;
+                        swal("Delete finished!");
+                    }, 1000);
+                });
+            });
+            $('#trash').click(function() {
+                // alert(1);
+            })
+<<<<<<< HEAD
+
+=======
+>>>>>>> menghonghai
         });
-
-        function updateDistrict(jsondata) {
-
-            let dropdown = $('#district');
-            let data = jsondata.data;
-            helper.makeDropdownByJson(dropdown, data, -1, 'please select');
-        }
-
-        function updateCommune(jsondata) {
-            let dropdown = $('#commune');
-            let data = jsondata.data;
-            helper.makeDropdownByJson(dropdown, data, -1, 'please select');
-        }
     </script>
 @endsection
 @section('content')
@@ -102,24 +279,166 @@
                     </h5>
                 </div>
                 <div class="pd-10 ">
-                    @include('app._include.btn_index', ['new' => true, 'trash' => true, 'active' => true])
+                    <span class="btn btn-primary button-icon" id="upload"><i class="fe fe-upload"></i></span>
+                    {{-- <button type="button" class="btn btn-dark button-icon"><i class="fe fe-upload"></i></button> --}}
+                    <span class="btn btn-primary" id="save_img">save</span>
+                    @include('app._include.btn_index', [
+                        'new' => false,
+                        'trash' => false,
+                        'active' => false,
+                    ])
                 </div>
 
             </div>
     </section>
     {{-- end header --}}
+    <br>
     <div class="container-fluid">
-        {{--  --}}
+        <div class="row">
+            <div class="col-md-12" id="media-box">
+                <div class="media" id="media">
+                    <!-- container -->
+                    <div class="main-container container-fluid">
+                        <!-- row -->
+                        <div class="row">
+                            <div class="col-lg-12 col-xl-12">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="tx-18 mb-4">
+                                            {{-- <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                                                <div class="card custom-card text-center">
+                                                    <div class="card-body">
+                                                        <div>
+                                                            <h6 class="card-title mb-1">Ajax Alert</h6>
+                                                            <p class="text-muted card-sub-title">With a loader (for a AJAX
+                                                                requests)
+                                                            </p>
+                                                        </div>
+                                                        <div class="btn ripple btn-pink" id='swal-ajax'>
+                                                            Click me !
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> --}}
 
-        <div class="card-body">
 
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-auto">
+                                        <div class="input-group mb-2">
+                                            <input type="text" class="form-control" placeholder="Search files.....">
+                                            <span class="input-group-append">
+                                                <button class="btn ripple btn-primary" type="button">Search</button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @foreach ($results as $result)
+                                        <div class="col-xl-2 col-md-4 col-sm-6">
+                                            <div class="card p-0 ">
+                                                <div class="d-flex align-items-center px-3 pt-3">
+                                                    <div class="float-end ms-auto">
+                                                        <a href="javascript:void(0);" class="option-dots"
+                                                            data-bs-toggle="dropdown" aria-haspopup="true"
+                                                            aria-expanded="false"><i class="fe fe-more-vertical"></i></a>
+                                                        <div class="dropdown-menu">
+                                                            {{-- <a class="dropdown-item" href="javascript:void(0);"><i
+                                                                    class="fe fe-edit me-2"></i> Edit</a> --}}
+                                                            {{-- <a class="dropdown-item" href="javascript:void(0);"><i
+                                                                    class="fas fa-stop-circle"></i> &nbsp;Disable</a> --}}
+                                                            <a class="dropdown-item delete"
+                                                                href="{{ url_builder($obj_info['routing'], [$obj_info['name'], 'totrash', $result['id']], []) }}"><i
+                                                                    class="fe fe-trash me-2 "></i>
+
+                                                                Delete</a>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body pt-0 text-center">
+                                                    <div class="file-manger-icon brick">
+                                                        <a href="{{ asset('storage/app/media/' . $result['media']) }}"
+                                                            data-caption="IMAGE-01" data-id="lion"
+                                                            class="js-img-viewer"><img
+                                                                src="{{ asset('storage/app/media/' . $result['media']) }}"
+                                                                alt="img" class="br-7"></a>
+                                                    </div>
+                                                    <h6 class="mb-1 font-weight-semibold">abc.jpg</h6>
+                                                    <span class="text-muted">4.23gb</span>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    @endforeach
+
+
+
+
+                                </div>
+                                <!-- Pagination and Record info -->
+                                @include('app._include.pagination')
+                            </div>
+                        </div>
+                        <!-- End Row -->
+
+                    </div>
+                    <!-- Container closed -->
+
+                </div>
+            </div>
         </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="media-upload">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            {{-- Start Form --}}
+                            <form name="frm-{{ $obj_info['name'] }}" id="frm-{{ $obj_info['name'] }}" method="POST"
+                                action="{{ $route['submit'] }}">
+                                {{-- please dont delete these default Field --}}
+                                @CSRF
+                                <input type="hidden" name="{{ $fprimarykey }}" id="{{ $fprimarykey }}"
+                                    value="{{ $input[$fprimarykey] ?? '' }}">
+                                <input type="hidden" name="jscallback"
+                                    value="{{ $jscallback ?? (request()->get('jscallback') ?? '') }}">
 
+                                <div class="card">
+                                    <div class="card-header">
+                                        <span id="arrow-upload"><i class="fas fa-arrow-circle-right"></i></span>
+                                    </div>
+                                    <div class="card-body">
 
+                                        <div class="container">
+                                            <input type="file" id="file-input" name="images[]"
+                                                accept="image/png, image/jpeg" onchange="preview()" multiple>
+                                            <label for="file-input">
 
+                                                <i class="fas fa-images"></i>
+                                            </label>
+                                            <p id="num-of-files">No Files Chosen</p>
+                                            <div id="images"></div>
+                                        </div>
 
+                                        {{-- <div class="col-sm-12 col-md-12">
+                                            <input type="file" class="dropify" data-height="200" name="file1[]"
+                                                multiple />
+                                        </div> --}}
+                                    </div>
+                                </div>
 
-
-        {{--  --}}
+                        </div>
+                        </form>
+                        {{-- End From --}}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+    </div>
+    <script src="{{ asset('public/js/script.js') }}"></script>
+<<<<<<< HEAD
 @endsection
+=======
+@endsection
+>>>>>>> menghonghai

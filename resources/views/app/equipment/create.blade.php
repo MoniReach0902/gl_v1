@@ -1,6 +1,6 @@
 @php
 $extends = 'app';
-$action_btn = ['save' => true, 'print' => false, 'cancel' => false, 'new' => true];
+$action_btn = ['save' => true, 'print' => false, 'cancel' => true, 'new' => true];
 foreach (config('me.app.project_lang') as $lang) {
     $langcode[] = $lang[0];
 }
@@ -15,19 +15,24 @@ foreach (config('me.app.project_lang') as $lang) {
 @extends('layouts.' . $extends)
 
 @section('blade_css')
+    <style>
+        .img-box i {
+            font-size: 70px !important;
+            cursor: pointer;
+
+        }
+
+        .img-box {
+            display: flex;
+            justify-content: center
+        }
+    </style>
 @endsection
 
 @section('blade_scripts')
     <script>
         $(document).ready(function() {
-            $(document).on("change", ".tab_title", function(ev) {
-                ///
 
-                var $value = $(this).val();
-                helper.enableDisableByLang($(this), {!! json_encode($langcode, true) !!}, 'title-', $value);
-
-                ///
-            });
             let route_submit = "{{ $route['submit'] }}";
             let route_cancel = "{{ $route['cancel'] ?? '' }}";
             let route_print = "{{ $route['print'] ?? '' }}";
@@ -59,18 +64,25 @@ foreach (config('me.app.project_lang') as $lang) {
                 //window.location.replace(route_cancel);
                 window.location = route_cancel;
             });
-            $("#btnnew_{{ $obj_info['name'] }}").click(function(e) {
+            $('#img_box').click(function() {
+                let route_import =
+                    "{{ url_builder('admin.controller', ['user', 'create']) }}";
 
+                let extraFrm = {
 
-                window.location = route_new;
-                //     loading_indicator);
-            });
+                }; //{jscallback:'test'};
+                let setting = {}; //{fnSuccess:foo};
+                let popModal = {
+                    show: true,
+                    size: 'modal-xl',
+                    modal: 'Extra',
+                    //modal-sm, modal-lg, modal-xl
+                };
 
-            $(".btnprint_{{ $obj_info['name'] }}").click(function(e) {
-                //window.location.replace(route_cancel);
-                //window.location = route_print;
-                window.open(
-                    route_print);
+                let loading_indicator = '';
+                helper.silentHandler(route_import, '', '', setting, popModal,
+                    'extra_modal',
+                    loading_indicator);
             });
 
 
@@ -81,15 +93,15 @@ foreach (config('me.app.project_lang') as $lang) {
 @endsection
 @section('content')
     {{-- Header --}}
-    <section class="content-header bg-light sticky-top ct-bar-action ct-bar-action-shaddow">
+    <section class="content-header bg-light d-flex ct-bar-action ct-bar-action-shaddow">
         <div class="container-fluid">
             <div class="d-flex  border br-5">
                 <div class="flex-grow-1">
                     <h5 class="mb-2 mg-t-20 mg-l-20">
-                        {!! $obj_info['icon'] !!}
+                        {{-- {!! $obj_info['icon'] !!} --}}
                         <a href="{{ url_builder($obj_info['routing'], [$obj_info['name']]) }}"
                             class="ct-title-nav text-md">{{ $obj_info['title'] }}</a>
-                        <small class="text-sm">
+                        <small class="text-sm text-muted">
                             <i class="ace-icon fa fa-angle-double-right text-xs"></i>
                             {{ $caption ?? '' }}
                         </small>
@@ -115,117 +127,75 @@ foreach (config('me.app.project_lang') as $lang) {
             <br>
 
 
-            <div class="container">
-                
-                <div class="row row-sm">
-                    <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="main-content-label mg-b-5">
-                                   
+            
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="pd-20 pd-sm-20">
+                            <div class="row row-xs">
+                                
+                                <div class="col-md-4">
+                                    <label for="name">	Name: </label>
+                                    <input class="form-control" placeholder="Enter name" type="text">
+                                </div>
+                               
+                                <div class="col-md-4 mg-t-10">
+                                    <label for="name">	Location: </label>
+                                    <input class="form-control" placeholder="Enter phone number" type="text">
+                                </div>
+                                <div class="col-md-4 mg-t-10">
+                                    <label for="name">	Serail Number: </label>
+                                    <input class="form-control" placeholder="Enter email" type="text">
+                                </div>
+                                <div class="col-md-4 mg-t-10">
+                                    <label for="name">	Model: </label>
+                                    <input class="form-control" placeholder="Enter address" type="text">
+                                </div>
+                                <div class="col-md-4 mg-t-10">
+                                    <label for="name">	Cost: </label>
+                                    <input class="form-control" placeholder="Enter address" type="text">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="permission_id">Brands ID:</label>
+                                    <select class="form-control input-sm" name="permission_id" id="permission_id">
+                                        <option value="">-- Select --</option>
+                                        <option value="1">Top Admin</option>
+                                        
+                                    </select>
+                                    <span id="permission_id-error" class="error invalid-feedback" style="display: none"></span>
+                                </div>
+                                <div class="form-group col-md-4 ">
+                                    <label for="permission_id">Inventory ID:</label>
+                                    <select class="form-control input-sm" name="permission_id" id="permission_id">
+                                        <option value="">-- Select --</option>
+                                        <option value="1">Top Admin</option>
+                                        
+                                    </select>
+                                    <span id="permission_id-error" class="error invalid-feedback" style="display: none"></span>
                                 </div>
                                 
+                                <div class="col-md-4 ">
+                                    <label for="name"> Warranty Date: </label>
+                                    <input class="form-control" type="date">
+                                </div>
+                                <div class="col-md-12 mg-t-10">
+                                    <label for="name">	Description: </label>
+                                    <textarea class="form-control" name="" id="" cols="30" rows="8"></textarea>
+                                </div>
+                                <div class=" col-md-12 mg-t-10">
+                                    <label class="custom-switch ps-0">
+                                        <span class="custom-switch-description me-2">Status</span>
+                                        <input type="checkbox" name="custom-switch-checkbox1" class="custom-switch-input">
+                                        <span class="custom-switch-indicator"></span>
+                                    </label>
+                                </div>
                             
-                                    <div class="row row-sm">
-
-                                        <div class="col-lg-6">
-                                            <div class="form-group has-success mg-b-0">
-                                                <div class="form-group">
-                                                    <label for="">Name English & Khmer</label>
-                                                    <div class="input-group my-group" style="width:100%;">
-                
-                                                        <select class="form-control form-select input-sm tab_title" style="width:20%;">
-                                                            @foreach (config('me.app.project_lang') as $lang)
-                                                                <option value="@lang($lang[0])">@lang($lang[1])</option>
-                                                            @endforeach
-                            
-                                                        </select>
-                                                        @php
-                                                            $active = '';
-                                                        @endphp
-                                                        @foreach (config('me.app.project_lang') as $lang)
-                                                            @php
-                                                                // dd($lang);
-                                                                $title = json_decode($input['title'] ?? '', true);
-                                                            @endphp
-                                                            <input type="text" class="form-control input-sm {{ $active }}" style="width:80%;"
-                                                                name="title-{{ $lang[0] }}" id="title-{{ $lang[0] }}"
-                                                                placeholder="{{ $lang[1] }}" value="{{ $title[$lang[0]] ?? '' }}">
-                                                            @php
-                                                                $active = 'hide';
-                                                            @endphp
-                                                        @endforeach
-                                                        <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error"
-                                                            class="error invalid-feedback" style="display: none"></span>
-                                                    </div>
-                                                    <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="exampleInputEmail1">Seria Number</label>
-                                                    <input type="text" class="form-control" placeholder="Enter Seria number">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="exampleInputPassword1">Model</label>
-                                                    <input type="text" class="form-control" placeholder="Enter Model">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="address">Description</label>
-                                                        <textarea class="form-control" placeholder="Enter description" rows="3"></textarea>
-                                                    <span id="phone-error" class="error invalid-feedback" style="display: none"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-6 mg-t-20 mg-lg-t-0">
-                                            <div class="form-group has-danger mg-b-0">
-                                                <div class="form-group">
-                                                    <label for="exampleInputEmail1">Cost</label>
-                                                    <input type="number" class="form-control" placeholder="Enter Cost">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="Inventory_id">Inventory</label>
-                                                    <select class="form-control input-sm" name="inventory_id" id="inventory_id">
-                                                        <option value="">-- {{ __('dev.noneselected') }}--</option>
-                                                        <option value="1">inventory 1</option>
-                                                        <option value="2">inventory 2</option>
-                                                        <option value="3">inventory 3</option>
-                                                        <option value="">
-                                                            <a class="slide-item {{ nav_checkactive(['inventory-create'], $args) }}"
-                                                            href="{{ url_builder('admin.controller', ['inventory', 'create']) }}">Add New</a>
-                                                        </option>
-                                                    </select>
-                                                    <span id="permission_id-error" class="error invalid-feedback" style="display: none"></span>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="vendor_id">Vendor</label>
-                                                    <select class="form-control input-sm" name="vendor_id" id="vendor_id">
-                                                        <option value="">-- {{ __('dev.noneselected') }}--</option>
-                                                        <option value="1">vendor 1</option>
-                                                        <option value="2">vendor 2</option>
-                                                        <option value="3">vendor 3</option>
-                                                        <option value="3">Add New</option>
-                                                    </select>
-                                                    <span id="permission_id-error" class="error invalid-feedback" style="display: none"></span>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="vendor_id">Warranty date</label>
-                                                    <div class="input-group">
-                                                        <div class="input-group-text">
-                                                            <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
-                                                        </div>
-                                                        <input type="date" class="form-control fc-datepicker" placeholder="Month/Date/Year">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
         </form>
     </div>
+    {{-- @include('layouts.extra_modal') --}}
 @endsection

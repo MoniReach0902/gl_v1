@@ -109,15 +109,15 @@
 @endsection
 @section('content')
     {{-- Header --}}
-    <section class="content-header bg-light sticky-top ct-bar-action ct-bar-action-shaddow">
+    <section class="content-header bg-light d-flex ct-bar-action ct-bar-action-shaddow">
         <div class="container-fluid">
-            <div class="d-flex  border br-5">
+            <div class="d-flex border br-5">
                 <div class="flex-grow-1">
                     <h5 class="mb-2 mg-t-20 mg-l-20">
-                        {!! $obj_info['icon'] !!}
+                        {{-- {!! $obj_info['icon'] !!} --}}
                         <a href="{{ url_builder($obj_info['routing'], [$obj_info['name']]) }}"
                             class="ct-title-nav text-md">{{ $obj_info['title'] }}</a>
-                        <small class="text-sm">
+                        <small class="text-sm text-muted">
                             <i class="ace-icon fa fa-angle-double-right text-xs"></i>
                             {{ $caption ?? '' }}
                         </small>
@@ -131,6 +131,37 @@
     </section>
     {{-- end header --}}
     <div class="container-fluid">
+        <div class="card-header">
+            <form class="frmsearch-{{ $obj_info['name'] }}">
+                <div class="form-row" style="font-size: 11px">
+                    <div class="form-group col-md-2">
+                        <label for="txt">@lang('dev.search')</label>
+                        <input type="text" class="form-control input-sm" name="txtcategorie" id="txt"
+                            value="{{ request()->get('txtcategorie') ?? '' }}">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="year">@lang('dev.year')</label>
+                        <select class="form-control input-sm" name="status" id="status">
+                            <option value="">-- {{ __('dev.noneselected') }} --</option>
+                            {!! cmb_listing(['yes' => 'Enable', 'no' => 'Disable'], [request()->get('status') ?? ''], '', '', '') !!}
+                        </select>
+                    </div>
+                    <div class="form-group col-md-1">
+                        <label>&nbsp;</label>
+                        <button type="submit" value="filter"
+                            class="btn btn-outline-secondary btn-block formactionbutton"><i
+                                class="fa fa-search"></i></button>
+                    </div>
+                    <div class="form-group col-md-1">
+                        <label>&nbsp;</label>
+                        <button type="button"
+                            class="btn btn-outline-light btn-block formactionbutton border border-secondary"
+                            onclick="location.href='{{ url()->current() }}'">reset
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
 
         <form name="frm-2{{ $obj_info['name'] }}" id="frm-2{{ $obj_info['name'] }}" method="POST"
             action="{{ $route['submit'] }}" enctype="multipart/form-data">
@@ -141,12 +172,9 @@
             <input type="hidden" name="jscallback" value="{{ $jscallback ?? (request()->get('jscallback') ?? '') }}">
 
 
-
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover mb-0 text-md-nowrap">
-                        <thead>
-                            @if (isset($istrash) && $istrash)
+            <div class="card-body table-responsive p-0">
+                <table class="table  table-striped table-hover text-nowrap table-bordered">
+                    @if (isset($istrash) && $istrash)
                                 <thead style="color: var(--warning)">
                                 @else
                                     <thead style="color: var(--info)">
@@ -163,13 +191,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($categorie as $categories)
+                            @foreach ($results as $categories)
                                 <tr>
-                                    <td>{{ $categories['categorie_id'] }}</td>
+                                    <td>{{ $categories->categorie_id }}</td>
                                     <td>{{ $categories['text'] }}</td>
-                                    <td style="width: 10%">{{ $categories['create_date'] }}</td>
-                                    <td style="width: 10%">{{ $categories['update_date'] }}</td>
-                                    <td style="width: 10%">{{ $categories['blongto'] }}</td>
+                                    <td style="width: 10%">{{ $categories->create_date }}</td>
+                                    <td style="width: 10%">{{ $categories->update_date }}</td>
+                                    <td style="width: 10%">{{ $categories->username }}</td>
                                     <td style="width: 10%">
                                         @if ($categories->status == 'yes')
                                         <span class="badge bg-dark">
@@ -189,17 +217,13 @@
                                     ])</td>
                                 </tr>
                             @endforeach
-                        </tbody>
-                    </table>
-
-                </div>
+                    </tbody>
+                </table>
+     <!-- Pagination and Record info -->
+     @include('app._include.pagination')
+                <!-- /. end -->
+    
             </div>
-
         </form>
-
-
-
-
-        {{--  --}}
     </div>
 @endsection

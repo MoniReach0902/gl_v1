@@ -9,7 +9,7 @@ use DB;
 
 class Slider extends Model
 {
-    protected $table = 'tbl_slider';
+    protected $table = 'tbl_silder';
     protected $primaryKey = 'img_id';
     public $timestamps = false;
     /*protected $fillable = array(

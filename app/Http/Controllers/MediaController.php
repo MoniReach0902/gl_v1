@@ -6,6 +6,8 @@ use App\Models\Media;
 use Illuminate\Http\Request;
 use Validator;
 use App\Models\UserPermission;
+use Carbon\Carbon;
+use Image;
 
 class MediaController extends Controller
 {
@@ -82,7 +84,7 @@ class MediaController extends Controller
     {
         #DEFIND MODEL#
         return $this->model
-            ->select(\DB::raw($this->fprimarykey . " AS id"))->whereRaw('trash <> "yes"');
+            ->select(\DB::raw($this->fprimarykey . " AS id," . $this->tablename . '.*'))->whereRaw('trash <> "yes"');
     } /*../function..*/
 
     public function sfp($request, $results)
@@ -156,7 +158,50 @@ class MediaController extends Controller
     {
         $results = $this->listingmodel();
         $sfp = $this->sfp($request, $results);
+        // dd($sfp);
+        $sumit_route = url_builder(
+            $this->obj_info['routing'],
+            [$this->obj_info['name'], 'store', ''],
+            [],
+        );
+        $create_route = url_builder(
+            $this->obj_info['routing'],
+            [
+                $this->obj_info['name'], 'create', ''
+            ],
+        );
 
+        $trash_route = url_builder(
+            $this->obj_info['routing'],
+            [
+                $this->obj_info['name'], 'trash', ''
+            ],
+        );
+
+
+        return view('app.' . $this->obj_info['name'] . '.index')
+            ->with([
+
+                'obj_info'  => $this->obj_info,
+
+                'route' => ['create'  => $create_route, 'trash' => $trash_route, 'submit' => $sumit_route],
+                'fprimarykey'     => $this->fprimarykey,
+                'caption' => 'Active',
+            ])
+            ->with(['act' => 'index'])
+            ->with($sfp)
+            ->with($setting);
+    }
+    public function create(Request $request, $condition = [], $setting = [])
+    {
+        $results = $this->listingmodel();
+        $sfp = $this->sfp($request, $results);
+        // dd($sfp);
+        $sumit_route = url_builder(
+            $this->obj_info['routing'],
+            [$this->obj_info['name'], 'store', ''],
+            [],
+        );
         $create_route = url_builder(
             $this->obj_info['routing'],
             [
@@ -176,7 +221,7 @@ class MediaController extends Controller
 
                 'obj_info'  => $this->obj_info,
 
-                'route' => ['create'  => $create_route, 'trash' => $trash_route],
+                'route' => ['create'  => $create_route, 'trash' => $trash_route, 'submit' => $sumit_route],
                 'fprimarykey'     => $this->fprimarykey,
                 'caption' => 'Active',
             ])
@@ -185,121 +230,75 @@ class MediaController extends Controller
             ->with($setting);
     }
 
-    public function trash(Request $request, $condition = [], $setting = [])
-    {
-
-        $results = $this->listingmodel();
-        $sfp = $this->sfp($request, $results);
-        $definelevel = $this->definelevel;
-        //dd($definelevel);
-        //return \Redirect::to('/test/index');
-        $create_route = url_builder(
-            $this->obj_info['routing'],
-            [
-                $this->obj_info['name'], 'create', ''
-            ],
-        );
-
-        $active_route = url_builder(
-            $this->obj_info['routing'],
-            [
-                $this->obj_info['name'], '', ''
-            ],
-        );
-
-        return view('app.' . $this->obj_info['name'] . '.index')
-            ->with([
-
-                'obj_info'  => $this->obj_info,
-                'definelevel' => $this->definelevel,
-                'route' => ['create'  => $create_route, 'active' => $active_route],
-                'fprimarykey'     => $this->fprimarykey,
-                'caption' => 'Trash',
-                'istrash' => true,
-            ])
-            ->with(['act' => 'index'])
-            ->with($sfp)
-            ->with($setting);
-    }
-
-
 
     public function validator($request, $isupdate = false)
     {
-        $update_rules = [$this->fprimarykey => 'required'];
-
-        if ($isupdate) {
-            $rules['title']      = 'required|unique:' . $this->tablename . ',title,' . $request->input($this->fprimarykey) . ',' . $this->fprimarykey;
-        } else {
-            $rules['title']      = 'required|distinct|unique:' . $this->tablename . ',title';
+        $max = true;
+        if (!empty($request->file('images'))) {
+            $count = count($request->file('images'));
+            for ($i = 0; $i < $count; $i++) {
+                $size = filesize($request->file('images')[$i]);
+                // dd($size / 1024);
+                if (($size / 1024) > 2048) {
+                    $max = false;
+                }
+                // $rules[$request->file('images')[$i]] = 'required|minme:png.jpeg|max:2048';
+            }
         }
 
-        $validatorMessages = [
-            /*'required' => 'The :attribute field can not be blank.'*/
-            'required' => __('me.fieldreqire'),
-        ];
-
-        if ($isupdate) {
-            $rules = array_merge($rules, $update_rules);
-        }
-        return Validator::make($request->input(), $rules, $validatorMessages);
+        return $max;
     }
 
     public function setinfo($request, $isupdate = false)
     {
+        // dd($this->args['userinfo']['id']);
         $newid = ($isupdate) ? $request->input($this->fprimarykey)  : $this->model->max($this->fprimarykey) + 1;
         if ($newid == 1) $newid = 2;
         $tableData = [];
-        $levelsetting = !empty($request->input('levelsetting')) ? $request->input('levelsetting') : [];
-        $tableData = [
 
-            $this->fprimarykey => $newid,
-            'title'     => !empty($request->input('title')) ? $request->input('title') : '',
-            'levelsetting'    => json_encode($levelsetting),
-            'level_status' =>  'yes',
-            'level_type'  => '',
-            'tag'       => '',
-            'add_date'  => date("Y-m-d"),
-            'trash'     => 'no',
-            'blongto'   => $this->args['userinfo']['id']
 
-        ];
+        $images = $request->file('images');
+        // dd($images[0]);
+        if (!empty($images)) {
+            foreach ($images as $key => $img) {
+                $name = $img->getClientOriginalName();
+
+                $record = [
+                    'date' => Carbon::now(),
+                    'status' => 'enable',
+                    'trash' => 'no',
+                    'blongto' => $this->args['userinfo']['id'],
+                    'base_url' => '',
+                    'extra' => '',
+                    'media' =>  $name,
+                ];
+                array_push($tableData, $record);
+            }
+        }
+        // $tableData = [
+
+        //     $this->fprimarykey => $newid,
+
+        //     'blongto'   => $this->args['userinfo']['id']
+
+        // ];
         if ($isupdate) {
             $tableData = array_except($tableData, [$this->fprimarykey, 'add_date', 'blongto', 'trash']);
         }
-        return ['tableData' => $tableData, 'id' => $newid];
+        return ['tableData' => $tableData];
     }
 
-    public function create()
-    {
-        $sumit_route = url_builder(
-            $this->obj_info['routing'],
-            [$this->obj_info['name'], 'store', ''],
-            [],
-        );
 
-        $cancel_route = redirect()->back()->getTargetUrl();
-        return view('app.' . $this->obj_info['name'] . '.create')
-            ->with([
-                'obj_info'  => $this->obj_info,
-                'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route],
-                'form' => ['save_type' => 'save'],
-                'fprimarykey'     => $this->fprimarykey,
-                'caption' => 'New',
-                'definelevel' => $this->definelevel,
-                'istrush' => false,
-            ]);
-    } /*../function..*/
 
     public function store(Request $request)
     {
+
 
         $obj_info = $this->obj_info;
         $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'create']);
         if ($request->isMethod('post')) {
             $validator = $this->validator($request);
-            if ($validator->fails()) {
-
+            if (!$validator) {
                 $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'create']);
                 return response()
                     ->json(
@@ -307,14 +306,14 @@ class MediaController extends Controller
                             "type" => "validator",
                             'status' => false,
                             'route' => ['url' => $routing],
-                            "message" => __('me.forminvalid'),
-                            "data" => $validator->errors()
+                            "message" => 'Error Max Size',
+                            "data" => []
                         ],
                         422
                     );
             }
-
             $data = $this->setinfo($request);
+            // dd($data);
             return $this->proceed_store($request, $data, $obj_info);
         } /*end if is post*/
 
@@ -331,11 +330,15 @@ class MediaController extends Controller
     /* end function*/
     function proceed_store($request, $data, $obj_info)
     {
+        $count = count($data['tableData']);
+        // dd($count);
         $save_status = $this->model->insert($data['tableData']);
         if ($save_status) {
+            for ($i = 0; $i < $count; $i++) {
+
+                $request->file('images')[$i]->storeAs('media', $data['tableData'][$i]['media']);
+            }
             $savetype = strtolower($request->input('savetype'));
-            $id = $data['id'];
-            $rout_to = save_type_route($savetype, $obj_info, $id);
             $success_ms = __('ccms.suc_save');
             $callback = 'formreset';
             if (is_axios()) {
@@ -347,12 +350,9 @@ class MediaController extends Controller
                         "type" => "success",
                         "status" => $save_status,
                         "message" => $success_ms,
-                        "route" => $rout_to,
+
                         "callback" => $callback,
-                        "data" => [
-                            $this->fprimarykey => $data['id'],
-                            'id' => $data['id']
-                        ]
+                        "data" => ['tableData' => $data['tableData']]
                     ],
                     200
                 );
@@ -370,20 +370,11 @@ class MediaController extends Controller
     }
     /* end function*/
 
-    public function edit(Request $request, $id = 0)
+
+
+    public function totrash(Request $request, $id = 0)
     {
-
-        #prepare for back to url after SAVE#
-        if (!$request->session()->has('backurl')) {
-            $request->session()->put('backurl', redirect()->back()->getTargetUrl());
-        }
-
         $obj_info = $this->obj_info;
-
-        $default = $this->default();
-        $definelevel = $this->definelevel;
-        $input = null;
-
         #Retrieve Data#
         if (empty($id)) {
             $editid = $this->args['routeinfo']['id'];
@@ -391,13 +382,10 @@ class MediaController extends Controller
             $editid = $id;
         }
 
-        if ($request->has('level_id')) {
-            $editid = $request->input('level_id');
-        }
+        $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
+        $trash = $this->model->where($this->fprimarykey, $editid)->update(["trash" => "yes"]);
 
-        $input = $this->model->where($this->fprimarykey, (int)$editid)->where('trash', '<>', 'yes')->get();
-        if ($input->isEmpty()) {
-            $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
+        if ($trash) {
             return response()
                 ->json(
                     [
@@ -411,159 +399,16 @@ class MediaController extends Controller
                 );
         }
 
-        $input = $input->toArray()[0];
-        $x = [];
-        foreach ($input as $key => $value) {
-            $x[$key] = $value;
-        }
-        $x['levelsetting'] = json_decode($x['levelsetting'], true);
-        $input = $x;
-
-        $sumit_route = url_builder(
-            $this->obj_info['routing'],
-            [$this->obj_info['name'], 'update', ''],
-            [],
-        );
-        $cancel_route = redirect()->back()->getTargetUrl();
 
 
-        $active_permission = [];
-        foreach ($input['levelsetting'] as $key => $val) {
-            list($controller, $method) = explode('-', $val);
-            $active_permission[$controller][] = $method;
-        }
-
-        return view('app.' . $this->obj_info['name'] . '.create')
-            ->with([
-                'obj_info'  => $this->obj_info,
-                'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route],
-                'form' => ['save_type' => 'save'],
-                'fprimarykey'     => $this->fprimarykey,
-                'caption' => 'Edit',
-                'definelevel' => $this->definelevel,
-                'istrush' => false,
-                'input' => $input,
-                'active_permission' => $active_permission
-            ]);
-    } /*../end fun..*/
-
-    public function update(Request $request)
-    {
-        $obj_info = $this->obj_info;
-        $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'create']);
-        if ($request->isMethod('post')) {
-            $validator = $this->validator($request, true);
-            if ($validator->fails()) {
-
-                $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'create']);
-                return response()
-                    ->json(
-                        [
-                            "type" => "validator",
-                            'status' => false,
-                            'route' => ['url' => $routing],
-                            "message" => __('me.forminvalid'),
-                            "data" => $validator->errors()
-                        ],
-                        422
-                    );
-            }
-
-            $data = $this->setinfo($request, true);
-            return $this->proceed_update($request, $data, $obj_info);
-        } /*end if is post*/
-
-        return response()
-            ->json(
-                [
-                    "type" => "error",
-                    "message" => __('me.forminvalid'),
-                    "data" => []
-                ],
-                422
-            );
-    }/*../end fun..*/
-
-    function proceed_update($request, $data, $obj_info)
-    {
-
-        $update_status = $this->model
-            ->where($this->fprimarykey, $data['id'])
-            ->update($data['tableData']);
-
-        if ($update_status) {
-            $savetype = strtolower($request->input('savetype'));
-            $id = $data['id'];
-            $rout_to = save_type_route($savetype, $obj_info, $id);
-            $success_ms = __('ccms.suc_save');
-            $callback = '';
-            if (is_axios()) {
-                $callback = $request->input('jscallback');
-            }
-            return response()
-                ->json(
-                    [
-                        "type" => "success",
-                        "status" => $update_status,
-                        "message" => $success_ms,
-                        "route" => $rout_to,
-                        "callback" => $callback,
-                        "data" => [
-                            $this->fprimarykey => $data['id'],
-                            'id' => $data['id']
-                        ]
-                    ],
-                    200
-                );
-        }
-        return response()
-            ->json(
-                [
-                    "type" => "error",
-                    'status' => false,
-                    "message" => 'Your update is not affected',
-                    "data" => []
-                ],
-                422
-            );
-    }
-    /* end function*/
-
-    public function totrash(Request $request, $id = 0)
-    {
-        $obj_info = $this->obj_info;
-        #Retrieve Data#
-        if (empty($id)) {
-            $editid = $this->args['routeinfo']['id'];
-        } else {
-            $editid = $id;
-        }
-
-        $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
-        $trash = $this->model->where($this->fprimarykey, $editid)->where($this->fprimarykey, '<>', 1)->update(["trash" => "yes"]);
-
-        return response()
-            ->json(
+        return \Redirect::to($routing)
+            ->with(
                 [
                     "type" => "url",
-                    'status' => true,
+                    'status' => false,
                     'route' => ['url' => redirect()->back()->getTargetUrl()],
                     "message" => __('ccms.suc_delete'),
-                    "data" => ['id' => $editid]
-                ],
-                422
+                ]
             );
-
-
-
-        // return \Redirect::to($routing)
-        // ->with(
-        //     [
-        //         "type"=>"url", 
-        //         'status' => false,
-        //         'route'=>[ 'url' => redirect()->back()->getTargetUrl()],
-        //         "message"=> __('ccms.suc_delete'), 
-        //     ]
-        // );
     }
 }

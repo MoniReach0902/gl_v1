@@ -103,6 +103,37 @@
     </section>
     {{-- end header --}}
     <div class="container-fluid">
+        <div class="card-header">
+            <form class="frmsearch-{{ $obj_info['name'] }}">
+                <div class="form-row" style="font-size: 11px">
+                    <div class="form-group col-md-2">
+                        <label for="txt">@lang('dev.search')</label>
+                        <input type="text" class="form-control input-sm" name="txt" id="txt"
+                            value="{{ request()->get('txt') ?? '' }}">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="year">@lang('dev.year')</label>
+                        <select class="form-control input-sm" name="status" id="status">
+                            <option value="">-- {{ __('dev.noneselected') }} --</option>
+                            {!! cmb_listing(['yes' => 'Enable', 'no' => 'Disable'], [request()->get('status') ?? ''], '', '', '') !!}
+                        </select>
+                    </div>
+                    <div class="form-group col-md-1">
+                        <label>&nbsp;</label>
+                        <button type="submit" value="filter"
+                            class="btn btn-outline-secondary btn-block formactionbutton"><i
+                                class="fa fa-search"></i></button>
+                    </div>
+                    <div class="form-group col-md-1">
+                        <label>&nbsp;</label>
+                        <button type="button"
+                            class="btn btn-outline-light btn-block formactionbutton border border-secondary"
+                            onclick="location.href='{{ url()->current() }}'">reset
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
         {{--  --}}
 
 

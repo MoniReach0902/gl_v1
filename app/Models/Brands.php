@@ -7,10 +7,10 @@ use DB;
 
 
 
-class Newevent extends Model
+class Brands extends Model
 {
-    protected $table = 'tblnew_event';
-    protected $primaryKey = 'newevent_id';
+    protected $table = 'tblbrands';
+    protected $primaryKey = 'brand_id';
     public $timestamps = false;
     /*protected $fillable = array(
         'name',

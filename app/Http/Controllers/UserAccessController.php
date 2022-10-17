@@ -98,13 +98,13 @@ class UserAccessController extends Controller
 
         //dd(app()->getLocale());
         $parterns = ['round', 'phase', 'userlevel', 'formtype', 'formuse'];
-        foreach ($parterns as $partern) {
-            foreach (config('me.kobo.' . $partern) as $key => $val) {
-                //dd(__('dev.round' . $key));
-                config(['me.kobo.' . $partern . '.' . $key => __('dev.' . $partern . $key) ?? $val]);
-                //dd(config('me.kobo.round'));
-            }
-        }
+        // foreach ($parterns as $partern) {
+        //     foreach (config('me.kobo.' . $partern) as $key => $val) {
+        //         //dd(__('dev.round' . $key));
+        //         config(['me.kobo.' . $partern . '.' . $key => __('dev.' . $partern . $key) ?? $val]);
+        //         //dd(config('me.kobo.round'));
+        //     }
+        // }
 
         // foreach (config('me.kobo.phase') as $key => $val) {
         //     // dd(__('dev.phase' . $key));

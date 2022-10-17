@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Example;
-use App\Models\Inventory;
 use Illuminate\Http\Request;
 use Validator;
 use DB;
@@ -13,20 +12,20 @@ use App\Models\User;
 use App\Models\UserPermission;
 use App\Models\Location;
 use App\Models\Room;
-use App\Models\Slider;
+use App\Models\Inventory;
 use Illuminate\Support\Facades\Auth;
 
 class InventoryController extends Controller
 {
     //
-    private $obj_info = ['name' => 'inventory', 'routing' => 'admin.controller', 'title' => 'Inventory', 'icon' => '<i class="fas fa-dumpster"></i>'];
+    private $obj_info = ['name' => 'inventory', 'routing' => 'admin.controller', 'title' => 'Inventory', 'icon' => '<i class="fas fa-plus"></i>'];
     public $args;
 
     private $model;
     private $submodel;
     private $tablename;
     private $columns = [];
-    private $fprimarykey = 'inventory_id';
+    private $fprimarykey = 'inventory_id ';
     private $protectme = null;
 
     public $dflang;
@@ -43,7 +42,7 @@ class InventoryController extends Controller
     {
         //$this->middleware('auth');
         // dd($args['userinfo']);
-        $this->obj_info['title'] =  'Inventory';
+        $this->obj_info['title'] = 'Inventory';
 
         $default_protectme = config('me.app.protectme');
         $this->protectme = [
@@ -54,8 +53,8 @@ class InventoryController extends Controller
                 'index' => $default_protectme['index'],
                 // 'show' => $default_protectme['show'],
                 'create' => $default_protectme['create'],
-                'edit' => $default_protectme['edit'],
-                'delete' => $default_protectme['delete'],
+                // 'edit' => $default_protectme['edit'],
+                // 'delete' => $default_protectme['delete'],
                 // 'destroy' => $default_protectme['destroy'],
                 // 'restore' => $default_protectme['restore'],
             ]
@@ -65,7 +64,7 @@ class InventoryController extends Controller
         $this->model = new Inventory;
         $this->tablename = $this->model->gettable();
         $this->dflang = df_lang();
-        // dd($this->tablename);
+        // dd($this->tablename);c
 
         /*column*/
         $tbl_columns = getTableColumns($this->tablename);
@@ -97,14 +96,9 @@ class InventoryController extends Controller
 
     public function default()
     {
-        $inventory = $this->model
-        ->select(
-            \DB::raw($this->tablename . ".* "),
-            DB::raw("JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text"),
-
-        )
-        ->whereRaw('trash <> "yes"')->get();
-    return ['inventory' => $inventory];
+        // $equipment = $this->model->where('trash', '<>', 'yes')->get();
+        // // dd($example);
+        // return ['equipment' => $equipment];
     } /*../function..*/
     /**
      * Show the application dashboard.
@@ -115,7 +109,7 @@ class InventoryController extends Controller
     {
 
         $default = $this->default();
-        $inventory = $default['inventory'];
+        // $equipment = $default['equipment'];
         // dd($slider);
 
 
@@ -156,7 +150,7 @@ class InventoryController extends Controller
                 'caption' => 'Active',
             ])
             ->with(['act' => 'index'])
-            ->with(['inventory' => $inventory])
+            // ->with(['equipment' => $equipment])
             // ->with($setting)
         ;
     }
@@ -170,7 +164,7 @@ class InventoryController extends Controller
         // $rules['img'] = ['required'];
         $validatorMessages = [
             /*'required' => 'The :attribute field can not be blank.'*/
-            'required' => 'abc123',
+            'required' => 'តម្លៃមិនអាចទទេរ',
         ];
 
         return Validator::make($request->all(), $rules, $validatorMessages);
@@ -183,8 +177,15 @@ class InventoryController extends Controller
 
 
         $tableData = [
-            'inventory_id' => $newid,
-            'name' => $request->input('inventory-title'),
+            'equipment_id' => $newid,
+            // 'title' => $request->input('example-title'),
+            // 'product_name' => $request->input('product_name'),
+            // 'price' => $request->input('price'),
+            'name' => $request->input('name'),
+            'create_date'  => date("Y-m-d"),
+            'update_date'  => date("Y-m-d"),
+            'blongto'   => $this->args['userinfo']['id'],
+            'trash' => 'no',
 
         ];
         if ($isupdate) {
@@ -267,12 +268,17 @@ class InventoryController extends Controller
             // $request->file('img')->storeAs('slider', $data['tableData']['img']);
             $savetype = strtolower($request->input('savetype'));
             $success_ms = __('ccms.suc_save');
+            $callback = 'formreset';
+            if (is_axios()) {
+                $callback = $request->input('jscallback');
+            }
             return response()
                 ->json(
                     [
                         "type" => "success",
                         "status" => $save_status,
                         "message" => 'Success',
+                        "callback" => $callback,
                         "data" => []
                     ],
                     200
@@ -290,20 +296,113 @@ class InventoryController extends Controller
                 422
             );
     }
-    /* end function*/
-    public function update_slide(Request $request)
+
+
+
+
+
+    public function edit(Request $request, $id = 0)
     {
 
+        #prepare for back to url after SAVE#
+        if (!$request->session()->has('backurl')) {
+            $request->session()->put('backurl', redirect()->back()->getTargetUrl());
+        }
 
+        $obj_info = $this->obj_info;
+
+        $default = $this->default();
+
+        $input = null;
+
+        #Retrieve Data#
+        if (empty($id)) {
+            $editid = $this->args['routeinfo']['id'];
+        } else {
+            $editid = $id;
+        }
+
+        if ($request->has($this->fprimarykey)) {
+            $editid = $request->input($this->fprimarykey);
+        }
+
+        $input = $this->model
+            ->where($this->fprimarykey, (int)$editid)
+            ->get();
+        //dd($input->toSql());
+        if ($input->isEmpty()) {
+            $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
+            return response()
+                ->json(
+                    [
+                        "type" => "url",
+                        'status' => false,
+                        'route' => ['url' => redirect()->back()->getTargetUrl()],
+                        "message" => 'Your edit is not affected',
+                        "data" => ['id' => $editid]
+                    ],
+                    422
+                );
+        }
+
+
+        $input = $input->toArray()[0];
+        $x = [];
+        foreach ($input as $key => $value) {
+            $x[$key] = $value;
+        }
+
+        $input = $x;
+
+
+
+
+        $sumit_route = url_builder(
+            $this->obj_info['routing'],
+            [$this->obj_info['name'], 'update', ''],
+            [],
+        );
+        $cancel_route = redirect()->back()->getTargetUrl();
+
+        //dd($input);
+        return view('app.' . $this->obj_info['name'] . '.create')
+            ->with([
+                'obj_info'  => $this->obj_info,
+                'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route],
+                'form' => ['save_type' => 'save'],
+                'fprimarykey'     => $this->fprimarykey,
+                'caption' => 'Edit',
+                'isupdate' => true,
+                'input' => $input,
+            ]);
+    } /*../end fun..*/
+
+
+    public function update(Request $request)
+    {
         $obj_info = $this->obj_info;
         $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'create']);
         if ($request->isMethod('post')) {
+            $validator = $this->validator($request, true);
+            // dd($validator);
+            if ($validator->fails()) {
 
+                $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'create']);
+                return response()
+                    ->json(
+                        [
+                            "type" => "validator",
+                            'status' => false,
+                            'route' => ['url' => $routing],
+                            "message" => __('me.forminvalid'),
+                            "data" => $validator->errors()
+                        ],
+                        422
+                    );
+            }
 
-            $data = $this->setinfo_slide($request, true);
-            dd($data);
-
-            return $this->proceed_update_slide($request, $data, $obj_info);
+            $data = $this->setinfo($request, true);
+            return $this->proceed_update($request, $data, $obj_info);
         } /*end if is post*/
 
         return response()
@@ -315,32 +414,37 @@ class InventoryController extends Controller
                 ],
                 422
             );
-    }
-    function proceed_update_slide($request, $data, $obj_info)
-    {
-        $value = $data['tableData'];
+    }/*../end fun..*/
 
-        for ($i = 0; $i < count($value); $i++) {
-            if ($value[$i]['img_id'] < 1) {
-                $update_status = $this->model->where($this->fprimarykey, (int)$value[$i]['img_id'] * -1)
-                    ->update(['trash' => 'yes', 'img' => '']);
-                // if (!empty($value[$i]['img_path'])) {
-                //     unlink('public/sliders/' . $value[$i]['img_path']);
-                // }
-            }
-        }
+    function proceed_update($request, $data, $obj_info)
+    {
+        // dd($data);
+
+        $update_status = $this->model
+            ->where($this->fprimarykey, $data['exmaple_id'])
+            ->update($data['tableData']);
+
         if ($update_status) {
             $savetype = strtolower($request->input('savetype'));
-            // $id = $data['id'];
-            // $rout_to = save_type_route($savetype, $obj_info, $id);
+            $id = $data['exmaple_id'];
+            $rout_to = save_type_route($savetype, $obj_info, $id);
             $success_ms = __('ccms.suc_save');
+            $callback = '';
+            if (is_axios()) {
+                $callback = $request->input('jscallback');
+            }
             return response()
                 ->json(
                     [
                         "type" => "success",
                         "status" => $update_status,
                         "message" => $success_ms,
-                        // "route" => $rout_to,
+                        "route" => $rout_to,
+                        "callback" => $callback,
+                        "data" => [
+                            $this->fprimarykey => $data['exmaple_id'],
+                            'id' => $data['exmaple_id']
+                        ]
                     ],
                     200
                 );
@@ -357,56 +461,43 @@ class InventoryController extends Controller
             );
     }
     /* end function*/
-    public function setinfo_slide($request, $isupdate = false)
+
+    public function totrash(Request $request, $id = 0)
     {
-
-        $newid = ($isupdate) ? $request->input($this->fprimarykey)  : $this->model->max($this->fprimarykey) + 1;
-        $tableData = [];
-
-
-        $count = count($request->img_id);
-        // dd($request->img_id);
-        for ($i = 0; $i < $count; $i++) {
-            $record = [
-                'img_id' => $request->input('img_id')[$i],
-                'img_path' => $request->input('img_path')[$i],
-            ];
-            array_push($tableData, $record);
-        }
-
-
-        $img = $request->file('img');
-        if (!empty($img)) {
-            $img_name = hexdec(uniqid()) . '-' . $img->getClientOriginalName();
-            $img->move('public/sliders', $img_name);
+        $obj_info = $this->obj_info;
+        #Retrieve Data#
+        if (empty($id)) {
+            $editid = $this->args['routeinfo']['id'];
         } else {
-            $img_name = '';
+            $editid = $id;
         }
 
+        // $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
+        $trash = $this->model->where('exmaple_id', $editid)->update(["trash" => "yes"]);
 
-        if ($isupdate) {
-            $tableData = array_except($tableData, [$this->fprimarykey, 'password', 'trash']);
+        if ($trash) {
+            return response()
+                ->json(
+                    [
+                        "type" => "url",
+                        'status' => true,
+                        'route' => ['url' => redirect()->back()->getTargetUrl()],
+                        "message" => __('Example remove'),
+                        "data" => ['id' => $editid]
+                    ],
+                    200
+                );
         }
-        return ['tableData' => $tableData];
-    }
-
-
-
-    public function indexmobile(Request $request, $condition = [], $setting = [])
-    {
-        $default = $this->default();
-        $slider = $default['img'];
-
-        return response()->json(
-            [
-
-                // 'obj_info'  => $this->obj_info,
-                // 'fprimarykey'     => $this->fprimarykey,
-                // 'caption' => 'Active',
-                'slider' => $slider,
-                // 'setting' => $setting,
-
-            ]
-        );
+        return response()
+            ->json(
+                [
+                    "type" => "error",
+                    'status' => false,
+                    'route' => ['url' => redirect()->back()->getTargetUrl()],
+                    "message" => 'Your update is not affected',
+                    "data" => ['id' => $editid]
+                ],
+                422
+            );
     }
 }

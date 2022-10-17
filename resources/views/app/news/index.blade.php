@@ -109,15 +109,15 @@
 @endsection
 @section('content')
     {{-- Header --}}
-    <section class="content-header bg-light sticky-top ct-bar-action ct-bar-action-shaddow">
+    <section class="content-header bg-light d-flex ct-bar-action ct-bar-action-shaddow">
         <div class="container-fluid">
-            <div class="d-flex  border br-5">
+            <div class="d-flex border br-5">
                 <div class="flex-grow-1">
                     <h5 class="mb-2 mg-t-20 mg-l-20">
-                        {!! $obj_info['icon'] !!}
+                        {{-- {!! $obj_info['icon'] !!} --}}
                         <a href="{{ url_builder($obj_info['routing'], [$obj_info['name']]) }}"
                             class="ct-title-nav text-md">{{ $obj_info['title'] }}</a>
-                        <small class="text-sm">
+                        <small class="text-sm text-muted">
                             <i class="ace-icon fa fa-angle-double-right text-xs"></i>
                             {{ $caption ?? '' }}
                         </small>
@@ -131,50 +131,201 @@
     </section>
     {{-- end header --}}
     <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12" id="media-box">
+                <div class="media" id="media">
+                    <!-- container -->
+                    <div class="main-container container-fluid">
+                        <!-- row -->
+                        <div class="row">
+                            <div class="col-lg-12 col-xl-12">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="tx-18 mb-4">
+                                            {{-- <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                                                <div class="card custom-card text-center">
+                                                    <div class="card-body">
+                                                        <div>
+                                                            <h6 class="card-title mb-1">Ajax Alert</h6>
+                                                            <p class="text-muted card-sub-title">With a loader (for a AJAX
+                                                                requests)
+                                                            </p>
+                                                        </div>
+                                                        <div class="btn ripple btn-pink" id='swal-ajax'>
+                                                            Click me !
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> --}}
 
-        <form name="frm-2{{ $obj_info['name'] }}" id="frm-2{{ $obj_info['name'] }}" method="POST"
-            action="{{ $route['submit'] }}" enctype="multipart/form-data">
-            {{-- please dont delete these default Field --}}
-            @CSRF
-            <input type="hidden" name="{{ $fprimarykey }}" id="{{ $fprimarykey }}"
-                value="{{ $input[$fprimarykey] ?? '' }}">
-            <input type="hidden" name="jscallback" value="{{ $jscallback ?? (request()->get('jscallback') ?? '') }}">
+
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-auto">
+                                        <div class="input-group mb-2">
+                                            <input type="text" class="form-control" placeholder="Search files.....">
+                                            <span class="input-group-append">
+                                                <button class="btn ripple btn-primary" type="button">Search</button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @foreach ($news as $new)
+                                    <div class="col-xl-3 col-md-4 col-sm-6">
+                                        <div class="card p-0 ">
+                                            <div class="d-flex align-items-center px-3 pt-3">
+                                                <div class="float-end ms-auto">
+                                                    <a href="javascript:void(0);" class="option-dots"
+                                                        data-bs-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false"><i class="fe fe-more-vertical"></i></a>
+                                                    <div class="dropdown-menu">
+                                                        <a class="dropdown-item" href="javascript:void(0);"><i
+                                                                class="fe fe-edit me-2"></i> Edit</a>
+                                                        <a class="dropdown-item" href="javascript:void(0);"><i
+                                                                class="fas fa-stop-circle"></i> &nbsp;Disable</a>
+                                                        <a class="dropdown-item delete"
+                                                            href="{{ url_builder($obj_info['routing'], [$obj_info['name'], 'totrash', $new['newevent_id']], []) }}"><i
+                                                                class="fe fe-trash me-2 "></i>
+
+                                                            Delete</a>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-body pt-0 text-center">
+                                                <div class="file-manger-icon brick">
+                                                    <a  href="#"
+                                                        data-caption="IMAGE-01" data-id="lion"
+                                                        ><img
+                                                            src="https://sabay.com/assets/images/csr/Ignite/Ignite_03.png"
+                                                            style="width: 200px;height:150px" alt="img"></a>
+                                                </div><br>
+                                                <h6 class="mb-1 font-weight-semibold">{{ $new['create_date'] }}</h6>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                        <div class="col-xl-3 col-md-4 col-sm-6">
+                                            <div class="card p-0 ">
+                                                <div class="d-flex align-items-center px-3 pt-3">
+                                                    <div class="float-end ms-auto">
+                                                        <a href="javascript:void(0);" class="option-dots"
+                                                            data-bs-toggle="dropdown" aria-haspopup="true"
+                                                            aria-expanded="false"><i class="fe fe-more-vertical"></i></a>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item" href="javascript:void(0);"><i
+                                                                    class="fe fe-edit me-2"></i> Edit</a>
+                                                            <a class="dropdown-item" href="javascript:void(0);"><i
+                                                                    class="fas fa-stop-circle"></i> &nbsp;Disable</a>
+                                                            <a class="dropdown-item delete"
+                                                                href="{{ url_builder($obj_info['routing'], [$obj_info['name'], 'totrash', $new['newevent_id']], []) }}"><i
+                                                                    class="fe fe-trash me-2 "></i>
+
+                                                                Delete</a>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body pt-0 text-center">
+                                                    <div class="file-manger-icon brick">
+                                                        <a  href="#"
+                                                            data-caption="IMAGE-01" data-id="lion"
+                                                            ><img
+                                                                src="https://sabay.com/assets/images/csr/Ignite/Ignite_03.png"
+                                                                style="width: 200px;height:150px" alt="img"></a>
+                                                    </div><br>
+                                                    <h6 class="mb-1 font-weight-semibold">{{ $new['create_date'] }}</h6>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-md-4 col-sm-6">
+                                            <div class="card p-0 ">
+                                                <div class="d-flex align-items-center px-3 pt-3">
+                                                    <div class="float-end ms-auto">
+                                                        <a href="javascript:void(0);" class="option-dots"
+                                                            data-bs-toggle="dropdown" aria-haspopup="true"
+                                                            aria-expanded="false"><i class="fe fe-more-vertical"></i></a>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item" href="javascript:void(0);"><i
+                                                                    class="fe fe-edit me-2"></i> Edit</a>
+                                                            <a class="dropdown-item" href="javascript:void(0);"><i
+                                                                    class="fas fa-stop-circle"></i> &nbsp;Disable</a>
+                                                            <a class="dropdown-item delete"
+                                                                href="{{ url_builder($obj_info['routing'], [$obj_info['name'], 'totrash', $new['newevent_id']], []) }}"><i
+                                                                    class="fe fe-trash me-2 "></i>
+
+                                                                Delete</a>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body pt-0 text-center">
+                                                    <div class="file-manger-icon brick">
+                                                        <a  href="#"
+                                                            data-caption="IMAGE-01" data-id="lion"
+                                                            ><img
+                                                                src="https://sabay.com/assets/images/csr/Ignite/Ignite_03.png"
+                                                                style="width: 200px;height:150px" alt="img"></a>
+                                                    </div><br>
+                                                    <h6 class="mb-1 font-weight-semibold">{{ $new['create_date'] }}</h6>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-md-4 col-sm-6">
+                                            <div class="card p-0 ">
+                                                <div class="d-flex align-items-center px-3 pt-3">
+                                                    <div class="float-end ms-auto">
+                                                        <a href="javascript:void(0);" class="option-dots"
+                                                            data-bs-toggle="dropdown" aria-haspopup="true"
+                                                            aria-expanded="false"><i class="fe fe-more-vertical"></i></a>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item" href="javascript:void(0);"><i
+                                                                    class="fe fe-edit me-2"></i> Edit</a>
+                                                            <a class="dropdown-item" href="javascript:void(0);"><i
+                                                                    class="fas fa-stop-circle"></i> &nbsp;Disable</a>
+                                                            <a class="dropdown-item delete"
+                                                                href="{{ url_builder($obj_info['routing'], [$obj_info['name'], 'totrash', $new['newevent_id']], []) }}"><i
+                                                                    class="fe fe-trash me-2 "></i>
+
+                                                                Delete</a>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body pt-0 text-center">
+                                                    <div class="file-manger-icon brick">
+                                                        <a  href="#"
+                                                            data-caption="IMAGE-01" data-id="lion"
+                                                            ><img
+                                                                src="https://sabay.com/assets/images/csr/Ignite/Ignite_03.png"
+                                                                style="width: 200px;height:150px" alt="img"></a>
+                                                    </div><br>
+                                                    <h6 class="mb-1 font-weight-semibold">{{ $new['create_date'] }}</h6>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    @endforeach
 
 
 
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover mb-0 text-md-nowrap">
-                        <thead>
-                            @if (isset($istrash) && $istrash)
-                                <thead style="color: var(--warning)">
-                                @else
-                                    <thead style="color: var(--info)">
-                            @endif
-                            <tr>
-                                <th style="width: 10px">ID</th>
-                                <th style="width: 10px">Example title</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {{--@foreach ($example as $val)
-                                <tr>
-                                    <td>{{ $val['exmaple_id'] }}</td>
-                                    <td>{{ $val['title'] }}</td>
 
-                                </tr>
-                            @endforeach--}}
-                        </tbody>
-                    </table>
+                                </div>
+                                <!-- Pagination and Record info -->
+                                {{--@include('app._include.pagination')--}}
+                            </div>
+                        </div>
+                        <!-- End Row -->
+
+                    </div>
+                    <!-- Container closed -->
 
                 </div>
             </div>
-
-        </form>
-
-
-
-
-        {{--  --}}
+        </div>
+        
     </div>
 @endsection
