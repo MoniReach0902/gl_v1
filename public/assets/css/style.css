@@ -1064,10 +1064,22 @@ btn-outline-primary:hover .bg-primary {
 
 
 .btn-save{
-    box-shadow: inset -5px -5px 9px rgba(255,255,255,0.45), inset 5px 5px 9px rgba(94,104,121,0.3);
+    /* background-color: rgba(199, 199, 199, 0.5); */
+    padding: 10px 20px;
+    border:none;
+    outline:none;
+    border-radius:15px;
+    box-shadow: inset -5px -5px 9px rgba(255,255,255,0.50), inset 5px 5px 9px rgba(94,104,121,0.3);
 }
 
+.btn-save:hover {
+    box-shadow: inset -5px -5px 9px rgba(255,255,255,0.30), inset 5px 5px 9px rgba(94,104,121,0.3);
 
+}
+
+.btn-save:active{
+    box-shadow: -5px -5px 9px rgba(255,255,255,0.45), 5px 5px 9px rgba(94,104,121,0.3);
+}
 
 .breadcrumb-header {
     display: flex;
