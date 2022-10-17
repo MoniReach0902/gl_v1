@@ -113,6 +113,9 @@ foreach (config('me.app.project_lang') as $lang) {
                 value="{{ $input[$fprimarykey] ?? '' }}">
             <input type="hidden" name="jscallback" value="{{ $jscallback ?? (request()->get('jscallback') ?? '') }}">
             <br>
+
+            <div class="card">
+
                 <div class="card-body">
                     <div class="form-group">
                         <label for="">Name English & Khmer</label>
@@ -146,6 +149,7 @@ foreach (config('me.app.project_lang') as $lang) {
                     </div>
                     
                 </div>
+            </div>
                 <!-- /.card-body -->
             </div>
             {{--  --}}

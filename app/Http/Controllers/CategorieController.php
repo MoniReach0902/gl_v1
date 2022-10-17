@@ -13,7 +13,7 @@ use App\Models\User;
 use App\Models\UserPermission;
 use App\Models\Location;
 use App\Models\Room;
-use App\Models\Slider;
+use App\Models\Categrie;
 use Illuminate\Support\Facades\Auth;
 
 class CategorieController extends Controller
@@ -43,7 +43,7 @@ class CategorieController extends Controller
     {
         //$this->middleware('auth');
         // dd($args['userinfo']);
-        $this->obj_info['title'] =  'Categories';
+        $this->obj_info['title'] =  'Categorie';
 
         $default_protectme = config('me.app.protectme');
         $this->protectme = [

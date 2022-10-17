@@ -141,7 +141,7 @@
             <input type="hidden" name="jscallback" value="{{ $jscallback ?? (request()->get('jscallback') ?? '') }}">
 
 
-            <div class="card-body table-responsive p-0">
+            <div class="card-body table-responsive p-0 mg-t-20">
                 <table class="table  table-striped table-hover text-nowrap table-bordered">
                     <tr>
                         <th style="width: 10px">ID</th>
@@ -155,48 +155,34 @@
                     </tr>
                     </thead>
                     <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
-    
-                                <td>1</td>
-                                <td>
-                                   1
-                                </td>
-                                <td>
-                                    1
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
-    
-                                <td>1</td>
-                                <td>
-                                   1
-                                </td>
-                                <td>
-                                    1
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
-    
-                                <td>1</td>
-                                <td>
-                                   1
-                                </td>
-                                <td>
-                                    1
-                                </td>
-                            </tr>
+                        @foreach ($categorie as $row)
+                        <tr>
+                            <td>{{ $row->id }}</td>
+                            <td>{!! $row->fullname !!}</td>
+                            <td>{!! $row->name !!}</td>
+                            <td>{!! $row->email !!}</td>
+
+                            <td>{!! $row->permission !!}</td>
+                            <td>
+                                @if ($row->userstatus == 'yes')
+                                    <span class="badge bg-success">
+                                        Enable
+                                    @else
+                                        <span class="badge bg-danger">
+                                            Disable
+                                @endif
+                                </span>
+                            </td>
+                            <td>
+                                @include('app._include.btn_record', [
+                                    'rowid' => $row->id,
+                                    'edit' => true,
+                                    'trash' => true,
+                                    'delete' => true,
+                                ])
+                            </td>
+                        </tr>
+                    @endforeach
                     </tbody>
                 </table>
     
