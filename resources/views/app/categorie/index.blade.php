@@ -143,16 +143,17 @@
 
             <div class="card-body table-responsive p-0 mg-t-20">
                 <table class="table  table-striped table-hover text-nowrap table-bordered">
-                    <tr>
-                        <th style="width: 10px">ID</th>
-                        <th>Category Name</th>
-                        <th>Create Date</th>
-                        <th>Update Date</th>
-    
-                        <th>Permission</th>
-                        <th style="width: 40px">Status</th>
-                        <th style="width: 40px; text-align: center"><i class="fa fa-ellipsis-h"></i></th>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th style="width: 10px">ID</th>
+                            <th>Category Name</th>
+                            <th>Create Date</th>
+                            <th>Update Date</th>
+        
+                            <th>Permission</th>
+                            <th style="width: 40px">Status</th>
+                            <th style="width: 40px; text-align: center"><i class="fa fa-ellipsis-h"></i></th>
+                        </tr>
                     </thead>
                     <tbody>
                         @foreach ($categorie as $row)
