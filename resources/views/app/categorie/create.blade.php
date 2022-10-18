@@ -119,7 +119,7 @@ foreach (config('me.app.project_lang') as $lang) {
                                     <label for=""><b>Name English & Khmer</b></label>
                                     <div class="input-group my-group" style="width:100%;">
 
-                                        <select class="form-control form-select input-sm tab_title" style="width:20%;">
+                                        <select class="form-control form-select input-sm tab_title" style="width:10%;">
                                             @foreach (config('me.app.project_lang') as $lang)
                                                 <option value="@lang($lang[0])">@lang($lang[1])</option>
                                             @endforeach
