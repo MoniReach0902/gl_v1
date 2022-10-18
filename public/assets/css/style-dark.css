@@ -3681,9 +3681,6 @@ body.dark-theme {
     border-radius:15px;
     box-shadow: inset 5px 5px 8px #1a1c26, -5px -5px 8px #2a2e3f;
 }
-.dark-theme .btn-save:hover{
-    box-shadow: inset 5px 5px 8px #1a1c26, -5px -5px 8px #2a2e3f;
-}
 .dark-theme .btn-save:active{
     box-shadow: 5px 5px 8px #1a1c24, -5px -5px 8px #1a1c26;
 
