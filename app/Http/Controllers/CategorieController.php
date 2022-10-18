@@ -134,10 +134,10 @@ class CategorieController extends Controller
         if ($request->has('txtcategorie') && !empty($request->input('txtcategorie'))) {
             $qry = $request->input('txtcategorie');
             $results = $results->where(function ($query) use ($qry) {
-                $query->whereRaw("tblcategories.name like '%" . $qry . "%'");
+                $query->whereRaw("tblcategories.text like '%" . $qry . "%'");
             });
-            array_push($querystr, 'tblcategories.name=' . $qry);
-            $appends = array_merge($appends, ['tblcategories.name' => $qry]);
+            array_push($querystr, 'tblcategories.text=' . $qry);
+            $appends = array_merge($appends, ['tblcategories.text' => $qry]);
         }
         if ($request->has('status') && !empty($request->input('status'))) {
             $qry = $request->input('status');

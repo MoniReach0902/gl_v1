@@ -19,11 +19,11 @@
                     autohide: true,
                     delay: 3000,
                     //position: 'bottomLeft',
-                });
+                }); 
             @endif
 
             @if (null !== session('status') && session('status') == true)
-                alert(1);
+            location.reload();
                 $(document).Toasts('create', {
                     class: 'bg-success ct-min-toast-width',
                     title: 'Success',
@@ -63,6 +63,25 @@
                     loading_indicator);
 
             });
+            $('.delete').click(function(e) {
+                e.preventDefault();
+                var link = $(this).attr("href");
+                $('body').removeClass('timer-alert');
+                swal({
+                    title: "Are your sure to delete ?",
+                    text: "",
+                    type: "warning",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true
+                }, function() {
+                    setInterval(() => {
+                        window.location.href = link;
+                        swal("Delete finished!");
+                    }, 1000);
+                });
+            });
+            
 
             $("#btnnew_{{ $obj_info['name'] }}").click(function(e) {
 
@@ -105,6 +124,7 @@
             let data = jsondata.data;
             helper.makeDropdownByJson(dropdown, data, -1, 'please select');
         }
+        
     </script>
 @endsection
 @section('content')
@@ -214,7 +234,8 @@
                                         'edit' => true,
                                         'trash' => true,
                                         'delete' => true,
-                                    ])</td>
+                                    ])
+                                </td>
                                 </tr>
                             @endforeach
                     </tbody>

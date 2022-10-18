@@ -46,13 +46,16 @@ aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i>
         {{-- For Actice Side --}}
         @if (isset($trash) && $trash)
             <li>
-                <a class="dropdown-item"
-                    href="{{ url_builder($obj_info['routing'], [$obj_info['name'], 'totrash', $rowid], []) }}">
+                <a class="dropdown-item delete"
+                        href="{{ url_builder($obj_info['routing'], [$obj_info['name'], 'totrash', $rowid], []) }}"><i
+                        class="fe fe-trash me-2" style="color: var(--bs-yellow)"></i>@lang('dev.trash')</a>
+                <!--<a class="dropdown-item"
+                   // {{--href="{{ url_builder($obj_info['routing'], [$obj_info['name'], 'totrash', $rowid], []) }}">--}}
 
                     <i class="fa fa-trash me-2" style="color: var(--bs-yellow)"></i>
-                    @lang('dev.trash')
+                    {{--@lang('dev.trash')--}}
 
-                </a>
+                </a>-->
             </li>
         @endif
         {{--  --}}
