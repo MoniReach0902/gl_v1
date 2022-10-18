@@ -1062,6 +1062,22 @@ btn-outline-primary:hover .bg-primary {
     color: #000;
 }
 
+
+.btn-save{
+    /* background-color: rgba(199, 199, 199, 0.5); */
+    padding: 10px 20px;
+    border:none;
+    outline:none;
+    border-radius:15px;
+    box-shadow: inset -5px -5px 9px rgba(255,255,255,0.50), inset 5px 5px 9px rgba(94, 104, 121, 0.242);
+}
+
+
+.btn-save:active{
+    box-shadow: -5px -5px 9px rgba(255,255,255,0.45), 5px 5px 9px rgba(94,104,121,0.3);
+}
+
+
 .breadcrumb-header {
     display: flex;
     margin-top: 20px;
@@ -7472,7 +7488,8 @@ pre code {
     display: block;
     width: 100%;
     height: 40px;
-    padding: 0.375rem 0.75rem;
+    /* padding: 0.400rem 0.70rem; */
+    padding:25px;
     font-size: 0.875rem;
     font-weight: 400;
     line-height: 2;
@@ -7491,8 +7508,7 @@ pre code {
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     box-sizing: border-box;
     /* box-shadow: 13px 13px 13px #cbced1,-13px -13px 13px #ffffff; */
-    box-shadow: inset 8px 8px 8px #cbced1,
-    inset -8px -8px 8px #ffffff;
+    box-shadow: inset -5px -5px 9px rgba(255,255,255,0.45), inset 5px 5px 9px rgba(94,104,121,0.3);
     border-radius: 15px;
     border: none;
     outline: none;
@@ -12981,6 +12997,7 @@ tr {
 }
 
 .form-select:focus {
+    color:
     box-shadow: none;
 }
 

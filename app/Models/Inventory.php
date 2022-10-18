@@ -9,7 +9,7 @@ use DB;
 
 class Inventory extends Model
 {
-    protected $table = ' tblinventorys';
+    protected $table = 'tblinventorys';
     protected $primaryKey = 'inventory_id';
     public $timestamps = false;
     /*protected $fillable = array(

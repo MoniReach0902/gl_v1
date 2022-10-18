@@ -112,8 +112,8 @@ class CategorieController extends Controller
         return $this->model
             ->leftJoin('users', 'users.id', 'tblcategories.blongto')
             ->select(
-                \DB::raw($this->fprimarykey . ",tblcategories.name,tblcategories.create_date,
-                                                    tblcategories.update_date,users.name As username"),
+                \DB::raw($this->fprimarykey . ",JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text,tblcategories.create_date,
+                         tblcategories.update_date,tblcategories.status,users.name As username"),
 
             )->whereRaw('tblcategories.trash <> "yes"');
     } /*../function..*/
@@ -273,7 +273,7 @@ class CategorieController extends Controller
 
         ];
         if ($isupdate) {
-            $tableData = array_except($tableData, [$this->fprimarykey, 'password', 'trash']);
+            $tableData = array_except($tableData, [$this->fprimarykey,'create_date', 'password', 'trash']);
         }
         return ['tableData' => $tableData, $this->fprimarykey => $newid];
     }
@@ -562,7 +562,7 @@ class CategorieController extends Controller
             $editid = $id;
         }
 
-        // $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
+        //$routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
         $trash = $this->model->where('categorie_id', $editid)->update(["trash" => "yes"]);
 
         if ($trash) {
@@ -572,8 +572,8 @@ class CategorieController extends Controller
                         "type" => "url",
                         'status' => true,
                         'route' => ['url' => redirect()->back()->getTargetUrl()],
-                        "message" => __('Example remove'),
-                        "data" => ['id' => $editid]
+                        "message" => __('ccms.suc_delete'),
+                        "data" => ['categorie_id' => $editid]
                     ],
                     200
                 );

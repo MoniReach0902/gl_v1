@@ -23,14 +23,17 @@
             @endif
 
             @if (null !== session('status') && session('status') == true)
-
-                notif({
-                    msg: 'delete success',
-                    type: "success",
-                    position: "right",
+                alert(1);
+                $(document).Toasts('create', {
+                    class: 'bg-success ct-min-toast-width',
+                    title: 'Success',
+                    subtitle: '',
+                    body: "{{ session('message') }}",
                     fade: true,
-                    clickable: true,
-                    timeout: 2000,
+                    autohide: true,
+                    delay: 3000,
+                    //position: 'bottomLeft',
+
                 });
             @endif
             /*please dont delete this above code*/
@@ -108,7 +111,7 @@
     {{-- Header --}}
     <section class="content-header bg-light d-flex ct-bar-action ct-bar-action-shaddow">
         <div class="container-fluid">
-            <div class="d-flex  border br-5">
+            <div class="d-flex border br-5">
                 <div class="flex-grow-1">
                     <h5 class="mb-2 mg-t-20 mg-l-20">
                         {{-- {!! $obj_info['icon'] !!} --}}
@@ -128,6 +131,37 @@
     </section>
     {{-- end header --}}
     <div class="container-fluid">
+        <div class="card-header">
+            <form class="frmsearch-{{ $obj_info['name'] }}">
+                <div class="form-row" style="font-size: 11px">
+                    <div class="form-group col-md-2">
+                        <label for="txt">@lang('dev.search')</label>
+                        <input type="text" class="form-control input-sm" name="txtcategorie" id="txt"
+                            value="{{ request()->get('txtcategorie') ?? '' }}">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="year">@lang('dev.year')</label>
+                        <select class="form-control input-sm" name="status" id="status">
+                            <option value="">-- {{ __('dev.noneselected') }} --</option>
+                            {!! cmb_listing(['yes' => 'Enable', 'no' => 'Disable'], [request()->get('status') ?? ''], '', '', '') !!}
+                        </select>
+                    </div>
+                    <div class="form-group col-md-1">
+                        <label>&nbsp;</label>
+                        <button type="submit" value="filter"
+                            class="btn btn-outline-secondary btn-block formactionbutton"><i
+                                class="fa fa-search"></i></button>
+                    </div>
+                    <div class="form-group col-md-1">
+                        <label>&nbsp;</label>
+                        <button type="button"
+                            class="btn btn-outline-light btn-block formactionbutton border border-secondary"
+                            onclick="location.href='{{ url()->current() }}'">reset
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
 
         <form name="frm-2{{ $obj_info['name'] }}" id="frm-2{{ $obj_info['name'] }}" method="POST"
             action="{{ $route['submit'] }}" enctype="multipart/form-data">
@@ -135,80 +169,61 @@
             @CSRF
             <input type="hidden" name="{{ $fprimarykey }}" id="{{ $fprimarykey }}"
                 value="{{ $input[$fprimarykey] ?? '' }}">
-            <input type="hidden" name="jscallback" value="{{ $jscallback ?? 'formreset' }}">
+            <input type="hidden" name="jscallback" value="{{ $jscallback ?? (request()->get('jscallback') ?? '') }}">
 
 
-
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover mb-0 text-md-nowrap">
-                        <thead>
-                            @if (isset($istrash) && $istrash)
+            <div class="card-body table-responsive p-0">
+                <table class="table  table-striped table-hover text-nowrap table-bordered">
+                    @if (isset($istrash) && $istrash)
                                 <thead style="color: var(--warning)">
                                 @else
                                     <thead style="color: var(--info)">
                             @endif
                             <tr>
                                 <th style="width: 10px">ID</th>
-                                <th style="width: 10px">Name</th>
-                                <th style="width: 10px">Create Date</th>
-                                <th style="width: 10px">Update Date</th>
-                                <th style="width: 10px">Status</th>
+                                <th>Name</th>
+                                <th>Create date</th>
+                                <th>Update date</th>
+                                <th>Create By</th>
+                                <th style="width: 40px">Status</th>
+                                <th style="width: 40px; text-align: center"><i class="fa fa-ellipsis-h"></i></th>
 
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach ($example as $val)
+                            @foreach ($results as $inventorys)
                                 <tr>
-                                    <td>{{ $val['exmaple_id'] }}</td>
-                                    <td>{{ $val['title'] }}</td>
-
-                                    <td>
-                                        @include('app._include.btn_record', [
-                                            'rowid' => $val['exmaple_id'],
-                                            'edit' => true,
-                                            'trash' => true,
-                                            'delete' => true,
-                                        ])
+                                    <td>{{ $inventorys->inventory_id }}</td>
+                                    <td>{{ $inventorys['text'] }}</td>
+                                    <td style="width: 10%">{{ $inventorys->create_date }}</td>
+                                    <td style="width: 10%">{{ $inventorys->update_date }}</td>
+                                    <td style="width: 10%">{{ $inventorys->username }}</td>
+                                    <td style="width: 10%">
+                                        @if ($inventorys->status == 'yes')
+                                        <span class="badge bg-dark">
+                                            Enable
+                                        @else
+                                            <span class="badge bg-danger">
+                                                Disable
+                                    @endif
+                                    </span>
                                     </td>
+                                    <td> 
+                                    @include('app._include.btn_record', [
+                                        'rowid' => $inventorys->inventory_id,
+                                        'edit' => true,
+                                        'trash' => true,
+                                        'delete' => true,
+                                    ])</td>
                                 </tr>
-                            @endforeach --}}
-                            <tr>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                            </tr>
-                            <tr>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                            </tr>
-                            <tr>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                            </tr>
-                            <tr>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                </div>
+                            @endforeach
+                    </tbody>
+                </table>
+     <!-- Pagination and Record info -->
+     @include('app._include.pagination')
+                <!-- /. end -->
+    
             </div>
-
         </form>
-
-
     </div>
 @endsection

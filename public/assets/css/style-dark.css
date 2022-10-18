@@ -3673,6 +3673,22 @@ body.dark-theme {
     outline: none;
 }
 
+
+.dark-theme .btn-save{
+    padding: 10px 20px;
+    border:none;
+    outline:none;
+    border-radius:15px;
+    box-shadow: inset 5px 5px 8px #1a1c26, -5px -5px 8px #2a2e3f;
+}
+/* .dark-theme .btn-save:hover{
+    box-shadow: inset 5px 5px 8px #1a1c20, -5px -5px 8px #2a2e3e;
+} */
+.dark-theme .btn-save:active{
+    box-shadow: 5px 5px 8px #1a1c24, -5px -5px 8px #1a1c26;
+
+}
+
 .dark-theme .breadcrumb-style1 .breadcrumb-item+.breadcrumb-item::before,
 .dark-theme .breadcrumb-style2 .breadcrumb-item+.breadcrumb-item::before,
 .dark-theme .breadcrumb-style3 .breadcrumb-item+.breadcrumb-item::before {

@@ -1,6 +1,6 @@
 @php
 $extends = 'app';
-$action_btn = ['save' => true, 'print' => false, 'cancel' => true, 'new' => true];
+$action_btn = ['save' => true, 'print' => false, 'cancel' => false, 'new' => true];
 foreach (config('me.app.project_lang') as $lang) {
     $langcode[] = $lang[0];
 }
@@ -15,24 +15,19 @@ foreach (config('me.app.project_lang') as $lang) {
 @extends('layouts.' . $extends)
 
 @section('blade_css')
-    <style>
-        .img-box i {
-            font-size: 70px !important;
-            cursor: pointer;
-
-        }
-
-        .img-box {
-            display: flex;
-            justify-content: center
-        }
-    </style>
 @endsection
 
 @section('blade_scripts')
     <script>
         $(document).ready(function() {
+            $(document).on("change", ".tab_title", function(ev) {
+                ///
 
+                var $value = $(this).val();
+                helper.enableDisableByLang($(this), {!! json_encode($langcode, true) !!}, 'title-', $value);
+
+                ///
+            });
             let route_submit = "{{ $route['submit'] }}";
             let route_cancel = "{{ $route['cancel'] ?? '' }}";
             let route_print = "{{ $route['print'] ?? '' }}";
@@ -64,25 +59,18 @@ foreach (config('me.app.project_lang') as $lang) {
                 //window.location.replace(route_cancel);
                 window.location = route_cancel;
             });
-            $('#img_box').click(function() {
-                let route_import =
-                    "{{ url_builder('admin.controller', ['user', 'create']) }}";
+            $("#btnnew_{{ $obj_info['name'] }}").click(function(e) {
 
-                let extraFrm = {
 
-                }; //{jscallback:'test'};
-                let setting = {}; //{fnSuccess:foo};
-                let popModal = {
-                    show: true,
-                    size: 'modal-xl',
-                    modal: 'Extra',
-                    //modal-sm, modal-lg, modal-xl
-                };
+                window.location = route_new;
+                //     loading_indicator);
+            });
 
-                let loading_indicator = '';
-                helper.silentHandler(route_import, '', '', setting, popModal,
-                    'extra_modal',
-                    loading_indicator);
+            $(".btnprint_{{ $obj_info['name'] }}").click(function(e) {
+                //window.location.replace(route_cancel);
+                //window.location = route_print;
+                window.open(
+                    route_print);
             });
 
 
@@ -98,7 +86,7 @@ foreach (config('me.app.project_lang') as $lang) {
             <div class="d-flex  border br-5">
                 <div class="flex-grow-1">
                     <h5 class="mb-2 mg-t-20 mg-l-20">
-                        {{-- {!! $obj_info['icon'] !!} --}}
+                        {!! $obj_info['icon'] !!}
                         <a href="{{ url_builder($obj_info['routing'], [$obj_info['name']]) }}"
                             class="ct-title-nav text-md">{{ $obj_info['title'] }}</a>
                         <small class="text-sm text-muted">
@@ -126,32 +114,42 @@ foreach (config('me.app.project_lang') as $lang) {
             <input type="hidden" name="jscallback" value="{{ $jscallback ?? (request()->get('jscallback') ?? '') }}">
             <br>
 
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for=""><b>Name English & Khmer</b></label>
+                                    <div class="input-group my-group" style="width:100%;">
 
-                <div class="card">
-                    <div class="card-body">
-                        <div class="pd-20 pd-sm-20">
-                            <div class="row row-xs">
-                                
-                                <div class="col-md-12">
-                                    <label for="name">	Name: </label>
-                                    <input class="form-control" placeholder="Enter name" type="text">
+                                        <select class="form-control form-select input-sm tab_title" style="width:20%;">
+                                            @foreach (config('me.app.project_lang') as $lang)
+                                                <option value="@lang($lang[0])">@lang($lang[1])</option>
+                                            @endforeach
+            
+                                        </select>
+                                        @php
+                                            $active = '';
+                                        @endphp
+                                        @foreach (config('me.app.project_lang') as $lang)
+                                            @php
+                                                // dd($lang);
+                                                $title = json_decode($input['title'] ?? '', true);
+                                            @endphp
+                                            <input type="text" class="form-control input-sm {{ $active }}" style="width:80%;"
+                                                name="title-{{ $lang[0] }}" id="title-{{ $lang[0] }}"
+                                                placeholder="{{ $lang[1] }}" value="{{ $name[$lang[0]] ?? '' }}">
+                                            @php
+                                                $active = 'hide';
+                                            @endphp
+                                        @endforeach
+                                        <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error"
+                                            class="error invalid-feedback" style="display: none"></span>
+                                    </div>
+                                    <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
                                 </div>
-                               
-                                
-                                <div class=" col-md-12 mg-t-10">
-                                    <label class="custom-switch ps-0">
-                                        <span class="custom-switch-description me-2">Status</span>
-                                        <input type="checkbox" name="custom-switch-checkbox1" class="custom-switch-input">
-                                        <span class="custom-switch-indicator"></span>
-                                    </label>
-                                </div>
-                            
                             </div>
-                        </div>
-                    </div>
-                </div>
+                            <!-- /.card-body -->
+                        
+            {{--  --}}
    
-        </form>
+    </form>
     </div>
-    {{-- @include('layouts.extra_modal') --}}
 @endsection

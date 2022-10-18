@@ -172,7 +172,7 @@
             <input type="hidden" name="jscallback" value="{{ $jscallback ?? (request()->get('jscallback') ?? '') }}">
 
 
-            <div class="card-body table-responsive p-0">
+            <div class="card-body table-responsive p-0 mg-t-20">
                 <table class="table  table-striped table-hover text-nowrap table-bordered">
                     @if (isset($istrash) && $istrash)
                                 <thead style="color: var(--warning)">
@@ -184,7 +184,7 @@
                                 <th>Name</th>
                                 <th>Create date</th>
                                 <th>Update date</th>
-                                <th>CreateBy ID</th>
+                                <th>Create By</th>
                                 <th style="width: 40px">Status</th>
                                 <th style="width: 40px; text-align: center"><i class="fa fa-ellipsis-h"></i></th>
 
