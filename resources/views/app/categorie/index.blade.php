@@ -145,13 +145,12 @@
                 <table class="table  table-striped table-hover text-nowrap table-bordered">
                     <thead>
                         <tr>
-                            <th style="width: 10px">ID</th>
-                            <th>Category Name</th>
-                            <th>Create Date</th>
-                            <th>Update Date</th>
-        
-                            <th>Permission</th>
-                            <th style="width: 40px">Status</th>
+                            <th style="width: 10px">@lang('dev.id')</th>
+                            <th>@lang('dev.category_name')</th>
+                            <th>@lang('dev.create_date')</th>
+                            <th>@lang('dev.update_date')</th>
+                            <th>@lang('dev.permission')</th>
+                            <th style="width: 40px">@lang('dev.status')</th>
                             <th style="width: 40px; text-align: center"><i class="fa fa-ellipsis-h"></i></th>
                         </tr>
                     </thead>
@@ -167,10 +166,11 @@
                             <td>
                                 @if ($row->userstatus == 'yes')
                                     <span class="badge bg-success">
-                                        Enable
+                                        @lang('dev.enable')
                                     @else
                                         <span class="badge bg-danger">
-                                            Disable
+                                            @lang('dev.disable')
+
                                 @endif
                                 </span>
                             </td>

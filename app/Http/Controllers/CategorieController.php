@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use public\resources\lang\kh\dev;
 use App\Models\Categorie;
 use App\Models\Example;
 use Illuminate\Http\Request;
@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Auth;
 class CategorieController extends Controller
 {
     //
-    private $obj_info = ['name' => 'categorie', 'routing' => 'admin.controller', 'title' => 'Categorie', 'icon' => '<i class="fa fa-tags"></i>'];
+    private $obj_info = ['name' => 'categorie', 'routing' => 'admin.controller', 'title' => 'Category', 'icon' => '<i class="fa fa-tags"></i>'];
     public $args;
 
     private $model;
@@ -43,7 +43,7 @@ class CategorieController extends Controller
     {
         //$this->middleware('auth');
         // dd($args['userinfo']);
-        $this->obj_info['title'] =  'Categorie';
+        $this->obj_info['title'] =  "Category";
 
         $default_protectme = config('me.app.protectme');
         $this->protectme = [
