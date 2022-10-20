@@ -12,22 +12,22 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\UserPermission;
 use App\Models\Location;
+use App\Models\Producttype;
 use App\Models\Room;
 use App\Models\Slider;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
-class CategorieController extends Controller
+class ProducttypeController extends Controller
 {
     //
-    private $obj_info = ['name' => 'categorie', 'routing' => 'admin.controller', 'title' => 'Categorie', 'icon' => '<i class="fa fa-tags"></i>'];
+    private $obj_info = ['name' => 'producttype', 'routing' => 'admin.controller', 'title' => 'Producttype', 'icon' => '<i class="fa fa-puzzle-piece"></i>'];
     public $args;
 
     private $model;
     private $submodel;
     private $tablename;
     private $columns = [];
-    private $fprimarykey = 'categorie_id';
+    private $fprimarykey = 'producttype_id';
     private $protectme = null;
 
     public $dflang;
@@ -44,7 +44,7 @@ class CategorieController extends Controller
     {
         //$this->middleware('auth');
         // dd($args['userinfo']);
-        $this->obj_info['title'] =  'Categories';
+        $this->obj_info['title'] =  'Product Properties';
 
         $default_protectme = config('me.app.protectme');
         $this->protectme = [
@@ -63,7 +63,7 @@ class CategorieController extends Controller
         ];
 
         $this->args = $args;
-        $this->model = new Categorie;
+        $this->model = new Producttype;
         $this->tablename = $this->model->gettable();
         $this->dflang = df_lang();
         // dd($this->tablename);
@@ -98,25 +98,25 @@ class CategorieController extends Controller
 
     public function default()
     {
-        $categorie = $this->model
+        $producttype = $this->model
             ->select(
                 \DB::raw($this->tablename . ".* "),
                 DB::raw("JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text"),
 
             )
             ->whereRaw('trash <> "yes"')->get();
-        return ['categorie' => $categorie];
+        return ['producttype' => $producttype];
     } /*../function..*/
     public function listingModel()
     {
         #DEFIND MODEL#
         return $this->model
-            ->leftJoin('users', 'users.id', 'tblcategories.blongto')
+            ->leftJoin('users', 'users.id', 'tblproduct_type.blongto')
             ->select(
-                \DB::raw($this->fprimarykey . ",JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text,tblcategories.create_date,
-                         tblcategories.update_date,tblcategories.status,users.name As username"),
+                \DB::raw($this->fprimarykey . ",JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text,tblproduct_type.create_date,
+                tblproduct_type.update_date,tblproduct_type.status,users.name As username"),
 
-            )->whereRaw('tblcategories.trash <> "yes"');
+            )->whereRaw('tblproduct_type.trash <> "yes"');
     } /*../function..*/
     //JSON_UNQUOTE(JSON_EXTRACT(title, '$.".$this->dflang[0]."'))
     public function sfp($request, $results)
@@ -132,13 +132,13 @@ class CategorieController extends Controller
         // FILTERS
         $appends = [];
         $querystr = [];
-        if ($request->has('txtcategorie') && !empty($request->input('txtcategorie'))) {
-            $qry = $request->input('txtcategorie');
+        if ($request->has('txtproduct_type') && !empty($request->input('txtproduct_type'))) {
+            $qry = $request->input('txtproduct_type');
             $results = $results->where(function ($query) use ($qry) {
-                $query->whereRaw("tblcategories.text like '%" . $qry . "%'");
+                $query->whereRaw("tblproduct_type.text like '%" . $qry . "%'");
             });
-            array_push($querystr, 'tblcategories.text=' . $qry);
-            $appends = array_merge($appends, ['tblcategories.text' => $qry]);
+            array_push($querystr, 'tblproduct_type.text=' . $qry);
+            $appends = array_merge($appends, ['tblproduct_type.text' => $qry]);
         }
         if ($request->has('status') && !empty($request->input('status'))) {
             $qry = $request->input('status');
@@ -195,7 +195,7 @@ class CategorieController extends Controller
     {
 
         $default = $this->default();
-        $categorie = $default['categorie'];
+        $producttype = $default['producttype'];
          //dd('aaa');
          $results = $this->listingmodel();
          $sfp = $this->sfp($request, $results);
@@ -237,7 +237,7 @@ class CategorieController extends Controller
                 'fprimarykey'     => $this->fprimarykey,
                 'caption' => 'Active',
             ])
-            ->with(['categorie' => $categorie])
+            ->with(['producttype' => $producttype])
             ->with($sfp)
             ->with($setting)
         ;
@@ -265,17 +265,16 @@ class CategorieController extends Controller
         $data = toTranslate($request, 'title', 0, true);
 
         $tableData = [
-            'categorie_id' => $newid,
+            'producttype_id' => $newid,
             'name' => json_encode($data),
             'create_date' => date("Y-m-d"),
-            'update_date' => "",
             'blongto' => $this->args['userinfo']['id'],
             'trash' => 'no',
             'status' => 'yes',
 
         ];
         if ($isupdate) {
-            $tableData =array_except($tableData, [$this->fprimarykey,'create_date', 'password', 'trash']);
+            $tableData = array_except($tableData, [$this->fprimarykey,'create_date', 'password', 'trash']);
         }
         return ['tableData' => $tableData, $this->fprimarykey => $newid];
     }
@@ -513,12 +512,12 @@ class CategorieController extends Controller
         // dd($data);
 
         $update_status = $this->model
-            ->where($this->fprimarykey, $data['categorie_id'])
+            ->where($this->fprimarykey, $data['producttype_id'])
             ->update($data['tableData']);
 
         if ($update_status) {
             $savetype = strtolower($request->input('savetype'));
-            $id = $data['categorie_id'];
+            $id = $data['producttype_id'];
             $rout_to = save_type_route($savetype, $obj_info, $id);
             $success_ms = __('ccms.suc_save');
             $callback = '';
@@ -534,8 +533,8 @@ class CategorieController extends Controller
                         "route" => $rout_to,
                         "callback" => $callback,
                         "data" => [
-                            $this->fprimarykey => $data['categorie_id'],
-                            'id' => $data['categorie_id']
+                            $this->fprimarykey => $data['producttype_id'],
+                            'id' => $data['producttype_id']
                         ]
                     ],
                     200
@@ -565,7 +564,7 @@ class CategorieController extends Controller
         }
 
         //$routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
-        $trash = $this->model->where('categorie_id', $editid)->update(["trash" => "yes"]);
+        $trash = $this->model->where('producttype_id', $editid)->update(["trash" => "yes"]);
 
         if ($trash) {
             return response()
@@ -575,7 +574,7 @@ class CategorieController extends Controller
                         'status' => true,
                         'route' => ['url' => redirect()->back()->getTargetUrl()],
                         "message" => __('ccms.suc_delete'),
-                        "data" => ['categorie_id' => $editid]
+                        "data" => ['producttype_id' => $editid]
                     ],
                     200
                 );

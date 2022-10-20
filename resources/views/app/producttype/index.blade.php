@@ -156,8 +156,8 @@
                 <div class="form-row" style="font-size: 11px">
                     <div class="form-group col-md-2">
                         <label for="txt">@lang('dev.search')</label>
-                        <input type="text" class="form-control input-sm" name="txtcategorie" id="txt"
-                            value="{{ request()->get('txtcategorie') ?? '' }}">
+                        <input type="text" class="form-control input-sm" name="txtproduct_type" id="txt"
+                            value="{{ request()->get('txtproduct_type') ?? '' }}">
                     </div>
                     <div class="form-group col-md-2">
                         <label for="year">@lang('dev.year')</label>
@@ -211,15 +211,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($results as $categories)
+                            @foreach ($results as $product_types)
                                 <tr>
-                                    <td>{{ $categories->categorie_id }}</td>
-                                    <td>{{ $categories['text'] }}</td>
-                                    <td style="width: 10%">{{ $categories->create_date }}</td>
-                                    <td style="width: 10%">{{ $categories->update_date }}</td>
-                                    <td style="width: 10%">{{ $categories->username }}</td>
+                                    <td>{{ $product_types->producttype_id }}</td>
+                                    <td>{{ $product_types['text'] }}</td>
+                                    <td style="width: 10%">{{ $product_types->create_date }}</td>
+                                    <td style="width: 10%">{{ $product_types->update_date }}</td>
+                                    <td style="width: 10%">{{ $product_types->username }}</td>
                                     <td style="width: 10%">
-                                        @if ($categories->status == 'yes')
+                                        @if ($product_types->status == 'yes')
                                         <span class="badge bg-dark">
                                             Enable
                                         @else
@@ -230,7 +230,7 @@
                                     </td>
                                     <td> 
                                     @include('app._include.btn_record', [
-                                        'rowid' => $categories->categorie_id,
+                                        'rowid' => $product_types->producttype_id,
                                         'edit' => true,
                                         'trash' => true,
                                         'delete' => true,
