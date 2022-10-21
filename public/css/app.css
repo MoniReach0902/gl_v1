@@ -304,7 +304,7 @@ button {
 }
 
 button:focus:not(:focus-visible) {
-  outline: 0;
+  outline: none;
 }
 
 input,
@@ -2053,7 +2053,7 @@ pre code {
   padding:25px;
   box-sizing: border-box;
   box-shadow: inset -5px -5px 9px rgba(255,255,255,0.45), inset 5px 5px 9px rgba(94,104,121,0.3);
-  border-radius: 15px;
+  /* border-radius: 15px; */
   border: none;
   outline: none;
 }
@@ -2068,7 +2068,7 @@ pre code {
 }
 .form-control:focus {
   color: #4d5875;
-  background-color: #fff;
+  /* background-color: #fff; */
   box-shadow: inset -5px -5px 9px rgba(255,255,255,0.45), inset 5px 5px 9px rgba(94,104,121,0.3);
 }
 .form-control::-moz-placeholder {

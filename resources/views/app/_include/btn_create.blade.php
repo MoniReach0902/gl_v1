@@ -1,14 +1,14 @@
 @if (isset($save) && $save)
-    <button type="button"
-        class="btnsave_{{ $obj_info['name'] }} formactionbutton btn-save mx-2 button-icon"
+    <a
+        class="btnsave_{{ $obj_info['name'] }} formactionbutton text-muted btn-save mx-2 button-icon"
         data-savetype="save">
         <i class="fe fe-save me-2"></i>@lang('dev.btn_save')
-    </button>
+    </a>
 @endif
 
 @if (isset($saveimport) && $saveimport)
     <button type="button"
-        class="btnsaveimport_{{ $obj_info['name'] }} formactionbutton btn btn-outline-success mx-2 button-icon"
+        class="btnsaveimport_{{ $obj_info['name'] }} formactionbutton btn text-muted btn-outline-success mx-2 button-icon"
         data-savetype="save">
         <i class="fe fe-save me-2"></i>@lang('dev.btn_save')
     </button>
@@ -16,7 +16,7 @@
 
 @if (isset($apply) && $apply)
     <button type="button"
-        class="btnsave_{{ $obj_info['name'] }} formactionbutton btn btn-outline-success btn-flat ct-btn-action"
+        class="btnsave_{{ $obj_info['name'] }} formactionbutton btn text-muted btn-outline-success btn-flat ct-btn-action"
         data-savetype="apply">
         <i class="fas fa-edit"></i><br>@lang('dev.btn_apply')
     </button>
@@ -24,15 +24,15 @@
 
 @if (isset($print) && $print)
     <button type="button"
-        class="btnprint_{{ $obj_info['name'] }} formactionbutton btn btn-outline-info btn-flat ct-btn-action"
+        class="btnprint_{{ $obj_info['name'] }} formactionbutton btn text-muted btn-outline-info btn-flat ct-btn-action"
         data-savetype="save">
         <i class="fas fa-print"></i><br>@lang('dev.btn_print')
     </button>
 @endif
 
 @if (isset($cancel) && $cancel)
-    <button type="button"
-        class="btncancel_{{ $obj_info['name'] }} formactionbutton btn-save button-icon">
+    <a
+        class="btncancel_{{ $obj_info['name'] }} formactionbutton btn-save text-muted button-icon">
         <i class="fe fe-arrow-left me-2"></i>@lang('dev.btn_back')
-    </button>
+    </a>
 @endif

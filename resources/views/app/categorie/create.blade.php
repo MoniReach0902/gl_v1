@@ -95,7 +95,7 @@ foreach (config('me.app.project_lang') as $lang) {
                         </small>
                     </h5>
                 </div>
-                <div class="pd-10 ">
+                <div class="pd-20 ">
                     @include('app._include.btn_create', $action_btn)
                 </div>
 
@@ -120,7 +120,7 @@ foreach (config('me.app.project_lang') as $lang) {
                     <div class="form-group">
                         <label for="">@lang('dev.name_kh_eng')</label>
                         <div class="input-group my-group" style="width:100%;">
-                            <select class="form-control form-select input-sm tab_title" style="width:10%;">
+                            <select class=" form-select input-sm tab_title" style="width:10%;">
                                 @foreach (config('me.app.project_lang') as $lang)
                                     <option value="@lang($lang[0])">@lang($lang[1])</option>
                                 @endforeach
