@@ -7,10 +7,10 @@ use DB;
 
 
 
-class Inventory extends Model
+class Producttype extends Model
 {
-    protected $table = 'tblinventorys';
-    protected $primaryKey = 'inventory_id';
+    protected $table = 'tblproduct_type';
+    protected $primaryKey = 'producttype_id';
     public $timestamps = false;
     /*protected $fillable = array(
         'name',

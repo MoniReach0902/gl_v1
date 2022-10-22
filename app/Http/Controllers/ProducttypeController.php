@@ -1,8 +1,9 @@
-
 <?php
 
 namespace App\Http\Controllers;
 
+use App\Models\Categorie;
+use App\Models\Example;
 use Illuminate\Http\Request;
 use Validator;
 use DB;
@@ -11,19 +12,22 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\UserPermission;
 use App\Models\Location;
+use App\Models\Producttype;
+use App\Models\Room;
+use App\Models\Slider;
 use Illuminate\Support\Facades\Auth;
 
-class UserController extends Controller
+class ProducttypeController extends Controller
 {
     //
-    private $obj_info = ['name' => 'user', 'routing' => 'admin.controller', 'title' => 'User', 'icon' => '<i class="fas fa-user"></i>'];
+    private $obj_info = ['name' => 'producttype', 'routing' => 'admin.controller', 'title' => 'Producttype', 'icon' => '<i class="fa fa-puzzle-piece"></i>'];
     public $args;
 
     private $model;
     private $submodel;
     private $tablename;
     private $columns = [];
-    private $fprimarykey = 'id';
+    private $fprimarykey = 'producttype_id';
     private $protectme = null;
 
     public $dflang;
@@ -40,7 +44,7 @@ class UserController extends Controller
     {
         //$this->middleware('auth');
         // dd($args['userinfo']);
-        $this->obj_info['title'] = 'User'; //__('label.lb09');
+        $this->obj_info['title'] =  'Product Properties';
 
         $default_protectme = config('me.app.protectme');
         $this->protectme = [
@@ -59,9 +63,10 @@ class UserController extends Controller
         ];
 
         $this->args = $args;
-        $this->model = new User;
+        $this->model = new Producttype;
         $this->tablename = $this->model->gettable();
         $this->dflang = df_lang();
+        // dd($this->tablename);
 
         /*column*/
         $tbl_columns = getTableColumns($this->tablename);
@@ -93,35 +98,27 @@ class UserController extends Controller
 
     public function default()
     {
+        $producttype = $this->model
+            ->select(
+                \DB::raw($this->tablename . ".* "),
+                DB::raw("JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text"),
 
-        /*location*/
-        $location = Location::getlocation($this->dflang[0])->get();
-        $provinces = $location->pluck('title', 'id')->toArray();
-
-        /*permission*/
-        $permission = UserPermission::select('permission_id', 'title')->where('trash', '<>', 'yes')
-            ->get()
-            ->pluck('title', 'permission_id')
-            ->toArray();
-
-        return [
-            'provinces' => $provinces,
-            'permission' => $permission,
-        ];
+            )
+            ->whereRaw('trash <> "yes"')->get();
+        return ['producttype' => $producttype];
     } /*../function..*/
-
     public function listingModel()
     {
         #DEFIND MODEL#
         return $this->model
-            ->leftJoin('users_permission', 'users_permission.permission_id', 'users.permission_id')
+            ->leftJoin('users', 'users.id', 'tblproduct_type.blongto')
             ->select(
-                \DB::raw($this->fprimarykey . " AS id, name,email, fullname ,userstatus, users.permission_id, users_permission.title as permission"),
+                \DB::raw($this->fprimarykey . ",JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text,tblproduct_type.create_date,
+                tblproduct_type.update_date,tblproduct_type.status,users.name As username"),
 
-            )->whereRaw('users.trash <> "yes"');
+            )->whereRaw('tblproduct_type.trash <> "yes"');
     } /*../function..*/
     //JSON_UNQUOTE(JSON_EXTRACT(title, '$.".$this->dflang[0]."'))
-
     public function sfp($request, $results)
     {
         #Sort Filter Pagination#
@@ -135,14 +132,13 @@ class UserController extends Controller
         // FILTERS
         $appends = [];
         $querystr = [];
-        if ($request->has('txt') && !empty($request->input('txt'))) {
-            $qry = $request->input('txt');
+        if ($request->has('txtproduct_type') && !empty($request->input('txtproduct_type'))) {
+            $qry = $request->input('txtproduct_type');
             $results = $results->where(function ($query) use ($qry) {
-                $query->whereRaw("name like '%" . $qry . "%'")
-                    ->orwhereRaw("email like '%" . $qry . "%'");
+                $query->whereRaw("tblproduct_type.text like '%" . $qry . "%'");
             });
-            array_push($querystr, 'txt=' . $qry);
-            $appends = array_merge($appends, ['txt' => $qry]);
+            array_push($querystr, 'tblproduct_type.text=' . $qry);
+            $appends = array_merge($appends, ['tblproduct_type.text' => $qry]);
         }
         if ($request->has('status') && !empty($request->input('status'))) {
             $qry = $request->input('status');
@@ -190,7 +186,6 @@ class UserController extends Controller
 
         ];
     } /*../function..*/
-
     /**
      * Show the application dashboard.
      *
@@ -198,13 +193,24 @@ class UserController extends Controller
      */
     public function index(Request $request, $condition = [], $setting = [])
     {
+
         $default = $this->default();
-        $provinces = $default['provinces'];
+        $producttype = $default['producttype'];
+         //dd('aaa');
+         $results = $this->listingmodel();
+         $sfp = $this->sfp($request, $results);
 
-        $results = $this->listingmodel();
-        $sfp = $this->sfp($request, $results);
 
-        //return \Redirect::to('/test/index');
+        $create_modal = url_builder(
+            $this->obj_info['routing'],
+            [$this->obj_info['name'], 'modal', ''],
+            [],
+        );
+        $submit = url_builder(
+            $this->obj_info['routing'],
+            [$this->obj_info['name'], 'update_slide', ''],
+            [],
+        );
         $create_route = url_builder(
             $this->obj_info['routing'],
             [
@@ -219,103 +225,64 @@ class UserController extends Controller
             ],
         );
 
-        return view('app.' . $this->obj_info['name'] . '.index', compact(['provinces']))
+        return view('app.' . $this->obj_info['name'] . '.index')
             ->with([
-
                 'obj_info'  => $this->obj_info,
                 'route' => [
                     'create'  => $create_route,
-                    'trash' => $trash_route
+                    'trash' => $trash_route,
+                    'create_modal' => $create_modal,
+                    'submit' => $submit,
                 ],
                 'fprimarykey'     => $this->fprimarykey,
                 'caption' => 'Active',
             ])
-            ->with(['act' => 'index'])
+            ->with(['producttype' => $producttype])
             ->with($sfp)
-            ->with($setting);
+            ->with($setting)
+        ;
     }
-
-    public function trash(Request $request, $condition = [], $setting = [])
-    {
-    }
-
-
 
     public function validator($request, $isupdate = false)
     {
         $newid = ($isupdate) ? $request->input($this->fprimarykey)  : $this->model->max($this->fprimarykey) + 1;
         $update_rules = [$this->fprimarykey => 'required'];
 
-        $rules['name']      = ['required', 'string'];
-        $rules['phone']      = ['required', 'numeric'];
-        // dd($request->input('permission_id'));
-        if ($request->input('permission_id') != 1) {
-
-            $rules['permission_id']      = ['required'];
-
-            $rules['fullname']      = ['required'];
-        }
-
-
-
+        $rules['title-en'] = ['required'];
+        // $rules['img'] = ['required'];
         $validatorMessages = [
             /*'required' => 'The :attribute field can not be blank.'*/
-            'required' => 'The :attribute field can not be blank.',
+            'required' => "field can't be blank",
         ];
-        if ($isupdate) {
-            $rules['name']      = ['required', 'string', 'unique:users,name,' . $newid];
-            $rules['phone']      = ['required',  'numeric', 'unique:users,email,' . $newid];
-            $rules = array_merge($rules, $update_rules);
-        } else {
-            $rules['password']      = ['required', 'string', 'min:6', 'confirmed'];
-        }
-        return Validator::make($request->input(), $rules, $validatorMessages);
-    }
 
-    public function conateArrayToString($request, $value)
-    {
-        $item = [];
-        if (!empty($value)) {
-            array_push($item, $value);
-            $item = "'" . implode("','", $item[0]) . "'";
-        }
-        return $item;
+        return Validator::make($request->all(), $rules, $validatorMessages);
     }
-
     public function setinfo($request, $isupdate = false)
     {
+
         $newid = ($isupdate) ? $request->input($this->fprimarykey)  : $this->model->max($this->fprimarykey) + 1;
         $tableData = [];
-        $userlevel = $this->conateArrayToString($request, $request->input('userlevel'));
-        $formtype = $this->conateArrayToString($request, $request->input('formtype'));
-        $formuse = $this->conateArrayToString($request, $request->input('formuse'));
+        $data = toTranslate($request, 'title', 0, true);
 
-        $levelsetting = !empty($request->input('levelsetting')) ? $request->input('levelsetting') : [];
         $tableData = [
-
-            'id' => $newid,
-            'name'     => !empty($request->input('name')) ? $request->input('name') : '',
-            'email'    => !empty($request->input('phone')) ? $request->input('phone') : '',
-            'password' =>  Hash::make($request->input('password')),
-            'permission_id' => !empty($request->input('permission_id')) ? $request->input('permission_id') : 0,
-
-            'userstatus' => !empty($request->input('userstatus')) ? $request->input('userstatus') : 'no',
-
-            'fullname'   => !empty($request->input('fullname')) ? $request->input('fullname') : '',
-            'trash'     => 'no',
+            'producttype_id' => $newid,
+            'name' => json_encode($data),
+            'create_date' => date("Y-m-d"),
+            'blongto' => $this->args['userinfo']['id'],
+            'trash' => 'no',
+            'status' => 'yes',
 
         ];
         if ($isupdate) {
-            $tableData = array_except($tableData, [$this->fprimarykey, 'password', 'trash']);
+            $tableData = array_except($tableData, [$this->fprimarykey,'create_date', 'password', 'trash']);
         }
-        return ['tableData' => $tableData, 'id' => $newid];
+        return ['tableData' => $tableData, $this->fprimarykey => $newid];
     }
-
     public function create()
     {
         $default = $this->default();
-        $provinces = $default['provinces'];
-        $permission = $default['permission'];
+        // // $provinces = $default['provinces'];
+        // $permission = $default['permission'];
         $districts = [];
         $communes = [];
         $sumit_route = url_builder(
@@ -323,12 +290,17 @@ class UserController extends Controller
             [$this->obj_info['name'], 'store', ''],
             [],
         );
+        $new = url_builder(
+            $this->obj_info['routing'],
+            [$this->obj_info['name'], 'create', ''],
+            [],
+        );
 
         $cancel_route = redirect()->back()->getTargetUrl();
-        return view('app.' . $this->obj_info['name'] . '.create',  compact(['permission', 'provinces', 'districts', 'communes']))
+        return view('app.' . $this->obj_info['name'] . '.create')
             ->with([
                 'obj_info'  => $this->obj_info,
-                'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route],
+                'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route, 'new' => $new],
                 'form' => ['save_type' => 'save'],
                 'fprimarykey'     => $this->fprimarykey,
                 'caption' => 'New',
@@ -350,7 +322,7 @@ class UserController extends Controller
                         [
                             "type" => "validator",
                             'status' => false,
-                            "message" => __('me.forminvalid'),
+                            "message" => __('ccms.fail_save'),
                             "data" => $validate->errors()
                         ],
                         422
@@ -365,7 +337,7 @@ class UserController extends Controller
             ->json(
                 [
                     "type" => "error",
-                    "message" => __('me.forminvalid'),
+                    "message" => __('ccms.fail_save'),
                     "data" => []
                 ],
                 422
@@ -374,20 +346,29 @@ class UserController extends Controller
     /* end function*/
     function proceed_store($request, $data, $obj_info)
     {
+        // dd($data['tableData']);
         $save_status = $this->model->insert($data['tableData']);
+        // dd($save_status);
         if ($save_status) {
+            // $request->file('img')->storeAs('slider', $data['tableData']['img']);
             $savetype = strtolower($request->input('savetype'));
             $success_ms = __('ccms.suc_save');
+            $callback = 'formreset';
+            if (is_axios()) {
+                $callback = $request->input('jscallback');
+            }
             return response()
                 ->json(
                     [
                         "type" => "success",
                         "status" => $save_status,
                         "message" => 'Success',
+                        "callback" => $callback,
                         "data" => []
                     ],
                     200
                 );
+            // redirect()->back();
         }
         return response()
             ->json(
@@ -400,21 +381,18 @@ class UserController extends Controller
                 422
             );
     }
-    /* end function*/
-
     public function edit(Request $request, $id = 0)
     {
 
-        #prepare for back to url after SAVE#
-        if (!$request->session()->has('backurl')) {
+         #prepare for back to url after SAVE#
+         if (!$request->session()->has('backurl')) {
             $request->session()->put('backurl', redirect()->back()->getTargetUrl());
         }
 
         $obj_info = $this->obj_info;
 
         $default = $this->default();
-        $provinces = $default['provinces'];
-        $permission = $default['permission'];
+        //change piseth
         $input = null;
 
         #Retrieve Data#
@@ -430,8 +408,7 @@ class UserController extends Controller
 
         $input = $this->model
             ->where($this->fprimarykey, (int)$editid)
-            ->whereRaw(where_not_trush())
-            ->whereRaw(where_not_topadmin())
+            //change piseth
             ->get();
         //dd($input->toSql());
         if ($input->isEmpty()) {
@@ -457,17 +434,8 @@ class UserController extends Controller
         }
 
         $input = $x;
-<<<<<<< HEAD
-        // $input['formtype'] = str_replace("'g
-=======
-        // $input['formtype'] = str_replace("'", '', $input['formtype']);
-        // $input['formtype'] = explode(',', $input['formtype']);
-        // $input['userlevel'] = str_replace("'", '', $input['userlevel']);
-        // $input['userlevel'] = explode(',', $input['userlevel']);
-        // $input['formuse'] = str_replace("'", '', $input['formuse']);
-        // $input['formuse'] = explode(',', $input['formuse']);
->>>>>>> 58f6ee5946568b845f4bf2976990e47b0dbb2788
 
+        $name =json_decode($input['name'],true);
 
 
         $sumit_route = url_builder(
@@ -487,17 +455,19 @@ class UserController extends Controller
         $location = Location::getlocation($this->dflang[0], $where)->get();
         $communes = $location->pluck('title', 'id')->toArray();
         //dd($input);
-        return view('app.' . $this->obj_info['name'] . '.create', compact(['permission', 'provinces', 'districts', 'communes']))
+        return view('app.' . $this->obj_info['name'] . '.create', ) //change piseth
             ->with([
                 'obj_info'  => $this->obj_info,
                 'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route],
                 'form' => ['save_type' => 'save'],
-                'fprimarykey'     => $this->fprimarykey,
+                'fprimarykey' => $this->fprimarykey,
                 'caption' => 'Edit',
                 'isupdate' => true,
                 'input' => $input,
+                'name' => $name,
             ]);
     } /*../end fun..*/
+
 
     public function update(Request $request)
     {
@@ -539,14 +509,15 @@ class UserController extends Controller
 
     function proceed_update($request, $data, $obj_info)
     {
+        // dd($data);
 
         $update_status = $this->model
-            ->where($this->fprimarykey, $data['id'])
+            ->where($this->fprimarykey, $data['producttype_id'])
             ->update($data['tableData']);
 
         if ($update_status) {
             $savetype = strtolower($request->input('savetype'));
-            $id = $data['id'];
+            $id = $data['producttype_id'];
             $rout_to = save_type_route($savetype, $obj_info, $id);
             $success_ms = __('ccms.suc_save');
             $callback = '';
@@ -562,8 +533,8 @@ class UserController extends Controller
                         "route" => $rout_to,
                         "callback" => $callback,
                         "data" => [
-                            $this->fprimarykey => $data['id'],
-                            'id' => $data['id']
+                            $this->fprimarykey => $data['producttype_id'],
+                            'id' => $data['producttype_id']
                         ]
                     ],
                     200
@@ -592,8 +563,8 @@ class UserController extends Controller
             $editid = $id;
         }
 
-        $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
-        $trash = $this->model->where('id', $editid)->where('id', '<>', 1)->update(["trash" => "yes"]);
+        //$routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
+        $trash = $this->model->where('producttype_id', $editid)->update(["trash" => "yes"]);
 
         if ($trash) {
             return response()
@@ -602,8 +573,8 @@ class UserController extends Controller
                         "type" => "url",
                         'status' => true,
                         'route' => ['url' => redirect()->back()->getTargetUrl()],
-                        "message" => __('User remove'),
-                        "data" => ['id' => $editid]
+                        "message" => __('ccms.suc_delete'),
+                        "data" => ['producttype_id' => $editid]
                     ],
                     200
                 );
@@ -619,232 +590,5 @@ class UserController extends Controller
                 ],
                 422
             );
-    }
-
-    public function profile()
-    {
-        $sumit_route = url_builder(
-            $this->obj_info['routing'],
-            [$this->obj_info['name'], 'phonenumber', ''],
-            [],
-        );
-        $sumit_username = url_builder(
-            $this->obj_info['routing'],
-            [$this->obj_info['name'], 'username', ''],
-            [],
-        );
-        $sumit_password = url_builder(
-            $this->obj_info['routing'],
-            [$this->obj_info['name'], 'changepassword', ''],
-            [],
-        );
-        $cancel_route = redirect()->back()->getTargetUrl();
-
-        // dd($this->args['userinfo']);
-
-        return view('app.user.profile')->with([
-            'obj_info'  => $this->obj_info,
-            'route' => ['submit'  => $sumit_route, 'username' => $sumit_username, 'password' => $sumit_password, 'cancel' => $cancel_route],
-            'form' => ['save_type' => 'save'],
-            'fprimarykey'     => $this->fprimarykey,
-            'caption' => 'Profile',
-
-
-        ]);
-    }
-    public function validatorphone($request, $isupdate = false)
-    {
-
-        $rules['password'] = ['required'];
-        $rules['new_phone_number'] = ['required', 'numeric'];
-
-        $validatorMessages = [
-            /*'required' => 'The :attribute field can not be blank.'*/
-            'required' =>  __('dev.required'),
-            'numeric' => __('dev.number_only')
-        ];
-
-        return Validator::make($request->input(), $rules, $validatorMessages);
-    }
-
-    public function phonenumber(Request $request)
-    {
-
-        $validator = $this->validatorphone($request, false);
-        if ($validator->fails()) {
-            $routing = url_builder($this->obj_info['routing'], [$this->obj_info['name'], 'profile']);
-            return response()
-                ->json(
-                    [
-                        "type" => "validator",
-                        'status' => false,
-                        'route' => ['url' => $routing],
-                        "message" => __('ccms.fail_save'),
-                        "data" => $validator->errors()
-                    ],
-                    422
-                );
         }
-        if (Hash::check($request->password, Auth()->user()->password)) {
-            $userinfo = $this->args['userinfo'];
-            // dd($userinfo);
-            $update = $this->model->where('id', $userinfo['id'])->update(['email' => $request->input('new_phone_number')]);
-            if ($update) {
-                $routing = url_builder($this->obj_info['routing'], [$this->obj_info['name'], 'profile']);
-                return response()
-                    ->json(
-                        [
-                            "type" => "success",
-                            "status" => true,
-                            'route' => ['url' => $routing],
-                            "message" => 'Success',
-                            "data" => []
-                        ],
-                        200
-                    );
-            }
-        } else {
-            return response()
-                ->json(
-                    [
-                        "type" => "validator",
-                        'status' => false,
-                        "message" => __('dev.invalid_password'),
-                    ],
-                    422
-                );
-        }
-    }
-    public function validator_username($request, $isupdate = false)
-    {
-
-        $rules['password1'] = ['required'];
-        $rules['username'] = ['required'];
-
-        $validatorMessages = [
-            /*'required' => 'The :attribute field can not be blank.'*/
-            'required' =>  __('dev.required'),
-            // 'numeric' => __('dev.number_only')
-        ];
-
-        return Validator::make($request->input(), $rules, $validatorMessages);
-    }
-    public function username(Request $request)
-    {
-        $validator = $this->validator_username($request, false);
-        if ($validator->fails()) {
-            $routing = url_builder($this->obj_info['routing'], [$this->obj_info['name'], 'profile']);
-            return response()
-                ->json(
-                    [
-                        "type" => "validator",
-                        'status' => false,
-                        'route' => ['url' => $routing],
-                        "message" => __('ccms.fail_save'),
-                        "data" => $validator->errors()
-                    ],
-                    422
-                );
-        }
-
-        if (Hash::check($request->password1, Auth()->user()->password)) {
-
-            $userinfo = $this->args['userinfo'];
-
-            $update = $this->model->where('id', $userinfo['id'])->update(['name' => $request->input('username')]);
-            if ($update) {
-                return response()
-                    ->json(
-                        [
-                            "type" => "success",
-                            "status" => true,
-                            'route' => ['url' => redirect()->back()->getTargetUrl()],
-                            "message" => 'Success',
-                            "data" => []
-                        ],
-                        200
-                    );
-            }
-        } else {
-            return response()
-                ->json(
-                    [
-                        "type" => "validator",
-                        'status' => false,
-                        "message" => __('dev.invalid_password'),
-                    ],
-                    422
-                );
-        }
-    }
-    public function validator_password($request, $isupdate = false)
-    {
-        $rules['password2'] = ['required', 'min:6', 'required_with:password_confirmation', 'same:password_confirmation'];
-        $rules['current_password'] = ['required'];
-        $rules['password_confirmation'] = ['required'];
-
-        $validatorMessages = [
-            /*'required' => 'The :attribute field can not be blank.'*/
-            'required' =>  __('dev.required'),
-            'min:6' => __('dev.min6'),
-            'required_with:password_confirmation' => __('dev.same_password'),
-            'same:password_confirmation' => __('dev.same_password')
-        ];
-
-        return Validator::make($request->input(), $rules, $validatorMessages);
-    }
-    public function changepassword(Request $request)
-    {
-        // $validation = $request->validate(
-        //     [
-        //         'current_password' => 'required',
-        //         'password' => 'min:6|required_with:password_confirmation|same:password_confirmation',
-        //         'password_confirmation' => 'min:6'
-        //     ],
-        //     ['required' => __('dev.required'),]
-        // );
-
-        $validator = $this->validator_password($request, false);
-        if ($validator->fails()) {
-            $routing = url_builder($this->obj_info['routing'], [$this->obj_info['name'], 'profile']);
-            return response()
-                ->json(
-                    [
-                        "type" => "validator",
-                        'status' => false,
-                        'route' => ['url' => $routing],
-                        "message" => __('ccms.fail_save'),
-                        "data" => $validator->errors()
-                    ],
-                    422
-                );
-        }
-        if (Hash::check($request->current_password, Auth()->user()->password)) {
-            $userinfo = $this->args['userinfo'];
-            $update = $this->model->where('id', $userinfo['id'])->update(['password' => Hash::make($request->input('password2'))]);
-            if ($update) {
-                return response()
-                    ->json(
-                        [
-                            "type" => "success",
-                            "status" => true,
-                            'route' => ['url' => redirect()->back()->getTargetUrl()],
-                            "message" => 'Success',
-                            "data" => []
-                        ],
-                        200
-                    );
-            }
-        } else {
-            return response()
-                ->json(
-                    [
-                        "type" => "validator",
-                        'status' => false,
-                        "message" => __('dev.invalid_password'),
-                    ],
-                    422
-                );
-        }
-    }
 }

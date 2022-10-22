@@ -242,9 +242,7 @@ body.dark-theme {
 }
 
 .dark-theme .form-control:focus {
-    /* border-color: var(--primary-bg-color); */
-    /* box-shadow: inset 5px 5px 8px #1a1c26, inset -5px -5px 8px #2a2e3f; */
-
+    border-color: var(--primary-bg-color);
 }
 
 .dark-theme .btn-white:not(:disabled):not(.disabled):active,
@@ -651,9 +649,8 @@ body.dark-theme {
 
 .dark-theme .btn-light {
     color: #fff;
-    background-color: #1d1d2a;
+    background-color: #404353;
     border-color: rgba(189, 198, 214, 0.2);
-    border: none;
 }
 
 .dark-theme .main-nav-column .nav-link:hover i:not([class*=" tx-"]),
@@ -3660,32 +3657,8 @@ body.dark-theme {
 
 .dark-theme .form-control {
     color: #c0c2c7;
+    background-color: #2a2e3f;
     border: 1px solid #484863;
-    width: 100%;
-    padding:15px;
-    box-sizing: border-box;
-    box-shadow: inset 5px 5px 8px #1a1c26, -5px -5px 8px #2a2e3f;
-    background: #2a2e3f;
-    border-color: var(--primary-bg-color);
-    border-radius: 15px;
-    border: 0;
-    outline: 0;
-}
-
-
-.dark-theme .btn-save{
-    padding: 10px 20px;
-    border:none;
-    outline:none;
-    border-radius:15px;
-    box-shadow: inset 5px 5px 8px #1a1c26, -5px -5px 8px #2a2e3f;
-}
-/* .dark-theme .btn-save:hover{
-    box-shadow: inset 5px 5px 8px #1a1c20, -5px -5px 8px #2a2e3e;
-} */
-.dark-theme .btn-save:active{
-    box-shadow: 5px 5px 8px #1a1c24, -5px -5px 8px #1a1c26;
-
 }
 
 .dark-theme .breadcrumb-style1 .breadcrumb-item+.breadcrumb-item::before,
