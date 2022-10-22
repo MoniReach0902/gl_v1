@@ -336,7 +336,7 @@ class MediaController extends Controller
         if ($save_status) {
             for ($i = 0; $i < $count; $i++) {
 
-                $request->file('images')[$i]->storeAs('media', $data['tableData'][$i]['media']);
+                $request->file('images')[$i]->storeAs('media', $data['tableData'][$i]['image_url']);
             }
             $savetype = strtolower($request->input('savetype'));
             $success_ms = __('ccms.suc_save');

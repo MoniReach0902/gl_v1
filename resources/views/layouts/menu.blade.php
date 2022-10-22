@@ -105,20 +105,20 @@
     </li>
 
     <li class="side-item side-item-category">Product Management</li>
-    <li class="slide {{ nav_checkactive(['example'], $args, 'is-expanded') }}">
+    <li class="slide {{ nav_checkactive(['product'], $args, 'is-expanded') }}">
         <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i
                 class="fa fa-cubes"></i>&nbsp;<span class="side-menu__label">Products</span><i
                 class="angle fe fe-chevron-right"></i></a>
         <ul class="slide-menu ">
             <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
             {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
-            <li><a class="slide-item {{ nav_checkactive(['example-index'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['example', 'index']) }}">All Products</a>
+            <li><a class="slide-item {{ nav_checkactive(['product-index'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['product', 'index']) }}">All Products</a>
             </li>
             <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
             {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
-            <li><a class="slide-item {{ nav_checkactive(['example-create'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['example', 'create']) }}">Add New</a>
+            <li><a class="slide-item {{ nav_checkactive(['product-create'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['product', 'create']) }}">Add New</a>
             </li>
         </ul>
     </li>
