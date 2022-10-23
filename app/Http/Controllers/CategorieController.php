@@ -44,7 +44,7 @@ class CategorieController extends Controller
     {
         //$this->middleware('auth');
         // dd($args['userinfo']);
-        $this->obj_info['title'] =  'Categories';
+        $this->obj_info['title'] = __('dev.category');
 
         $default_protectme = config('me.app.protectme');
         $this->protectme = [
@@ -235,7 +235,7 @@ class CategorieController extends Controller
                     'submit' => $submit,
                 ],
                 'fprimarykey'     => $this->fprimarykey,
-                'caption' => 'Active',
+                'caption' => __('dev.active'),
             ])
             ->with(['categorie' => $categorie])
             ->with($sfp)
@@ -304,7 +304,7 @@ class CategorieController extends Controller
                 'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route, 'new' => $new],
                 'form' => ['save_type' => 'save'],
                 'fprimarykey'     => $this->fprimarykey,
-                'caption' => 'New',
+                'caption' => __('dev.new'),
                 'isupdate' => false,
 
             ]);

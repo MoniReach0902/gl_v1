@@ -25,4 +25,6 @@ return [
     "new_product_color"=>"New Product Color",
     "all_product_color"=>"All Product Color",
 
+    "active"=>"Active",
+
 ];

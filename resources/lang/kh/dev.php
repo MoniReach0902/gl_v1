@@ -26,5 +26,8 @@ return [
     "new_product_color"=>"ពណ៍នៃផលិតផលថ្មី",
     "all_product_color"=>"ពណ៍នៃផលិតផលទាំងអស់",
 
+    "active"=>"សកម្មភាព",
+
+
 
 ];

@@ -175,8 +175,8 @@
                     <div class="form-group col-md-1">
                         <label>&nbsp;</label>
                         <button type="button"
-                            class="btn btn-outline-light btn-block formactionbutton border border-secondary"
-                            onclick="location.href='{{ url()->current() }}'">reset
+                            class="btn btn-outline-secondary btn-block formactionbutton border border-secondary"
+                            onclick="location.href='{{ url()->current() }}'"><i class="fa fa-refresh" aria-hidden="true"></i>
                         </button>
                     </div>
                 </div>
@@ -202,10 +202,10 @@
                             <tr>
                                 <th style="width: 10px">@lang('table.id')</th>
                                 <th>@lang('table.name')@lang('table.category')</th>
-                                <th>@lang('table.create_date')</th>
-                                <th>@lang('table.update_date')</th>
+                                {{-- <th>@lang('table.create_date')</th>
+                                <th>@lang('table.update_date')</th> --}}
                                 <th>@lang('table.crate_by')</th>
-                                <th style="width: 40px">@lang('table.status')</th>
+                                <th style="width: 40px;">@lang('table.status')</th>
                                 <th style="width: 40px; text-align: center"><i class="fa fa-ellipsis-h"></i></th>
 
                             </tr>
@@ -215,10 +215,10 @@
                                 <tr>
                                     <td>{{ $categories->categorie_id }}</td>
                                     <td>{{ $categories['text'] }}</td>
-                                    <td style="width: 10%">{{ $categories->create_date }}</td>
-                                    <td style="width: 10%">{{ $categories->update_date }}</td>
+                                    {{-- <td style="width: 10%">{{ $categories->create_date }}</td>
+                                    <td style="width: 10%">{{ $categories->update_date }}</td> --}}
                                     <td style="width: 10%">{{ $categories->username }}</td>
-                                    <td style="width: 10%">
+                                    <td style="width: 20px">
                                         @if ($categories->status == 'yes')
                                         <span class="badge bg-dark">
                                             @lang('table.enable')
