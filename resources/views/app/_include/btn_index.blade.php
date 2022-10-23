@@ -15,7 +15,7 @@
     @if (isset($trash) && $trash)
         <button id="btntrash_{{ $obj_info['name'] }}" type="button"
             class="formactionbutton btn btn-outline-warning button-icon"><i
-                class="fe fe-trash me-2"></i>@lang('dev.trash')</button>
+                class="fe fe-trash me-2"></i>@lang('btn.btn_trash')</button>
     @endif
 
     @if (isset($import) && $import)

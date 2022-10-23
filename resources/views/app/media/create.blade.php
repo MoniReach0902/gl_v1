@@ -1,14 +1,9 @@
 @php
-<<<<<<< HEAD
-//dd(request()->session()->all());
-$extend = 'app';
-=======
 $extends = 'app';
 $action_btn = ['save' => true, 'print' => false, 'cancel' => true, 'new' => true];
 foreach (config('me.app.project_lang') as $lang) {
     $langcode[] = $lang[0];
 }
->>>>>>> menghonghai
 @endphp
 @if (is_axios())
     @php
@@ -18,9 +13,6 @@ foreach (config('me.app.project_lang') as $lang) {
 @endif
 @extends('layouts.' . $extend)
 @section('blade_css')
-<<<<<<< HEAD
-    {{-- <link href="{{ asset('public/assets/css/ace.min.css') }}" rel="stylesheet"> --}}
-=======
     <style>
         .img-box i {
             font-size: 70px !important;
@@ -34,7 +26,6 @@ foreach (config('me.app.project_lang') as $lang) {
         }
     </style>
 @endsection
->>>>>>> menghonghai
 
 
     <!-- Stylesheet -->
@@ -132,46 +123,6 @@ foreach (config('me.app.project_lang') as $lang) {
     <script src="{{ asset('public/assets/js/ace-elements.min.js') }}"></script> --}}
     <script>
         $(document).ready(function() {
-<<<<<<< HEAD
-            /*Please dont delete this code*/
-
-            // $("#btnnew_{{ $obj_info['name'] }}").click(function(e) {
-
-            //     let route_create = "{{ $route['create'] }}";
-            //     let extraFrm = {}; //{jscallback:'test'};
-            //     let setting = {}; //{fnSuccess:foo};
-            //     let popModal = {
-            //         show: true,
-            //         size: 'modal-xl'
-            //         //modal-sm, modal-lg, modal-xl
-            //     };
-
-            //     let loading_indicator = '';
-            //     helper.silentHandler(route_create, null, extraFrm, setting, popModal, 'air_windows',
-            //         loading_indicator);
-
-            // });
-
-            $("#upload").click(function(e) {
-
-                $('.media-upload').css({
-                    "width": "28%"
-                })
-            });
-            $("#arrow-upload").click(function(e) {
-
-                $('.media-upload').css({
-                    "width": "0%"
-                })
-            });
-            $("#media-box").click(function(e) {
-
-                $('.media-upload').css({
-                    "width": "0%"
-                })
-            });
-            $("#save_img").click(function(e) {
-=======
 
             let route_submit = "{{ $route['submit'] }}";
             let route_cancel = "{{ $route['cancel'] ?? '' }}";
@@ -191,7 +142,6 @@ foreach (config('me.app.project_lang') as $lang) {
                 mode: "{{ $extends }}"
             };
             $(".btnsave_{{ $obj_info['name'] }}").click(function(e) {
->>>>>>> menghonghai
                 // alert(1);
                 let route_submit = "{{ $route['submit'] }}";
                 // alert(route_submit);
@@ -230,29 +180,6 @@ foreach (config('me.app.project_lang') as $lang) {
 
             });
 
-<<<<<<< HEAD
-            $('.delete').click(function(e) {
-                e.preventDefault();
-                var link = $(this).attr("href");
-                $('body').removeClass('timer-alert');
-                swal({
-                    title: "Are your sure to delete ?",
-                    text: "",
-                    type: "warning",
-                    showCancelButton: true,
-                    closeOnConfirm: false,
-                    showLoaderOnConfirm: true
-                }, function() {
-                    setInterval(() => {
-                        window.location.href = link;
-                        swal("Delete finished!");
-                    }, 1000);
-                });
-            });
-            $('#trash').click(function() {
-                // alert(1);
-            })
-=======
             $(".btncancel_{{ $obj_info['name'] }}").click(function(e) {
                 //window.location.replace(route_cancel);
                 window.location = route_cancel;
@@ -280,7 +207,6 @@ foreach (config('me.app.project_lang') as $lang) {
 
 
 
->>>>>>> menghonghai
 
         });
     </script>
@@ -317,141 +243,6 @@ foreach (config('me.app.project_lang') as $lang) {
     {{-- end header --}}
     <br>
     <div class="container-fluid">
-<<<<<<< HEAD
-        <div class="row">
-            <div class="col-md-12" id="media-box">
-                <div class="media" id="media">
-                    <!-- container -->
-                    <div class="main-container container-fluid">
-                        <!-- row -->
-                        <div class="row">
-                            <div class="col-lg-12 col-xl-12">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="tx-18 mb-4">
-                                            {{-- <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-                                                <div class="card custom-card text-center">
-                                                    <div class="card-body">
-                                                        <div>
-                                                            <h6 class="card-title mb-1">Ajax Alert</h6>
-                                                            <p class="text-muted card-sub-title">With a loader (for a AJAX
-                                                                requests)
-                                                            </p>
-                                                        </div>
-                                                        <div class="btn ripple btn-pink" id='swal-ajax'>
-                                                            Click me !
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div> --}}
-
-
-                                        </div>
-                                    </div>
-                                    <div class="col-6 col-auto">
-                                        <div class="input-group mb-2">
-                                            <input type="text" class="form-control" placeholder="Search files.....">
-                                            <span class="input-group-append">
-                                                <button class="btn ripple btn-primary" type="button">Search</button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    @foreach ($results as $result)
-                                        <div class="col-xl-2 col-md-4 col-sm-6">
-                                            <div class="card p-0 ">
-                                                <div class="d-flex align-items-center px-3 pt-3">
-                                                    <div class="float-end ms-auto">
-                                                        <a href="javascript:void(0);" class="option-dots"
-                                                            data-bs-toggle="dropdown" aria-haspopup="true"
-                                                            aria-expanded="false"><i class="fe fe-more-vertical"></i></a>
-                                                        <div class="dropdown-menu">
-                                                            {{-- <a class="dropdown-item" href="javascript:void(0);"><i
-                                                                    class="fe fe-edit me-2"></i> Edit</a> --}}
-                                                            {{-- <a class="dropdown-item" href="javascript:void(0);"><i
-                                                                    class="fas fa-stop-circle"></i> &nbsp;Disable</a> --}}
-                                                            <a class="dropdown-item delete"
-                                                                href="{{ url_builder($obj_info['routing'], [$obj_info['name'], 'totrash', $result['id']], []) }}"><i
-                                                                    class="fe fe-trash me-2 "></i>
-
-                                                                Delete</a>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="card-body pt-0 text-center">
-                                                    <div class="file-manger-icon brick">
-                                                        <a href="{{ asset('storage/app/media/' . $result['media']) }}"
-                                                            data-caption="IMAGE-01" data-id="lion"
-                                                            class="js-img-viewer"><img
-                                                                src="{{ asset('storage/app/media/' . $result['media']) }}"
-                                                                alt="img" class="br-7"></a>
-                                                    </div>
-                                                    <h6 class="mb-1 font-weight-semibold">abc.jpg</h6>
-                                                    <span class="text-muted">4.23gb</span>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    @endforeach
-
-
-
-
-                                </div>
-                                <!-- Pagination and Record info -->
-                                @include('app._include.pagination')
-                            </div>
-                        </div>
-                        <!-- End Row -->
-
-                    </div>
-                    <!-- Container closed -->
-
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="media-upload">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12">
-                            {{-- Start Form --}}
-                            <form name="frm-{{ $obj_info['name'] }}" id="frm-{{ $obj_info['name'] }}" method="POST"
-                                action="{{ $route['submit'] }}">
-                                {{-- please dont delete these default Field --}}
-                                @CSRF
-                                <input type="hidden" name="{{ $fprimarykey }}" id="{{ $fprimarykey }}"
-                                    value="{{ $input[$fprimarykey] ?? '' }}">
-                                <input type="hidden" name="jscallback"
-                                    value="{{ $jscallback ?? (request()->get('jscallback') ?? '') }}">
-
-                                <div class="card">
-                                    <div class="card-header">
-                                        <span id="arrow-upload"><i class="fas fa-arrow-circle-right"></i></span>
-                                    </div>
-                                    <div class="card-body">
-
-                                        <div class="container">
-                                            <input type="file" id="file-input" name="images[]"
-                                                accept="image/png, image/jpeg" onchange="preview()" multiple>
-                                            <label for="file-input">
-
-                                                <i class="fas fa-images"></i>
-                                            </label>
-                                            <p id="num-of-files">No Files Chosen</p>
-                                            <div id="images"></div>
-                                        </div>
-
-                                        {{-- <div class="col-sm-12 col-md-12">
-                                            <input type="file" class="dropify" data-height="200" name="file1[]"
-                                                multiple />
-                                        </div> --}}
-                                    </div>
-                                </div>
-
-=======
         {{-- Start Form --}}
 
         <form name="frm-{{ $obj_info['name'] }}" id="frm-{{ $obj_info['name'] }}" method="POST"
@@ -504,7 +295,6 @@ foreach (config('me.app.project_lang') as $lang) {
                                 </div>
                             
                             </div>
->>>>>>> menghonghai
                         </div>
                         </form>
                         {{-- End From --}}
@@ -512,12 +302,6 @@ foreach (config('me.app.project_lang') as $lang) {
                 </div>
             </div>
         </div>
-<<<<<<< HEAD
-    </div>
-    </div>
-    {{-- <script src="{{ asset('public/js/script.js') }}"></script> --}}
-@endsection
-=======
             
     </div>
 </div>
@@ -525,4 +309,3 @@ foreach (config('me.app.project_lang') as $lang) {
     </div>
     {{-- @include('layouts.extra_modal') --}}
 @endsection
->>>>>>> menghonghai

@@ -111,7 +111,7 @@ $action_btn = ['save' => true, 'cancel' => true];
     {{-- Header --}}
     <section class="content-header bg-light sticky-top ct-bar-action ct-bar-action-shaddow">
         <div class="container-fluid">
-            <div class="d-flex  border br-5">
+            <div class="d-flex  pd-10 border br-5">
                 <div class="flex-grow-1">
                     <h5 class="mb-2 mg-t-20 mg-l-20">
                         {!! $obj_info['icon'] !!}
@@ -123,7 +123,7 @@ $action_btn = ['save' => true, 'cancel' => true];
                         </small>
                     </h5>
                 </div>
-                <div class="pd-10 ">
+                <div class="pd-10">
                     @include('app._include.btn_create', $action_btn)
                 </div>
 
@@ -141,7 +141,7 @@ $action_btn = ['save' => true, 'cancel' => true];
             <input type="hidden" name="jscallback" value="{{ $jscallback ?? (request()->get('jscallback') ?? '') }}">
             {{--  --}}
             <div class="row">
-                <div class="col-sm-6 offset-sm-3">
+                <div class="col-sm-12 mg-t-20">
                     <div class="card card-default color-palette-box">
 
                         <div class="card-body">
