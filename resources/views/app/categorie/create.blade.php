@@ -113,15 +113,15 @@
                 value="{{ $input[$fprimarykey] ?? '' }}">
             <input type="hidden" name="jscallback" value="{{ $jscallback ?? (request()->get('jscallback') ?? '') }}">
             <br>
-<<<<<<< HEAD
+
             <div class="card-body">
                 <div class="form-group">
-                    <label for="">Name English & Khmer</label>
+                    <label for=""><b>@lang('dev.name_kh_eng')</b></label>
                     <div class="input-group my-group" style="width:100%;">
 
-                        <select class="form-control form-select input-sm tab_title" style="width:20%;">
+                        <select class="form-control form-select input-sm tab_title" style="width:10%;">
                             @foreach (config('me.app.project_lang') as $lang)
-                                <option value="@lang($lang[0])">@lang('dev.lang_' . $lang[0])</option>
+                                <option value="@lang($lang[0])" style="padding: 10px">@lang($lang[1])</option>
                             @endforeach
 
                         </select>
@@ -135,7 +135,7 @@
                             @endphp
                             <input type="text" class="form-control input-sm {{ $active }}" style="width:80%;"
                                 name="title-{{ $lang[0] }}" id="title-{{ $lang[0] }}"
-                                placeholder="@lang('dev.lang_' . $lang[0])" value="{{ $name[$lang[0]] ?? '' }}">
+                                placeholder="{{ $lang[1] }}" value="{{ $name[$lang[0]] ?? '' }}">
                             @php
                                 $active = 'hide';
                             @endphp
@@ -145,51 +145,11 @@
                     </div>
                     <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
                 </div>
-
             </div>
             <!-- /.card-body -->
-    </div>
-    {{--  --}}
 
-=======
-
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <label for=""><b>@lang('dev.name_kh_eng')</b></label>
-                                    <div class="input-group my-group" style="width:100%;">
-
-                                        <select class="form-control form-select input-sm tab_title" style="width:10%;">
-                                            @foreach (config('me.app.project_lang') as $lang)
-                                                <option value="@lang($lang[0])" style="padding: 10px">@lang($lang[1])</option>
-                                            @endforeach
-            
-                                        </select>
-                                        @php
-                                            $active = '';
-                                        @endphp
-                                        @foreach (config('me.app.project_lang') as $lang)
-                                            @php
-                                                // dd($lang);
-                                                $title = json_decode($input['title'] ?? '', true);
-                                            @endphp
-                                            <input type="text" class="form-control input-sm {{ $active }}" style="width:80%;"
-                                                name="title-{{ $lang[0] }}" id="title-{{ $lang[0] }}"
-                                                placeholder="{{ $lang[1] }}" value="{{ $name[$lang[0]] ?? '' }}">
-                                            @php
-                                                $active = 'hide';
-                                            @endphp
-                                        @endforeach
-                                        <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error"
-                                            class="error invalid-feedback" style="display: none"></span>
-                                    </div>
-                                    <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
-                                </div>
-                            </div>
-                            <!-- /.card-body -->
-                        
             {{--  --}}
-   
->>>>>>> 9d3f5bb4489650401a5c71e72f17af1ae411e306
-    </form>
+
+        </form>
     </div>
 @endsection
