@@ -156,8 +156,8 @@
                 <div class="form-row" style="font-size: 11px">
                     <div class="form-group col-md-2">
                         <label for="txt">@lang('dev.search')</label>
-                        <input type="text" class="form-control input-sm" name="txtcategorie" id="txt"
-                            value="{{ request()->get('txtcategorie') ?? '' }}">
+                        <input type="text" class="form-control input-sm" name="txtvendor" id="txt"
+                            value="{{ request()->get('txtvendor') ?? '' }}">
                     </div>
                     <div class="form-group col-md-2">
                         <label for="year">Type</label>
@@ -223,7 +223,7 @@
                             @foreach ($results as $vendors)
                                 <tr>
                                     <td>{{ $vendors->vendor_id }}</td>
-                                    <td><img src="{{ $vendors->image_url }}" width="80"></td>
+                                    <td><img src="{{ asset('storage/app/vendor/' . $vendors['image_url']) }}" width="80"></td>
                                     <td>{{ $vendors['text'] }}</td>
                                     <td>{{ $vendors->type }}</td>
                                     <td style="width: 10%">{{ $vendors->create_date }}</td>
