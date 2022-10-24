@@ -14,20 +14,21 @@ use App\Models\UserPermission;
 use App\Models\Location;
 use App\Models\Room;
 use App\Models\Slider;
+use App\Models\Vendor;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
-class CategorieController extends Controller
+class VendorController extends Controller
 {
     //
-    private $obj_info = ['name' => 'categorie', 'routing' => 'admin.controller', 'title' => 'Categorie', 'icon' => '<i class="fa fa-tags"></i>'];
+    private $obj_info = ['name' => 'vendor', 'routing' => 'admin.controller', 'title' => 'Vendor', 'icon' => '<i class="fas fa-industry"></i>'];
     public $args;
 
     private $model;
     private $submodel;
     private $tablename;
     private $columns = [];
-    private $fprimarykey = 'categorie_id';
+    private $fprimarykey = 'vendor_id';
     private $protectme = null;
 
     public $dflang;
@@ -44,7 +45,7 @@ class CategorieController extends Controller
     {
         //$this->middleware('auth');
         // dd($args['userinfo']);
-        $this->obj_info['title'] = __('dev.category');
+        $this->obj_info['title'] =  'Vendors';
 
         $default_protectme = config('me.app.protectme');
         $this->protectme = [
@@ -63,7 +64,7 @@ class CategorieController extends Controller
         ];
 
         $this->args = $args;
-        $this->model = new Categorie;
+        $this->model = new Vendor;
         $this->tablename = $this->model->gettable();
         $this->dflang = df_lang();
         // dd($this->tablename);
@@ -98,25 +99,25 @@ class CategorieController extends Controller
 
     public function default()
     {
-        $categorie = $this->model
+        $vendor = $this->model
             ->select(
                 \DB::raw($this->tablename . ".* "),
                 DB::raw("JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text"),
 
             )
             ->whereRaw('trash <> "yes"')->get();
-        return ['categorie' => $categorie];
+        return ['vendor' => $vendor];
     } /*../function..*/
     public function listingModel()
     {
         #DEFIND MODEL#
         return $this->model
-            ->leftJoin('users', 'users.id', 'tblcategories.blongto')
+            ->leftJoin('users', 'users.id', 'tblvendors.blongto')
             ->select(
-                \DB::raw($this->fprimarykey . ",JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text,tblcategories.create_date,
-                         tblcategories.update_date,tblcategories.status,users.name As username"),
+                \DB::raw($this->fprimarykey . ",JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text,tblvendors.create_date,
+                tblvendors.image_url,tblvendors.type,tblvendors.update_date,tblvendors.status,users.name As username"),
 
-            )->whereRaw('tblcategories.trash <> "yes"');
+            )->whereRaw('tblvendors.trash <> "yes"');
     } /*../function..*/
     //JSON_UNQUOTE(JSON_EXTRACT(title, '$.".$this->dflang[0]."'))
     public function sfp($request, $results)
@@ -132,19 +133,25 @@ class CategorieController extends Controller
         // FILTERS
         $appends = [];
         $querystr = [];
-        if ($request->has('txtcategorie') && !empty($request->input('txtcategorie'))) {
-            $qry = $request->input('txtcategorie');
+        if ($request->has('txtvendor') && !empty($request->input('txtvendor'))) {
+            $qry = $request->input('txtvendor');
             $results = $results->where(function ($query) use ($qry) {
-                $query->whereRaw("tblcategories.text like '%" . $qry . "%'");
+                $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) like '%" . $qry . "%'");
             });
-            array_push($querystr, 'tblcategories.text=' . $qry);
-            $appends = array_merge($appends, ['tblcategories.text' => $qry]);
+            array_push($querystr, "'JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) ='" . $qry);
+            $appends = array_merge($appends, ["'JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "'))'" => $qry]);
         }
         if ($request->has('status') && !empty($request->input('status'))) {
             $qry = $request->input('status');
             $results = $results->where("userstatus", $qry);
             array_push($querystr, 'userstatus=' . $qry);
             $appends = array_merge($appends, ['userstatus' => $qry]);
+        }
+        if ($request->has('type') && !empty($request->input('type'))) {
+            $qry = $request->input('type');
+            $results = $results->where("type", $qry);
+            array_push($querystr, 'type=' . $qry);
+            $appends = array_merge($appends, ['type' => $qry]);
         }
         // PAGINATION and PERPAGE
         $perpage = null;
@@ -195,10 +202,10 @@ class CategorieController extends Controller
     {
 
         $default = $this->default();
-        $categorie = $default['categorie'];
-        //dd('aaa');
-        $results = $this->listingmodel();
-        $sfp = $this->sfp($request, $results);
+        $vendor = $default['vendor'];
+         //dd('aaa');
+         $results = $this->listingmodel();
+         $sfp = $this->sfp($request, $results);
 
 
         $create_modal = url_builder(
@@ -235,11 +242,12 @@ class CategorieController extends Controller
                     'submit' => $submit,
                 ],
                 'fprimarykey'     => $this->fprimarykey,
-                'caption' => __('dev.active'),
+                'caption' => 'Active',
             ])
-            ->with(['categorie' => $categorie])
+            ->with(['vendor' => $vendor])
             ->with($sfp)
-            ->with($setting);
+            ->with($setting)
+        ;
     }
 
     public function validator($request, $isupdate = false)
@@ -262,19 +270,23 @@ class CategorieController extends Controller
         $newid = ($isupdate) ? $request->input($this->fprimarykey)  : $this->model->max($this->fprimarykey) + 1;
         $tableData = [];
         $data = toTranslate($request, 'title', 0, true);
-
-        $tableData = [
-            'categorie_id' => $newid,
-            'name' => json_encode($data),
-            'create_date' => date("Y-m-d"),
-            'update_date' => "",
-            'blongto' => $this->args['userinfo']['id'],
-            'trash' => 'no',
-            'status' => 'yes',
-
-        ];
+        $images = $request->file('images');
+        
+        if (!empty($images)) {
+            $name=$images->getClientOriginalName();
+            $tableData = [
+                'vendor_id' => $newid,
+                'name' => json_encode($data),
+                'create_date' => date("Y-m-d"),
+                'update_date' => "",
+                'blongto' => $this->args['userinfo']['id'],
+                'trash' => 'no',
+                'status' => 'yes',
+                'image_url' =>  $name ?? '',
+    ];
+        }
         if ($isupdate) {
-            $tableData = array_except($tableData, [$this->fprimarykey, 'create_date', 'password', 'trash']);
+            $tableData =array_except($tableData, [$this->fprimarykey,'create_date', 'password', 'trash']);
         }
         return ['tableData' => $tableData, $this->fprimarykey => $newid];
     }
@@ -303,7 +315,7 @@ class CategorieController extends Controller
                 'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route, 'new' => $new],
                 'form' => ['save_type' => 'save'],
                 'fprimarykey'     => $this->fprimarykey,
-                'caption' => __('dev.new'),
+                'caption' => 'New',
                 'isupdate' => false,
 
             ]);
@@ -350,7 +362,7 @@ class CategorieController extends Controller
         $save_status = $this->model->insert($data['tableData']);
         // dd($save_status);
         if ($save_status) {
-            // $request->file('img')->storeAs('slider', $data['tableData']['img']);
+            $request->file('images')->storeAs('vendor', $data['tableData']['image_url']);
             $savetype = strtolower($request->input('savetype'));
             $success_ms = __('ccms.suc_save');
             $callback = 'formreset';
@@ -384,15 +396,15 @@ class CategorieController extends Controller
     public function edit(Request $request, $id = 0)
     {
 
-        #prepare for back to url after SAVE#
-        if (!$request->session()->has('backurl')) {
+         #prepare for back to url after SAVE#
+         if (!$request->session()->has('backurl')) {
             $request->session()->put('backurl', redirect()->back()->getTargetUrl());
         }
 
         $obj_info = $this->obj_info;
 
         $default = $this->default();
-
+        //change piseth
         $input = null;
 
         #Retrieve Data#
@@ -408,8 +420,9 @@ class CategorieController extends Controller
 
         $input = $this->model
             ->where($this->fprimarykey, (int)$editid)
-
+            //change piseth
             ->get();
+        //dd($input->toSql());
         if ($input->isEmpty()) {
             $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
             return response()
@@ -434,8 +447,8 @@ class CategorieController extends Controller
 
         $input = $x;
 
-        $name = json_decode($input['name'], true);
-
+        $name =json_decode($input['name'],true);
+        //dd($name);
 
         $sumit_route = url_builder(
             $this->obj_info['routing'],
@@ -454,7 +467,7 @@ class CategorieController extends Controller
         $location = Location::getlocation($this->dflang[0], $where)->get();
         $communes = $location->pluck('title', 'id')->toArray();
         //dd($input);
-        return view('app.' . $this->obj_info['name'] . '.create',) //change piseth
+        return view('app.' . $this->obj_info['name'] . '.create', ) //change piseth
             ->with([
                 'obj_info'  => $this->obj_info,
                 'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route],
@@ -511,12 +524,12 @@ class CategorieController extends Controller
         // dd($data);
 
         $update_status = $this->model
-            ->where($this->fprimarykey, $data['categorie_id'])
+            ->where($this->fprimarykey, $data['vendor_id'])
             ->update($data['tableData']);
 
         if ($update_status) {
             $savetype = strtolower($request->input('savetype'));
-            $id = $data['categorie_id'];
+            $id = $data['vendor_id'];
             $rout_to = save_type_route($savetype, $obj_info, $id);
             $success_ms = __('ccms.suc_save');
             $callback = '';
@@ -532,8 +545,8 @@ class CategorieController extends Controller
                         "route" => $rout_to,
                         "callback" => $callback,
                         "data" => [
-                            $this->fprimarykey => $data['categorie_id'],
-                            'id' => $data['categorie_id']
+                            $this->fprimarykey => $data['vendor_id'],
+                            'id' => $data['vendor_id']
                         ]
                     ],
                     200
@@ -563,7 +576,7 @@ class CategorieController extends Controller
         }
 
         //$routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
-        $trash = $this->model->where('categorie_id', $editid)->update(["trash" => "yes"]);
+        $trash = $this->model->where('vendor_id', $editid)->update(["trash" => "yes"]);
 
         if ($trash) {
             return response()
@@ -573,7 +586,7 @@ class CategorieController extends Controller
                         'status' => true,
                         'route' => ['url' => redirect()->back()->getTargetUrl()],
                         "message" => __('ccms.suc_delete'),
-                        "data" => ['categorie_id' => $editid]
+                        "data" => ['vendor_id' => $editid]
                     ],
                     200
                 );
@@ -589,5 +602,5 @@ class CategorieController extends Controller
                 ],
                 422
             );
-    }
+        }
 }

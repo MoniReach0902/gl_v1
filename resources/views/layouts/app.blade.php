@@ -58,7 +58,7 @@
 </head>
 
 <body class="ltr main-body app sidebar-mini">
-    {{-- @include('layouts.switcher') --}}
+    @include('layouts.switcher')
     <!-- Loader -->
     <div id="global-loader" class="global_loading">
         <img src="{{ asset('public/assets/img/loader.svg') }}" class="loader-img" alt="Loader">
@@ -115,7 +115,7 @@
     <a href="#top" id="back-to-top"><i class="las la-arrow-up"></i></a>
 
     <!-- JQuery min js -->
-    {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> --}}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="{{ asset('public/assets/plugins/jquery/jquery.min.js') }}"></script>
 
 

@@ -151,13 +151,20 @@
     </section>
     {{-- end header --}}
     <div class="container-fluid">
-        <div class="card-header">
+        <div class="card-header mg-t-20">
             <form class="frmsearch-{{ $obj_info['name'] }}">
                 <div class="form-row" style="font-size: 11px">
                     <div class="form-group col-md-2">
                         <label for="txt">@lang('dev.search')</label>
-                        <input type="text" class="form-control input-sm" name="txtinventory" id="txt"
-                            value="{{ request()->get('txtinventory') ?? '' }}">
+                        <input type="text" class="form-control input-sm" name="txtvendor" id="txt"
+                            value="{{ request()->get('txtvendor') ?? '' }}">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="year">Type</label>
+                        <select class="form-control input-sm" name="type" id="type">
+                            <option value="">-- {{ __('dev.noneselected') }} --</option>
+                            {!! cmb_listing(['equipment' => 'equipment', 'shop' => 'shop'], [request()->get('type') ?? ''], '', '', '') !!}
+                        </select>
                     </div>
                     <div class="form-group col-md-2">
                         <label for="year">@lang('dev.year')</label>
@@ -201,7 +208,9 @@
                             @endif
                             <tr>
                                 <th style="width: 10px">ID</th>
+                                <th  style="width: 8%">Image</th>
                                 <th>Name</th>
+                                <th style="width: 8%">Type</th>
                                 <th>Create date</th>
                                 <th>Update date</th>
                                 <th>Create By</th>
@@ -211,15 +220,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($results as $inventorys)
+                            @foreach ($results as $vendors)
                                 <tr>
-                                    <td>{{ $inventorys->inventory_id }}</td>
-                                    <td>{{ $inventorys['text'] }}</td>
-                                    <td style="width: 10%">{{ $inventorys->create_date }}</td>
-                                    <td style="width: 10%">{{ $inventorys->update_date }}</td>
-                                    <td style="width: 10%">{{ $inventorys->username }}</td>
+                                    <td>{{ $vendors->vendor_id }}</td>
+                                    <td><img src="{{ asset('storage/app/vendor/' . $vendors['image_url']) }}" width="80"></td>
+                                    <td>{{ $vendors['text'] }}</td>
+                                    <td>{{ $vendors->type }}</td>
+                                    <td style="width: 10%">{{ $vendors->create_date }}</td>
+                                    <td style="width: 10%">{{ $vendors->update_date }}</td>
+                                    <td style="width: 10%">{{ $vendors->username }}</td>
                                     <td style="width: 10%">
-                                        @if ($inventorys->status == 'yes')
+                                        @if ($vendors->status == 'yes')
                                         <span class="badge bg-dark">
                                             Enable
                                         @else
@@ -230,7 +241,7 @@
                                     </td>
                                     <td> 
                                     @include('app._include.btn_record', [
-                                        'rowid' => $inventorys->inventory_id,
+                                        'rowid' => $vendors->vendor_id,
                                         'edit' => true,
                                         'trash' => true,
                                         'delete' => true,

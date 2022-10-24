@@ -105,6 +105,13 @@
                 </div>
             </form>
         </div>
+<<<<<<< HEAD
+=======
+        {{--  --}}
+
+
+
+>>>>>>> 9d3f5bb4489650401a5c71e72f17af1ae411e306
         <div class="card-body table-responsive p-0">
             <table class="table  table-striped table-hover text-nowrap table-bordered">
                 @if (isset($istrash) && $istrash)

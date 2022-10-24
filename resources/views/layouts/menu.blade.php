@@ -48,265 +48,138 @@
     <p></p>
 </li> --}}
 
-
-
 <ul class="side-menu">
 
-    <li class="side-item side-item-category">Sliders</li>
-    <li class="slide {{ nav_checkactive(['slider'], $args, 'is-expanded') }}">
-        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="fas fa-image"></i>&nbsp;<span
-                class="side-menu__label">Slide Image</span><i class="angle fe fe-chevron-right"></i></a>
+    <li class="slide {{ nav_checkactive(['home'], $args, 'is-expanded') }}">
+        <a class="side-menu__item" data-bs-toggle="slide" href="{{ url_builder('admin.controller', ['home']) }}"><i
+                class="fas fa-tachometer-alt"></i>&nbsp;<span class="side-menu__label">Dashboard</span></a>
+    </li>
+
+    <li class="slide {{ nav_checkactive(['news'], $args, 'is-expanded') }}">
+        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i
+                class="far fa-calendar-check"></i>&nbsp;<span class="side-menu__label">News & Events</span><i
+                class="angle fe fe-chevron-right"></i></a>
         <ul class="slide-menu ">
             <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
             {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
-            <li><a class="slide-item {{ nav_checkactive(['slider-index'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['slider', 'index']) }}">Slider</a>
+            <li><a class="slide-item {{ nav_checkactive(['news-index'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['news', 'index']) }}">All News & Events</a>
             </li>
             <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
             {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
-            <li><a class="slide-item {{ nav_checkactive(['slider-create'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['slider', 'create']) }}">New slider</a>
+            <li><a class="slide-item {{ nav_checkactive(['news-create'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['news', 'create']) }}">Add New</a>
             </li>
         </ul>
     </li>
 
-    {{-- ===================== End Category ================= --}}
+    <li class="side-item side-item-category">Sales</li>
+    <li class="slide {{ nav_checkactive(['order'], $args, 'is-expanded') }}">
+        <a class="side-menu__item" data-bs-toggle="slide" href="{{ url_builder('admin.controller', ['order']) }}"><i
+                class="fa fa-shopping-cart"></i>&nbsp;<span class="side-menu__label">Orders</span></a>
+    </li>
+    <li class="slide {{ nav_checkactive(['trash'], $args, 'is-expanded') }}">
+        <a class="side-menu__item" data-bs-toggle="slide" href="{{ url_builder('admin.controller', ['order', 'create']) }}"><i
+                class="fa fa-trash"></i>&nbsp;<span class="side-menu__label">Trash</span></a>
+    </li>
+    <li class="slide {{ nav_checkactive(['/'], $args, 'is-expanded') }}">
+        <a class="side-menu__item" data-bs-toggle="slide" href="{{ url_builder('admin.controller', ['/']) }}"><i
+                class="fas fa-file-invoice"></i>&nbsp;<span class="side-menu__label">Invoices</span></a>
+    </li>
+    <li class="slide {{ nav_checkactive(['customer'], $args, 'is-expanded') }}">
+        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i
+                class="fa fa-address-card"></i>&nbsp;<span class="side-menu__label">@lang('dev.customer')</span><i
+                class="angle fe fe-chevron-right"></i></a>
+        <ul class="slide-menu ">
+            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
+            {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
+            <li><a class="slide-item {{ nav_checkactive(['customer-index'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['customer', 'index']) }}">@lang('dev.new_customer')</a>
+            </li>
+            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
+            {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
+            <li><a class="slide-item {{ nav_checkactive(['customer-create'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['customer', 'create']) }}">@lang('dev.all_customer')</a>
+            </li>
+        </ul>
+    </li>
 
-    <li class="side-item side-item-category">@lang('dev.category')</li>
+    <li class="side-item side-item-category">@lang('dev.product_management')</li>
+    <li class="slide {{ nav_checkactive(['product'], $args, 'is-expanded') }}">
+        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i
+                class="fa fa-cubes"></i>&nbsp;<span class="side-menu__label">@lang('dev.product')</span><i
+                class="angle fe fe-chevron-right"></i></a>
+        <ul class="slide-menu ">
+            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
+            {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
+            <li><a class="slide-item {{ nav_checkactive(['product-index'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['product', 'index']) }}">@lang('dev.all_product')</a>
+            </li>
+            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
+            {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
+            <li><a class="slide-item {{ nav_checkactive(['product-create'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['product', 'create']) }}">@lang('dev.new_product')</a>
+            </li>
+        </ul>
+    </li>
     <li class="slide {{ nav_checkactive(['categorie'], $args, 'is-expanded') }}">
-        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);">
-            <i class="fa-solid fa-list"></i>&nbsp;<span class="side-menu__label">Categories</span><i
+        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i
+                class="fa fa-tags"></i>&nbsp;<span class="side-menu__label">@lang('dev.category')</span><i
                 class="angle fe fe-chevron-right"></i></a>
         <ul class="slide-menu ">
             <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
             {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
             <li><a class="slide-item {{ nav_checkactive(['categorie-index'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['categorie']) }}">All Categories</a>
+                    href="{{ url_builder('admin.controller', ['categorie']) }}">@lang('dev.all_category')</a>
             </li>
             <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
             {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
             <li><a class="slide-item {{ nav_checkactive(['categorie-create'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['categorie', 'create']) }}">Add New</a>
+                    href="{{ url_builder('admin.controller', ['categorie', 'create']) }}">@lang('dev.new_category') </a>
             </li>
         </ul>
     </li>
-
-    {{-- ===================== End Categories ================= --}}
-
-
-
-    {{-- ===================== Start Brand ================= --}}
-    <li class="slide {{ nav_checkactive(['brands'], $args, 'is-expanded') }}">
+    <li class="slide {{ nav_checkactive(['producttype'], $args, 'is-expanded') }}">
         <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i
-                class="fa-sharp fa-solid fa-ring"></i>&nbsp;<span class="side-menu__label">Brands</span><i
-                class="angle fe fe-chevron-right"></i></a>
-        <ul class="slide-menu ">
-            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
-            <li><a class="slide-item {{ nav_checkactive(['brands-index'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['brands', 'index']) }}">Brand</a>
-            </li>
-            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
-            <li><a class="slide-item {{ nav_checkactive(['brands-create'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['brands', 'create']) }}">New Brand</a>
-            </li>
-        </ul>
-    </li>
-    {{-- ===================== End Brand ================= --}}
-
-
-
-    {{-- ===================== Start Product ================= --}}
-    <li class="slide {{ nav_checkactive(['products'], $args, 'is-expanded') }}">
-        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i
-                class="fas fa-image"></i>&nbsp;<span class="side-menu__label">Products</span><i
-                class="angle fe fe-chevron-right"></i></a>
-        <ul class="slide-menu ">
-            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
-            <li><a class="slide-item {{ nav_checkactive(['products-index'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['products', 'index']) }}">Product</a>
-            </li>
-            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
-            <li><a class="slide-item {{ nav_checkactive(['products-create'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['products', 'create']) }}">New Product</a>
-            </li>
-        </ul>
-    </li>
-    {{-- ===================== End Brand ================= --}}
-
-
-
-
-    {{-- ===================== Start Currency ================= --}}
-    <li class="slide {{ nav_checkactive(['currency'], $args, 'is-expanded') }}">
-        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i
-                class="fa-solid fa-dollar-sign"></i>&nbsp;<span class="side-menu__label">Currency</span><i
-                class="angle fe fe-chevron-right"></i></a>
-        <ul class="slide-menu ">
-            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
-            <li><a class="slide-item {{ nav_checkactive(['currency-index'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['currency', 'index']) }}">Currency</a>
-            </li>
-            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
-            <li><a class="slide-item {{ nav_checkactive(['currency-create'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['currency', 'create']) }}">New Currency</a>
-            </li>
-        </ul>
-    </li>
-    {{-- ===================== End Currency ================= --}}
-
-    {{-- ===================== Start Colors ================= --}}
-    <li class="slide {{ nav_checkactive(['colors'], $args, 'is-expanded') }}">
-        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i
-                class="fa-solid fa-palette"></i>&nbsp;<span class="side-menu__label">Colors</span><i
-                class="angle fe fe-chevron-right"></i></a>
-        <ul class="slide-menu ">
-            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
-            <li><a class="slide-item {{ nav_checkactive(['colors-index'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['colors', 'index']) }}">All Colors</a>
-            </li>
-            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
-            <li><a class="slide-item {{ nav_checkactive(['colors-create'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['colors', 'create']) }}">New Colors</a>
-            </li>
-        </ul>
-    </li>
-    {{-- ===================== End Currency ================= --}}
-    {{-- ===================== Start Customer ================= --}}
-    <li class="slide {{ nav_checkactive(['customer'], $args, 'is-expanded') }}">
-        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="fa fa-users"
-                aria-hidden="true"></i>
-            &nbsp;<span class="side-menu__label">Customer</span><i class="angle fe fe-chevron-right"></i></a>
-        <ul class="slide-menu ">
-            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
-            <li><a class="slide-item {{ nav_checkactive(['customer-index'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['customer', 'index']) }}">Customer</a>
-            </li>
-            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
-            <li><a class="slide-item {{ nav_checkactive(['customer-create'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['customer', 'create']) }}">New Customer</a>
-            </li>
-        </ul>
-    </li>
-    {{-- ===================== End Customer ================= --}}
-
-    {{-- ===================== Start Equipment ================= --}}
-    <li class="slide {{ nav_checkactive(['equipment'], $args, 'is-expanded') }}">
-        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i
-                class="fa-solid fa-credit-card"></i>&nbsp;<span class="side-menu__label">Equipment</span><i
-                class="angle fe fe-chevron-right"></i></a>
-        <ul class="slide-menu ">
-            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
-            <li><a class="slide-item {{ nav_checkactive(['equipment-index'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['equipment', 'index']) }}">Equipment</a>
-            </li>
-            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
-            <li><a class="slide-item {{ nav_checkactive(['equipment-create'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['equipment', 'create']) }}">New Equipment</a>
-            </li>
-        </ul>
-    </li>
-    {{-- ===================== End Equipment ================= --}}
-
-    {{-- ===================== Start Inventory ================= --}}
-    <li class="slide {{ nav_checkactive(['inventory'], $args, 'is-expanded') }}">
-        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i
-                class="fa-solid fa-cart-shopping"></i>&nbsp;<span class="side-menu__label">Inventory</span><i
-                class="angle fe fe-chevron-right"></i></a>
-        <ul class="slide-menu ">
-            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
-            <li><a class="slide-item {{ nav_checkactive(['inventory-index'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['inventory', 'index']) }}">Inventory</a>
-            </li>
-            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
-            <li><a class="slide-item {{ nav_checkactive(['inventory-create'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['inventory', 'create']) }}">New Inventory</a>
-            </li>
-        </ul>
-    </li>
-    {{-- ===================== End Inventory ================= --}}
-
-    {{-- ===================== Start Media ================= --}}
-    <li class="slide {{ nav_checkactive(['media'], $args, 'is-expanded') }}">
-        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i
-                class="fas fa-image"></i>&nbsp;<span class="side-menu__label">Media</span><i
-                class="angle fe fe-chevron-right"></i></a>
-        <ul class="slide-menu ">
-            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
-            <li><a class="slide-item {{ nav_checkactive(['media-index'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['media', 'index']) }}">Media</a>
-            </li>
-            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
-            <li><a class="slide-item {{ nav_checkactive(['media-create'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['media', 'create']) }}">New Media</a>
-            </li>
-        </ul>
-    </li>
-    {{-- ===================== End Inventory ================= --}}
-
-    {{-- ===================== Start Media ================= --}}
-    <li class="slide {{ nav_checkactive(['events'], $args, 'is-expanded') }}">
-        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i
-                class="fa-solid fa-calendar-days"></i>&nbsp;<span class="side-menu__label">Events</span><i
-                class="angle fe fe-chevron-right"></i></a>
-        <ul class="slide-menu ">
-            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
-            <li><a class="slide-item {{ nav_checkactive(['events-index'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['events', 'index']) }}">Events</a>
-            </li>
-            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
-            <li><a class="slide-item {{ nav_checkactive(['events-create'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['events', 'create']) }}">New Events</a>
-            </li>
-        </ul>
-    </li>
-    {{-- ===================== End Inventory ================= --}}
-
-
-
-    <li class="side-item side-item-category">Brand</li>
-    <li class="slide {{ nav_checkactive(['brand'], $args, 'is-expanded') }}">
-        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i
-                class="fas fa-image"></i>&nbsp;<span class="side-menu__label">brand</span><i
+                class="fa fa-puzzle-piece"></i>&nbsp;<span class="side-menu__label">Product Properties</span><i
                 class="angle fe fe-chevron-right"></i></a>
         <ul class="slide-menu ">
             <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
             {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
-            <li><a class="slide-item {{ nav_checkactive(['brand-index'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['brand', 'index']) }}">Index Brand</a>
+            <li><a class="slide-item {{ nav_checkactive(['producttype-index'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['producttype']) }}">All Product Properties</a>
             </li>
             <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
             {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
-            <li><a class="slide-item {{ nav_checkactive(['brand-create'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['brand', 'create']) }}">New Brand</a>
+            <li><a class="slide-item {{ nav_checkactive(['producttype-create'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['producttype', 'create']) }}">Add New</a>
             </li>
         </ul>
     </li>
-    <li class="side-item side-item-category">Example</li>
-    <li class="slide {{ nav_checkactive(['example'], $args, 'is-expanded') }}">
+    <li class="slide {{ nav_checkactive(['categorie'], $args, 'is-expanded') }}">
         <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i
-                class="fas fa-image"></i>&nbsp;<span class="side-menu__label">Example</span><i
+                class="fa fa-adjust"></i>&nbsp;<span class="side-menu__label">@lang('dev.product_color')</span><i
                 class="angle fe fe-chevron-right"></i></a>
         <ul class="slide-menu ">
             <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
             {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
-            <li><a class="slide-item {{ nav_checkactive(['example-index'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['example', 'index']) }}">Index Example</a>
+            <li><a class="slide-item {{ nav_checkactive(['categorie-index'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['categorie']) }}">@lang('dev.all_product_color')</a>
             </li>
             <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
             {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
-            <li><a class="slide-item {{ nav_checkactive(['example-create'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['example', 'create']) }}">New Example</a>
+            <li><a class="slide-item {{ nav_checkactive(['categorie-create'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['categorie', 'create']) }}">@lang('dev.new_product_color')</a>
             </li>
         </ul>
     </li>
 
     <li class="side-item side-item-category">Users Management</li>
     <li class="slide {{ nav_checkactive(['user'], $args, 'is-expanded') }}">
-        <a class="side-menu__item {{ nav_checkactive(['user'], $args, 'active is-expanded') }}"
-            data-bs-toggle="slide" href="javascript:void(0);">
-            <i class="fa fa-user" aria-hidden="true"></i>
-            &nbsp;
-            <span class="side-menu__label">Users</span><i class="angle fe fe-chevron-right"></i>
+        <a class="side-menu__item {{ nav_checkactive(['user'], $args, 'active is-expanded') }}" data-bs-toggle="slide"
+            href="javascript:void(0);">
+            <i class="fas fa-users pd-r-10"></i>
+            <span class="side-menu__label">@lang('dev.user')</span><i class="angle fe fe-chevron-right"></i>
         </a>
         <ul class="slide-menu">
             <li class="side-menu__label1"><a href="javascript:void(0);">Menu-Levels</a></li>
@@ -325,7 +198,7 @@
         <a class="side-menu__item {{ nav_checkactive(['userpermission'], $args, 'active is-expanded') }}"
             data-bs-toggle="slide" href="javascript:void(0);">
             <i class="fas fa-user-shield pd-r-10"></i>
-            <span class="side-menu__label">Permission</span><i class="angle fe fe-chevron-right"></i>
+            <span class="side-menu__label">@lang('dev.permission')</span><i class="angle fe fe-chevron-right"></i>
         </a>
         <ul class="slide-menu">
             <li class="side-menu__label1"><a href="javascript:void(0);">Menu-Levels</a></li>
@@ -341,29 +214,131 @@
         </ul>
     </li>
 
+    <li class="side-item side-item-category">Fixed Assets</li>
+    <li class="slide {{ nav_checkactive(['equipment'], $args, 'is-expanded') }}">
+        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i
+                class="fas fa-hammer"></i>&nbsp;<span class="side-menu__label">Equipments</span><i
+                class="angle fe fe-chevron-right"></i></a>
+        <ul class="slide-menu ">
+            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
+            {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
+            <li><a class="slide-item {{ nav_checkactive(['equipment-index'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['equipment']) }}">All Equipments</a>
+            </li>
+            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
+            {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
+            <li><a class="slide-item {{ nav_checkactive(['equipment-create'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['equipment', 'create']) }}">Add New</a>
+            </li>
+        </ul>
+    </li>
+    <li class="slide {{ nav_checkactive(['inventory'], $args, 'is-expanded') }}">
+        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i
+                class="fas fa-dumpster"></i>&nbsp;<span class="side-menu__label">Inventorys</span><i
+                class="angle fe fe-chevron-right"></i></a>
+        <ul class="slide-menu ">
+            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
+            {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
+            <li><a class="slide-item {{ nav_checkactive(['inventory-index'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['inventory', 'index']) }}">All Inventorys</a>
+            </li>
+            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
+            {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
+            <li><a class="slide-item {{ nav_checkactive(['inventory-create'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['inventory', 'create']) }}">Add New</a>
+            </li>
+        </ul>
+    </li>
+</br>
+<li class="slide {{ nav_checkactive(['vendor'], $args, 'is-expanded') }}">
+    <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i
+            class="fas fa-industry"></i>&nbsp;<span class="side-menu__label">Vendors</span><i
+            class="angle fe fe-chevron-right"></i></a>
+    <ul class="slide-menu ">
+        <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
+        {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
+        <li><a class="slide-item {{ nav_checkactive(['vendor-index'], $args) }}"
+                href="{{ url_builder('admin.controller', ['vendor', 'index']) }}">All Vendors</a>
+        </li>
+        <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
+        {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
+        <li><a class="slide-item {{ nav_checkactive(['vendor-create'], $args) }}"
+                href="{{ url_builder('admin.controller', ['vendor', 'create']) }}">Add New</a>
+        </li>
+    </ul>
+</li>
+   
+    <li class="slide {{ nav_checkactive(['/'], $args, 'is-expanded') }}">
+        <a class="side-menu__item" data-bs-toggle="slide" href="{{ url_builder('admin.controller', ['/']) }}"><i
+                class="fas fa-chart-area"></i>&nbsp;<span class="side-menu__label">Reporting</span></a>
+    </li>
 
-    <li class="side-item side-item-category">Home</li>
+    <li class="slide {{ nav_checkactive(['currency'], $args, 'is-expanded') }}">
+        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i
+                class="fab fa-cc-mastercard"></i>&nbsp;<span class="side-menu__label">Currencys</span><i
+                class="angle fe fe-chevron-right"></i></a>
+        <ul class="slide-menu ">
+            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
+            {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
+            <li><a class="slide-item {{ nav_checkactive(['currency-index'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['currency', 'index']) }}">All Currencys</a>
+            </li>
+            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
+            {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
+            <li><a class="slide-item {{ nav_checkactive(['currency-create'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['currency', 'create']) }}">Add New</a>
+            </li>
+        </ul>
+    </li>
+
+    <li class="slide {{ nav_checkactive(['new-event'], $args, 'is-expanded') }}">
+        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i
+                class="fab fa-cc-visa"></i>&nbsp;<span class="side-menu__label">Bank Corporates</span><i
+                class="angle fe fe-chevron-right"></i></a>
+        <ul class="slide-menu ">
+            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
+            {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
+            <li><a class="slide-item {{ nav_checkactive(['example-index'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['example', 'index']) }}">All Bank Corporates</a>
+            </li>
+            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
+            {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
+            <li><a class="slide-item {{ nav_checkactive(['example-create'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['example', 'create']) }}">Add New</a>
+            </li>
+        </ul>
+    </li>
+
     <li class="slide {{ nav_checkactive(['switcher'], $args, 'is-expanded') }}">
         <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i class="fa fa-cogs "
                 aria-hidden="true">
                 &nbsp;</i><span class="side-menu__label">Settings</span><i class="angle fe fe-chevron-right"></i></a>
         <ul class="slide-menu ">
+            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
+            {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
+            <li><a class="slide-item {{ nav_checkactive(['media-index'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['media']) }}">General</a>
+            </li>
+            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
+            {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
+            <li><a class="slide-item {{ nav_checkactive(['media-create'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['media', 'create']) }}">Contacts</a>
+            </li>
             <li class="side-menu__label1 "><a href="javascript:void(0);">Dashboards</a></li>
             {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
             <li><a class="slide-item {{ nav_checkactive(['switcher-index'], $args) }}"
                     href="{{ url_builder('admin.controller', ['switcher']) }}">Switcher</a>
             </li>
+            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
+            {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
+            <li><a class="slide-item {{ nav_checkactive(['media-create'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['media', 'create']) }}">Terms & Condition</a>
+            </li>
+            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
+            {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
+            <li><a class="slide-item {{ nav_checkactive(['media-create'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['media', 'create']) }}">Privacy Policy</a>
+            </li>
         </ul>
-    </li>
-
-    <li class="side-item side-item-category">Media</li>
-    <li class="slide {{ nav_checkactive(['media-index'], $args, 'is-expanded') }}">
-        <a class="side-menu__item" data-bs-toggle="slide" href="{{ url_builder('admin.controller', ['media']) }}"><i
-                class="fas fa-image"></i>&nbsp;<span class="side-menu__label">@lang('dev.media')</span><i
-                class="angle fe fe-chevron-right"></i></a>
-    </li>
-    <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
-    <li><a class="slide-item {{ nav_checkactive(['inventory-create'], $args) }}"
-            href="{{ url_builder('admin.controller', ['media', 'create']) }}">New Media</a>
     </li>
 </ul>

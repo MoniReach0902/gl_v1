@@ -156,8 +156,8 @@
                 <div class="form-row" style="font-size: 11px">
                     <div class="form-group col-md-2">
                         <label for="txt">@lang('dev.search')</label>
-                        <input type="text" class="form-control input-sm" name="txtinventory" id="txt"
-                            value="{{ request()->get('txtinventory') ?? '' }}">
+                        <input type="text" class="form-control input-sm" name="txtcategorie" id="txt"
+                            value="{{ request()->get('txtcategorie') ?? '' }}">
                     </div>
                     <div class="form-group col-md-2">
                         <label for="year">@lang('dev.year')</label>
@@ -201,7 +201,13 @@
                             @endif
                             <tr>
                                 <th style="width: 10px">ID</th>
+                                <th style="width: 8%">Image</th>
                                 <th>Name</th>
+                                <th>Cost</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Categorie Name</th>
+                                <th>Brand Name</th>
                                 <th>Create date</th>
                                 <th>Update date</th>
                                 <th>Create By</th>
@@ -211,15 +217,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($results as $inventorys)
+                            @foreach ($results as $products)
                                 <tr>
-                                    <td>{{ $inventorys->inventory_id }}</td>
-                                    <td>{{ $inventorys['text'] }}</td>
-                                    <td style="width: 10%">{{ $inventorys->create_date }}</td>
-                                    <td style="width: 10%">{{ $inventorys->update_date }}</td>
-                                    <td style="width: 10%">{{ $inventorys->username }}</td>
+                                    <td>{{ $products->product_id }}</td>
+                                    <td>{{ $products['text'] }}</td>
+                                    <td style="width: 10%">{{ $products->create_date }}</td>
+                                    <td style="width: 10%">{{ $products->update_date }}</td>
+                                    <td style="width: 10%">{{ $products->username }}</td>
                                     <td style="width: 10%">
-                                        @if ($inventorys->status == 'yes')
+                                        @if ($products->status == 'yes')
                                         <span class="badge bg-dark">
                                             Enable
                                         @else
@@ -230,7 +236,7 @@
                                     </td>
                                     <td> 
                                     @include('app._include.btn_record', [
-                                        'rowid' => $inventorys->inventory_id,
+                                        'rowid' => $products->product_id,
                                         'edit' => true,
                                         'trash' => true,
                                         'delete' => true,

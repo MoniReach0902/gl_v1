@@ -1,9 +1,9 @@
 @php
-    $extends = 'app';
-    $action_btn = ['save' => true, 'print' => false, 'cancel' => false, 'new' => true];
-    foreach (config('me.app.project_lang') as $lang) {
-        $langcode[] = $lang[0];
-    }
+$extends = 'app';
+$action_btn = ['save' => true, 'print' => false, 'cancel' => false, 'new' => true];
+foreach (config('me.app.project_lang') as $lang) {
+    $langcode[] = $lang[0];
+}
 @endphp
 @if (is_axios())
     @php
@@ -83,7 +83,7 @@
     {{-- Header --}}
     <section class="content-header bg-light d-flex ct-bar-action ct-bar-action-shaddow">
         <div class="container-fluid">
-            <div class="d-flex pd-10 border br-5">
+            <div class="d-flex  border br-5">
                 <div class="flex-grow-1">
                     <h5 class="mb-2 mg-t-20 mg-l-20">
                         {!! $obj_info['icon'] !!}
@@ -113,54 +113,16 @@
                 value="{{ $input[$fprimarykey] ?? '' }}">
             <input type="hidden" name="jscallback" value="{{ $jscallback ?? (request()->get('jscallback') ?? '') }}">
             <br>
-<<<<<<< HEAD
-            <div class="card-body">
-                <div class="form-group">
-                    <label for="">Name English & Khmer</label>
-                    <div class="input-group my-group" style="width:100%;">
-
-                        <select class="form-control form-select input-sm tab_title" style="width:20%;">
-                            @foreach (config('me.app.project_lang') as $lang)
-                                <option value="@lang($lang[0])">@lang('dev.lang_' . $lang[0])</option>
-                            @endforeach
-
-                        </select>
-                        @php
-                            $active = '';
-                        @endphp
-                        @foreach (config('me.app.project_lang') as $lang)
-                            @php
-                                // dd($lang);
-                                $title = json_decode($input['title'] ?? '', true);
-                            @endphp
-                            <input type="text" class="form-control input-sm {{ $active }}" style="width:80%;"
-                                name="title-{{ $lang[0] }}" id="title-{{ $lang[0] }}"
-                                placeholder="@lang('dev.lang_' . $lang[0])" value="{{ $name[$lang[0]] ?? '' }}">
-                            @php
-                                $active = 'hide';
-                            @endphp
-                        @endforeach
-                        <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error" class="error invalid-feedback"
-                            style="display: none"></span>
-                    </div>
-                    <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
-                </div>
-
-            </div>
-            <!-- /.card-body -->
-    </div>
-    {{--  --}}
-
-=======
 
                             <div class="card-body">
+
                                 <div class="form-group">
-                                    <label for=""><b>@lang('dev.name_kh_eng')</b></label>
+                                    <label for="">Tille</label>
                                     <div class="input-group my-group" style="width:100%;">
 
-                                        <select class="form-control form-select input-sm tab_title" style="width:10%;">
+                                        <select class="form-control form-select input-sm tab_title" style="width:20%;">
                                             @foreach (config('me.app.project_lang') as $lang)
-                                                <option value="@lang($lang[0])" style="padding: 10px">@lang($lang[1])</option>
+                                                <option value="@lang($lang[0])">@lang($lang[1])</option>
                                             @endforeach
             
                                         </select>
@@ -174,7 +136,7 @@
                                             @endphp
                                             <input type="text" class="form-control input-sm {{ $active }}" style="width:80%;"
                                                 name="title-{{ $lang[0] }}" id="title-{{ $lang[0] }}"
-                                                placeholder="{{ $lang[1] }}" value="{{ $name[$lang[0]] ?? '' }}">
+                                                placeholder="{{ $lang[1] }}" value="{{ $input[$lang[0]] ?? '' }}">
                                             @php
                                                 $active = 'hide';
                                             @endphp
@@ -184,12 +146,43 @@
                                     </div>
                                     <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
                                 </div>
+                                <div class="form-group">
+                                    <label for="">Name English & Khmer</label>
+                                    <div class="input-group my-group" style="width:100%;">
+
+                                        <select class="form-control form-select input-sm tab_title" style="width:20%;">
+                                            @foreach (config('me.app.project_lang') as $lang)
+                                                <option value="@lang($lang[0])">@lang($lang[1])</option>
+                                            @endforeach
+            
+                                        </select>
+                                        @php
+                                            $active = '';
+                                        @endphp
+                                        @foreach (config('me.app.project_lang') as $lang)
+                                            @php
+                                                // dd($lang);
+                                                $title = json_decode($input['title'] ?? '', true);
+                                            @endphp
+                                            <textarea class="form-control input-sm {{ $active }}" style="width:80%;" id="title-{{ $lang[0] }}" placeholder="{{ $lang[1] }}" rows="6">
+                                                {{ $input[$lang[0]] ?? '' }}
+                                            </textarea>
+                                            @php
+                                                $active = 'hide';
+                                            @endphp
+                                        @endforeach
+                                        <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error"
+                                            class="error invalid-feedback" style="display: none"></span>
+                                    </div>
+                                    <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
+                                </div>
+
                             </div>
                             <!-- /.card-body -->
-                        
+                        </div>
+                       
             {{--  --}}
    
->>>>>>> 9d3f5bb4489650401a5c71e72f17af1ae411e306
     </form>
     </div>
 @endsection
