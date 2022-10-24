@@ -196,9 +196,9 @@ class InventoryController extends Controller
 
         $default = $this->default();
         $inventory = $default['inventory'];
-         //dd('aaa');
-         $results = $this->listingmodel();
-         $sfp = $this->sfp($request, $results);
+        //dd('aaa');
+        $results = $this->listingmodel();
+        $sfp = $this->sfp($request, $results);
 
 
         $create_modal = url_builder(
@@ -239,8 +239,7 @@ class InventoryController extends Controller
             ])
             ->with(['inventory' => $inventory])
             ->with($sfp)
-            ->with($setting)
-        ;
+            ->with($setting);
     }
 
     public function validator($request, $isupdate = false)
@@ -274,7 +273,7 @@ class InventoryController extends Controller
 
         ];
         if ($isupdate) {
-            $tableData = array_except($tableData, [$this->fprimarykey,'create_date', 'password', 'trash']);
+            $tableData = array_except($tableData, [$this->fprimarykey, 'create_date', 'password', 'trash']);
         }
         return ['tableData' => $tableData, $this->fprimarykey => $newid];
     }
@@ -384,8 +383,8 @@ class InventoryController extends Controller
     public function edit(Request $request, $id = 0)
     {
 
-         #prepare for back to url after SAVE#
-         if (!$request->session()->has('backurl')) {
+        #prepare for back to url after SAVE#
+        if (!$request->session()->has('backurl')) {
             $request->session()->put('backurl', redirect()->back()->getTargetUrl());
         }
 
@@ -435,7 +434,7 @@ class InventoryController extends Controller
 
         $input = $x;
 
-        $name =json_decode($input['name'],true);
+        $name = json_decode($input['name'], true);
 
 
         $sumit_route = url_builder(
@@ -444,18 +443,9 @@ class InventoryController extends Controller
             [],
         );
         $cancel_route = redirect()->back()->getTargetUrl();
-        $province_id = empty($input['province_id']) ? -1 : $input['province_id'];
-        $districts = [];
-        $where = [['trash', '<>', 'yes'], ['parent_id', '=', $province_id]];
-        $location = Location::getlocation($this->dflang[0], $where)->get();
-        $districts = $location->pluck('title', 'id')->toArray();
-        $district_id = empty($input['district_id']) ? -1 : $input['district_id'];
-        $communes = [];
-        $where = [['trash', '<>', 'yes'], ['parent_id', '=', $district_id]];
-        $location = Location::getlocation($this->dflang[0], $where)->get();
-        $communes = $location->pluck('title', 'id')->toArray();
+
         //dd($input);
-        return view('app.' . $this->obj_info['name'] . '.create', ) //change piseth
+        return view('app.' . $this->obj_info['name'] . '.create',) //change piseth
             ->with([
                 'obj_info'  => $this->obj_info,
                 'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route],
@@ -590,5 +580,5 @@ class InventoryController extends Controller
                 ],
                 422
             );
-        }
+    }
 }

@@ -1,5 +1,5 @@
 @php
-//dd(request()->session()->all());
+    //dd(request()->session()->all());
 @endphp
 @extends('layouts.app')
 @section('blade_css')
@@ -19,11 +19,11 @@
                     autohide: true,
                     delay: 3000,
                     //position: 'bottomLeft',
-                }); 
+                });
             @endif
 
             @if (null !== session('status') && session('status') == true)
-            location.reload();
+                location.reload();
                 $(document).Toasts('create', {
                     class: 'bg-success ct-min-toast-width',
                     title: 'Success',
@@ -81,7 +81,7 @@
                     }, 1000);
                 });
             });
-            
+
 
             $("#btnnew_{{ $obj_info['name'] }}").click(function(e) {
 
@@ -124,7 +124,6 @@
             let data = jsondata.data;
             helper.makeDropdownByJson(dropdown, data, -1, 'please select');
         }
-        
     </script>
 @endsection
 @section('content')
@@ -151,11 +150,7 @@
     </section>
     {{-- end header --}}
     <div class="container-fluid">
-<<<<<<< HEAD
-        <div class="card-header mg-t-20">
-=======
         <div class="card-header">
->>>>>>> d6cba399928d6b78b4dd6c89856f85647cf38f17
             <form class="frmsearch-{{ $obj_info['name'] }}">
                 <div class="form-row" style="font-size: 11px">
                     <div class="form-group col-md-2">
@@ -206,35 +201,36 @@
             <div class="card-body table-responsive p-0 mg-t-20">
                 <table class="table  table-striped table-hover text-nowrap table-bordered">
                     @if (isset($istrash) && $istrash)
-                                <thead style="color: var(--warning)">
-                                @else
-                                    <thead style="color: var(--info)">
-                            @endif
-                            <tr>
-                                <th style="width: 10px">ID</th>
-                                <th  style="width: 8%">Image</th>
-                                <th>Name</th>
-                                <th style="width: 8%">Type</th>
-                                <th>Create date</th>
-                                <th>Update date</th>
-                                <th>Create By</th>
-                                <th style="width: 40px">Status</th>
-                                <th style="width: 40px; text-align: center"><i class="fa fa-ellipsis-h"></i></th>
+                        <thead style="color: var(--warning)">
+                        @else
+                            <thead style="color: var(--info)">
+                    @endif
+                    <tr>
+                        <th style="width: 10px">ID</th>
+                        <th style="width: 8%">Image</th>
+                        <th>Name</th>
+                        <th style="width: 8%">Type</th>
+                        <th>Create date</th>
+                        <th>Update date</th>
+                        <th>Create By</th>
+                        <th style="width: 40px">Status</th>
+                        <th style="width: 40px; text-align: center"><i class="fa fa-ellipsis-h"></i></th>
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($results as $vendors)
-                                <tr>
-                                    <td>{{ $vendors->vendor_id }}</td>
-                                    <td><img src="{{ asset('storage/app/vendor/' . $vendors['image_url']) }}" width="80"></td>
-                                    <td>{{ $vendors['text'] }}</td>
-                                    <td>{{ $vendors->type }}</td>
-                                    <td style="width: 10%">{{ $vendors->create_date }}</td>
-                                    <td style="width: 10%">{{ $vendors->update_date }}</td>
-                                    <td style="width: 10%">{{ $vendors->username }}</td>
-                                    <td style="width: 10%">
-                                        @if ($vendors->status == 'yes')
+                    </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($results as $vendors)
+                            <tr>
+                                <td>{{ $vendors->vendor_id }}</td>
+                                <td><img src="{{ asset('storage/app/vendor/' . $vendors['image_url']) }}" width="80">
+                                </td>
+                                <td>{{ $vendors['text'] }}</td>
+                                <td>{{ $vendors->type }}</td>
+                                <td style="width: 10%">{{ $vendors->create_date }}</td>
+                                <td style="width: 10%">{{ $vendors->update_date }}</td>
+                                <td style="width: 10%">{{ $vendors->username }}</td>
+                                <td style="width: 10%">
+                                    @if ($vendors->status == 'yes')
                                         <span class="badge bg-dark">
                                             Enable
                                         @else
@@ -242,8 +238,8 @@
                                                 Disable
                                     @endif
                                     </span>
-                                    </td>
-                                    <td> 
+                                </td>
+                                <td>
                                     @include('app._include.btn_record', [
                                         'rowid' => $vendors->vendor_id,
                                         'edit' => true,
@@ -251,14 +247,14 @@
                                         'delete' => true,
                                     ])
                                 </td>
-                                </tr>
-                            @endforeach
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
-     <!-- Pagination and Record info -->
-     @include('app._include.pagination')
+                <!-- Pagination and Record info -->
+                @include('app._include.pagination')
                 <!-- /. end -->
-    
+
             </div>
         </form>
     </div>
