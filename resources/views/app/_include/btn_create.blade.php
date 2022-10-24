@@ -1,9 +1,7 @@
 @if (isset($save) && $save)
-    <button type="button"
-        class="btnsave_{{ $obj_info['name'] }} formactionbutton btn-save mx-2 button-icon"
+    <button type="button" class="btnsave_{{ $obj_info['name'] }} formactionbutton btn btn btn-success mx-2 button-icon"
         data-savetype="save">
-        <i class="fe fe-save me-2"></i>@lang('dev.save')
-    </button>
+        <i class="fe fe-save me-2"></i>@lang('btn.btn_save')</button>
 @endif
 
 @if (isset($saveimport) && $saveimport)
@@ -31,8 +29,7 @@
 @endif
 
 @if (isset($cancel) && $cancel)
-    <button type="button"
-        class="btncancel_{{ $obj_info['name'] }} formactionbutton btn-save button-icon">
-        <i class="fe fe-arrow-left me-2"></i>@lang('dev.back')
+    <button type="button" class="btncancel_{{ $obj_info['name'] }} formactionbutton btn btn btn-success button-icon">
+        <i class="fe fe-arrow-left me-2"></i>@lang('btn.btn_back')
     </button>
 @endif

@@ -83,7 +83,7 @@ foreach (config('me.app.project_lang') as $lang) {
     {{-- Header --}}
     <section class="content-header bg-light d-flex ct-bar-action ct-bar-action-shaddow">
         <div class="container-fluid">
-            <div class="d-flex  border br-5">
+            <div class="d-flex pd-10 border br-5">
                 <div class="flex-grow-1">
                     <h5 class="mb-2 mg-t-20 mg-l-20">
                         {!! $obj_info['icon'] !!}
@@ -116,12 +116,12 @@ foreach (config('me.app.project_lang') as $lang) {
 
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label for=""><b>Name English & Khmer</b></label>
+                                    <label for=""><b>@lang('dev.name_kh_eng')</b></label>
                                     <div class="input-group my-group" style="width:100%;">
 
                                         <select class="form-control form-select input-sm tab_title" style="width:10%;">
                                             @foreach (config('me.app.project_lang') as $lang)
-                                                <option value="@lang($lang[0])">@lang($lang[1])</option>
+                                                <option value="@lang($lang[0])" style="padding: 10px">@lang($lang[1])</option>
                                             @endforeach
             
                                         </select>

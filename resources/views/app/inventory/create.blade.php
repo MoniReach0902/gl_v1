@@ -83,7 +83,7 @@ foreach (config('me.app.project_lang') as $lang) {
     {{-- Header --}}
     <section class="content-header bg-light d-flex ct-bar-action ct-bar-action-shaddow">
         <div class="container-fluid">
-            <div class="d-flex  border br-5">
+            <div class="d-flex pd-10 border br-5">
                 <div class="flex-grow-1">
                     <h5 class="mb-2 mg-t-20 mg-l-20">
                         {!! $obj_info['icon'] !!}
@@ -95,7 +95,7 @@ foreach (config('me.app.project_lang') as $lang) {
                         </small>
                     </h5>
                 </div>
-                <div class="pd-10 ">
+                <div class="pd-10">
                     @include('app._include.btn_create', $action_btn)
                 </div>
 

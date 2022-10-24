@@ -455,9 +455,9 @@ body.dark-theme {
 
 .dark-theme .form-select {
     color: #ffffe3;
-    background-color: #2a2e3f;
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
-    border: 1px solid #444566;
+    box-shadow: inset 5px 5px 8px #1a1c26, inset -5px -5px 8px #2a2e3f;
+    border-radius: 15px;
 }
 
 .dark-theme .ps__thumb-y {
@@ -1156,6 +1156,7 @@ body.dark-theme {
 
 .dark-theme select option {
     background: #2a2e3f;
+    padding:10px
 }
 
 .dark-theme table.dataTable tbody tr.selected {
@@ -3660,17 +3661,15 @@ body.dark-theme {
 
 .dark-theme .form-control {
     color: #c0c2c7;
-    border: 1px solid #484863;
+    /* border: 1px solid #484863; */
     width: 100%;
-    padding:25px;
+    padding: 0 15px;
     box-sizing: border-box;
-    /* box-shadow: 5px 5px 8px #1a1c26, -5px -5px 8px #2a2e3f; */
     box-shadow: inset 5px 5px 8px #1a1c26, inset -5px -5px 8px #2a2e3f;
-    background: #2a2e3f;
-    border-color: var(--primary-bg-color);
-    border-radius: 15px;
-    border: none;
-    outline: none;
+    /* background: #2a2e3f; */
+    border-radius: 10px;
+    border: 0;
+    outline: 0;
 }
 
 

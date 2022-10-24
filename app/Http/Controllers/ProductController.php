@@ -110,20 +110,12 @@ class ProductController extends Controller
     } /*../function..*/
     public function listingModel()
     {
-        $table_brand="tblvendors";
-        $table_categorie="tblcategories";
         #DEFIND MODEL#
         return $this->model
             ->leftJoin('users', 'users.id', 'tblproducts.blongto')
-            ->leftJoin('tblcategories', 'tblcategories.categorie_id', 'tblproducts.categorie_id')
-            ->leftJoin('tblvendors', 'tblvendors.vendor_id', 'tblproducts.brand_id')
             ->select(
                 \DB::raw($this->fprimarykey . ",JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text,
-                                                tblproducts.cost,tblproducts.price,tblproducts.qty_stock,
-                                                JSON_UNQUOTE(JSON_EXTRACT(" . $table_categorie . ".name,'$." . $this->dflang[0] . "')) AS categoriename,
-                                                JSON_UNQUOTE(JSON_EXTRACT(" . $table_brand . ".name,'$." . $this->dflang[0] . "')) AS brandname,
-                                                tblproducts.create_date,tblproducts.update_date,
-                                                tblproducts.status,users.name As username"),
+                tblproducts.create_date,tblproducts.update_date,tblproducts.status,users.name As username"),
             )->whereRaw('tblproducts.trash <> "yes"');
     } /*../function..*/
     //JSON_UNQUOTE(JSON_EXTRACT(title, '$.".$this->dflang[0]."'))

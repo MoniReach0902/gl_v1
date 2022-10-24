@@ -1069,6 +1069,7 @@ btn-outline-primary:hover .bg-primary {
     border:none;
     outline:none;
     border-radius:15px;
+    cursor:pointer;
     box-shadow: inset -5px -5px 9px rgba(255,255,255,0.50), inset 5px 5px 9px rgba(94, 104, 121, 0.242);
 }
 
@@ -7488,30 +7489,18 @@ pre code {
     display: block;
     width: 100%;
     height: 40px;
-    /* padding: 0.400rem 0.70rem; */
-    padding:25px;
-    font-size: 0.875rem;
+    padding:0 15px;
+    font-size: 0.8rem;
     font-weight: 400;
     line-height: 2;
-    color: #4d5875;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ededf5;
-    border-radius: 5px;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    font-size: 0.875rem;
-    font-weight: 400;
-    line-height: 2;
-    color: #4d5875;
-    background-color: #ecf0f3;
+    /* background:#fff; */
     background-clip: padding-box;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     box-sizing: border-box;
-    /* box-shadow: 13px 13px 13px #cbced1,-13px -13px 13px #ffffff; */
     box-shadow: inset -5px -5px 9px rgba(255,255,255,0.45), inset 5px 5px 9px rgba(94,104,121,0.3);
-    border-radius: 15px;
-    border: none;
-    outline: none;
+    border-radius: 10px;
+    border: 0;
+    outline: 0;
 }
 
 .form-control::-ms-expand {
@@ -7520,13 +7509,9 @@ pre code {
 }
 
 .form-control:focus {
-    color: #4d5875;
-    background-color: #fff;
-    border-color: var(--primary-bg-color);
-    outline: 0;
-    box-shadow: none;
-    box-shadow: inset 8px 8px 8px #cbced1,
-    inset -8px -8px 8px #ffffff;
+    /* color: #4d5875; */
+    box-shadow: inset -5px -5px 9px rgba(255,255,255,0.45), inset 5px 5px 9px rgba(94,104,121,0.3);
+
 }
 
 .form-control::placeholder {
@@ -8229,7 +8214,9 @@ textarea.custom-file-input.parsley-error:focus~.custom-file-label {
 }
 
 .form-select {
-    border: 1px solid #ededf5;
+    color: #4d5875;
+    box-shadow: inset -5px -5px 9px rgba(255,255,255,0.45), inset 5px 5px 9px rgba(94,104,121,0.3);
+    border-radius: 15px;
 }
 
 .SumoSelect>.CaptionCont {
@@ -12167,7 +12154,7 @@ tr {
 }
 
 .is-loading select option {
-    padding: 3px;
+    padding: 5px;
     padding-left: 7px;
 }
 
@@ -12997,8 +12984,9 @@ tr {
 }
 
 .form-select:focus {
-    color:
-    box-shadow: none;
+    color: #777;
+    border: 0;
+    box-shadow: inset -5px -5px 9px rgba(255,255,255,0.45), inset 5px 5px 9px rgba(94,104,121,0.3);
 }
 
 .item-card .cardprice-2 span.type--strikethrough {
