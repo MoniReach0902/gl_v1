@@ -136,16 +136,22 @@ class VendorController extends Controller
         if ($request->has('txtvendor') && !empty($request->input('txtvendor'))) {
             $qry = $request->input('txtvendor');
             $results = $results->where(function ($query) use ($qry) {
-                $query->whereRaw("tblvendors.text like '%" . $qry . "%'");
+                $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) like '%" . $qry . "%'");
             });
-            array_push($querystr, 'tblvendors.text=' . $qry);
-            $appends = array_merge($appends, ['tblvendors.text' => $qry]);
+            array_push($querystr, "'JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) ='" . $qry);
+            $appends = array_merge($appends, ["'JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "'))'" => $qry]);
         }
         if ($request->has('status') && !empty($request->input('status'))) {
             $qry = $request->input('status');
             $results = $results->where("userstatus", $qry);
             array_push($querystr, 'userstatus=' . $qry);
             $appends = array_merge($appends, ['userstatus' => $qry]);
+        }
+        if ($request->has('type') && !empty($request->input('type'))) {
+            $qry = $request->input('type');
+            $results = $results->where("type", $qry);
+            array_push($querystr, 'type=' . $qry);
+            $appends = array_merge($appends, ['type' => $qry]);
         }
         // PAGINATION and PERPAGE
         $perpage = null;
@@ -265,23 +271,19 @@ class VendorController extends Controller
         $tableData = [];
         $data = toTranslate($request, 'title', 0, true);
         $images = $request->file('images');
-        // dd($images[0]);
+        
         if (!empty($images)) {
-            foreach ($images as $key => $img) {
-                $name = $img->getClientOriginalName();
-
-                $record = [
-                    'vendor_id' => $newid,
-                    'name' => json_encode($data),
-                    'create_date' => date("Y-m-d"),
-                    'update_date' => "",
-                    'blongto' => $this->args['userinfo']['id'],
-                    'trash' => 'no',
-                    'status' => 'yes',
-                    'image_url' =>  $name,
-                ];
-                array_push($tableData, $record);
-            }
+            $name=$images->getClientOriginalName();
+            $tableData = [
+                'vendor_id' => $newid,
+                'name' => json_encode($data),
+                'create_date' => date("Y-m-d"),
+                'update_date' => "",
+                'blongto' => $this->args['userinfo']['id'],
+                'trash' => 'no',
+                'status' => 'yes',
+                'image_url' =>  $name ?? '',
+    ];
         }
         if ($isupdate) {
             $tableData =array_except($tableData, [$this->fprimarykey,'create_date', 'password', 'trash']);
@@ -360,7 +362,7 @@ class VendorController extends Controller
         $save_status = $this->model->insert($data['tableData']);
         // dd($save_status);
         if ($save_status) {
-            //$request->file('img')->storeAs('slider', $data['tableData']['img']);
+            $request->file('images')->storeAs('vendor', $data['tableData']['image_url']);
             $savetype = strtolower($request->input('savetype'));
             $success_ms = __('ccms.suc_save');
             $callback = 'formreset';
