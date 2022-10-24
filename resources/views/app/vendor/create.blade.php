@@ -148,7 +148,7 @@ foreach (config('me.app.project_lang') as $lang) {
                                 <div class="form-group">
                                     <label for=""><b>Image</b></label>
                                     <div class="input-group my-group" style="width:100%;">
-                                        <input type="file" class="dropify" data-height="400" name="images" value="{{ $input['image_url'] ?? ''}}" />
+                                        <input type="file" class="dropify" data-height="400" name="images" value="{{ $input['image_url'] ?? ''}}" accept=".png,.jpg,"/>
                                         <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error"
                                             class="error invalid-feedback" style="display: none"></span>
                                     </div>
