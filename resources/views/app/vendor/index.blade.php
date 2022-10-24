@@ -151,7 +151,11 @@
     </section>
     {{-- end header --}}
     <div class="container-fluid">
+<<<<<<< HEAD
         <div class="card-header mg-t-20">
+=======
+        <div class="card-header">
+>>>>>>> d6cba399928d6b78b4dd6c89856f85647cf38f17
             <form class="frmsearch-{{ $obj_info['name'] }}">
                 <div class="form-row" style="font-size: 11px">
                     <div class="form-group col-md-2">

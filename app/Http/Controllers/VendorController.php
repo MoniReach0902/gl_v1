@@ -203,9 +203,9 @@ class VendorController extends Controller
 
         $default = $this->default();
         $vendor = $default['vendor'];
-         //dd('aaa');
-         $results = $this->listingmodel();
-         $sfp = $this->sfp($request, $results);
+        //dd('aaa');
+        $results = $this->listingmodel();
+        $sfp = $this->sfp($request, $results);
 
 
         $create_modal = url_builder(
@@ -246,8 +246,7 @@ class VendorController extends Controller
             ])
             ->with(['vendor' => $vendor])
             ->with($sfp)
-            ->with($setting)
-        ;
+            ->with($setting);
     }
 
     public function validator($request, $isupdate = false)
@@ -271,9 +270,9 @@ class VendorController extends Controller
         $tableData = [];
         $data = toTranslate($request, 'title', 0, true);
         $images = $request->file('images');
-        
+
         if (!empty($images)) {
-            $name=$images->getClientOriginalName();
+            $name = $images->getClientOriginalName();
             $tableData = [
                 'vendor_id' => $newid,
                 'name' => json_encode($data),
@@ -283,10 +282,10 @@ class VendorController extends Controller
                 'trash' => 'no',
                 'status' => 'yes',
                 'image_url' =>  $name ?? '',
-    ];
+            ];
         }
         if ($isupdate) {
-            $tableData =array_except($tableData, [$this->fprimarykey,'create_date', 'password', 'trash']);
+            $tableData = array_except($tableData, [$this->fprimarykey, 'create_date', 'password', 'trash']);
         }
         return ['tableData' => $tableData, $this->fprimarykey => $newid];
     }
@@ -396,8 +395,8 @@ class VendorController extends Controller
     public function edit(Request $request, $id = 0)
     {
 
-         #prepare for back to url after SAVE#
-         if (!$request->session()->has('backurl')) {
+        #prepare for back to url after SAVE#
+        if (!$request->session()->has('backurl')) {
             $request->session()->put('backurl', redirect()->back()->getTargetUrl());
         }
 
@@ -447,7 +446,7 @@ class VendorController extends Controller
 
         $input = $x;
 
-        $name =json_decode($input['name'],true);
+        $name = json_decode($input['name'], true);
         //dd($name);
 
         $sumit_route = url_builder(
@@ -456,18 +455,9 @@ class VendorController extends Controller
             [],
         );
         $cancel_route = redirect()->back()->getTargetUrl();
-        $province_id = empty($input['province_id']) ? -1 : $input['province_id'];
-        $districts = [];
-        $where = [['trash', '<>', 'yes'], ['parent_id', '=', $province_id]];
-        $location = Location::getlocation($this->dflang[0], $where)->get();
-        $districts = $location->pluck('title', 'id')->toArray();
-        $district_id = empty($input['district_id']) ? -1 : $input['district_id'];
-        $communes = [];
-        $where = [['trash', '<>', 'yes'], ['parent_id', '=', $district_id]];
-        $location = Location::getlocation($this->dflang[0], $where)->get();
-        $communes = $location->pluck('title', 'id')->toArray();
+
         //dd($input);
-        return view('app.' . $this->obj_info['name'] . '.create', ) //change piseth
+        return view('app.' . $this->obj_info['name'] . '.create',) //change piseth
             ->with([
                 'obj_info'  => $this->obj_info,
                 'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route],
@@ -602,5 +592,5 @@ class VendorController extends Controller
                 ],
                 422
             );
-        }
+    }
 }

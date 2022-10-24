@@ -110,12 +110,20 @@ class ProductController extends Controller
     } /*../function..*/
     public function listingModel()
     {
+        $table_brand = "tblvendors";
+        $table_categorie = "tblcategories";
         #DEFIND MODEL#
         return $this->model
             ->leftJoin('users', 'users.id', 'tblproducts.blongto')
+            ->leftJoin('tblcategories', 'tblcategories.categorie_id', 'tblproducts.categorie_id')
+            ->leftJoin('tblvendors', 'tblvendors.vendor_id', 'tblproducts.brand_id')
             ->select(
                 \DB::raw($this->fprimarykey . ",JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text,
-                tblproducts.create_date,tblproducts.update_date,tblproducts.status,users.name As username"),
+                                                tblproducts.cost,tblproducts.price,tblproducts.qty_stock,
+                                                JSON_UNQUOTE(JSON_EXTRACT(" . $table_categorie . ".name,'$." . $this->dflang[0] . "')) AS categoriename,
+                                                JSON_UNQUOTE(JSON_EXTRACT(" . $table_brand . ".name,'$." . $this->dflang[0] . "')) AS brandname,
+                                                tblproducts.create_date,tblproducts.update_date,
+                                                tblproducts.status,users.name As username"),
             )->whereRaw('tblproducts.trash <> "yes"');
     } /*../function..*/
     //JSON_UNQUOTE(JSON_EXTRACT(title, '$.".$this->dflang[0]."'))
@@ -196,9 +204,9 @@ class ProductController extends Controller
 
         $default = $this->default();
         $product = $default['product'];
-         //dd('aaa');
-         $results = $this->listingmodel();
-         $sfp = $this->sfp($request, $results);
+        //dd('aaa');
+        $results = $this->listingmodel();
+        $sfp = $this->sfp($request, $results);
 
 
         $create_modal = url_builder(
@@ -239,8 +247,7 @@ class ProductController extends Controller
             ])
             ->with(['product' => $product])
             ->with($sfp)
-            ->with($setting)
-        ;
+            ->with($setting);
     }
 
     public function validator($request, $isupdate = false)
@@ -275,7 +282,7 @@ class ProductController extends Controller
 
         ];
         if ($isupdate) {
-            $tableData =array_except($tableData, [$this->fprimarykey,'create_date', 'password', 'trash']);
+            $tableData = array_except($tableData, [$this->fprimarykey, 'create_date', 'password', 'trash']);
         }
         return ['tableData' => $tableData, $this->fprimarykey => $newid];
     }
@@ -385,8 +392,8 @@ class ProductController extends Controller
     public function edit(Request $request, $id = 0)
     {
 
-         #prepare for back to url after SAVE#
-         if (!$request->session()->has('backurl')) {
+        #prepare for back to url after SAVE#
+        if (!$request->session()->has('backurl')) {
             $request->session()->put('backurl', redirect()->back()->getTargetUrl());
         }
 
@@ -436,7 +443,7 @@ class ProductController extends Controller
 
         $input = $x;
 
-        $name =json_decode($input['name'],true);
+        $name = json_decode($input['name'], true);
 
 
         $sumit_route = url_builder(
@@ -456,7 +463,7 @@ class ProductController extends Controller
         $location = Location::getlocation($this->dflang[0], $where)->get();
         $communes = $location->pluck('title', 'id')->toArray();
         //dd($input);
-        return view('app.' . $this->obj_info['name'] . '.create', ) //change piseth
+        return view('app.' . $this->obj_info['name'] . '.create',) //change piseth
             ->with([
                 'obj_info'  => $this->obj_info,
                 'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route],
@@ -591,5 +598,5 @@ class ProductController extends Controller
                 ],
                 422
             );
-        }
+    }
 }

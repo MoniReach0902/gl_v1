@@ -104,7 +104,11 @@
         </ul>
     </li>
 
+<<<<<<< HEAD
     <li class="side-item side-item-category">@lang('dev.product_management')</li>
+=======
+    <li class="side-item side-item-category">Product Management</li>
+>>>>>>> d6cba399928d6b78b4dd6c89856f85647cf38f17
     <li class="slide {{ nav_checkactive(['product'], $args, 'is-expanded') }}">
         <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i
                 class="fa fa-cubes"></i>&nbsp;<span class="side-menu__label">@lang('dev.product')</span><i
@@ -113,12 +117,20 @@
             <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
             {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
             <li><a class="slide-item {{ nav_checkactive(['product-index'], $args) }}"
+<<<<<<< HEAD
                     href="{{ url_builder('admin.controller', ['product', 'index']) }}">@lang('dev.all_product')</a>
+=======
+                    href="{{ url_builder('admin.controller', ['product', 'index']) }}">All Products</a>
+>>>>>>> d6cba399928d6b78b4dd6c89856f85647cf38f17
             </li>
             <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
             {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
             <li><a class="slide-item {{ nav_checkactive(['product-create'], $args) }}"
+<<<<<<< HEAD
                     href="{{ url_builder('admin.controller', ['product', 'create']) }}">@lang('dev.new_product')</a>
+=======
+                    href="{{ url_builder('admin.controller', ['product', 'create']) }}">Add New</a>
+>>>>>>> d6cba399928d6b78b4dd6c89856f85647cf38f17
             </li>
         </ul>
     </li>
