@@ -271,12 +271,14 @@ class VendorController extends Controller
         $tableData = [];
         $data = toTranslate($request, 'title', 0, true);
         $images = $request->file('images');
+        $type = $request->input('txttype');
         
         if (!empty($images)) {
             $name=$images->getClientOriginalName();
             $tableData = [
                 'vendor_id' => $newid,
                 'name' => json_encode($data),
+                'type' => $type,
                 'create_date' => date("Y-m-d"),
                 'update_date' => "",
                 'blongto' => $this->args['userinfo']['id'],

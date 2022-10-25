@@ -4,6 +4,7 @@
 @extends('layouts.app')
 @section('blade_css')
 @endsection
+@push('page_css')
 @section('blade_scripts')
     <script>
         $(document).ready(function() {
@@ -207,14 +208,12 @@
                                     <thead style="color: var(--info)">
                             @endif
                             <tr>
-                                <th style="width: 10px">ID</th>
-                                <th  style="width: 8%">Image</th>
-                                <th>Name</th>
-                                <th style="width: 8%">Type</th>
-                                <th>Create date</th>
-                                <th>Update date</th>
-                                <th>Create By</th>
-                                <th style="width: 40px">Status</th>
+                                <th style="width: 10px">@lang('table.id')</th>
+                                <th style="width: 150px;">@lang('table.image_logo')</th>
+                                <th>@lang('table.name')</th>
+                                <th style="width: 10%">@lang('table.create_date')</th>
+                                <th style="width: 10%">@lang('table.create_by')</th>
+                                <th style="width: 20px;">@lang('table.status')</th>
                                 <th style="width: 40px; text-align: center"><i class="fa fa-ellipsis-h"></i></th>
 
                             </tr>
@@ -223,19 +222,24 @@
                             @foreach ($results as $vendors)
                                 <tr>
                                     <td>{{ $vendors->vendor_id }}</td>
-                                    <td><img src="{{ asset('storage/app/vendor/' . $vendors['image_url']) }}" width="80"></td>
+                                    <td>
+                                        
+                                            <a href="{{ asset('storage/app/vendor/' . $vendors['image_url']) }}"
+                                                data-caption="IMAGE-01" data-id="lion" class="js-img-viewer">
+                                                <img src="{{ asset('storage/app/vendor/' . $vendors['image_url']) }}" width="150px" height="100px">
+                                            </a>
+                                        
+                                    </td>
                                     <td>{{ $vendors['text'] }}</td>
-                                    <td>{{ $vendors->type }}</td>
-                                    <td style="width: 10%">{{ $vendors->create_date }}</td>
-                                    <td style="width: 10%">{{ $vendors->update_date }}</td>
-                                    <td style="width: 10%">{{ $vendors->username }}</td>
-                                    <td style="width: 10%">
+                                    <td>{{ $vendors->create_date }}</td>
+                                    <td>{{ $vendors->username }}</td>
+                                    <td style="width: 20px">
                                         @if ($vendors->status == 'yes')
                                         <span class="badge bg-dark">
-                                            Enable
+                                            @lang('table.enable')
                                         @else
                                             <span class="badge bg-danger">
-                                                Disable
+                                                @lang('table.disable')
                                     @endif
                                     </span>
                                     </td>

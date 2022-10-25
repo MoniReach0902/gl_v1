@@ -12,4 +12,5 @@
         "create_by"=>"Create By",
         "product_shop"=>"Product Store",
         "equipment"=>"Equipment",
+        "image_logo"=>"Image",
     ];
