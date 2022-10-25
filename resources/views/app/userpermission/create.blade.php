@@ -96,7 +96,7 @@ $action_btn = ['save' => true, 'cancel' => true];
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text">
-                                Permission Name
+                                @lang('table.name')
                             </span>
 
                         </div>

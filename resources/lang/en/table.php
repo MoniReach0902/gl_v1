@@ -13,4 +13,12 @@
         "product_shop"=>"Product Store",
         "equipment"=>"Equipment",
         "image_logo"=>"Image",
+        "full_name"=>"Full Name",
+        "user_name"=>"User Name",
+        "email"=>"Email",
+        "enter"=>"Enter",
+        "phone_number"=>"Phone Number",
+        "password"=>"Password",
+        "comfirm_password"=>"Comfirm Password",
+        "rule"=>"Rule",
     ];

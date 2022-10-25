@@ -185,7 +185,7 @@
             <li class="side-menu__label1"><a href="javascript:void(0);">Menu-Levels</a></li>
             <li>
                 <a class="slide-item {{ nav_checkactive(['user-index'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['user']) }}">@lang('dev.user')</a>
+                    href="{{ url_builder('admin.controller', ['user']) }}">@lang('dev.all_user')</a>
             </li>
             <li>
                 <a class="slide-item {{ nav_checkactive(['user-create'], $args) }}"

@@ -225,8 +225,8 @@
                                         @else
                                             <span class="badge bg-danger">
                                                 @lang('table.disable')
-                                    @endif
-                                    </span>
+                                        @endif
+                                            </span>
                                     </td>
                                     <td> 
                                     @include('app._include.btn_record', [
