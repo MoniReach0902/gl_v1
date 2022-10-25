@@ -10,4 +10,6 @@
         "status"=>"Status",
         "id"=>"ID",
         "create_by"=>"Create By",
+        "product_shop"=>"Product Store",
+        "equipment"=>"Equipment",
     ];

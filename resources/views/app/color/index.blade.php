@@ -156,20 +156,13 @@
                 <div class="form-row" style="font-size: 11px">
                     <div class="form-group col-md-2">
                         <label for="txt">@lang('dev.search')</label>
-                        <input type="text" class="form-control input-sm" name="txtvendor" id="txt"
-                            value="{{ request()->get('txtvendor') ?? '' }}">
-                    </div>
-                    <div class="form-group col-md-2">
-                        <label for="year">@lang('dev.type')</label>
-                        <select class="form-control input-sm" name="type" id="type">
-                            <option value="">-- {{ __('dev.non_select') }} --</option>
-                            {!! cmb_listing(['equipment' => __('table.equipment'), 'shop' => __('table.product_shop')], [request()->get('type') ?? ''], '', '', '') !!}
-                        </select>
+                        <input type="text" class="form-control input-sm" name="txtcolor" id="txt"
+                            value="{{ request()->get('txtcolor') ?? '' }}">
                     </div>
                     <div class="form-group col-md-2">
                         <label for="year">@lang('dev.status')</label>
                         <select class="form-control input-sm" name="status" id="status">
-                            <option value="">--{{ __('dev.non_select') }} --</option>
+                            <option value="">-- {{ __('dev.non_select') }} --</option>
                             {!! cmb_listing(['yes' => __('table.enable'), 'no' => __('table.disable')], [request()->get('status') ?? ''], '', '', '') !!}
                         </select>
                     </div>
@@ -207,41 +200,37 @@
                                     <thead style="color: var(--info)">
                             @endif
                             <tr>
-                                <th style="width: 10px">ID</th>
-                                <th  style="width: 8%">Image</th>
-                                <th>Name</th>
-                                <th style="width: 8%">Type</th>
-                                <th>Create date</th>
-                                <th>Update date</th>
-                                <th>Create By</th>
-                                <th style="width: 40px">Status</th>
+                                <th style="width: 10px">@lang('table.id')</th>
+                                <th>@lang('table.name')</th>
+                                <th>@lang('table.create_date')</th>
+                               {{-- <th>@lang('table.update_date')</th> --}}
+                                <th>@lang('table.create_by')</th>
+                                <th style="width: 40px;">@lang('table.status')</th>
                                 <th style="width: 40px; text-align: center"><i class="fa fa-ellipsis-h"></i></th>
 
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($results as $vendors)
+                            @foreach ($results as $colors)
                                 <tr>
-                                    <td>{{ $vendors->vendor_id }}</td>
-                                    <td><img src="{{ asset('storage/app/vendor/' . $vendors['image_url']) }}" width="80"></td>
-                                    <td>{{ $vendors['text'] }}</td>
-                                    <td>{{ $vendors->type }}</td>
-                                    <td style="width: 10%">{{ $vendors->create_date }}</td>
-                                    <td style="width: 10%">{{ $vendors->update_date }}</td>
-                                    <td style="width: 10%">{{ $vendors->username }}</td>
-                                    <td style="width: 10%">
-                                        @if ($vendors->status == 'yes')
+                                    <td>{{ $colors->color_id }}</td>
+                                    <td>{{ $colors['text'] }}</td>
+                                    <td style="width: 10%">{{ $colors->create_date }}</td>
+                                   {{-- <td style="width: 10%">{{ $colors->update_date }}</td> --}}
+                                    <td style="width: 10%">{{ $colors->username }}</td>
+                                    <td style="width: 20px">
+                                        @if ($colors->status == 'yes')
                                         <span class="badge bg-dark">
-                                            Enable
+                                            @lang('table.enable')
                                         @else
                                             <span class="badge bg-danger">
-                                                Disable
+                                                @lang('table.disable')
                                     @endif
                                     </span>
                                     </td>
                                     <td> 
                                     @include('app._include.btn_record', [
-                                        'rowid' => $vendors->vendor_id,
+                                        'rowid' => $colors->color_id,
                                         'edit' => true,
                                         'trash' => true,
                                         'delete' => true,

@@ -17,6 +17,7 @@ return [
     "record"=>"Records",
     "enable"=>"Enable",
     "disable"=>"Disable",
+    "type"=>"Type",
 
     "dashboard"=>"Dashboard",
     "news_events"=>"News & Events",

@@ -45,7 +45,7 @@ class VendorController extends Controller
     {
         //$this->middleware('auth');
         // dd($args['userinfo']);
-        $this->obj_info['title'] =  'Vendors';
+        $this->obj_info['title'] =  __('dev.vendor');
 
         $default_protectme = config('me.app.protectme');
         $this->protectme = [
@@ -242,7 +242,7 @@ class VendorController extends Controller
                     'submit' => $submit,
                 ],
                 'fprimarykey'     => $this->fprimarykey,
-                'caption' => 'Active',
+                'caption' => __('dev.active'),
             ])
             ->with(['vendor' => $vendor])
             ->with($sfp)

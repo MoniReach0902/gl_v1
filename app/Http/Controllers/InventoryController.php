@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Auth;
 class InventoryController extends Controller
 {
     //
-    private $obj_info = ['name' => 'inventory', 'routing' => 'admin.controller', 'title' => 'Inventory', 'icon' => '<i class="fa fa-tags"></i>'];
+    private $obj_info = ['name' => 'inventory', 'routing' => 'admin.controller', 'title' => 'Inventory', 'icon' => '<i class="fas fa-dumpster"></i>'];
     public $args;
 
     private $model;
