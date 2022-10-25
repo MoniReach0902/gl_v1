@@ -136,15 +136,9 @@
                                      </div>
                                  </div>
                                  <a class="dropdown-item" href="profile.html"><i
-                                         class="far fa-user-circle"></i>Profile</a>
-                                 <a class="dropdown-item" href="chat.html"><i class="far fa-smile"></i>
-                                     chat</a>
-                                 <a class="dropdown-item" href="mail-read.html"><i
-                                         class="far fa-envelope "></i>Inbox</a>
-                                 <a class="dropdown-item" href="mail.html"><i
-                                         class="far fa-comment-dots"></i>Messages</a>
+                                         class="far fa-user-circle"></i>@lang('dev.profile')</a>
                                  <a class="dropdown-item" href="mail-settings.html"><i class="far fa-sun"></i>
-                                     Settings</a>
+                                    @lang('dev.setting')</a>
 
                                  <a class="dropdown-item" href="mail-settings.html"
                                      onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i

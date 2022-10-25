@@ -18,6 +18,8 @@ return [
     "enable"=>"Enable",
     "disable"=>"Disable",
     "type"=>"Type",
+    "profile"=>"Profile",
+    "logout"=>"Logout",
 
     "dashboard"=>"Dashboard",
     "news_events"=>"News & Events",
