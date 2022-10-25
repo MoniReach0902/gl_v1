@@ -2,6 +2,8 @@
 
 return [
     "name_kh_eng"=>"Name English & Khmer",
+    "lang_en"=>"English",
+    "lang_kh"=>"Khmer",
     "kh"=>"Khmer",
     "Eng"=>"English",
     "new"=>"New",
@@ -13,6 +15,8 @@ return [
     "go"=>"Go",
     "of"=>"Of",
     "record"=>"Records",
+    "enable"=>"Enable",
+    "disable"=>"Disable",
 
     "dashboard"=>"Dashboard",
     "news_events"=>"News & Events",

@@ -95,7 +95,7 @@ foreach (config('me.app.project_lang') as $lang) {
                         </small>
                     </h5>
                 </div>
-                <div class="pd-10">
+                <div class="pd-10 ">
                     @include('app._include.btn_create', $action_btn)
                 </div>
 
@@ -116,12 +116,12 @@ foreach (config('me.app.project_lang') as $lang) {
 
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label for=""><b>Name English & Khmer</b></label>
+                                    <label for=""><b>@lang('dev.name_kh_eng')</b></label>
                                     <div class="input-group my-group" style="width:100%;">
 
                                         <select class="form-control form-select input-sm tab_title" style="width:10%;">
                                             @foreach (config('me.app.project_lang') as $lang)
-                                                <option value="@lang($lang[0])">@lang($lang[1])</option>
+                                                <option value="@lang($lang[0])" style="padding: 10px">@lang($lang[1])</option>
                                             @endforeach
             
                                         </select>
@@ -135,7 +135,7 @@ foreach (config('me.app.project_lang') as $lang) {
                                             @endphp
                                             <input type="text" class="form-control input-sm {{ $active }}" style="width:80%;"
                                                 name="title-{{ $lang[0] }}" id="title-{{ $lang[0] }}"
-                                                placeholder="{{ $lang[1] }}" value="{{ $name[$lang[0]] ?? '' }}">
+                                                placeholder="{{ __('dev.lang_') . $lang[1] }}" value="{{ $name[$lang[0]] ?? '' }}">
                                             @php
                                                 $active = 'hide';
                                             @endphp

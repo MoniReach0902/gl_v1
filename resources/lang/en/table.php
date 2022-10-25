@@ -1,7 +1,7 @@
 <?php
     return[ 
         "name"=>"Name",
-        "category"=>"Category",
+        "categorie"=>"Categorie",
         "create_date"=>"Create Date",
         "update_date"=>"Update Date",
         "disable"=>"Disable",
@@ -9,5 +9,5 @@
         "permission"=>"Permission",
         "status"=>"Status",
         "id"=>"ID",
-        "crate_by"=>"Crate By",
+        "create_by"=>"Create By",
     ];
