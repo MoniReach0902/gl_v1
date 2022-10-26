@@ -20,6 +20,14 @@ return [
     "type"=>"ប្រភេទ",
     "profile"=>"ពត៍មានផ្ទាល់ខ្លួន",
     "logout"=>"ចាកចេញ",
+    "order_today"=>"ការកម្ម៉ង់ថ្ងៃនេះ",
+        "time"=>"ដង",
+        "yesterday"=>"ម្សិលមិញ",
+    "total_product"=>"ទំនិញសរុប",
+        "not_use"=>"មិនប្រើប្រាស់",
+    "total_equipment"=>"សម្ភារះប្រើប្រាស់សរុប",
+    "total_customer"=>"អតិថិជនសរុប",
+        "people"=>"នាក់",
 
 
     "dashboard"=>"ផ្ទាំងគ្រប់គ្រង",
