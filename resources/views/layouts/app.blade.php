@@ -54,11 +54,15 @@
         .hide {
             display: none;
         }
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            font-family: 'Siemreap', 'JetBrains Mono';
+        }
     </style>
 </head>
 
 <body class="ltr main-body app sidebar-mini">
-    @include('layouts.switcher')
+    {{-- @include('layouts.switcher') --}}
     <!-- Loader -->
     <div id="global-loader" class="global_loading">
         <img src="{{ asset('public/assets/img/loader.svg') }}" class="loader-img" alt="Loader">
@@ -69,7 +73,7 @@
     <!-- /Loader -->
 
     <!-- Page -->
-    <div class="">
+    <div class="page">
 
         <div>
             {{-- Header --}}
@@ -115,7 +119,7 @@
     <a href="#top" id="back-to-top"><i class="las la-arrow-up"></i></a>
 
     <!-- JQuery min js -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> --}}
     <script src="{{ asset('public/assets/plugins/jquery/jquery.min.js') }}"></script>
 
 
@@ -229,11 +233,11 @@
     <script src="{{ asset('public/js/helper.js') }}" defer></script>
 
     {{-- ========== toggle form ================ --}}
-    {{-- <script src="{{ asset('public/js/toggle_form.js') }}"></script> --}}
+    <script src="{{ asset('public/js/toggle_form.js') }}"></script>
 
 
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script> --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
 
     {{-- yield use @saction --}}
     @yield('blade_scripts')
@@ -288,29 +292,14 @@
         //     });
         // });
 
-        // $('#modal_windows').on('hidden.bs.modal', function(e) {
-        //     $("#air_windows").html('');
-        // });
+        $('#modal_windows').on('hidden.bs.modal', function(e) {
+            $("#air_windows").html('');
+        });
 
-        // $('#modal_media').on('hidden.bs.modal', function(e) {
-        //     //$( ".sidebar-remove" ).trigger( "click" );
-        //     $("#air_media").html('');
-        // })
-
-
-        // const dark_form = document.getElementById("light-layout");
-        // const light_form = document.getElementById("dark-layout");
-        // const card_body = document.getElementById("card-body");
-
-        // light_form.addEventListener("click", function() {
-        //     card_body.classList.add("dark-input-form");
-        //     card_body.classList.remove('light-input-form');
-
-        // });
-        // dark_form.addEventListener("click", function() {
-        //     card_body.classList.add("light-input-form");
-        //     card_body.classList.remove('dark-input-form');
-        // });
+        $('#modal_media').on('hidden.bs.modal', function(e) {
+            //$( ".sidebar-remove" ).trigger( "click" );
+            $("#air_media").html('');
+        })
 
 
         $(document).ready(function() {
