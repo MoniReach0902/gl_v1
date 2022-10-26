@@ -1,5 +1,5 @@
 @php
-    //dd(request()->session()->all());
+//dd(request()->session()->all());
 @endphp
 @extends('layouts.app')
 @section('blade_css')
@@ -19,11 +19,11 @@
                     autohide: true,
                     delay: 3000,
                     //position: 'bottomLeft',
-                });
+                }); 
             @endif
 
             @if (null !== session('status') && session('status') == true)
-                location.reload();
+            location.reload();
                 $(document).Toasts('create', {
                     class: 'bg-success ct-min-toast-width',
                     title: 'Success',
@@ -81,7 +81,7 @@
                     }, 1000);
                 });
             });
-
+            
 
             $("#btnnew_{{ $obj_info['name'] }}").click(function(e) {
 
@@ -124,6 +124,7 @@
             let data = jsondata.data;
             helper.makeDropdownByJson(dropdown, data, -1, 'please select');
         }
+        
     </script>
 @endsection
 @section('content')
@@ -155,20 +156,14 @@
                 <div class="form-row" style="font-size: 11px">
                     <div class="form-group col-md-2">
                         <label for="txt">@lang('dev.search')</label>
-                        <input type="text" class="form-control input-sm" name="txtcategorie" id="txt"
-                            value="{{ request()->get('txtcategorie') ?? '' }}">
+                        <input type="text" class="form-control input-sm" name="txtcolor" id="txt"
+                            value="{{ request()->get('txtcolor') ?? '' }}">
                     </div>
                     <div class="form-group col-md-2">
                         <label for="year">@lang('dev.status')</label>
                         <select class="form-control input-sm" name="status" id="status">
                             <option value="">-- {{ __('dev.non_select') }} --</option>
-                            {!! cmb_listing(
-                                ['yes' => __('table.enable'), 'no' => __('table.disable')],
-                                [request()->get('status') ?? ''],
-                                '',
-                                '',
-                                '',
-                            ) !!}
+                            {!! cmb_listing(['yes' => __('table.enable'), 'no' => __('table.disable')], [request()->get('status') ?? ''], '', '', '') !!}
                         </select>
                     </div>
                     <div class="form-group col-md-1">
@@ -181,8 +176,7 @@
                         <label>&nbsp;</label>
                         <button type="button"
                             class="btn btn-outline-secondary btn-block formactionbutton border border-secondary"
-                            onclick="location.href='{{ url()->current() }}'"><i class="fa fa-refresh"
-                                aria-hidden="true"></i>
+                            onclick="location.href='{{ url()->current() }}'"><i class="fa fa-refresh" aria-hidden="true"></i>
                         </button>
                     </div>
                 </div>
@@ -201,31 +195,31 @@
             <div class="card-body table-responsive p-0 mg-t-20">
                 <table class="table  table-striped table-hover text-nowrap table-bordered">
                     @if (isset($istrash) && $istrash)
-                        <thead style="color: var(--warning)">
-                        @else
-                            <thead style="color: var(--info)">
-                    @endif
-                    <tr>
-                        <th style="width: 10px">@lang('table.id')</th>
-                        <th>@lang('table.name')</th>
-                        <th>@lang('table.create_date')</th>
-                        {{-- <th>@lang('table.update_date')</th> --}}
-                        <th>@lang('table.create_by')</th>
-                        <th style="width: 40px;">@lang('table.status')</th>
-                        <th style="width: 40px; text-align: center"><i class="fa fa-ellipsis-h"></i></th>
-
-                    </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($results as $categories)
+                                <thead style="color: var(--warning)">
+                                @else
+                                    <thead style="color: var(--info)">
+                            @endif
                             <tr>
-                                <td>{{ $categories->categorie_id }}</td>
-                                <td>{{ $categories['text'] }}</td>
-                                <td style="width: 10%">{{ $categories->create_date }}</td>
-                                {{-- <td style="width: 10%">{{ $categories->update_date }}</td> --}}
-                                <td style="width: 10%">{{ $categories->username }}</td>
-                                <td style="width: 20px">
-                                    @if ($categories->status == 'yes')
+                                <th style="width: 10px">@lang('table.id')</th>
+                                <th>@lang('table.name')</th>
+                                <th>@lang('table.create_date')</th>
+                               {{-- <th>@lang('table.update_date')</th> --}}
+                                <th>@lang('table.create_by')</th>
+                                <th style="width: 40px;">@lang('table.status')</th>
+                                <th style="width: 40px; text-align: center"><i class="fa fa-ellipsis-h"></i></th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($results as $colors)
+                                <tr>
+                                    <td>{{ $colors->color_id }}</td>
+                                    <td>{{ $colors['text'] }}</td>
+                                    <td style="width: 10%">{{ $colors->create_date }}</td>
+                                   {{-- <td style="width: 10%">{{ $colors->update_date }}</td> --}}
+                                    <td style="width: 10%">{{ $colors->username }}</td>
+                                    <td style="width: 20px">
+                                        @if ($colors->status == 'yes')
                                         <span class="badge bg-dark">
                                             @lang('table.enable')
                                         @else
@@ -233,23 +227,23 @@
                                                 @lang('table.disable')
                                     @endif
                                     </span>
-                                </td>
-                                <td>
+                                    </td>
+                                    <td> 
                                     @include('app._include.btn_record', [
-                                        'rowid' => $categories->categorie_id,
+                                        'rowid' => $colors->color_id,
                                         'edit' => true,
                                         'trash' => true,
                                         'delete' => true,
                                     ])
                                 </td>
-                            </tr>
-                        @endforeach
+                                </tr>
+                            @endforeach
                     </tbody>
                 </table>
-                <!-- Pagination and Record info -->
-                @include('app._include.pagination')
+     <!-- Pagination and Record info -->
+     @include('app._include.pagination')
                 <!-- /. end -->
-
+    
             </div>
         </form>
     </div>

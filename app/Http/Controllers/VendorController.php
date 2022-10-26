@@ -45,7 +45,7 @@ class VendorController extends Controller
     {
         //$this->middleware('auth');
         // dd($args['userinfo']);
-        $this->obj_info['title'] =  'Vendors';
+        $this->obj_info['title'] =  __('dev.vendor');
 
         $default_protectme = config('me.app.protectme');
         $this->protectme = [
@@ -242,7 +242,7 @@ class VendorController extends Controller
                     'submit' => $submit,
                 ],
                 'fprimarykey'     => $this->fprimarykey,
-                'caption' => 'Active',
+                'caption' => __('dev.active'),
             ])
             ->with(['vendor' => $vendor])
             ->with($sfp)
@@ -270,12 +270,14 @@ class VendorController extends Controller
         $tableData = [];
         $data = toTranslate($request, 'title', 0, true);
         $images = $request->file('images');
+        $type = $request->input('txttype');
 
         if (!empty($images)) {
             $name = $images->getClientOriginalName();
             $tableData = [
                 'vendor_id' => $newid,
                 'name' => json_encode($data),
+                'type' => $type,
                 'create_date' => date("Y-m-d"),
                 'update_date' => "",
                 'blongto' => $this->args['userinfo']['id'],
@@ -463,7 +465,7 @@ class VendorController extends Controller
                 'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route],
                 'form' => ['save_type' => 'save'],
                 'fprimarykey' => $this->fprimarykey,
-                'caption' => 'Edit',
+                'caption' => __('btn.btn_edit'),
                 'isupdate' => true,
                 'input' => $input,
                 'name' => $name,

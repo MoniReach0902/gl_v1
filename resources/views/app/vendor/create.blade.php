@@ -112,7 +112,7 @@
 
             <div class="card-body">
                 <div class="form-group">
-                    <label for=""><b>Name English & Khmer</b></label>
+                    <label for=""><b>@lang('dev.name_kh_eng')</b></label>
                     <div class="input-group my-group" style="width:100%;">
 
                         <select class="form-control form-select input-sm tab_title" style="width:10%;">
@@ -142,9 +142,38 @@
                     <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
                 </div>
                 <div class="form-group">
-                    <label for=""><b>Image</b></label>
+
+                    <label class="main-content-label tx-11 tx-medium tx-gray-600"><b>@lang('dev.type')</b></label>
+                    <div class="row row-sm">
+                        <div class="col-sm-5 mg-t-10 mg-sm-t-0">
+                            <select class="form-control select2-no-search" name="txttype">
+                                <option value="{{ $input['type'] ?? '' }}">
+                                    @lang('table.product_shop')
+                                </option>
+                                <option value="{{ $input['type'] ?? '' }}">
+                                    @lang('table.equipment')
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
+                </div>
+                <div class="form-group">
+                    <label for="vendor_id">@lang('dev.permission')</label>
+                    <select class="form-control input-sm" name="vendor_id" id="vendor_id">
+                        <option value="">-- {{ __('dev.noneselected') }}--</option>
+                        <option value="1">ថ្នាក់ជាតិ</option>
+
+                        {!! cmb_listing($vendors, [$input['type'] ?? ''], '', '') !!}
+                    </select>
+                    <span id="vendor_id-error" class="error invalid-feedback" style="display: none"></span>
+                </div>
+                <div class="form-group">
+                    <label for=""><b>@lang('table.image_logo')</b></label>
                     <div class="input-group my-group" style="width:100%;">
-                        <input type="file" class="dropify" data-height="400" name="images"
+                        <input type="file" class="dropify" data-height="400"
+                            accept="image/png, image/jpeg,image/PNG, image/JPEG,image/jpg,image/JPG" name="images"
                             value="{{ $input['image_url'] ?? '' }}" />
                         <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error" class="error invalid-feedback"
                             style="display: none"></span>
@@ -152,7 +181,9 @@
                     <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
                 </div>
             </div>
+            <!-- /.card-body -->
 
+            {{--  --}}
 
         </form>
     </div>

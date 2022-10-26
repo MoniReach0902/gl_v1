@@ -146,28 +146,28 @@ $action_btn = ['save' => true, 'cancel' => true];
 
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="name">@lang('dev.name')</label>
+                                <label for="name">@lang('table.full_name')</label>
                                 <input type="email" class="form-control" name="fullname" id="fullname"
-                                    placeholder="Enter fullname" value="{{ $input['fullname'] ?? '' }}">
+                                    placeholder="@lang('table.enter') @lang('table.full_name')" value="{{ $input['fullname'] ?? '' }}">
                                 <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
                             </div>
                             <div class="form-group">
-                                <label for="name">@lang('dev.username')</label>
+                                <label for="name">@lang('table.user_name')</label>
                                 <input type="email" class="form-control" name="name" id="name"
-                                    placeholder="Enter name" value="{{ $input['name'] ?? '' }}">
+                                    placeholder="@lang('table.enter') @lang('table.full_name')" value="{{ $input['name'] ?? '' }}">
                                 <span id="name-error" class="error invalid-feedback" style="display: none"></span>
                             </div>
 
                             <div class="form-group">
-                                <label for="email">@lang('dev.phone')</label>
+                                <label for="email">@lang('table.phone_number')</label>
                                 <input type="tel" class="form-control" name="phone" id="phone"
-                                    placeholder="Phone Number" value="{{ $input['email'] ?? '' }}">
+                                    placeholder="@lang('table.enter') @lang('table.phone_number')" value="{{ $input['email'] ?? '' }}">
                                 <span id="phone-error" class="error invalid-feedback" style="display: none"></span>
                             </div>
                             <div class="form-group">
                                 <label for="permission_id">@lang('dev.permission')</label>
                                 <select class="form-control input-sm" name="permission_id" id="permission_id">
-                                    <option value="">-- {{ __('dev.noneselected') }}--</option>
+                                    <option value="">-- {{ __('dev.non_select') }}--</option>
                                     <option value="1">Top Admin</option>
                                     {!! cmb_listing($permission, [$input['permission_id'] ?? ''], '', '') !!}
                                 </select>
@@ -175,16 +175,16 @@ $action_btn = ['save' => true, 'cancel' => true];
                             </div>
                             @if (!$isupdate)
                                 <div class="form-group">
-                                    <label for="password">@lang('dev.password')</label>
+                                    <label for="password">@lang('table.password')</label>
                                     <input type="password" class="form-control" name="password" id="password"
-                                        placeholder="Enter password">
+                                        placeholder="@lang('table.enter') @lang('table.password')">
                                     <span id="password-error" class="error invalid-feedback" style="display: none"></span>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="password_confirmation">@lang('dev.confirm_password')</label>
+                                    <label for="password_confirmation">@lang('table.comfirm_password')</label>
                                     <input type="password" class="form-control" name="password_confirmation"
-                                        id="password_confirmation" placeholder="Enter cofirm password">
+                                        id="password_confirmation" placeholder="@lang('table.comfirm_password')">
                                     <span id="password_confirmation-error" class="error invalid-feedback"
                                         style="display: none"></span>
                                 </div>
@@ -197,7 +197,7 @@ $action_btn = ['save' => true, 'cancel' => true];
                             <div class="form-group">
                                 <label for="password_confirmation">@lang('dev.status')</label>
                                 <br>
-                                {!! check_select('userstatus', ['Enable' => 'yes', 'Disable' => 'no'], $input['userstatus'] ?? '', '') !!}
+                                {!! check_select('userstatus', [__('table.enable') => 'yes', __('table.disable') => 'no'], $input['userstatus'] ?? '', '') !!}
                             </div>
 
 

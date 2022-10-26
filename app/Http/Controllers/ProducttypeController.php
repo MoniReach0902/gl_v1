@@ -44,7 +44,7 @@ class ProducttypeController extends Controller
     {
         //$this->middleware('auth');
         // dd($args['userinfo']);
-        $this->obj_info['title'] =  'Product Properties';
+        $this->obj_info['title'] =  __('dev.product_propertie');
 
         $default_protectme = config('me.app.protectme');
         $this->protectme = [
@@ -135,10 +135,10 @@ class ProducttypeController extends Controller
         if ($request->has('txtproduct_type') && !empty($request->input('txtproduct_type'))) {
             $qry = $request->input('txtproduct_type');
             $results = $results->where(function ($query) use ($qry) {
-                $query->whereRaw("tblproduct_type.text like '%" . $qry . "%'");
+                $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) like '%" . $qry . "%'");
             });
-            array_push($querystr, 'tblproduct_type.text=' . $qry);
-            $appends = array_merge($appends, ['tblproduct_type.text' => $qry]);
+            array_push($querystr, "'JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) ='" . $qry);
+            $appends = array_merge($appends, ["'JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "'))'" => $qry]);
         }
         if ($request->has('status') && !empty($request->input('status'))) {
             $qry = $request->input('status');
@@ -235,7 +235,7 @@ class ProducttypeController extends Controller
                     'submit' => $submit,
                 ],
                 'fprimarykey'     => $this->fprimarykey,
-                'caption' => 'Active',
+                'caption' => __('dev.active'),
             ])
             ->with(['producttype' => $producttype])
             ->with($sfp)
@@ -303,7 +303,7 @@ class ProducttypeController extends Controller
                 'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route, 'new' => $new],
                 'form' => ['save_type' => 'save'],
                 'fprimarykey'     => $this->fprimarykey,
-                'caption' => 'New',
+                'caption' => __('dev.new'),
                 'isupdate' => false,
 
             ]);
@@ -461,7 +461,7 @@ class ProducttypeController extends Controller
                 'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route],
                 'form' => ['save_type' => 'save'],
                 'fprimarykey' => $this->fprimarykey,
-                'caption' => 'Edit',
+                'caption' => __('btn.btn_edit'),
                 'isupdate' => true,
                 'input' => $input,
                 'name' => $name,

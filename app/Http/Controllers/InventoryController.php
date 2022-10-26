@@ -15,6 +15,7 @@ use App\Models\UserPermission;
 use App\Models\Location;
 use App\Models\Room;
 use App\Models\Slider;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class InventoryController extends Controller
@@ -44,7 +45,7 @@ class InventoryController extends Controller
     {
         //$this->middleware('auth');
         // dd($args['userinfo']);
-        $this->obj_info['title'] =  'Inventory';
+        $this->obj_info['title'] = __('dev.inventory');
 
         $default_protectme = config('me.app.protectme');
         $this->protectme = [
@@ -114,7 +115,7 @@ class InventoryController extends Controller
             ->leftJoin('users', 'users.id', 'tblinventorys.blongto')
             ->select(
                 \DB::raw($this->fprimarykey . ",JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text,tblinventorys.create_date,
-                         tblinventorys.update_date,tblinventorys.status,users.name As username"),
+                tblinventorys.update_date,tblinventorys.status,users.name As username"),
 
             )->whereRaw('tblinventorys.trash <> "yes"');
     } /*../function..*/
@@ -135,10 +136,10 @@ class InventoryController extends Controller
         if ($request->has('txtinventory') && !empty($request->input('txtinventory'))) {
             $qry = $request->input('txtinventory');
             $results = $results->where(function ($query) use ($qry) {
-                $query->whereRaw("tblinventorys.text like '%" . $qry . "%'");
+                $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) like '%" . $qry . "%'");
             });
-            array_push($querystr, 'tblinventorys.text=' . $qry);
-            $appends = array_merge($appends, ['tblinventorys.text' => $qry]);
+            array_push($querystr, "'JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) ='" . $qry);
+            $appends = array_merge($appends, ["'JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "'))'" => $qry]);
         }
         if ($request->has('status') && !empty($request->input('status'))) {
             $qry = $request->input('status');
@@ -235,7 +236,7 @@ class InventoryController extends Controller
                     'submit' => $submit,
                 ],
                 'fprimarykey'     => $this->fprimarykey,
-                'caption' => 'Active',
+                'caption' => __('dev.active'),
             ])
             ->with(['inventory' => $inventory])
             ->with($sfp)
@@ -267,6 +268,7 @@ class InventoryController extends Controller
             'inventory_id' => $newid,
             'name' => json_encode($data),
             'create_date' => date("Y-m-d"),
+            'update_date' => "",
             'blongto' => $this->args['userinfo']['id'],
             'trash' => 'no',
             'status' => 'yes',
@@ -302,7 +304,7 @@ class InventoryController extends Controller
                 'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route, 'new' => $new],
                 'form' => ['save_type' => 'save'],
                 'fprimarykey'     => $this->fprimarykey,
-                'caption' => 'New',
+                'caption' => __('dev.new'),
                 'isupdate' => false,
 
             ]);
@@ -391,7 +393,7 @@ class InventoryController extends Controller
         $obj_info = $this->obj_info;
 
         $default = $this->default();
-        //change piseth
+
         $input = null;
 
         #Retrieve Data#
@@ -407,9 +409,8 @@ class InventoryController extends Controller
 
         $input = $this->model
             ->where($this->fprimarykey, (int)$editid)
-            //change piseth
+
             ->get();
-        //dd($input->toSql());
         if ($input->isEmpty()) {
             $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
             return response()
@@ -451,7 +452,7 @@ class InventoryController extends Controller
                 'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route],
                 'form' => ['save_type' => 'save'],
                 'fprimarykey' => $this->fprimarykey,
-                'caption' => 'Edit',
+                'caption' => __('btn.btn_edit'),
                 'isupdate' => true,
                 'input' => $input,
                 'name' => $name,

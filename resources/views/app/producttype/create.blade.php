@@ -116,7 +116,7 @@ foreach (config('me.app.project_lang') as $lang) {
 
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label for=""><b>Name English & Khmer</b></label>
+                                    <label for=""><b>@lang('dev.name_kh_eng')</b></label>
                                     <div class="input-group my-group" style="width:100%;">
 
                                         <select class="form-control form-select input-sm tab_title" style="width:10%;">

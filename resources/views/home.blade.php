@@ -23,7 +23,7 @@
         <!-- breadcrumb -->
         <div class="breadcrumb-header justify-content-between">
             <div class="left-content">
-            <span class="main-content-title mg-b-0 mg-b-lg-1">DASHBOARD</span>
+            <span class="main-content-title mg-b-0 mg-b-lg-1">@lang('dev.dashboard')</span>
             </div>
             <!--<div class="justify-content-center mt-2">
                 <ol class="breadcrumb">
@@ -64,14 +64,14 @@
                                     <div class="col-8">
                                         <div class="ps-4 pt-4 pe-3 pb-4">
                                             <div class="">
-                                                <h6 class="mb-2 tx-12 ">Today Orders</h6>
+                                                <h6 class="mb-2 tx-12 ">@lang('dev.order_today')</h6>
                                             </div>
                                             <div class="pb-0 mt-0">
                                                 <div class="d-flex">
-                                                    <h4 class="tx-20 font-weight-semibold mb-2">50 time</h4>
+                                                    <h4 class="tx-20 font-weight-semibold mb-2">50 @lang('dev.time')</h4>
                                                 </div>
-                                                <p class="mb-0 tx-12 text-muted">Yesterday<i class="fa fa-caret-up mx-2 text-success"></i>
-                                                    <span class="text-success font-weight-semibold"> 30</span>
+                                                <p class="mb-0 tx-12 text-muted">@lang('dev.yesterday')<i class="fa fa-caret-up mx-2 text-success"></i>
+                                                    <span class="text-success font-weight-semibold">30 @lang('dev.time')</span>
                                                 </p>
                                             </div>
                                         </div>
@@ -90,14 +90,14 @@
                                     <div class="col-8">
                                         <div class="ps-4 pt-4 pe-3 pb-4">
                                             <div class="">
-                                                <h6 class="mb-2 tx-12">Total Equipments</h6>
+                                                <h6 class="mb-2 tx-12">@lang('dev.total_equipment')</h6>
                                             </div>
                                             <div class="pb-0 mt-0">
                                                 <div class="d-flex">
-                                                    <h4 class="tx-20 font-weight-semibold mb-2">50 unit</h4>
+                                                    <h4 class="tx-20 font-weight-semibold mb-2">50 @lang('dev.equipment')</h4>
                                                 </div>
-                                                <p class="mb-0 tx-12 text-muted">Last week<i class="fa fa-caret-down mx-2 text-danger"></i>
-                                                    <span class="font-weight-semibold text-danger"> -453</span>
+                                                <p class="mb-0 tx-12 text-muted"><br>
+                                                    <span class="font-weight-semibold text-danger"></span>
                                                 </p>
                                             </div>
                                         </div>
@@ -116,15 +116,13 @@
                                     <div class="col-8">
                                         <div class="ps-4 pt-4 pe-3 pb-4">
                                             <div class="">
-                                                <h6 class="mb-2 tx-12">Our Customers</h6>
+                                                <h6 class="mb-2 tx-12">@lang('dev.total_customer')</h6>
                                             </div>
                                             <div class="pb-0 mt-0">
                                                 <div class="d-flex">
-                                                    <h4 class="tx-20 font-weight-semibold mb-2">10 person</h4>
+                                                    <h4 class="tx-20 font-weight-semibold mb-2">10 @lang('dev.people')</h4>
                                                 </div>
-                                                <p class="mb-0 tx-12 text-muted">Last week<i class="fa fa-caret-up mx-2 text-success"></i>
-                                                    <span class=" text-success font-weight-semibold"> +788</span>
-                                                </p>
+                                                <br>
                                             </div>
                                         </div>
                                     </div>
@@ -142,14 +140,14 @@
                                     <div class="col-8">
                                         <div class="ps-4 pt-4 pe-3 pb-4">
                                             <div class="">
-                                                <h6 class="mb-2 tx-12">Total Products</h6>
+                                                <h6 class="mb-2 tx-12">@lang('dev.total_product')</h6>
                                             </div>
                                             <div class="pb-0 mt-0">
                                                 <div class="d-flex">
-                                                    <h4 class="tx-22 font-weight-semibold mb-2">200 unit</h4>
+                                                    <h4 class="tx-22 font-weight-semibold mb-2">200 @lang('dev.product')</h4>
                                                 </div>
-                                                <p class="mb-0 tx-12  text-muted">Last week<i class="fa fa-caret-down mx-2 text-danger"></i>
-                                                    <span class="text-danger font-weight-semibold"> -693</span>
+                                                <p class="mb-0 tx-12 text-muted">@lang('dev.not_use')<i class="fa fa-caret-down mx-2 text-danger"></i>
+                                                    <span class="font-weight-semibold text-danger"> -453</span>
                                                 </p>
                                             </div>
                                         </div>
@@ -169,53 +167,7 @@
         <!-- row closed -->
     </div>
     <!-- News & Events slide -->
-    <div class="col-lg-12 col-md-12">
-        <div class="card custom-card">
-            <div class="card-body ht-100p">
-                <div>
-                    <h6 class="card-title mb-1">News & Events</h6>
-                    <p class="text-muted card-sub-title"></p>
-                </div>
-                <div id="basicSlider">
-                    <div class="MS-content">
-                        <div class="item">
-                            <a href="javascript:void(0);"> <img src="{{ asset('public/images/gl_logo.jpg') }}" alt=""  class="br-5"> </a>
-                        </div>
-                        <div class="item">
-                            <a href="javascript:void(0);"> <img src="{{ asset('public/images/gl_logo.jpg') }}" alt=""  class="br-5"> </a>
-                        </div>
-                        <div class="item">
-                            <a href="javascript:void(0);"> <img src="{{ asset('public/images/gl_logo.jpg') }}" alt=""  class="br-5"> </a>
-                        </div>
-                        <div class="item">
-                            <a href="javascript:void(0);"> <img src="{{ asset('public/images/gl_logo.jpg') }}" alt=""  class="br-5"> </a>
-                        </div>
-                        <div class="item">
-                            <a href="javascript:void(0);"> <img src="{{ asset('public/images/gl_logo.jpg') }}" alt=""   class="br-5"> </a>
-                        </div>
-                        <div class="item">
-                            <a href="javascript:void(0);"> <img src="{{ asset('public/images/gl_logo.jpg') }}" alt=""   class="br-5"> </a>
-                        </div>
-                        <div class="item">
-                            <a href="javascript:void(0);"> <img src="{{ asset('public/images/gl_logo.jpg') }}" alt=""  class="br-5"> </a>
-                        </div>
-                        <div class="item">
-                            <a href="javascript:void(0);"> <img src="{{ asset('public/images/gl_logo.jpg') }}" alt="" class="br-5"> </a>
-                        </div>
-                        <div class="item">
-                            <a href="javascript:void(0);"> <img src="{{ asset('public/images/gl_logo.jpg') }}" alt=""  class="br-5"> </a>
-                        </div>
-                        <div class="item">
-                            <a href="javascript:void(0);"> <img src="{{ asset('public/images/gl_logo.jpg') }}" alt=""  class="br-5"> </a>
-                        </div>
-                        <div class="item">
-                            <a href="javascript:void(0);"> <img src="{{ asset('public/images/gl_logo.jpg') }}" alt=""  class="br-5"> </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    
     
     {{-- content-wrapper --}}
 @endsection

@@ -39,7 +39,7 @@ class UserController extends Controller
     {
         //$this->middleware('auth');
         // dd($args['userinfo']);
-        $this->obj_info['title'] = 'User'; //__('label.lb09');
+        $this->obj_info['title'] = __('dev.user'); //__('label.lb09');
 
         $default_protectme = config('me.app.protectme');
         $this->protectme = [
@@ -227,7 +227,7 @@ class UserController extends Controller
                     'trash' => $trash_route
                 ],
                 'fprimarykey'     => $this->fprimarykey,
-                'caption' => 'Active',
+                'caption' => __('dev.active'),
             ])
             ->with(['act' => 'index'])
             ->with($sfp)
@@ -330,7 +330,7 @@ class UserController extends Controller
                 'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route],
                 'form' => ['save_type' => 'save'],
                 'fprimarykey'     => $this->fprimarykey,
-                'caption' => 'New',
+                'caption' => __('dev.new'),
                 'isupdate' => false,
 
             ]);
@@ -471,7 +471,7 @@ class UserController extends Controller
                 'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route],
                 'form' => ['save_type' => 'save'],
                 'fprimarykey'     => $this->fprimarykey,
-                'caption' => 'Edit',
+                'caption' => __('btn.btn_edit'),
                 'isupdate' => true,
                 'input' => $input,
             ]);

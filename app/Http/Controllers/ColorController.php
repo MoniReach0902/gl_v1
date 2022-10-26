@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categorie;
+use App\Models\Color;
 use App\Models\Example;
 use Illuminate\Http\Request;
 use Validator;
@@ -11,28 +13,25 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\UserPermission;
 use App\Models\Location;
-use App\Models\Product;
-use App\Models\Categorie;
 use App\Models\Room;
 use App\Models\Slider;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
-class ProductController extends Controller
+class ColorController extends Controller
 {
     //
-    private $obj_info = ['name' => 'product', 'routing' => 'admin.controller', 'title' => 'Product', 'icon' => '<i class="fa fa-tags"></i>'];
+    private $obj_info = ['name' => 'color', 'routing' => 'admin.controller', 'title' => 'Color', 'icon' => '<i class="fa fa-adjust"></i>'];
     public $args;
 
     private $model;
     private $submodel;
     private $tablename;
     private $columns = [];
-    private $fprimarykey = 'product_id';
+    private $fprimarykey = 'color_id';
     private $protectme = null;
 
     public $dflang;
-    public $dflang_categorie;
     private $rcdperpage = 15; #record per page, set zero to get all record# set -1 to use default
     private $users;
 
@@ -46,7 +45,7 @@ class ProductController extends Controller
     {
         //$this->middleware('auth');
         // dd($args['userinfo']);
-        $this->obj_info['title'] =  'Products';
+        $this->obj_info['title'] = __('dev.product_color');
 
         $default_protectme = config('me.app.protectme');
         $this->protectme = [
@@ -65,10 +64,11 @@ class ProductController extends Controller
         ];
 
         $this->args = $args;
-        $this->model = new Product;
+        $this->model = new Color;
         $this->tablename = $this->model->gettable();
         $this->dflang = df_lang();
         // dd($this->tablename);
+
         /*column*/
         $tbl_columns = getTableColumns($this->tablename);
         //dd($tbl_columns);
@@ -99,32 +99,30 @@ class ProductController extends Controller
 
     public function default()
     {
-        $product = $this->model
+        $color = $this->model
             ->select(
                 \DB::raw($this->tablename . ".* "),
                 DB::raw("JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text"),
 
             )
             ->whereRaw('trash <> "yes"')->get();
-        return ['product' => $product];
+        return ['color' => $color];
     } /*../function..*/
     public function listingModel()
     {
+<<<<<<< HEAD:app/Http/Controllers/ProductController.php
         $table_brand = "tblvendors";
         $table_categorie = "tblcategories";
+=======
+>>>>>>> 72be9d65f8cbbf7a4bda977814340b17ceb2145b:app/Http/Controllers/ColorController.php
         #DEFIND MODEL#
         return $this->model
-            ->leftJoin('users', 'users.id', 'tblproducts.blongto')
-            ->leftJoin('tblcategories', 'tblcategories.categorie_id', 'tblproducts.categorie_id')
-            ->leftJoin('tblvendors', 'tblvendors.vendor_id', 'tblproducts.brand_id')
+            ->leftJoin('users', 'users.id', 'tblcolors.blongto')
             ->select(
-                \DB::raw($this->fprimarykey . ",JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text,
-                                                tblproducts.cost,tblproducts.price,tblproducts.qty_stock,
-                                                JSON_UNQUOTE(JSON_EXTRACT(" . $table_categorie . ".name,'$." . $this->dflang[0] . "')) AS categoriename,
-                                                JSON_UNQUOTE(JSON_EXTRACT(" . $table_brand . ".name,'$." . $this->dflang[0] . "')) AS brandname,
-                                                tblproducts.create_date,tblproducts.update_date,
-                                                tblproducts.status,users.name As username"),
-            )->whereRaw('tblproducts.trash <> "yes"');
+                \DB::raw($this->fprimarykey . ",JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text,tblcolors.create_date,
+                         tblcolors.update_date,tblcolors.status,users.name As username"),
+
+            )->whereRaw('tblcolors.trash <> "yes"');
     } /*../function..*/
     //JSON_UNQUOTE(JSON_EXTRACT(title, '$.".$this->dflang[0]."'))
     public function sfp($request, $results)
@@ -140,13 +138,13 @@ class ProductController extends Controller
         // FILTERS
         $appends = [];
         $querystr = [];
-        if ($request->has('txtcategorie') && !empty($request->input('txtcategorie'))) {
-            $qry = $request->input('txtcategorie');
+        if ($request->has('txtcolor') && !empty($request->input('txtcolor'))) {
+            $qry = $request->input('txtcolor');
             $results = $results->where(function ($query) use ($qry) {
-                $query->whereRaw("tblproducts.text like '%" . $qry . "%'");
+                $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) like '%" . $qry . "%'");
             });
-            array_push($querystr, 'tblproducts.text=' . $qry);
-            $appends = array_merge($appends, ['tblproducts.text' => $qry]);
+            array_push($querystr, "'JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) ='" . $qry);
+            $appends = array_merge($appends, ["'JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "'))'" => $qry]);
         }
         if ($request->has('status') && !empty($request->input('status'))) {
             $qry = $request->input('status');
@@ -203,10 +201,17 @@ class ProductController extends Controller
     {
 
         $default = $this->default();
+<<<<<<< HEAD:app/Http/Controllers/ProductController.php
         $product = $default['product'];
         //dd('aaa');
         $results = $this->listingmodel();
         $sfp = $this->sfp($request, $results);
+=======
+        $color = $default['color'];
+         //dd('aaa');
+         $results = $this->listingmodel();
+         $sfp = $this->sfp($request, $results);
+>>>>>>> 72be9d65f8cbbf7a4bda977814340b17ceb2145b:app/Http/Controllers/ColorController.php
 
 
         $create_modal = url_builder(
@@ -243,9 +248,9 @@ class ProductController extends Controller
                     'submit' => $submit,
                 ],
                 'fprimarykey'     => $this->fprimarykey,
-                'caption' => 'Active',
+                'caption' => __('dev.active'),
             ])
-            ->with(['product' => $product])
+            ->with(['color' => $color])
             ->with($sfp)
             ->with($setting);
     }
@@ -272,7 +277,7 @@ class ProductController extends Controller
         $data = toTranslate($request, 'title', 0, true);
 
         $tableData = [
-            'categorie_id' => $newid,
+            'color_id' => $newid,
             'name' => json_encode($data),
             'create_date' => date("Y-m-d"),
             'update_date' => "",
@@ -311,7 +316,7 @@ class ProductController extends Controller
                 'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route, 'new' => $new],
                 'form' => ['save_type' => 'save'],
                 'fprimarykey'     => $this->fprimarykey,
-                'caption' => 'New',
+                'caption' => __('dev.new'),
                 'isupdate' => false,
 
             ]);
@@ -400,7 +405,7 @@ class ProductController extends Controller
         $obj_info = $this->obj_info;
 
         $default = $this->default();
-        //change piseth
+        
         $input = null;
 
         #Retrieve Data#
@@ -416,9 +421,8 @@ class ProductController extends Controller
 
         $input = $this->model
             ->where($this->fprimarykey, (int)$editid)
-            //change piseth
+            
             ->get();
-        //dd($input->toSql());
         if ($input->isEmpty()) {
             $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
             return response()
@@ -469,7 +473,7 @@ class ProductController extends Controller
                 'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route],
                 'form' => ['save_type' => 'save'],
                 'fprimarykey' => $this->fprimarykey,
-                'caption' => 'Edit',
+                'caption' => __('btn.btn_edit'),
                 'isupdate' => true,
                 'input' => $input,
                 'name' => $name,
@@ -520,12 +524,12 @@ class ProductController extends Controller
         // dd($data);
 
         $update_status = $this->model
-            ->where($this->fprimarykey, $data['categorie_id'])
+            ->where($this->fprimarykey, $data['color_id'])
             ->update($data['tableData']);
 
         if ($update_status) {
             $savetype = strtolower($request->input('savetype'));
-            $id = $data['categorie_id'];
+            $id = $data['color_id'];
             $rout_to = save_type_route($savetype, $obj_info, $id);
             $success_ms = __('ccms.suc_save');
             $callback = '';
@@ -541,8 +545,8 @@ class ProductController extends Controller
                         "route" => $rout_to,
                         "callback" => $callback,
                         "data" => [
-                            $this->fprimarykey => $data['categorie_id'],
-                            'id' => $data['categorie_id']
+                            $this->fprimarykey => $data['color_id'],
+                            'id' => $data['color_id']
                         ]
                     ],
                     200
@@ -572,7 +576,7 @@ class ProductController extends Controller
         }
 
         //$routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
-        $trash = $this->model->where('categorie_id', $editid)->update(["trash" => "yes"]);
+        $trash = $this->model->where('color_id', $editid)->update(["trash" => "yes"]);
 
         if ($trash) {
             return response()
@@ -582,7 +586,7 @@ class ProductController extends Controller
                         'status' => true,
                         'route' => ['url' => redirect()->back()->getTargetUrl()],
                         "message" => __('ccms.suc_delete'),
-                        "data" => ['categorie_id' => $editid]
+                        "data" => ['color_id' => $editid]
                     ],
                     200
                 );
