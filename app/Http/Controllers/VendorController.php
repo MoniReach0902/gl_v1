@@ -318,6 +318,7 @@ class VendorController extends Controller
                 'fprimarykey'     => $this->fprimarykey,
                 'caption' => 'New',
                 'isupdate' => false,
+                // 'img_check' => true,
 
             ]);
     } /*../function..*/
@@ -458,7 +459,7 @@ class VendorController extends Controller
         );
         $cancel_route = redirect()->back()->getTargetUrl();
 
-        //dd($input);
+        // dd($input);
         return view('app.' . $this->obj_info['name'] . '.create',) //change piseth
             ->with([
                 'obj_info'  => $this->obj_info,
@@ -469,6 +470,7 @@ class VendorController extends Controller
                 'isupdate' => true,
                 'input' => $input,
                 'name' => $name,
+
             ]);
     } /*../end fun..*/
 
