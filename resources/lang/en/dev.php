@@ -26,6 +26,9 @@ return [
     "all_product_color"=>"All Product Color",
 
     "active"=>"Active",
+
+    "lang_kh"=>"Khmer",
+    "lang_en"=>"English",
     
 
 ];

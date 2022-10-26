@@ -304,11 +304,11 @@ class CategorieController extends Controller
                 'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route, 'new' => $new],
                 'form' => ['save_type' => 'save'],
                 'fprimarykey'     => $this->fprimarykey,
-                'caption' => __('dev.new'),
+                'caption' => 'New',
                 'isupdate' => false,
 
             ]);
-    } /*../function..*/
+    }  /*../function..*/
 
     public function store(Request $request)
     {
