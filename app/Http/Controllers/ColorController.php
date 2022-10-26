@@ -110,11 +110,6 @@ class ColorController extends Controller
     } /*../function..*/
     public function listingModel()
     {
-<<<<<<< HEAD:app/Http/Controllers/ProductController.php
-        $table_brand = "tblvendors";
-        $table_categorie = "tblcategories";
-=======
->>>>>>> 72be9d65f8cbbf7a4bda977814340b17ceb2145b:app/Http/Controllers/ColorController.php
         #DEFIND MODEL#
         return $this->model
             ->leftJoin('users', 'users.id', 'tblcolors.blongto')
@@ -201,17 +196,10 @@ class ColorController extends Controller
     {
 
         $default = $this->default();
-<<<<<<< HEAD:app/Http/Controllers/ProductController.php
-        $product = $default['product'];
+        $color = $default['color'];
         //dd('aaa');
         $results = $this->listingmodel();
         $sfp = $this->sfp($request, $results);
-=======
-        $color = $default['color'];
-         //dd('aaa');
-         $results = $this->listingmodel();
-         $sfp = $this->sfp($request, $results);
->>>>>>> 72be9d65f8cbbf7a4bda977814340b17ceb2145b:app/Http/Controllers/ColorController.php
 
 
         $create_modal = url_builder(
@@ -405,7 +393,7 @@ class ColorController extends Controller
         $obj_info = $this->obj_info;
 
         $default = $this->default();
-        
+
         $input = null;
 
         #Retrieve Data#
@@ -421,7 +409,7 @@ class ColorController extends Controller
 
         $input = $this->model
             ->where($this->fprimarykey, (int)$editid)
-            
+
             ->get();
         if ($input->isEmpty()) {
             $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
