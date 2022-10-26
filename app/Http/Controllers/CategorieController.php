@@ -140,9 +140,11 @@ class CategorieController extends Controller
             array_push($querystr, "'JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) ='" . $qry);
             $appends = array_merge($appends, ["'JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "'))'" => $qry]);
         }
+        
         if ($request->has('status') && !empty($request->input('status'))) {
             $qry = $request->input('status');
             $results = $results->where("userstatus", $qry);
+    
             array_push($querystr, 'userstatus=' . $qry);
             $appends = array_merge($appends, ['userstatus' => $qry]);
         }

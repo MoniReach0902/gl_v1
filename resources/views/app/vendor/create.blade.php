@@ -164,6 +164,16 @@ foreach (config('me.app.project_lang') as $lang) {
                                     <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
                                 </div>
                                 <div class="form-group">
+                                    <label for="vendor_id">@lang('dev.permission')</label>
+                                    <select class="form-control input-sm" name="vendor_id" id="vendor_id">
+                                        <option value="">-- {{ __('dev.noneselected') }}--</option>
+                                        <option value="1">ថ្នាក់ជាតិ</option>
+                                        
+                                        {!! cmb_listing($vendors, [$input['type'] ?? ''], '', '') !!}
+                                    </select>
+                                    <span id="vendor_id-error" class="error invalid-feedback" style="display: none"></span>
+                                </div>
+                                <div class="form-group">
                                     <label for=""><b>@lang('table.image_logo')</b></label>
                                     <div class="input-group my-group" style="width:100%;">
                                         <input type="file" class="dropify" data-height="400" accept="image/png, image/jpeg,image/PNG, image/JPEG,image/jpg,image/JPG" name="images" value="{{ $input['image_url'] ?? ''}}" />
