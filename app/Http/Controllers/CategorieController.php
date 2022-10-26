@@ -44,7 +44,7 @@ class CategorieController extends Controller
     {
         //$this->middleware('auth');
         // dd($args['userinfo']);
-        $this->obj_info['title'] = __('dev.category');
+        $this->obj_info['title'] = __('dev.categorie');
 
         $default_protectme = config('me.app.protectme');
         $this->protectme = [
@@ -135,10 +135,10 @@ class CategorieController extends Controller
         if ($request->has('txtcategorie') && !empty($request->input('txtcategorie'))) {
             $qry = $request->input('txtcategorie');
             $results = $results->where(function ($query) use ($qry) {
-                $query->whereRaw("tblcategories.text like '%" . $qry . "%'");
+                $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) like '%" . $qry . "%'");
             });
-            array_push($querystr, 'tblcategories.text=' . $qry);
-            $appends = array_merge($appends, ['tblcategories.text' => $qry]);
+            array_push($querystr, "'JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) ='" . $qry);
+            $appends = array_merge($appends, ["'JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "'))'" => $qry]);
         }
         if ($request->has('status') && !empty($request->input('status'))) {
             $qry = $request->input('status');

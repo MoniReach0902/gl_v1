@@ -13,13 +13,11 @@
 
     <!-- Title -->
     <title> GL</title>
-    {{-- Font awsome --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-        integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     {{-- Google font --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Battambang:wght@400;700&family=Siemreap&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&family=Siemreap&display=swap" rel="stylesheet">
 
     <!-- Favicon -->
@@ -47,18 +45,22 @@
     <link href="{{ asset('public/assets/switcher/css/switcher.css') }}" rel="stylesheet" />
     <link href="{{ asset('public/assets/switcher/demo.css') }}" rel="stylesheet" />
 
+    {{-- FONTAWSOME --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
     @yield('blade_css')
 
-    @stack('page_css')
+
     <style>
+        body {
+            font-family: 'JetBrains Mono','Siemreap','Battambang',cursive, monospace;
+        }
+
         .hide {
             display: none;
         }
-        body {
-            font-family: 'JetBrains Mono', monospace;
-            font-family: 'Siemreap', 'JetBrains Mono';
-        }
     </style>
+    @stack('page_css')
 </head>
 
 <body class="ltr main-body app sidebar-mini">
@@ -73,7 +75,7 @@
     <!-- /Loader -->
 
     <!-- Page -->
-    <div class="page">
+    <div>
 
         <div>
             {{-- Header --}}
@@ -97,8 +99,11 @@
         @include('layouts.extra_modal')
         @include('layouts.switcher')
 
-
         <!-- /main-content -->
+
+
+
+
 
         <!-- Footer opened -->
         <div class="main-footer">
@@ -111,6 +116,9 @@
             </div>
         </div>
         <!-- Footer closed -->
+    </div>
+    <div class="page">
+
     </div>
     <!-- End Page -->
     {{-- modal for support Air Window --}}
@@ -232,17 +240,11 @@
     {{-- <script src="{{ asset('public/js/app.js') }}" defer></script> --}}
     <script src="{{ asset('public/js/helper.js') }}" defer></script>
 
-    {{-- ========== toggle form ================ --}}
-    <script src="{{ asset('public/js/toggle_form.js') }}"></script>
 
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
 
     {{-- yield use @saction --}}
     @yield('blade_scripts')
 
-    <script src="jquery-3.6.0.min.js"></script>
     <script>
         var env = {!! json_encode(config('me.app.js_env')) !!};
         env.token = "{{ csrf_token() }}";
@@ -292,42 +294,14 @@
         //     });
         // });
 
-        $('#modal_windows').on('hidden.bs.modal', function(e) {
-            $("#air_windows").html('');
-        });
+        // $('#modal_windows').on('hidden.bs.modal', function(e) {
+        //     $("#air_windows").html('');
+        // });
 
-        $('#modal_media').on('hidden.bs.modal', function(e) {
-            //$( ".sidebar-remove" ).trigger( "click" );
-            $("#air_media").html('');
-        })
-
-
-        $(document).ready(function() {
-
-            $("#light-layout").click(function() {
-                $("#card-body").addClass("light-input-form");
-                $("#card-body").removeClass("dark-input-form");
-
-                if (window.load()) {
-
-                }
-
-
-            });
-            $("#dark-layout").click(function() {
-                $("#card-body").addClass("dark-input-form");
-                $("#card-body").removeClass("light-input-form");
-            });
-
-            $("input").on("change", function() {
-                this.setAttribute(
-                    "data-date",
-                    moment(this.value, "YYYY-MM-DD").format(this.getAttribute("data-date-format"))
-                )
-            }).trigger("change");
-
-
-        });
+        // $('#modal_media').on('hidden.bs.modal', function(e) {
+        //     //$( ".sidebar-remove" ).trigger( "click" );
+        //     $("#air_media").html('');
+        // })
     </script>
 
     {{-- stack use @push --}}

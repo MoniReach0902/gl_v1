@@ -135,7 +135,7 @@ foreach (config('me.app.project_lang') as $lang) {
                                             @endphp
                                             <input type="text" class="form-control input-sm {{ $active }}" style="width:80%;"
                                                 name="title-{{ $lang[0] }}" id="title-{{ $lang[0] }}"
-                                                placeholder="{{ $lang[1] }}" value="{{ $name[$lang[0]] ?? '' }}">
+                                                placeholder="{{ __('dev.lang_') . $lang[1] }}" value="{{ $name[$lang[0]] ?? '' }}">
                                             @php
                                                 $active = 'hide';
                                             @endphp
