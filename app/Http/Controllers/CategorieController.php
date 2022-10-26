@@ -44,7 +44,7 @@ class CategorieController extends Controller
     {
         //$this->middleware('auth');
         // dd($args['userinfo']);
-        $this->obj_info['title'] = __('dev.categorie');
+        $this->obj_info['title'] = __('table.category');
 
         $default_protectme = config('me.app.protectme');
         $this->protectme = [

@@ -95,7 +95,7 @@ foreach (config('me.app.project_lang') as $lang) {
                         </small>
                     </h5>
                 </div>
-                <div class="pd-10 ">
+                <div class="pd-10">
                     @include('app._include.btn_create', $action_btn)
                 </div>
 

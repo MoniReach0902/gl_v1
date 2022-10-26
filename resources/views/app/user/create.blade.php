@@ -195,7 +195,7 @@ $action_btn = ['save' => true, 'cancel' => true];
 
 
                             <div class="form-group">
-                                <label for="password_confirmation">@lang('dev.status')</label>
+                                <label for="password_confirmation">@lang('table.status')</label>
                                 <br>
                                 {!! check_select('userstatus', ['Enable' => 'yes', 'Disable' => 'no'], $input['userstatus'] ?? '', '') !!}
                             </div>

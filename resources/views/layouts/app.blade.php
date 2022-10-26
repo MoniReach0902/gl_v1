@@ -75,49 +75,49 @@
     <!-- /Loader -->
 
     <!-- Page -->
-    <div>
-
+    <div class="page">
         <div>
-            {{-- Header --}}
-            @include('layouts.header')
-            {{-- End Header --}}
-
-            {{-- Sidebar --}}
-            @include('layouts.sidebar')
-            {{-- End Sidebar --}}
-        </div>
-        {{-- @include('layouts.sidebarright') --}}
-
-        <!-- main-content -->
-        <div class="main-content app-content">
-
-            <!-- container -->
-            @yield('content')
-            <!-- /Container -->
-        </div>
-
-        @include('layouts.extra_modal')
-        @include('layouts.switcher')
-
-        <!-- /main-content -->
-
-
-
-
-
-        <!-- Footer opened -->
-        <div class="main-footer">
-            <div class="col-md-12 col-sm-12 text-center">
-                <div class="container-fluid pt-0 ht-100p">
-                    Copyright © 2022 <a href="javascript:void(0);" class="text-primary">nowa</a>. Designed with
-                    <span class="fa fa-heart text-danger"></span> by <a href="javascript:void(0);"> Spruko </a> All
-                    rights reserved
+    
+            <div>
+                {{-- Header --}}
+                @include('layouts.header')
+                {{-- End Header --}}
+    
+                {{-- Sidebar --}}
+                @include('layouts.sidebar')
+                {{-- End Sidebar --}}
+            </div>
+            {{-- @include('layouts.sidebarright') --}}
+    
+            <!-- main-content -->
+            <div class="main-content app-content">
+    
+                <!-- container -->
+                @yield('content')
+                <!-- /Container -->
+            </div>
+    
+            @include('layouts.extra_modal')
+            @include('layouts.switcher')
+    
+            <!-- /main-content -->
+    
+    
+    
+    
+    
+            <!-- Footer opened -->
+            <div class="main-footer">
+                <div class="col-md-12 col-sm-12 text-center">
+                    <div class="container-fluid pt-0 ht-100p">
+                        Copyright © 2022 <a href="javascript:void(0);" class="text-primary">nowa</a>. Designed with
+                        <span class="fa fa-heart text-danger"></span> by <a href="javascript:void(0);"> Spruko </a> All
+                        rights reserved
+                    </div>
                 </div>
             </div>
+            <!-- Footer closed -->
         </div>
-        <!-- Footer closed -->
-    </div>
-    <div class="page">
 
     </div>
     <!-- End Page -->

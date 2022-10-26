@@ -160,7 +160,7 @@
                             value="{{ request()->get('txtcategorie') ?? '' }}">
                     </div>
                     <div class="form-group col-md-2">
-                        <label for="year">@lang('dev.status')</label>
+                        <label for="year">@lang('table.status')</label>
                         <select class="form-control input-sm" name="status" id="status">
                             <option value="">-- {{ __('table.status') }} --</option>
                             {!! cmb_listing(['yes' => __('table.enable'), 'no' => __('table.disable')], [request()->get('status') ?? ''], '', '', '') !!}
