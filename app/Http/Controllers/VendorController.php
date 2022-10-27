@@ -219,6 +219,7 @@ class VendorController extends Controller
         //dd('aaa');
         $results = $this->listingmodel();
         $sfp = $this->sfp($request, $results);
+        // dd($sfp);
 
 
         $create_modal = url_builder(
@@ -692,6 +693,82 @@ class VendorController extends Controller
 
         //$routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
         $trash = $this->model->where('vendor_id', $editid)->update(["trash" => "yes"]);
+
+        if ($trash) {
+            return response()
+                ->json(
+                    [
+                        "type" => "url",
+                        'status' => true,
+                        'route' => ['url' => redirect()->back()->getTargetUrl()],
+                        "message" => __('ccms.suc_delete'),
+                        "data" => ['vendor_id' => $editid]
+                    ],
+                    200
+                );
+        }
+        return response()
+            ->json(
+                [
+                    "type" => "error",
+                    'status' => false,
+                    'route' => ['url' => redirect()->back()->getTargetUrl()],
+                    "message" => 'Your update is not affected',
+                    "data" => ['id' => $editid]
+                ],
+                422
+            );
+    }
+    public function disable(Request $request, $id = 0)
+    {
+        $obj_info = $this->obj_info;
+        #Retrieve Data#
+        if (empty($id)) {
+            $editid = $this->args['routeinfo']['id'];
+        } else {
+            $editid = $id;
+        }
+
+        //$routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
+        $trash = $this->model->where('vendor_id', $editid)->update(["status" => "no"]);
+
+        if ($trash) {
+            return response()
+                ->json(
+                    [
+                        "type" => "url",
+                        'status' => true,
+                        'route' => ['url' => redirect()->back()->getTargetUrl()],
+                        "message" => __('ccms.suc_delete'),
+                        "data" => ['vendor_id' => $editid]
+                    ],
+                    200
+                );
+        }
+        return response()
+            ->json(
+                [
+                    "type" => "error",
+                    'status' => false,
+                    'route' => ['url' => redirect()->back()->getTargetUrl()],
+                    "message" => 'Your update is not affected',
+                    "data" => ['id' => $editid]
+                ],
+                422
+            );
+    }
+    public function enable(Request $request, $id = 0)
+    {
+        $obj_info = $this->obj_info;
+        #Retrieve Data#
+        if (empty($id)) {
+            $editid = $this->args['routeinfo']['id'];
+        } else {
+            $editid = $id;
+        }
+
+        //$routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
+        $trash = $this->model->where('vendor_id', $editid)->update(["status" => "yes"]);
 
         if ($trash) {
             return response()

@@ -265,7 +265,8 @@
                                             'rowid' => $vendors->vendor_id,
                                             'edit' => true,
                                             'trash' => true,
-                                            'delete' => true,
+                                            'disable' => $vendors->status == 'no' ? false : true,
+                                            'enable' => $vendors->status == 'yes' ? false : true,
                                         ])
                                     </td>
                                 </tr>

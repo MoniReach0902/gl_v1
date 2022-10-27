@@ -86,7 +86,13 @@
                         <label for="year">@lang('dev.status')</label>
                         <select class="form-control input-sm" name="status" id="status">
                             <option value="">-- {{ __('dev.non_select') }} --</option>
-                            {!! cmb_listing(['yes' =>  __('table.enable'), 'no' =>  __('table.disable')], [request()->get('status') ?? ''], '', '', '') !!}
+                            {!! cmb_listing(
+                                ['yes' => __('table.enable'), 'no' => __('table.disable')],
+                                [request()->get('status') ?? ''],
+                                '',
+                                '',
+                                '',
+                            ) !!}
                         </select>
                     </div>
                     <div class="form-group col-md-1">
@@ -99,19 +105,17 @@
                         <label>&nbsp;</label>
                         <button type="button"
                             class="btn btn-outline-secondary btn-block formactionbutton border border-secondary"
-                            onclick="location.href='{{ url()->current() }}'"><i class="fa fa-refresh" aria-hidden="true"></i>
+                            onclick="location.href='{{ url()->current() }}'"><i class="fa fa-refresh"
+                                aria-hidden="true"></i>
                         </button>
                     </div>
                 </div>
             </form>
         </div>
-<<<<<<< HEAD
-=======
         {{--  --}}
 
 
 
->>>>>>> 9d3f5bb4489650401a5c71e72f17af1ae411e306
         <div class="card-body table-responsive p-0">
             <table class="table  table-striped table-hover text-nowrap table-bordered">
                 @if (isset($istrash) && $istrash)
@@ -120,14 +124,6 @@
                         <thead style="color: var(--info)">
                 @endif
                 <tr>
-<<<<<<< HEAD
-                    <th style="width: 10px">ID</th>
-                    <th>Full Name</th>
-                    <th>User Name</th>
-                    <th>Email</th>
-                    <th>Permission</th>
-                    <th style="width: 40px">Status</th>
-=======
                     <th style="width: 10px">@lang('table.id')</th>
                     <th>@lang('table.full_name')</th>
                     <th>@lang('table.user_name')</th>
@@ -135,7 +131,6 @@
 
                     <th style="width: 20%">@lang('dev.permission')</th>
                     <th style="width: 40px;">@lang('table.status')</th>
->>>>>>> 72be9d65f8cbbf7a4bda977814340b17ceb2145b
                     <th style="width: 40px; text-align: center"><i class="fa fa-ellipsis-h"></i></th>
                 </tr>
                 </thead>
@@ -149,13 +144,13 @@
                             <td>{!! $row->permission !!}</td>
                             <td style="width: 20px">
                                 @if ($row->userstatus == 'yes')
-                                <span class="badge bg-dark">
-                                    @lang('table.enable')
-                                @else
-                                    <span class="badge bg-danger">
-                                        @lang('table.disable')
+                                    <span class="badge bg-dark">
+                                        @lang('table.enable')
+                                    @else
+                                        <span class="badge bg-danger">
+                                            @lang('table.disable')
                                 @endif
-                                    </span>
+                                </span>
                             </td>
                             <td>
                                 @include('app._include.btn_record', [
