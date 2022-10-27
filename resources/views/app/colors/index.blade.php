@@ -160,57 +160,22 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach ($example as $val)
+                            @foreach ($colors as $color)
                                 <tr>
-                                    <td>{{ $val['exmaple_id'] }}</td>
-                                    <td>{{ $val['title'] }}</td>
+                                    <td>{{ $color['color_id'] }}</td>
+                                    <td>{{ $color['name'] }}</td>
 
                                     <td>
                                         @include('app._include.btn_record', [
-                                            'rowid' => $val['exmaple_id'],
+                                            'rowid' => $color['color_id'],
                                             'edit' => true,
                                             'trash' => true,
                                             'delete' => true,
                                         ])
                                     </td>
                                 </tr>
-                            @endforeach --}}
-                            <tr>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                            </tr>
-                            <tr>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                            </tr>
-                            <tr>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                            </tr>
-                            <tr>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                            </tr>
+                            @endforeach
+                           
                         </tbody>
                     </table>
 

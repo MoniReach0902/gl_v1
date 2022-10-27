@@ -156,6 +156,23 @@
             </li>
         </ul>
     </li>
+    <li class="slide {{ nav_checkactive(['color'], $args, 'is-expanded') }}">
+        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i
+                class="fa fa-adjust"></i>&nbsp;<span class="side-menu__label">@lang('dev.product_color')</span><i
+                class="angle fe fe-chevron-right"></i></a>
+        <ul class="slide-menu ">
+            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
+            {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
+            <li><a class="slide-item {{ nav_checkactive(['color-index'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['color']) }}">@lang('dev.all_product_color')</a>
+            </li>
+            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
+            {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
+            <li><a class="slide-item {{ nav_checkactive(['color-create'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['color', 'create']) }}">@lang('dev.new_product_color')</a>
+            </li>
+        </ul>
+    </li>
     <li class="slide {{ nav_checkactive(['categorie'], $args, 'is-expanded') }}">
         <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i
                 class="fa fa-adjust"></i>&nbsp;<span class="side-menu__label">@lang('dev.product_color')</span><i
@@ -163,13 +180,13 @@
         <ul class="slide-menu ">
             <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
             {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
-            <li><a class="slide-item {{ nav_checkactive(['categorie-index'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['categorie']) }}">@lang('dev.all_product_color')</a>
+            <li><a class="slide-item {{ nav_checkactive(['colors-index'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['colors']) }}">@lang('dev.all_product_color')</a>
             </li>
             <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
             {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
-            <li><a class="slide-item {{ nav_checkactive(['categorie-create'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['categorie', 'create']) }}">@lang('dev.new_product_color')</a>
+            <li><a class="slide-item {{ nav_checkactive(['colors-create'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['colors', 'create']) }}">@lang('dev.new_product_color')</a>
             </li>
         </ul>
     </li>
