@@ -119,6 +119,17 @@ class VendorController extends Controller
 
             )->whereRaw('tblvendors.trash <> "yes"');
     } /*../function..*/
+    public function listingtrash()
+    {
+        #DEFIND MODEL#
+        return $this->model
+            ->leftJoin('users', 'users.id', 'tblvendors.blongto')
+            ->select(
+                \DB::raw($this->fprimarykey . ",JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text,tblvendors.create_date,
+                tblvendors.image_url,tblvendors.type,tblvendors.update_date,tblvendors.status,users.name As username"),
+
+            )->whereRaw('tblvendors.trash <> "no"');
+    } /*../function..*/
     //JSON_UNQUOTE(JSON_EXTRACT(title, '$.".$this->dflang[0]."'))
     public function sfp($request, $results)
     {
@@ -245,6 +256,55 @@ class VendorController extends Controller
                 ],
                 'fprimarykey'     => $this->fprimarykey,
                 'caption' => __('dev.active'),
+            ])
+            ->with(['vendor' => $vendor])
+            ->with($sfp)
+            ->with($setting);
+    }
+
+    public function trash(Request $request, $condition = [], $setting = [])
+    {
+
+        $default = $this->default();
+        $vendor = $default['vendor'];
+        //dd('aaa');
+        $results = $this->listingtrash();
+        $sfp = $this->sfp($request, $results);
+
+
+
+        $create_route = url_builder(
+            $this->obj_info['routing'],
+            [
+                $this->obj_info['name'], 'create', ''
+            ],
+        );
+
+        $trash_route = url_builder(
+            $this->obj_info['routing'],
+            [
+                $this->obj_info['name'], 'trash', ''
+            ],
+        );
+        $index_route = url_builder(
+            $this->obj_info['routing'],
+            [
+                $this->obj_info['name'], 'index', ''
+            ],
+        );
+
+        return view('app.' . $this->obj_info['name'] . '.trash')
+            ->with([
+                'obj_info'  => $this->obj_info,
+                'route' => [
+                    'create'  => $create_route,
+                    'trash' => $trash_route,
+                    // 'index_route' => $index_route,
+
+                ],
+                'fprimarykey'     => $this->fprimarykey,
+                'caption' => __('dev.active'),
+                'istrash' => true,
             ])
             ->with(['vendor' => $vendor])
             ->with($sfp)

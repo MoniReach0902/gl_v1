@@ -42,28 +42,7 @@
                 // let foo = (bar)=>{
                 //     console.log('foo-bar');
                 // };
-                $("#save_img").click(function(e) {
-                    // alert(1);
-                    let route_submit = "{{ $route['submit'] }}";
-                    // alert(route_submit);
-                    // e.preventDefault();
-                    // let route_import = "{{ $route['create'] }}";
-                    let extraFrm = {}; //{jscallback:'test'};
-                    let setting = {}; //{fnSuccess:foo};
-                    let container = '';
-                    let loading_indicator = '';
-                    let popModal = {
-                        show: false,
-                        size: 'modal-xl'
-                        //modal-sm, modal-lg, modal-xl
-                    };
-                    helper.silentHandler(route_submit, "frm-2{{ $obj_info['name'] }}",
-                        extraFrm,
-                        setting,
-                        popModal, container,
-                        loading_indicator);
 
-                });
                 $('.delete').click(function(e) {
                     e.preventDefault();
                     var link = $(this).attr("href");
@@ -78,7 +57,7 @@
                     }, function() {
                         setInterval(() => {
                             window.location.href = link;
-                            // swal("Delete finished!");
+                            swal("Delete finished!");
                         }, 1000);
                     });
                 });
@@ -146,9 +125,12 @@
                     <div class="pd-10 ">
                         @include('app._include.btn_index', [
                             'new' => true,
-                            'trash' => true,
-                            'active' => true,
+                            'trash' => false,
+                            // 'active' => true,
                         ])
+
+                        <a href="{{ url_builder('admin.controller', [$obj_info['name'], 'index']) }}"
+                            class="btn btn-outline-info button-icon">@lang('dev.index')</a>
                     </div>
 
                 </div>
@@ -207,76 +189,69 @@
                 </form>
             </div>
 
-            <form name="frm-2{{ $obj_info['name'] }}" id="frm-2{{ $obj_info['name'] }}" method="POST"
-                action="{{ $route['submit'] }}" enctype="multipart/form-data">
-                {{-- please dont delete these default Field --}}
-                @CSRF
-                <input type="hidden" name="{{ $fprimarykey }}" id="{{ $fprimarykey }}"
-                    value="{{ $input[$fprimarykey] ?? '' }}">
-                <input type="hidden" name="jscallback" value="{{ $jscallback ?? (request()->get('jscallback') ?? '') }}">
 
 
-                <div class="card-body table-responsive p-0 mg-t-20">
-                    <table class="table  table-striped table-hover text-nowrap table-bordered">
-                        @if (isset($istrash) && $istrash)
-                            <thead style="color: var(--warning)">
-                            @else
-                                <thead style="color: var(--info)">
-                        @endif
-                        <tr>
-                            <th style="width: 10px">@lang('table.id')</th>
-                            <th style="width: 150px;">@lang('table.image_logo')</th>
-                            <th>@lang('table.name')</th>
-                            <th style="width: 10%">@lang('table.create_date')</th>
-                            <th style="width: 10%">@lang('table.create_by')</th>
-                            <th style="width: 20px;">@lang('table.status')</th>
-                            <th style="width: 40px; text-align: center"><i class="fa fa-ellipsis-h"></i></th>
+            <div class="card-body table-responsive p-0 mg-t-20">
+                <table class="table  table-striped table-hover text-nowrap table-bordered">
+                    @if (isset($istrash) && $istrash)
+                        <thead style="color: var(--warning)">
+                        @else
+                            <thead style="color: var(--info)">
+                    @endif
+                    <tr>
+                        <th style="width: 10px">@lang('table.id')</th>
+                        <th style="width: 150px;">@lang('table.image_logo')</th>
+                        <th>@lang('table.name')</th>
+                        <th style="width: 10%">@lang('table.create_date')</th>
+                        <th style="width: 10%">@lang('table.create_by')</th>
+                        <th style="width: 20px;">@lang('table.status')</th>
+                        <th style="width: 40px; text-align: center"><i class="fa fa-ellipsis-h"></i></th>
 
-                        </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($results as $vendors)
-                                <tr>
-                                    <td>{{ $vendors->vendor_id }}</td>
-                                    <td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($results as $vendors)
+                            <tr>
+                                <td>{{ $vendors->vendor_id }}</td>
+                                <td>
 
-                                        <a href="{{ asset('storage/app/vendor/' . $vendors['image_url']) }}"
-                                            data-caption="IMAGE-01" data-id="lion" class="js-img-viewer">
-                                            <img src="{{ asset('storage/app/vendor/' . $vendors['image_url']) }}"
-                                                width="150px" height="100px">
-                                        </a>
+                                    <a href="{{ asset('storage/app/vendor/' . $vendors['image_url']) }}"
+                                        data-caption="IMAGE-01" data-id="lion" class="js-img-viewer">
+                                        <img src="{{ asset('storage/app/vendor/' . $vendors['image_url']) }}" width="150px"
+                                            height="100px">
+                                    </a>
 
-                                    </td>
-                                    <td>{{ $vendors['text'] }}</td>
-                                    <td>{{ $vendors->create_date }}</td>
-                                    <td>{{ $vendors->username }}</td>
-                                    <td style="width: 20px">
-                                        @if ($vendors->status == 'yes')
-                                            <span class="badge bg-dark">
-                                                @lang('table.enable')
-                                            @else
-                                                <span class="badge bg-danger">
-                                                    @lang('table.disable')
-                                        @endif
-                                        </span>
-                                    </td>
-                                    <td>
-                                        @include('app._include.btn_record', [
-                                            'rowid' => $vendors->vendor_id,
-                                            'edit' => true,
-                                            'trash' => true,
-                                            'delete' => true,
-                                        ])
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    <!-- Pagination and Record info -->
-                    @include('app._include.pagination')
-                    <!-- /. end -->
+                                </td>
+                                <td>{{ $vendors['text'] }}</td>
+                                <td>{{ $vendors->create_date }}</td>
+                                <td>{{ $vendors->username }}</td>
+                                <td style="width: 20px">
+                                    @if ($vendors->status == 'yes')
+                                        <span class="badge bg-dark">
+                                            @lang('table.enable')
+                                        @else
+                                            <span class="badge bg-danger">
+                                                @lang('table.disable')
+                                    @endif
+                                    </span>
+                                </td>
+                                <td>
+                                    @include('app._include.btn_record', [
+                                        'rowid' => $vendors->vendor_id,
+                                        'edit' => false,
+                                        'trash' => false,
+                                        'delete' => true,
+                                    ])
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                <!-- Pagination and Record info -->
+                @include('app._include.pagination')
+                <!-- /. end -->
 
-                </div>
-            </form>
+            </div>
+
         </div>
     @endsection
