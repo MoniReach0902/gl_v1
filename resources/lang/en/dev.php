@@ -30,5 +30,8 @@ return [
     "lang_kh"=>"Khmer",
     "lang_en"=>"English",
     
+    "product_color"=>"Product Color",
+    "color"=>"Color",
+
 
 ];

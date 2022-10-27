@@ -10,4 +10,5 @@
         "status"=>"Status",
         "id"=>"ID",
         "crate_by"=>"Crate By",
+        "image"=>"Image",
     ];

@@ -129,26 +129,51 @@ foreach (config('me.app.project_lang') as $lang) {
 
 
                 <div class="card">
-                    <div class="card-body">
-                        <div class="pd-20 pd-sm-20">
-                            <div class="row row-xs">
-                                
-                                <div class="col-md-6">
-                                    <label for="name">	Name: </label>
-                                    <input class="form-control" placeholder="Enter name" type="text">
+                    <div class="card-body pd-t-20">                 
+                                <div class="col-md-12 ">
+                                    <label for="">@lang('dev.product_color')</label>
+                                    <div class="input-group my-group" style="width:100%;">
+                
+                                        <select class="form-control form-select input-sm tab_title pd-l-20" style="width:20%;">
+                                            @foreach (config('me.app.project_lang') as $lang)
+                                                <option value="@lang($lang[0])">@lang('dev.lang_' . $lang[0])</option>
+                                            @endforeach
+                
+                                        </select>
+                                        @php
+                                            $active = '';
+                                        @endphp
+                                        @foreach (config('me.app.project_lang') as $lang)
+                                            @php
+                                                // dd($lang);
+                                                $title = json_decode($input['title'] ?? '', true);
+                                            @endphp
+                                            <input type="text" class="form-control input-sm {{ $active }}" style="width:80%;"
+                                                name="title-{{ $lang[0] }}" id="title-{{ $lang[0] }}"
+                                                placeholder="@lang('dev.lang_' . $lang[0])" value="{{ $name[$lang[0]] ?? '' }}">
+                                            @php
+                                                $active = 'hide';
+                                            @endphp
+                                        @endforeach
+                                        <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error" class="error invalid-feedback"
+                                            style="display: none"></span>
+                                    </div>
+                                    <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
                                 </div>
-                               
-                                <div class="col-md-6">
-                                    <label for="name">	Type: </label>
-                                    <input class="form-control" placeholder="Enter price" type="text">
+               
+                            
+                                <div class="col-md-12 mg-t-20">
+                                    <label for=""><b>@lang('dev.image')</b></label>
+                                    <div class="input-group my-group" style="width:100%;">
+                                        <input type="file" class="dropify" data-height="400" name="images" value="{{ $input['image_url'] ?? ''}}" accept=".png,.jpg,"/>
+                                        <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error"
+                                            class="error invalid-feedback" style="display: none"></span>
+                                    </div>
+                                    <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
                                 </div>
-                               
-                            <div class="col-sm-12 col-md-12 mg-t-10">
-                                <input type="file" class="dropify" data-height="200" accept=".png,.jpg,.jpeg"/>
-                            </div>
-                                <div class=" col-md-12 mg-t-10">
+                                <div class=" col-md-12 mg-t-20">
                                     <label class="custom-switch ps-0">
-                                        <span class="custom-switch-description me-2">Status</span>
+                                        <span class="custom-switch-description me-2">@lang('table.status')</span>
                                         <input type="checkbox" name="custom-switch-checkbox1" class="custom-switch-input">
                                         <span class="custom-switch-indicator"></span>
                                     </label>
@@ -156,9 +181,7 @@ foreach (config('me.app.project_lang') as $lang) {
                             
                             </div>
                         </div>
-                    </div>
-                </div>
- 
+                   
         </form>
     </div>
     {{-- @include('layouts.extra_modal') --}}
