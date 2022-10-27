@@ -11,30 +11,18 @@
 
                 /*Please dont delete this code*/
                 @if (null !== session('status') && session('status') == false)
-                    $(document).Toasts('create', {
-                        class: 'bg-danger ct-min-toast-width',
-                        title: 'Invalid',
-                        subtitle: '',
-                        body: "{{ session('message') }}",
-                        fade: true,
-                        autohide: true,
-                        delay: 3000,
-                        //position: 'bottomLeft',
-                    });
+                    helper.successAlert("{{ session('message') }}");
                 @endif
 
                 @if (null !== session('status') && session('status') == true)
-                    location.reload();
-                    $(document).Toasts('create', {
-                        class: 'bg-success ct-min-toast-width',
-                        title: 'Success',
-                        subtitle: '',
-                        body: "{{ session('message') }}",
+                    // location.reload();
+                    notif({
+                        msg: message,
+                        type: "success",
+                        position: "right",
                         fade: true,
-                        autohide: true,
-                        delay: 3000,
-                        //position: 'bottomLeft',
-
+                        clickable: true,
+                        timeout: 2000,
                     });
                 @endif
                 /*please dont delete this above code*/
@@ -240,7 +228,7 @@
                                         'rowid' => $vendors->vendor_id,
                                         'edit' => false,
                                         'trash' => false,
-                                        'delete' => true,
+                                        'restore' => true,
                                     ])
                                 </td>
                             </tr>
