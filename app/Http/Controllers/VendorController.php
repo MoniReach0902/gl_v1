@@ -136,11 +136,13 @@ class VendorController extends Controller
         if ($request->has('txtvendor') && !empty($request->input('txtvendor'))) {
             $qry = $request->input('txtvendor');
             $results = $results->where(function ($query) use ($qry) {
-                $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) like '%" . $qry . "%'");
+                $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) like '%" . $qry . "%'")
+                    ->orwhereRaw($this->fprimarykey . " like '%" . $qry . "%'");
             });
             array_push($querystr, "'JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) ='" . $qry);
             $appends = array_merge($appends, ["'JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "'))'" => $qry]);
         }
+
         if ($request->has('status') && !empty($request->input('status'))) {
             $qry = $request->input('status');
             $results = $results->where("userstatus", $qry);
@@ -270,7 +272,8 @@ class VendorController extends Controller
         $tableData = [];
         $data = toTranslate($request, 'title', 0, true);
         $images = $request->file('images');
-        $type = $request->input('txttype');
+        $type = $request->input('type');
+
 
         if (!empty($images)) {
             $name = $images->getClientOriginalName();
@@ -287,7 +290,22 @@ class VendorController extends Controller
             ];
         }
         if ($isupdate) {
-            $tableData = array_except($tableData, [$this->fprimarykey, 'create_date', 'password', 'trash']);
+            if (!empty($images)) {
+                $name = $images->getClientOriginalName();
+            } else {
+                $name = $request->input('old_image');
+            }
+            $tableData = [
+                'vendor_id' => $newid,
+                'name' => json_encode($data),
+                'type' => $type,
+                'update_date' => Carbon::now()->format('d-m-Y'),
+                'blongto' => $this->args['userinfo']['id'],
+                'trash' => 'no',
+                'status' => 'yes',
+                'image_url' =>  $name ?? '',
+            ];
+            $tableData = array_except($tableData, [$this->fprimarykey, 'create_date',  'trash']);
         }
         return ['tableData' => $tableData, $this->fprimarykey => $newid];
     }
@@ -499,6 +517,7 @@ class VendorController extends Controller
             }
 
             $data = $this->setinfo($request, true);
+            // dd($data);
             return $this->proceed_update($request, $data, $obj_info);
         } /*end if is post*/
 
@@ -518,10 +537,14 @@ class VendorController extends Controller
         // dd($data);
 
         $update_status = $this->model
-            ->where($this->fprimarykey, $data['vendor_id'])
+            ->where($this->fprimarykey, $data[$this->fprimarykey])
             ->update($data['tableData']);
 
         if ($update_status) {
+            if ($request->input('old_image') != $data['tableData']['image_url']) {
+                $request->file('images')->storeAs('vendor', $data['tableData']['image_url']);
+                @unlink('storage/app/vendor/' . $request->input('old_image'));
+            }
             $savetype = strtolower($request->input('savetype'));
             $id = $data['vendor_id'];
             $rout_to = save_type_route($savetype, $obj_info, $id);

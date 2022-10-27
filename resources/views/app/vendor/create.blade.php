@@ -161,12 +161,12 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="vendor_id">@lang('dev.permission')</label>
-                            <select class="form-control input-sm" name="vendor_id" id="vendor_id">
+                            <label for="type">@lang('dev.permission')</label>
+                            <select class="form-control input-sm" name="type" id="type">
                                 <option value="">-- {{ __('dev.noneselected') }}--</option>
                                 {!! cmb_listing(['equipment' => 'equipment', 'shop' => 'shop'], [$input['type'] ?? ''], '', '') !!}
                             </select>
-                            <span id="vendor_id-error" class="error invalid-feedback" style="display: none"></span>
+                            <span id="type-error" class="error invalid-feedback" style="display: none"></span>
                         </div>
                     </div>
                 </div>
@@ -196,7 +196,7 @@
                             <div class="dropify-errors-container">
                                 <ul></ul>
                             </div><input type="file" class="dropify" data-height="400"
-                                accept="image/png, image/jpeg,image/PNG, image/JPEG,image/jpg,image/JPG" name="images"
+                                accept="image/png, image/jpeg,image/PNG, image/JPEG,image/jpg,image/JPG" name=""
                                 value="" data-date="3331-09-10T00:00:00+07:00"><button type="button" id="remove"
                                 class="dropify-clear remove_img">Remove</button>
                             <div class="dropify-preview" style="display: block;"><span class="dropify-render"><img
@@ -215,6 +215,7 @@
 
                         <span id="title-en-error" class="error invalid-feedback" style="display: none"></span>
                     </div>
+                    <input type="hidden" name="old_image" value="{{ $input['image_url'] ?? '' }}">
                 @endif
 
             </div>
