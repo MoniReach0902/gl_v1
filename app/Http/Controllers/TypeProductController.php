@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TypeProduct;
 use App\Models\Example;
 use Illuminate\Http\Request;
 use Validator;
@@ -13,14 +14,14 @@ use App\Models\UserPermission;
 use App\Models\Location;
 use App\Models\Room;
 use App\Models\Slider;
-use App\Models\Producttype;
+use App\Models\Vendor;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
-class ProducttypeController extends Controller
+class TypeProductController extends Controller
 {
     //
-    private $obj_info = ['name' => 'producttype', 'routing' => 'admin.controller', 'title' => 'Producttype', 'icon' => '<i class="fas fa-tags"></i>'];
+    private $obj_info = ['name' => 'typeproduct', 'routing' => 'admin.controller', 'title' => 'Tpye Procuct', 'icon' => '<i class="fas fa-industry"></i>'];
     public $args;
 
     private $model;
@@ -44,7 +45,7 @@ class ProducttypeController extends Controller
     {
         //$this->middleware('auth');
         // dd($args['userinfo']);
-        $this->obj_info['title'] =  __('dev.product_propertie');
+        $this->obj_info['title'] =  __('dev.product_color');
 
         $default_protectme = config('me.app.protectme');
         $this->protectme = [
@@ -63,7 +64,7 @@ class ProducttypeController extends Controller
         ];
 
         $this->args = $args;
-        $this->model = new Producttype;
+        $this->model = new TypeProduct;
         $this->tablename = $this->model->gettable();
         $this->dflang = df_lang();
         // dd($this->tablename);
@@ -98,14 +99,14 @@ class ProducttypeController extends Controller
 
     public function default()
     {
-        $producttype = $this->model
+        $typeproduct = $this->model
             ->select(
                 \DB::raw($this->tablename . ".* "),
                 DB::raw("JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text"),
 
             )
             ->whereRaw('trash <> "yes"')->get();
-        return ['producttype' => $producttype];
+        return ['typeproduct' => $typeproduct];
     } /*../function..*/
     public function listingModel()
     {
@@ -128,6 +129,17 @@ class ProducttypeController extends Controller
 
             )->whereRaw('tblproduct_type.trash <> "no"');
     } /*../function..*/
+    // public function listingtrash()
+    // {
+    //     #DEFIND MODEL#
+    //     return $this->model
+    //         ->leftJoin('users', 'users.id', 'tblvendors.blongto')
+    //         ->select(
+    //             \DB::raw($this->fprimarykey . ",JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text,tblvendors.create_date,
+    //             tblvendors.image_url,tblvendors.type,tblvendors.update_date,tblvendors.status,users.name As username"),
+
+    //         )->whereRaw('tblvendors.trash <> "no"');
+    // } /*../function..*/
     //JSON_UNQUOTE(JSON_EXTRACT(title, '$.".$this->dflang[0]."'))
     public function sfp($request, $results)
     {
@@ -142,22 +154,27 @@ class ProducttypeController extends Controller
         // FILTERS
         $appends = [];
         $querystr = [];
-        if ($request->has('txtproducttype') && !empty($request->input('txtproducttype'))) {
-            $qry = $request->input('txtproducttype');
+        if ($request->has('txttypeproduct') && !empty($request->input('txttypeproduct'))) {
+            $qry = $request->input('txttypeproduct');
             $results = $results->where(function ($query) use ($qry) {
                 $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) like '%" . $qry . "%'")
-                ->orwhereRaw($this->fprimarykey . " like '%" . $qry . "%'");
+                    ->orwhereRaw($this->fprimarykey . " like '%" . $qry . "%'");
             });
             array_push($querystr, "'JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) ='" . $qry);
             $appends = array_merge($appends, ["'JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "'))'" => $qry]);
         }
-        
         if ($request->has('status') && !empty($request->input('status'))) {
             $qry = $request->input('status');
             $results = $results->where("tblproduct_type.status", $qry);
-    
+
             array_push($querystr, 'tblproduct_type.status=' . $qry);
             $appends = array_merge($appends, ['tblproduct_type.status' => $qry]);
+        }
+        if ($request->has('type') && !empty($request->input('type'))) {
+            $qry = $request->input('type');
+            $results = $results->where("type", $qry);
+            array_push($querystr, 'type=' . $qry);
+            $appends = array_merge($appends, ['type' => $qry]);
         }
         // PAGINATION and PERPAGE
         $perpage = null;
@@ -208,7 +225,7 @@ class ProducttypeController extends Controller
     {
 
         $default = $this->default();
-        $producttype = $default['producttype'];
+        $typeproduct = $default['typeproduct'];
         //dd('aaa');
         $results = $this->listingmodel();
         $sfp = $this->sfp($request, $results);
@@ -251,7 +268,7 @@ class ProducttypeController extends Controller
                 'fprimarykey'     => $this->fprimarykey,
                 'caption' => __('dev.active'),
             ])
-            ->with(['producttype' => $producttype])
+            ->with(['product' => $typeproduct])
             ->with($sfp)
             ->with($setting);
     }
@@ -260,7 +277,7 @@ class ProducttypeController extends Controller
     {
 
         $default = $this->default();
-        $producttype = $default['producttype'];
+        $typeproduct = $default['typeproduct'];
         //dd('aaa');
         $results = $this->listingtrash();
         $sfp = $this->sfp($request, $results);
@@ -300,7 +317,7 @@ class ProducttypeController extends Controller
                 'caption' => __('dev.active'),
                 'istrash' => true,
             ])
-            ->with(['producttype' => $producttype])
+            ->with(['typeproduct' => $typeproduct])
             ->with($sfp)
             ->with($setting);
     }
@@ -325,21 +342,27 @@ class ProducttypeController extends Controller
         $newid = ($isupdate) ? $request->input($this->fprimarykey)  : $this->model->max($this->fprimarykey) + 1;
         $tableData = [];
         $data = toTranslate($request, 'title', 0, true);
-        $images = $request->file('images');
-        $type = $request->input('type');
+        // $images = $request->file('images');
+        // $type = $request->input('type');
+
+
+
+        $tableData = [
+            'producttype_id' => $newid,
+            'name' => json_encode($data),
+            // 'type' => $type,
+            'create_date' => date("Y-m-d"),
+            'update_date' => "",
+            'blongto' => $this->args['userinfo']['id'],
+            'trash' => 'no',
+            'status' => 'yes',
+        ];
+        if ($isupdate) {
 
             $tableData = [
                 'producttype_id' => $newid,
                 'name' => json_encode($data),
-                'create_date' => date("Y-m-d"),
-                'blongto' => $this->args['userinfo']['id'],
-                'trash' => 'no',
-                'status' => 'yes',
-            ];
-        if ($isupdate) {
-            $tableData = [
-                'producttype_id' => $newid,
-                'name' => json_encode($data),
+                // 'type' => $type,
                 'update_date' => Carbon::now()->format('d-m-Y'),
                 'blongto' => $this->args['userinfo']['id'],
                 'trash' => 'no',
@@ -422,7 +445,7 @@ class ProducttypeController extends Controller
         $save_status = $this->model->insert($data['tableData']);
         // dd($save_status);
         if ($save_status) {
-            //$request->file('images')->storeAs('producttype', $data['tableData']['image_url']);
+            // $request->file('images')->storeAs('colors', $data['tableData']['image_url']);
             $savetype = strtolower($request->input('savetype'));
             $success_ms = __('ccms.suc_save');
             $callback = 'formreset';
@@ -581,6 +604,7 @@ class ProducttypeController extends Controller
             ->update($data['tableData']);
 
         if ($update_status) {
+
             $savetype = strtolower($request->input('savetype'));
             $id = $data['producttype_id'];
             $rout_to = save_type_route($savetype, $obj_info, $id);

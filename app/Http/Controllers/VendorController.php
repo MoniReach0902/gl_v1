@@ -119,6 +119,7 @@ class VendorController extends Controller
 
             )->whereRaw('tblvendors.trash <> "yes"');
     } /*../function..*/
+<<<<<<< HEAD
     public function listingtrash()
     {
         #DEFIND MODEL#
@@ -130,6 +131,19 @@ class VendorController extends Controller
 
             )->whereRaw('tblvendors.trash <> "no"');
     } /*../function..*/
+=======
+    // public function listingtrash()
+    // {
+    //     #DEFIND MODEL#
+    //     return $this->model
+    //         ->leftJoin('users', 'users.id', 'tblvendors.blongto')
+    //         ->select(
+    //             \DB::raw($this->fprimarykey . ",JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text,tblvendors.create_date,
+    //             tblvendors.image_url,tblvendors.type,tblvendors.update_date,tblvendors.status,users.name As username"),
+
+    //         )->whereRaw('tblvendors.trash <> "no"');
+    // } /*../function..*/
+>>>>>>> 4165a76a9e052f33eacd0d67d5908117c9a4a6f6
     //JSON_UNQUOTE(JSON_EXTRACT(title, '$.".$this->dflang[0]."'))
     public function sfp($request, $results)
     {
@@ -795,4 +809,8 @@ class VendorController extends Controller
                 422
             );
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 4165a76a9e052f33eacd0d67d5908117c9a4a6f6

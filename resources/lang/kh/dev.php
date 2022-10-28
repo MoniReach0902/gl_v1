@@ -103,8 +103,26 @@ return [
     "terms_Condition" => "លក្ខខណ្ឌ",
     "policy_privacy" => "គោលការណ៍​ភាព​ឯកជន",
 
+<<<<<<< HEAD
     "active" => "ដំណើរការ",
+=======
+    "product_color"=>"ពណ៍នៃផលិតផល",
+    "new_product_color"=>"ពណ៍នៃផលិតផលថ្មី",
+    "all_product_color"=>"ពណ៍នៃផលិតផលទាំងអស់",
+    "color"=>"ពណ៍",
 
+    "active"=>"សកម្មភាព",
+>>>>>>> 4165a76a9e052f33eacd0d67d5908117c9a4a6f6
+
+    
+    "lang_kh"=>"ខ្មែរ",
+    "lang_en"=>"អងគ្លេស​",
+
+    "product_type"=>"ប្រភេទ​ផលិតផល",
+    "all_product_type"=>"ទាំងអស់ប្រភេទ​ផលិតផល",
+    "new_product_type"=>"បង្កើតថ្មីប្រភេទ​ផលិតផល",
+
+    
 
 
 ];

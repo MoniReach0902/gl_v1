@@ -34,6 +34,7 @@ return [
         "permission"=>"Permission",
         "status"=>"Status",
         "id"=>"ID",
+<<<<<<< HEAD
         "create_by"=>"Create By",
         "product_shop"=>"Product Store",
         "equipment"=>"Equipment",
@@ -51,3 +52,11 @@ return [
         "remove"=>"Remove",
     ];
 >>>>>>> piseth
+=======
+        "create_by"=>"Crate By",
+        "image"=>"Image",
+        "non_select"=>"Non Select",
+
+        "click_image"=>"Click hear to upload image",
+    ];
+>>>>>>> 4165a76a9e052f33eacd0d67d5908117c9a4a6f6

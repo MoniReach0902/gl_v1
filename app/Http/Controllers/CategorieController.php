@@ -44,7 +44,11 @@ class CategorieController extends Controller
     {
         //$this->middleware('auth');
         // dd($args['userinfo']);
+<<<<<<< HEAD
         $this->obj_info['title'] =  __('dev.categorie');
+=======
+        $this->obj_info['title'] = __('table.category');
+>>>>>>> 4165a76a9e052f33eacd0d67d5908117c9a4a6f6
 
         $default_protectme = config('me.app.protectme');
         $this->protectme = [
@@ -145,8 +149,12 @@ class CategorieController extends Controller
         if ($request->has('txtcategorie') && !empty($request->input('txtcategorie'))) {
             $qry = $request->input('txtcategorie');
             $results = $results->where(function ($query) use ($qry) {
+<<<<<<< HEAD
                 $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) like '%" . $qry . "%'")
                     ->orwhereRaw($this->fprimarykey . " like '%" . $qry . "%'");
+=======
+                $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) like '%" . $qry . "%'");
+>>>>>>> 4165a76a9e052f33eacd0d67d5908117c9a4a6f6
             });
             array_push($querystr, "'JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) ='" . $qry);
             $appends = array_merge($appends, ["'JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "'))'" => $qry]);
@@ -374,12 +382,12 @@ class CategorieController extends Controller
                 'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route, 'new' => $new],
                 'form' => ['save_type' => 'save'],
                 'fprimarykey'     => $this->fprimarykey,
-                'caption' => __('dev.new'),
+                'caption' => 'New',
                 'isupdate' => false,
                 // 'img_check' => true,
 
             ]);
-    } /*../function..*/
+    }  /*../function..*/
 
     public function store(Request $request)
     {
@@ -703,6 +711,7 @@ class CategorieController extends Controller
         } else {
             $editid = $id;
         }
+<<<<<<< HEAD
 
         //$routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
         $trash = $this->model->where('categorie_id', $editid)->update(["status" => "no"]);
@@ -771,3 +780,6 @@ class CategorieController extends Controller
             );
     }
 }
+=======
+}
+>>>>>>> 4165a76a9e052f33eacd0d67d5908117c9a4a6f6

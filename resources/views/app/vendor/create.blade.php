@@ -22,22 +22,16 @@
         $(document).ready(function() {
             $(document).on("change", ".tab_title", function(ev) {
                 ///
-
                 var $value = $(this).val();
                 helper.enableDisableByLang($(this), {!! json_encode($langcode, true) !!}, 'title-', $value);
-
                 ///
             });
-
             let hide = "{{ $isupdate ?? '' }}"
             if (hide) {
                 $('.create_img').hide();
-
             } else {
                 $('.update_img').hide();
             }
-
-
             let route_submit = "{{ $route['submit'] }}";
             let route_cancel = "{{ $route['cancel'] ?? '' }}";
             let route_print = "{{ $route['print'] ?? '' }}";
@@ -62,20 +56,15 @@
                 helper.silentHandler(route_submit, "frm-{{ $obj_info['name'] }}", extraFrm, setting,
                     popModal, container,
                     loading_indicator);
-
             });
-
             $(".btncancel_{{ $obj_info['name'] }}").click(function(e) {
                 //window.location.replace(route_cancel);
                 window.location = route_cancel;
             });
             $("#btnnew_{{ $obj_info['name'] }}").click(function(e) {
-
-
                 window.location = route_new;
                 //     loading_indicator);
             });
-
             $(".btnprint_{{ $obj_info['name'] }}").click(function(e) {
                 //window.location.replace(route_cancel);
                 //window.location = route_print;
@@ -86,7 +75,6 @@
                 $('.update_img').hide();
                 $('.create_img').show();
             });
-
         });
     </script>
 @endsection
@@ -135,7 +123,7 @@
 
                                 <select class="form-control form-select input-sm tab_title" style="width:10%;">
                                     @foreach (config('me.app.project_lang') as $lang)
-                                        <option value="@lang($lang[0])">@lang('dev.lang_' . $lang[0])</option>
+                                        <option value="@lang($lang[0])">@lang($lang[1])</option>
                                     @endforeach
 
                                 </select>
@@ -149,7 +137,7 @@
                                     @endphp
                                     <input type="text" class="form-control input-sm {{ $active }}"
                                         style="width:80%;" name="title-{{ $lang[0] }}" id="title-{{ $lang[0] }}"
-                                        placeholder="@lang('dev.lang_' . $lang[0])" value="{{ $name[$lang[0]] ?? '' }}">
+                                        placeholder="{{ $lang[1] }}" value="{{ $name[$lang[0]] ?? '' }}">
                                     @php
                                         $active = 'hide';
                                     @endphp
@@ -162,15 +150,10 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="type">@lang('dev.type')</label>
+                            <label for="type">@lang('dev.permission')</label>
                             <select class="form-control input-sm" name="type" id="type">
-
-                                {!! cmb_listing(
-                                    ['equipment' => __('table.equipment'), 'shop' => __('table.product_shop')],
-                                    [$input['type'] ?? ''],
-                                    '',
-                                    '',
-                                ) !!}
+                                <option value="">-- {{ __('dev.noneselected') }}--</option>
+                                {!! cmb_listing(['equipment' => 'equipment', 'shop' => 'shop'], [$input['type'] ?? ''], '', '') !!}
                             </select>
                             <span id="type-error" class="error invalid-feedback" style="display: none"></span>
                         </div>
@@ -204,7 +187,7 @@
                             </div><input type="file" class="dropify" data-height="400"
                                 accept="image/png, image/jpeg,image/PNG, image/JPEG,image/jpg,image/JPG" name=""
                                 value="" data-date="3331-09-10T00:00:00+07:00"><button type="button" id="remove"
-                                class="dropify-clear remove_img">@lang('table.remove')</button>
+                                class="dropify-clear remove_img">Remove</button>
                             <div class="dropify-preview" style="display: block;"><span class="dropify-render"><img
                                         src="{{ asset('storage/app/vendor/' . $input['image_url'] ?? '') }}"
                                         style="max-height: 400px;"></span>
@@ -213,7 +196,7 @@
                                         <p class="dropify-filename"><span
                                                 class="dropify-filename-inner">333109105.jpg</span>
                                         </p>
-                                        <p class="dropify-infos-message">@lang('table.drag_and_drop_click_replace')</p>
+                                        <p class="dropify-infos-message">Drag and drop or click to replace</p>
                                     </div>
                                 </div>
                             </div>

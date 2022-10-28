@@ -102,6 +102,24 @@ return [
     "terms_Condition" => "Terms & Condition",
     "policy_privacy" => "Privacy Policy",
 
+<<<<<<< HEAD
     "active" => "Active",
+=======
+    "product_color"=>"Product Color",
+    "new_product_color"=>"New Product Color",
+    "all_product_color"=>"All Product Color",
+    "color"=>"Color",
+
+    "active"=>"Active",
+>>>>>>> 4165a76a9e052f33eacd0d67d5908117c9a4a6f6
+
+    "lang_kh"=>"Khmer",
+    "lang_en"=>"English",
+    
+
+    "product_type"=>"Product Type",
+    "all_product_type"=>"All Product Type",
+    "new_product_type"=>"New Product Type",
+
 
 ];
