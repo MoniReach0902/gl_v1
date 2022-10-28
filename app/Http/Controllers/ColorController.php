@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Categorie;
 use App\Models\Color;
+use App\Models\Colors;
 use App\Models\Example;
 use Illuminate\Http\Request;
 use Validator;
@@ -64,7 +65,7 @@ class ColorController extends Controller
         ];
 
         $this->args = $args;
-        $this->model = new Color;
+        $this->model = new Colors;
         $this->tablename = $this->model->gettable();
         $this->dflang = df_lang();
         // dd($this->tablename);

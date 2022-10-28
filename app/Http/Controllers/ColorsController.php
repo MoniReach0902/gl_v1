@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Colors;
 use App\Models\Example;
 use Illuminate\Http\Request;
 use Validator;
@@ -12,20 +13,22 @@ use App\Models\User;
 use App\Models\UserPermission;
 use App\Models\Location;
 use App\Models\Room;
-use App\Models\Colors;
+use App\Models\Slider;
+use App\Models\Vendor;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class ColorsController extends Controller
 {
     //
-    private $obj_info = ['name' => 'colors', 'routing' => 'admin.controller', 'title' => 'Colors', 'icon' => '<i class="fa-solid fa-palette"></i>'];
+    private $obj_info = ['name' => 'colors', 'routing' => 'admin.controller', 'title' => 'Colors', 'icon' => '<i class="fas fa-industry"></i>'];
     public $args;
 
     private $model;
     private $submodel;
     private $tablename;
     private $columns = [];
-    private $fprimarykey = 'color_id ';
+    private $fprimarykey = 'color_id';
     private $protectme = null;
 
     public $dflang;
@@ -42,7 +45,7 @@ class ColorsController extends Controller
     {
         //$this->middleware('auth');
         // dd($args['userinfo']);
-        $this->obj_info['title'] = 'Currency';
+        $this->obj_info['title'] =  __('dev.product_color');
 
         $default_protectme = config('me.app.protectme');
         $this->protectme = [
@@ -53,8 +56,8 @@ class ColorsController extends Controller
                 'index' => $default_protectme['index'],
                 // 'show' => $default_protectme['show'],
                 'create' => $default_protectme['create'],
-                // 'edit' => $default_protectme['edit'],
-                // 'delete' => $default_protectme['delete'],
+                'edit' => $default_protectme['edit'],
+                'delete' => $default_protectme['delete'],
                 // 'destroy' => $default_protectme['destroy'],
                 // 'restore' => $default_protectme['restore'],
             ]
@@ -64,7 +67,7 @@ class ColorsController extends Controller
         $this->model = new Colors;
         $this->tablename = $this->model->gettable();
         $this->dflang = df_lang();
-        // dd($this->tablename);c
+        // dd($this->tablename);
 
         /*column*/
         $tbl_columns = getTableColumns($this->tablename);
@@ -96,9 +99,112 @@ class ColorsController extends Controller
 
     public function default()
     {
-        $colors = $this->model->where('trash', '<>', 'yes')->get();
-        // dd($example);
+        $colors = $this->model
+            ->select(
+                \DB::raw($this->tablename . ".* "),
+                DB::raw("JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text"),
+
+            )
+            ->whereRaw('trash <> "yes"')->get();
         return ['colors' => $colors];
+    } /*../function..*/
+    public function listingModel()
+    {
+        #DEFIND MODEL#
+        return $this->model
+            ->leftJoin('users', 'users.id', 'tblcolors.blongto')
+            ->select(
+                \DB::raw($this->fprimarykey . ",JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text,tblcolors.create_date,
+                tblcolors.image_url,tblcolors.update_date,tblcolors.status,users.name As username"),
+
+            )->whereRaw('tblcolors.trash <> "yes"');
+    } /*../function..*/
+    // public function listingtrash()
+    // {
+    //     #DEFIND MODEL#
+    //     return $this->model
+    //         ->leftJoin('users', 'users.id', 'tblvendors.blongto')
+    //         ->select(
+    //             \DB::raw($this->fprimarykey . ",JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text,tblvendors.create_date,
+    //             tblvendors.image_url,tblvendors.type,tblvendors.update_date,tblvendors.status,users.name As username"),
+
+    //         )->whereRaw('tblvendors.trash <> "no"');
+    // } /*../function..*/
+    //JSON_UNQUOTE(JSON_EXTRACT(title, '$.".$this->dflang[0]."'))
+    public function sfp($request, $results)
+    {
+        #Sort Filter Pagination#
+
+        // CACHE SORTING INPUTS
+        $allowed = array('title', $this->fprimarykey);
+        $sort = in_array($request->input('sort'), $allowed) ? $request->input('sort') : $this->fprimarykey;
+        $order = $request->input('order') === 'asc' ? 'asc' : 'desc';
+        $results = $results->orderby($sort, $order);
+
+        // FILTERS
+        $appends = [];
+        $querystr = [];
+        if ($request->has('txtcolors') && !empty($request->input('txtcolors'))) {
+            $qry = $request->input('txtcolors');
+            $results = $results->where(function ($query) use ($qry) {
+                $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) like '%" . $qry . "%'")
+                    ->orwhereRaw($this->fprimarykey . " like '%" . $qry . "%'");
+            });
+            array_push($querystr, "'JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) ='" . $qry);
+            $appends = array_merge($appends, ["'JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "'))'" => $qry]);
+        }
+
+        if ($request->has('status') && !empty($request->input('status'))) {
+            $qry = $request->input('status');
+            $results = $results->where("userstatus", $qry);
+            array_push($querystr, 'userstatus=' . $qry);
+            $appends = array_merge($appends, ['userstatus' => $qry]);
+        }
+        if ($request->has('type') && !empty($request->input('type'))) {
+            $qry = $request->input('type');
+            $results = $results->where("type", $qry);
+            array_push($querystr, 'type=' . $qry);
+            $appends = array_merge($appends, ['type' => $qry]);
+        }
+        // PAGINATION and PERPAGE
+        $perpage = null;
+        $perpage_query = [];
+        if ($request->has('perpage')) {
+            $perpage = $request->input('perpage');
+            $perpage_query = ['perpage=' . $perpage];
+            $appends = array_merge($appends, ['perpage' => $perpage]);
+        } elseif (null !== $this->rcdperpage && $this->rcdperpage != 0) {
+            $perpage = $this->rcdperpage < 0 ? config('me.app.rpp') ?? 15 : $this->rcdperpage;
+        }
+        if (null !== $perpage) {
+            $results = $results->paginate($perpage);
+        }
+
+        $appends = array_merge(
+            $appends,
+            [
+                'sort'      => $request->input('sort'),
+                'order'     => $request->input('order')
+            ]
+        );
+
+        $pagination = $results->appends(
+            $appends
+        );
+
+        // dd($pagination);
+        $recordinfo = recordInfo($pagination->currentPage(), $pagination->perPage(), $pagination->total());
+
+        return [
+            'results'           => $results,
+            'paginationlinks'    => $pagination->links("pagination::bootstrap-4"),
+            'recordinfo'    => $recordinfo,
+            'sort'          => $sort,
+            'order'         => $order,
+            'querystr'      => $querystr,
+            'perpage_query' => $perpage_query,
+
+        ];
     } /*../function..*/
     /**
      * Show the application dashboard.
@@ -110,7 +216,10 @@ class ColorsController extends Controller
 
         $default = $this->default();
         $colors = $default['colors'];
-        // dd($slider);
+        //dd('aaa');
+        $results = $this->listingmodel();
+        $sfp = $this->sfp($request, $results);
+        // dd($sfp);
 
 
         $create_modal = url_builder(
@@ -147,12 +256,60 @@ class ColorsController extends Controller
                     'submit' => $submit,
                 ],
                 'fprimarykey'     => $this->fprimarykey,
-                'caption' => 'Active',
+                'caption' => __('dev.active'),
             ])
-            ->with(['act' => 'index'])
             ->with(['colors' => $colors])
-            // ->with($setting)
-        ;
+            ->with($sfp)
+            ->with($setting);
+    }
+
+    public function trash(Request $request, $condition = [], $setting = [])
+    {
+
+        $default = $this->default();
+        $colors = $default['colors'];
+        //dd('aaa');
+        $results = $this->listingtrash();
+        $sfp = $this->sfp($request, $results);
+
+
+
+        $create_route = url_builder(
+            $this->obj_info['routing'],
+            [
+                $this->obj_info['name'], 'create', ''
+            ],
+        );
+
+        $trash_route = url_builder(
+            $this->obj_info['routing'],
+            [
+                $this->obj_info['name'], 'trash', ''
+            ],
+        );
+        $index_route = url_builder(
+            $this->obj_info['routing'],
+            [
+                $this->obj_info['name'], 'index', ''
+            ],
+        );
+
+        return view('app.' . $this->obj_info['name'] . '.trash')
+            ->with([
+                'obj_info'  => $this->obj_info,
+                'route' => [
+                    'create'  => $create_route,
+                    'trash' => $trash_route,
+                    // 'index_route' => $index_route,
+
+                ],
+                'fprimarykey'     => $this->fprimarykey,
+                'caption' => __('dev.active'),
+                'istrash' => true,
+            ])
+            ->with(['colors' => $colors])
+            ->with($sfp)
+            ->with($setting);
     }
 
     public function validator($request, $isupdate = false)
@@ -160,11 +317,11 @@ class ColorsController extends Controller
         $newid = ($isupdate) ? $request->input($this->fprimarykey)  : $this->model->max($this->fprimarykey) + 1;
         $update_rules = [$this->fprimarykey => 'required'];
 
-        $rules['example-title'] = ['required'];
+        $rules['title-en'] = ['required'];
         // $rules['img'] = ['required'];
         $validatorMessages = [
             /*'required' => 'The :attribute field can not be blank.'*/
-            'required' => 'តម្លៃមិនអាចទទេរ',
+            'required' => "field can't be blank",
         ];
 
         return Validator::make($request->all(), $rules, $validatorMessages);
@@ -174,22 +331,42 @@ class ColorsController extends Controller
 
         $newid = ($isupdate) ? $request->input($this->fprimarykey)  : $this->model->max($this->fprimarykey) + 1;
         $tableData = [];
+        $data = toTranslate($request, 'title', 0, true);
+        $images = $request->file('images');
+        $type = $request->input('type');
 
 
-        $tableData = [
-            'categorie_id' => $newid,
-            // 'title' => $request->input('example-title'),
-            // 'product_name' => $request->input('product_name'),
-            // 'price' => $request->input('price'),
-            'name' => $request->input('name'),
-            'create_date'  => date("Y-m-d"),
-            'update_date'  => date("Y-m-d"),
-            'blongto'   => $this->args['userinfo']['id'],
-            'trash' => 'no',
-
-        ];
+        if (!empty($images)) {
+            $name = $images->getClientOriginalName();
+            $tableData = [
+                'color_id' => $newid,
+                'name' => json_encode($data),
+                // 'type' => $type,
+                'create_date' => date("Y-m-d"),
+                'update_date' => "",
+                'blongto' => $this->args['userinfo']['id'],
+                'trash' => 'no',
+                'status' => 'yes',
+                'image_url' =>  $name ?? '',
+            ];
+        }
         if ($isupdate) {
-            $tableData = array_except($tableData, [$this->fprimarykey, 'password', 'trash']);
+            if (!empty($images)) {
+                $name = $images->getClientOriginalName();
+            } else {
+                $name = $request->input('old_image');
+            }
+            $tableData = [
+                'color_id' => $newid,
+                'name' => json_encode($data),
+                // 'type' => $type,
+                'update_date' => Carbon::now()->format('d-m-Y'),
+                'blongto' => $this->args['userinfo']['id'],
+                'trash' => 'no',
+                'status' => 'yes',
+                'image_url' =>  $name ?? '',
+            ];
+            $tableData = array_except($tableData, [$this->fprimarykey, 'create_date',  'trash']);
         }
         return ['tableData' => $tableData, $this->fprimarykey => $newid];
     }
@@ -220,6 +397,7 @@ class ColorsController extends Controller
                 'fprimarykey'     => $this->fprimarykey,
                 'caption' => 'New',
                 'isupdate' => false,
+                // 'img_check' => true,
 
             ]);
     } /*../function..*/
@@ -265,7 +443,7 @@ class ColorsController extends Controller
         $save_status = $this->model->insert($data['tableData']);
         // dd($save_status);
         if ($save_status) {
-            // $request->file('img')->storeAs('slider', $data['tableData']['img']);
+            $request->file('images')->storeAs('colors', $data['tableData']['image_url']);
             $savetype = strtolower($request->input('savetype'));
             $success_ms = __('ccms.suc_save');
             $callback = 'formreset';
@@ -296,11 +474,6 @@ class ColorsController extends Controller
                 422
             );
     }
-
-
-
-
-
     public function edit(Request $request, $id = 0)
     {
 
@@ -312,7 +485,7 @@ class ColorsController extends Controller
         $obj_info = $this->obj_info;
 
         $default = $this->default();
-
+        //change piseth
         $input = null;
 
         #Retrieve Data#
@@ -328,6 +501,7 @@ class ColorsController extends Controller
 
         $input = $this->model
             ->where($this->fprimarykey, (int)$editid)
+            //change piseth
             ->get();
         //dd($input->toSql());
         if ($input->isEmpty()) {
@@ -354,8 +528,8 @@ class ColorsController extends Controller
 
         $input = $x;
 
-
-
+        $name = json_decode($input['name'], true);
+        //dd($name);
 
         $sumit_route = url_builder(
             $this->obj_info['routing'],
@@ -364,16 +538,18 @@ class ColorsController extends Controller
         );
         $cancel_route = redirect()->back()->getTargetUrl();
 
-        //dd($input);
-        return view('app.' . $this->obj_info['name'] . '.create')
+        // dd($input);
+        return view('app.' . $this->obj_info['name'] . '.create',) //change piseth
             ->with([
                 'obj_info'  => $this->obj_info,
                 'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route],
                 'form' => ['save_type' => 'save'],
-                'fprimarykey'     => $this->fprimarykey,
-                'caption' => 'Edit',
+                'fprimarykey' => $this->fprimarykey,
+                'caption' => __('btn.btn_edit'),
                 'isupdate' => true,
                 'input' => $input,
+                'name' => $name,
+
             ]);
     } /*../end fun..*/
 
@@ -402,6 +578,7 @@ class ColorsController extends Controller
             }
 
             $data = $this->setinfo($request, true);
+            // dd($data);
             return $this->proceed_update($request, $data, $obj_info);
         } /*end if is post*/
 
@@ -421,12 +598,16 @@ class ColorsController extends Controller
         // dd($data);
 
         $update_status = $this->model
-            ->where($this->fprimarykey, $data['exmaple_id'])
+            ->where($this->fprimarykey, $data[$this->fprimarykey])
             ->update($data['tableData']);
 
         if ($update_status) {
+            if ($request->input('old_image') != $data['tableData']['image_url']) {
+                $request->file('images')->storeAs('colors', $data['tableData']['image_url']);
+                @unlink('storage/app/colors/' . $request->input('old_image'));
+            }
             $savetype = strtolower($request->input('savetype'));
-            $id = $data['exmaple_id'];
+            $id = $data['color_id'];
             $rout_to = save_type_route($savetype, $obj_info, $id);
             $success_ms = __('ccms.suc_save');
             $callback = '';
@@ -442,8 +623,8 @@ class ColorsController extends Controller
                         "route" => $rout_to,
                         "callback" => $callback,
                         "data" => [
-                            $this->fprimarykey => $data['exmaple_id'],
-                            'id' => $data['exmaple_id']
+                            $this->fprimarykey => $data['color_id'],
+                            'id' => $data['color_id']
                         ]
                     ],
                     200
@@ -461,7 +642,45 @@ class ColorsController extends Controller
             );
     }
     /* end function*/
+    public function restore(Request $request, $id = 0)
+    {
+        $obj_info = $this->obj_info;
+        #Retrieve Data#
+        if (empty($id)) {
+            $editid = $this->args['routeinfo']['id'];
+        } else {
+            $editid = $id;
+        }
 
+        //$routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
+        $trash = $this->model->where('color_id', $editid)->update(["trash" => "no"]);
+
+        if ($trash) {
+            return response()
+                ->json(
+                    [
+                        "type" => "url",
+                        "status" => true,
+                        'route' => ['url' => redirect()->back()->getTargetUrl()],
+                        "message" => __('dev.success'),
+
+                        "data" => []
+                    ],
+                    200
+                );
+        }
+        return response()
+            ->json(
+                [
+                    "type" => "error",
+                    'status' => false,
+                    'route' => ['url' => redirect()->back()->getTargetUrl()],
+                    "message" => 'Your update is not affected',
+                    "data" => ['id' => $editid]
+                ],
+                422
+            );
+    }
     public function totrash(Request $request, $id = 0)
     {
         $obj_info = $this->obj_info;
@@ -472,8 +691,8 @@ class ColorsController extends Controller
             $editid = $id;
         }
 
-        // $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
-        $trash = $this->model->where('exmaple_id', $editid)->update(["trash" => "yes"]);
+        //$routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
+        $trash = $this->model->where('color_id', $editid)->update(["trash" => "yes"]);
 
         if ($trash) {
             return response()
@@ -482,8 +701,84 @@ class ColorsController extends Controller
                         "type" => "url",
                         'status' => true,
                         'route' => ['url' => redirect()->back()->getTargetUrl()],
-                        "message" => __('Example remove'),
-                        "data" => ['id' => $editid]
+                        "message" => __('ccms.suc_delete'),
+                        "data" => ['color_id' => $editid]
+                    ],
+                    200
+                );
+        }
+        return response()
+            ->json(
+                [
+                    "type" => "error",
+                    'status' => false,
+                    'route' => ['url' => redirect()->back()->getTargetUrl()],
+                    "message" => 'Your update is not affected',
+                    "data" => ['id' => $editid]
+                ],
+                422
+            );
+    }
+    public function disable(Request $request, $id = 0)
+    {
+        $obj_info = $this->obj_info;
+        #Retrieve Data#
+        if (empty($id)) {
+            $editid = $this->args['routeinfo']['id'];
+        } else {
+            $editid = $id;
+        }
+
+        //$routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
+        $trash = $this->model->where('color_id', $editid)->update(["status" => "no"]);
+
+        if ($trash) {
+            return response()
+                ->json(
+                    [
+                        "type" => "url",
+                        'status' => true,
+                        'route' => ['url' => redirect()->back()->getTargetUrl()],
+                        "message" => __('ccms.suc_delete'),
+                        "data" => ['color_id' => $editid]
+                    ],
+                    200
+                );
+        }
+        return response()
+            ->json(
+                [
+                    "type" => "error",
+                    'status' => false,
+                    'route' => ['url' => redirect()->back()->getTargetUrl()],
+                    "message" => 'Your update is not affected',
+                    "data" => ['id' => $editid]
+                ],
+                422
+            );
+    }
+    public function enable(Request $request, $id = 0)
+    {
+        $obj_info = $this->obj_info;
+        #Retrieve Data#
+        if (empty($id)) {
+            $editid = $this->args['routeinfo']['id'];
+        } else {
+            $editid = $id;
+        }
+
+        //$routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
+        $trash = $this->model->where('color_id', $editid)->update(["status" => "yes"]);
+
+        if ($trash) {
+            return response()
+                ->json(
+                    [
+                        "type" => "url",
+                        'status' => true,
+                        'route' => ['url' => redirect()->back()->getTargetUrl()],
+                        "message" => __('ccms.suc_delete'),
+                        "data" => ['color_id' => $editid]
                     ],
                     200
                 );

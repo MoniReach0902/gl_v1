@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categorie;
+use App\Models\Customer;
 use App\Models\Example;
 use Illuminate\Http\Request;
 use Validator;
@@ -12,20 +14,21 @@ use App\Models\User;
 use App\Models\UserPermission;
 use App\Models\Location;
 use App\Models\Room;
-use App\Models\Customer;
+use App\Models\Slider;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class CustomerController extends Controller
 {
     //
-    private $obj_info = ['name' => 'customer', 'routing' => 'admin.controller', 'title' => 'Customer', 'icon' => '<i class="fa fa-users" aria-hidden="true"></i>'];
+    private $obj_info = ['name' => 'customer', 'routing' => 'admin.controller', 'title' => 'Customer', 'icon' => '<i class="fa fa-address-card"></i>'];
     public $args;
 
     private $model;
     private $submodel;
     private $tablename;
     private $columns = [];
-    private $fprimarykey = 'customer_id ';
+    private $fprimarykey = 'customer_id';
     private $protectme = null;
 
     public $dflang;
@@ -42,7 +45,7 @@ class CustomerController extends Controller
     {
         //$this->middleware('auth');
         // dd($args['userinfo']);
-        $this->obj_info['title'] = 'Customer';
+        $this->obj_info['title'] = __('dev.customer');
 
         $default_protectme = config('me.app.protectme');
         $this->protectme = [
@@ -53,8 +56,8 @@ class CustomerController extends Controller
                 'index' => $default_protectme['index'],
                 // 'show' => $default_protectme['show'],
                 'create' => $default_protectme['create'],
-                // 'edit' => $default_protectme['edit'],
-                // 'delete' => $default_protectme['delete'],
+                'edit' => $default_protectme['edit'],
+                'delete' => $default_protectme['delete'],
                 // 'destroy' => $default_protectme['destroy'],
                 // 'restore' => $default_protectme['restore'],
             ]
@@ -64,7 +67,7 @@ class CustomerController extends Controller
         $this->model = new Customer;
         $this->tablename = $this->model->gettable();
         $this->dflang = df_lang();
-        // dd($this->tablename);c
+        // dd($this->tablename);
 
         /*column*/
         $tbl_columns = getTableColumns($this->tablename);
@@ -96,9 +99,96 @@ class CustomerController extends Controller
 
     public function default()
     {
-        // $customer = $this->model->where('trash', '<>', 'yes')->get();
-        // // dd($example);
-        // return ['customer' => $customer];
+        $customer = $this->model
+            ->select(
+                \DB::raw($this->tablename . ".* "),
+                DB::raw("JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text"),
+
+            )
+            ->whereRaw('trash <> "yes"')->get();
+        return ['customer' => $customer];
+    } /*../function..*/
+    public function listingModel()
+    {
+        #DEFIND MODEL#
+        return $this->model
+            ->leftJoin('users', 'users.id', 'tblcustomers.blongto')
+            ->select(
+                \DB::raw($this->fprimarykey . ",JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text,tblcustomers.create_date,
+                tblcustomers.phone_number,tblcustomers.email,tblcustomers.address,
+                tblcustomers.update_date,tblcustomers.status,users.name As username"),
+
+            )->whereRaw('tblcustomers.trash <> "yes"');
+    } /*../function..*/
+    //JSON_UNQUOTE(JSON_EXTRACT(title, '$.".$this->dflang[0]."'))
+    public function sfp($request, $results)
+    {
+        #Sort Filter Pagination#
+
+        // CACHE SORTING INPUTS
+        $allowed = array('title', $this->fprimarykey);
+        $sort = in_array($request->input('sort'), $allowed) ? $request->input('sort') : $this->fprimarykey;
+        $order = $request->input('order') === 'asc' ? 'asc' : 'desc';
+        $results = $results->orderby($sort, $order);
+
+        // FILTERS
+        $appends = [];
+        $querystr = [];
+        if ($request->has('txtcustomer') && !empty($request->input('txtcustomer'))) {
+            $qry = $request->input('txtcustomer');
+            $results = $results->where(function ($query) use ($qry) {
+                $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) like '%" . $qry . "%'");
+            });
+            array_push($querystr, "'JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) ='" . $qry);
+            $appends = array_merge($appends, ["'JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "'))'" => $qry]);
+        }
+
+        if ($request->has('status') && !empty($request->input('status'))) {
+            $qry = $request->input('status');
+            $results = $results->where("userstatus", $qry);
+
+            array_push($querystr, 'userstatus=' . $qry);
+            $appends = array_merge($appends, ['userstatus' => $qry]);
+        }
+        // PAGINATION and PERPAGE
+        $perpage = null;
+        $perpage_query = [];
+        if ($request->has('perpage')) {
+            $perpage = $request->input('perpage');
+            $perpage_query = ['perpage=' . $perpage];
+            $appends = array_merge($appends, ['perpage' => $perpage]);
+        } elseif (null !== $this->rcdperpage && $this->rcdperpage != 0) {
+            $perpage = $this->rcdperpage < 0 ? config('me.app.rpp') ?? 15 : $this->rcdperpage;
+        }
+        if (null !== $perpage) {
+            $results = $results->paginate($perpage);
+        }
+
+        $appends = array_merge(
+            $appends,
+            [
+                'sort'      => $request->input('sort'),
+                'order'     => $request->input('order')
+            ]
+        );
+
+        $pagination = $results->appends(
+            $appends
+        );
+
+        // dd($pagination);
+        $recordinfo = recordInfo($pagination->currentPage(), $pagination->perPage(), $pagination->total());
+
+        return [
+            'results'           => $results,
+            'paginationlinks'    => $pagination->links("pagination::bootstrap-4"),
+            'recordinfo'    => $recordinfo,
+            'sort'          => $sort,
+            'order'         => $order,
+            'querystr'      => $querystr,
+            'perpage_query' => $perpage_query,
+
+        ];
     } /*../function..*/
     /**
      * Show the application dashboard.
@@ -109,8 +199,10 @@ class CustomerController extends Controller
     {
 
         $default = $this->default();
-        // $customer = $default['customer'];
-        // dd($slider);
+        $customer = $default['customer'];
+        //dd('aaa');
+        $results = $this->listingmodel();
+        $sfp = $this->sfp($request, $results);
 
 
         $create_modal = url_builder(
@@ -147,12 +239,11 @@ class CustomerController extends Controller
                     'submit' => $submit,
                 ],
                 'fprimarykey'     => $this->fprimarykey,
-                'caption' => 'Active',
+                'caption' => __('dev.active'),
             ])
-            ->with(['act' => 'index'])
-            // ->with(['customer' => $customer])
-            // ->with($setting)
-        ;
+            ->with(['customer' => $customer])
+            ->with($sfp)
+            ->with($setting);
     }
 
     public function validator($request, $isupdate = false)
@@ -160,11 +251,11 @@ class CustomerController extends Controller
         $newid = ($isupdate) ? $request->input($this->fprimarykey)  : $this->model->max($this->fprimarykey) + 1;
         $update_rules = [$this->fprimarykey => 'required'];
 
-        $rules['example-title'] = ['required'];
+        $rules['title-en'] = ['required'];
         // $rules['img'] = ['required'];
         $validatorMessages = [
             /*'required' => 'The :attribute field can not be blank.'*/
-            'required' => 'តម្លៃមិនអាចទទេរ',
+            'required' => "field can't be blank",
         ];
 
         return Validator::make($request->all(), $rules, $validatorMessages);
@@ -174,22 +265,20 @@ class CustomerController extends Controller
 
         $newid = ($isupdate) ? $request->input($this->fprimarykey)  : $this->model->max($this->fprimarykey) + 1;
         $tableData = [];
-
+        $data = toTranslate($request, 'title', 0, true);
 
         $tableData = [
-            'categorie_id' => $newid,
-            // 'title' => $request->input('example-title'),
-            // 'product_name' => $request->input('product_name'),
-            // 'price' => $request->input('price'),
-            'name' => $request->input('name'),
-            'create_date'  => date("Y-m-d"),
-            'update_date'  => date("Y-m-d"),
-            'blongto'   => $this->args['userinfo']['id'],
+            'customer_id' => $newid,
+            'name' => json_encode($data),
+            'create_date' => date("Y-m-d"),
+            'update_date' => "",
+            'blongto' => $this->args['userinfo']['id'],
             'trash' => 'no',
+            'status' => 'yes',
 
         ];
         if ($isupdate) {
-            $tableData = array_except($tableData, [$this->fprimarykey, 'password', 'trash']);
+            $tableData = array_except($tableData, [$this->fprimarykey, 'create_date', 'password', 'trash']);
         }
         return ['tableData' => $tableData, $this->fprimarykey => $newid];
     }
@@ -218,7 +307,7 @@ class CustomerController extends Controller
                 'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route, 'new' => $new],
                 'form' => ['save_type' => 'save'],
                 'fprimarykey'     => $this->fprimarykey,
-                'caption' => 'New',
+                'caption' => __('dev.new'),
                 'isupdate' => false,
 
             ]);
@@ -296,11 +385,6 @@ class CustomerController extends Controller
                 422
             );
     }
-
-
-
-
-
     public function edit(Request $request, $id = 0)
     {
 
@@ -328,8 +412,8 @@ class CustomerController extends Controller
 
         $input = $this->model
             ->where($this->fprimarykey, (int)$editid)
+
             ->get();
-        //dd($input->toSql());
         if ($input->isEmpty()) {
             $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
             return response()
@@ -354,7 +438,7 @@ class CustomerController extends Controller
 
         $input = $x;
 
-
+        $name = json_decode($input['name'], true);
 
 
         $sumit_route = url_builder(
@@ -363,17 +447,27 @@ class CustomerController extends Controller
             [],
         );
         $cancel_route = redirect()->back()->getTargetUrl();
-
+        $province_id = empty($input['province_id']) ? -1 : $input['province_id'];
+        $districts = [];
+        $where = [['trash', '<>', 'yes'], ['parent_id', '=', $province_id]];
+        $location = Location::getlocation($this->dflang[0], $where)->get();
+        $districts = $location->pluck('title', 'id')->toArray();
+        $district_id = empty($input['district_id']) ? -1 : $input['district_id'];
+        $communes = [];
+        $where = [['trash', '<>', 'yes'], ['parent_id', '=', $district_id]];
+        $location = Location::getlocation($this->dflang[0], $where)->get();
+        $communes = $location->pluck('title', 'id')->toArray();
         //dd($input);
-        return view('app.' . $this->obj_info['name'] . '.create')
+        return view('app.' . $this->obj_info['name'] . '.create',) //change piseth
             ->with([
                 'obj_info'  => $this->obj_info,
                 'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route],
                 'form' => ['save_type' => 'save'],
-                'fprimarykey'     => $this->fprimarykey,
-                'caption' => 'Edit',
+                'fprimarykey' => $this->fprimarykey,
+                'caption' => __('btn.btn_edit'),
                 'isupdate' => true,
                 'input' => $input,
+                'name' => $name,
             ]);
     } /*../end fun..*/
 
@@ -421,12 +515,12 @@ class CustomerController extends Controller
         // dd($data);
 
         $update_status = $this->model
-            ->where($this->fprimarykey, $data['exmaple_id'])
+            ->where($this->fprimarykey, $data['customer_id'])
             ->update($data['tableData']);
 
         if ($update_status) {
             $savetype = strtolower($request->input('savetype'));
-            $id = $data['exmaple_id'];
+            $id = $data['customer_id'];
             $rout_to = save_type_route($savetype, $obj_info, $id);
             $success_ms = __('ccms.suc_save');
             $callback = '';
@@ -442,8 +536,8 @@ class CustomerController extends Controller
                         "route" => $rout_to,
                         "callback" => $callback,
                         "data" => [
-                            $this->fprimarykey => $data['exmaple_id'],
-                            'id' => $data['exmaple_id']
+                            $this->fprimarykey => $data['customer_id'],
+                            'id' => $data['customer_id']
                         ]
                     ],
                     200
@@ -472,8 +566,8 @@ class CustomerController extends Controller
             $editid = $id;
         }
 
-        // $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
-        $trash = $this->model->where('exmaple_id', $editid)->update(["trash" => "yes"]);
+        //$routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
+        $trash = $this->model->where('customer_id', $editid)->update(["trash" => "yes"]);
 
         if ($trash) {
             return response()
@@ -482,8 +576,8 @@ class CustomerController extends Controller
                         "type" => "url",
                         'status' => true,
                         'route' => ['url' => redirect()->back()->getTargetUrl()],
-                        "message" => __('Example remove'),
-                        "data" => ['id' => $editid]
+                        "message" => __('ccms.suc_delete'),
+                        "data" => ['customer_id' => $editid]
                     ],
                     200
                 );

@@ -130,21 +130,8 @@
                     <div class="form-row" style="font-size: 11px">
                         <div class="form-group col-md-2">
                             <label for="txt">@lang('dev.search')</label>
-                            <input type="text" class="form-control input-sm" name="txtvendor" id="txt"
-                                value="{{ request()->get('txtvendor') ?? '' }}">
-                        </div>
-                        <div class="form-group col-md-2">
-                            <label for="year">@lang('dev.type')</label>
-                            <select class="form-control input-sm" name="type" id="type">
-                                <option value="">-- {{ __('dev.non_select') }} --</option>
-                                {!! cmb_listing(
-                                    ['equipment' => __('table.equipment'), 'shop' => __('table.product_shop')],
-                                    [request()->get('type') ?? ''],
-                                    '',
-                                    '',
-                                    '',
-                                ) !!}
-                            </select>
+                            <input type="text" class="form-control input-sm" name="txtproducttype" id="txt"
+                                value="{{ request()->get('txtproducttype') ?? '' }}">
                         </div>
                         <div class="form-group col-md-2">
                             <label for="year">@lang('dev.status')</label>
@@ -188,51 +175,41 @@
                     @endif
                     <tr>
                         <th style="width: 10px">@lang('table.id')</th>
-                        <th style="width: 150px;">@lang('table.image_logo')</th>
-                        <th>@lang('table.name')</th>
-                        <th style="width: 10%">@lang('table.create_date')</th>
-                        <th style="width: 10%">@lang('table.create_by')</th>
-                        <th style="width: 20px;">@lang('table.status')</th>
-                        <th style="width: 40px; text-align: center"><i class="fa fa-ellipsis-h"></i></th>
+                            <th>@lang('table.name')</th>
+                            <th>@lang('table.create_date')</th>
+                            <th>@lang('table.create_by')</th>
+                            <th style="width: 40px;">@lang('table.status')</th>
+                            <th style="width: 40px; text-align: center"><i class="fa fa-ellipsis-h"></i></th>
 
                     </tr>
                     </thead>
                     <tbody>
-                        @foreach ($results as $vendors)
-                            <tr>
-                                <td>{{ $vendors->vendor_id }}</td>
-                                <td>
-
-                                    <a href="{{ asset('storage/app/vendor/' . $vendors['image_url']) }}"
-                                        data-caption="IMAGE-01" data-id="lion" class="js-img-viewer">
-                                        <img src="{{ asset('storage/app/vendor/' . $vendors['image_url']) }}" width="150px"
-                                            height="100px">
-                                    </a>
-
-                                </td>
-                                <td>{{ $vendors['text'] }}</td>
-                                <td>{{ $vendors->create_date }}</td>
-                                <td>{{ $vendors->username }}</td>
-                                <td style="width: 20px">
-                                    @if ($vendors->status == 'yes')
+                        @foreach ($results as $producttypes)
+                                <tr>
+                                    <td>{{ $producttypes->producttype_id }}</td>
+                                    <td>{{ $producttypes['text'] }}</td>
+                                    <td style="width: 10%">{{ $producttypes->create_date }}</td>
+                                    <td style="width: 10%">{{ $producttypes->username }}</td>
+                                    <td style="width: 20px">
+                                        @if ($producttypes->status == 'yes')
                                         <span class="badge bg-dark">
                                             @lang('table.enable')
                                         @else
                                             <span class="badge bg-danger">
                                                 @lang('table.disable')
-                                    @endif
-                                    </span>
-                                </td>
-                                <td>
-                                    @include('app._include.btn_record', [
-                                        'rowid' => $vendors->vendor_id,
-                                        'edit' => false,
-                                        'trash' => false,
-                                        'restore' => true,
-                                    ])
-                                </td>
-                            </tr>
-                        @endforeach
+                                        @endif
+                                            </span>
+                                    </td>
+                                    <td>
+                                        @include('app._include.btn_record', [
+                                            'rowid' => $producttypes->producttype_id,
+                                            'edit' => false,
+                                            'trash' => false,
+                                            'restore' => true,
+                                        ])
+                                    </td>
+                                </tr>
+                            @endforeach
                     </tbody>
                 </table>
                 <!-- Pagination and Record info -->

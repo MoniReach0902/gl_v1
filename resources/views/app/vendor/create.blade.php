@@ -22,22 +22,16 @@
         $(document).ready(function() {
             $(document).on("change", ".tab_title", function(ev) {
                 ///
-
                 var $value = $(this).val();
                 helper.enableDisableByLang($(this), {!! json_encode($langcode, true) !!}, 'title-', $value);
-
                 ///
             });
-
             let hide = "{{ $isupdate ?? '' }}"
             if (hide) {
                 $('.create_img').hide();
-
             } else {
                 $('.update_img').hide();
             }
-
-
             let route_submit = "{{ $route['submit'] }}";
             let route_cancel = "{{ $route['cancel'] ?? '' }}";
             let route_print = "{{ $route['print'] ?? '' }}";
@@ -62,20 +56,15 @@
                 helper.silentHandler(route_submit, "frm-{{ $obj_info['name'] }}", extraFrm, setting,
                     popModal, container,
                     loading_indicator);
-
             });
-
             $(".btncancel_{{ $obj_info['name'] }}").click(function(e) {
                 //window.location.replace(route_cancel);
                 window.location = route_cancel;
             });
             $("#btnnew_{{ $obj_info['name'] }}").click(function(e) {
-
-
                 window.location = route_new;
                 //     loading_indicator);
             });
-
             $(".btnprint_{{ $obj_info['name'] }}").click(function(e) {
                 //window.location.replace(route_cancel);
                 //window.location = route_print;
@@ -86,7 +75,6 @@
                 $('.update_img').hide();
                 $('.create_img').show();
             });
-
         });
     </script>
 @endsection
@@ -108,6 +96,7 @@
                 </div>
                 <div class="pd-10 ">
                     @include('app._include.btn_create', $action_btn)
+
                 </div>
 
             </div>

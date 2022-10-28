@@ -121,7 +121,7 @@ foreach (config('me.app.project_lang') as $lang) {
 
                                         <select class="form-control form-select input-sm tab_title" style="width:10%;">
                                             @foreach (config('me.app.project_lang') as $lang)
-                                                <option value="@lang($lang[0])" style="padding: 10px">@lang($lang[1])</option>
+                                                <option value="@lang($lang[0])">@lang('dev.lang_' . $lang[0])</option>
                                             @endforeach
             
                                         </select>
@@ -135,7 +135,7 @@ foreach (config('me.app.project_lang') as $lang) {
                                             @endphp
                                             <input type="text" class="form-control input-sm {{ $active }}" style="width:80%;"
                                                 name="title-{{ $lang[0] }}" id="title-{{ $lang[0] }}"
-                                                placeholder="{{ __('dev.lang_') . $lang[1] }}" value="{{ $name[$lang[0]] ?? '' }}">
+                                                placeholder="@lang('dev.lang_' . $lang[0])" value="{{ $name[$lang[0]] ?? '' }}">
                                             @php
                                                 $active = 'hide';
                                             @endphp

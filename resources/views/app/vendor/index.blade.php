@@ -8,7 +8,6 @@
     @section('blade_scripts')
         <script>
             $(document).ready(function() {
-
                 /*Please dont delete this code*/
                 @if (null !== session('status') && session('status') == false)
                     $(document).Toasts('create', {
@@ -22,7 +21,6 @@
                         //position: 'bottomLeft',
                     });
                 @endif
-
                 @if (null !== session('status') && session('status') == true)
                     location.reload();
                     $(document).Toasts('create', {
@@ -34,11 +32,9 @@
                         autohide: true,
                         delay: 3000,
                         //position: 'bottomLeft',
-
                     });
                 @endif
                 /*please dont delete this above code*/
-
                 // let foo = (bar)=>{
                 //     console.log('foo-bar');
                 // };
@@ -62,7 +58,6 @@
                         setting,
                         popModal, container,
                         loading_indicator);
-
                 });
                 $('.delete').click(function(e) {
                     e.preventDefault();
@@ -82,39 +77,27 @@
                         }, 1000);
                     });
                 });
-
-
                 $("#btnnew_{{ $obj_info['name'] }}").click(function(e) {
-
                     let route_create = "{{ $route['create'] }}";
-
                     window.location = route_create;
                     //     loading_indicator);
                 });
-
                 $("#btntrash_{{ $obj_info['name'] }}").click(function(e) {
                     let route_create = "{{ $route['trash'] ?? '' }}";
                     window.location = route_create;
-
                 });
-
-
                 $('.btn_remove').on('click', function() {
                     var eThis = $(this);
                     var p = eThis.parents('#photo');
                     var id = p.find('#id').val();
                     p.find('#img_id').val(id * -1);
-
                     // alert(id);
                     // p.hide();
                     // alert(id * -1);
-
                 })
-
             });
 
             function updateDistrict(jsondata) {
-
                 let dropdown = $('#district');
                 let data = jsondata.data;
                 helper.makeDropdownByJson(dropdown, data, -1, 'please select');

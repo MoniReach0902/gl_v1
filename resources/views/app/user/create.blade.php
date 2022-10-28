@@ -159,9 +159,9 @@ $action_btn = ['save' => true, 'cancel' => true];
                             </div>
 
                             <div class="form-group">
-                                <label for="email">@lang('table.phone_number')</label>
-                                <input type="tel" class="form-control" name="phone" id="phone"
-                                    placeholder="@lang('table.enter') @lang('table.phone_number')" value="{{ $input['email'] ?? '' }}">
+                                <label for="email">@lang('table.email')</label>
+                                <input type="email" class="form-control" name="phone" id="phone"
+                                    placeholder="@lang('table.enter') @lang('table.email')" value="{{ $input['email'] ?? '' }}">
                                 <span id="phone-error" class="error invalid-feedback" style="display: none"></span>
                             </div>
                             <div class="form-group">
@@ -195,7 +195,7 @@ $action_btn = ['save' => true, 'cancel' => true];
 
 
                             <div class="form-group">
-                                <label for="password_confirmation">@lang('dev.status')</label>
+                                <label for="password_confirmation">@lang('table.status')</label>
                                 <br>
                                 {!! check_select('userstatus', [__('table.enable') => 'yes', __('table.disable') => 'no'], $input['userstatus'] ?? '', '') !!}
                             </div>

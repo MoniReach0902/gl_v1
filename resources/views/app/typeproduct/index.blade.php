@@ -160,8 +160,8 @@
                     <div class="form-row" style="font-size: 11px">
                         <div class="form-group col-md-2">
                             <label for="txt">@lang('dev.search')</label>
-                            <input type="text" class="form-control input-sm" name="txtcategorie" id="txt"
-                                value="{{ request()->get('txtcategorie') ?? '' }}">
+                            <input type="text" class="form-control input-sm" name="txtproducttype" id="txt"
+                                value="{{ request()->get('txtproducttype') ?? '' }}">
                         </div>
                         <div class="form-group col-md-2">
                             <label for="year">@lang('dev.status')</label>
@@ -193,59 +193,121 @@
                     </div>
                 </form>
             </div>
-            </section>
-            {{-- end header --}}
-            <div class="container-fluid">
-                <div class="card-header mg-t-20">
-                    <form class="frmsearch-{{ $obj_info['name'] }}">
-                        <div class="form-row" style="font-size: 11px">
-                            <div class="form-group col-md-2">
-                                <label for="txt">@lang('dev.search')</label>
-                                <input type="text" class="form-control input-sm" name="txtcategorie" id="txt"
-                                    value="{{ request()->get('txtcategorie') ?? '' }}">
-                            </div>
-                            <div class="form-group col-md-2">
-                                <label for="year">@lang('table.status')</label>
-                                <select class="form-control input-sm" name="status" id="status">
-                                    <option value="">-- {{ __('table.status') }} --</option>
-                                    {!! cmb_listing(
-                                        ['yes' => __('table.enable'), 'no' => __('table.disable')],
-                                        [request()->get('status') ?? ''],
-                                        '',
-                                        '',
-                                        '',
-                                    ) !!}
-                                </select>
-                            </div>
-                            <div class="form-group col-md-1">
-                                <label>&nbsp;</label>
-                                <button type="submit" value="filter"
-                                    class="btn btn-outline-secondary btn-block formactionbutton"><i
-                                        class="fa fa-search"></i></button>
-                            </div>
+<<<<<<< HEAD:resources/views/app/producttype/index.blade.php
 
-                            <div class="form-group col-md-1">
-                                <label>&nbsp;</label>
-                                <button type="button" class="btn btn-outline-secondary btn-block formactionbutton"
-                                    onclick="location.href='{{ url()->current() }}'"><i class="fa-solid fa-rotate"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+            <form name="frm-2{{ $obj_info['name'] }}" id="frm-2{{ $obj_info['name'] }}" method="POST"
+                action="{{ $route['submit'] }}" enctype="multipart/form-data">
+                {{-- please dont delete these default Field --}}
+                @CSRF
+                <input type="hidden" name="{{ $fprimarykey }}" id="{{ $fprimarykey }}"
+                    value="{{ $input[$fprimarykey] ?? '' }}">
+                <input type="hidden" name="jscallback" value="{{ $jscallback ?? (request()->get('jscallback') ?? '') }}">
+
+
+                <div class="card-body table-responsive p-0 mg-t-20">
+                    <table class="table  table-striped table-hover text-nowrap table-bordered">
+                        @if (isset($istrash) && $istrash)
+                            <thead style="color: var(--warning)">
+                            @else
+                                <thead style="color: var(--info)">
+                        @endif
+                        <tr>
+                            <th style="width: 10px">@lang('table.id')</th>
+                            <th>@lang('table.name')</th>
+                            <th>@lang('table.create_date')</th>
+                            <th>@lang('table.create_by')</th>
+                            <th style="width: 40px;">@lang('table.status')</th>
+                            <th style="width: 40px; text-align: center"><i class="fa fa-ellipsis-h"></i></th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($results as $producttypes)
+                                <tr>
+                                    <td>{{ $producttypes->producttype_id }}</td>
+                                    <td>{{ $producttypes['text'] }}</td>
+                                    <td style="width: 10%">{{ $producttypes->create_date }}</td>
+                                    <td style="width: 10%">{{ $producttypes->username }}</td>
+                                    <td style="width: 20px">
+                                        @if ($producttypes->status == 'yes')
+                                        <span class="badge bg-dark">
+                                            @lang('table.enable')
+                                        @else
+                                            <span class="badge bg-danger">
+                                                @lang('table.disable')
+                                        @endif
+                                            </span>
+                                    </td>
+                                    <td>
+                                        @include('app._include.btn_record', [
+                                            'rowid' => $producttypes->producttype_id,
+                                            'edit' => true,
+                                            'trash' => true,
+                                            'disable' => $producttypes->status == 'no' ? false : true,
+                                            'enable' => $producttypes->status == 'yes' ? false : true,
+                                        ])
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    <!-- Pagination and Record info -->
+                    @include('app._include.pagination')
+                    <!-- /. end -->
+
                 </div>
+            </form>
+        </div>
+    @endsection
+=======
+    </section>
+    {{-- end header --}}
+    <div class="container-fluid">
+        <div class="card-header mg-t-20">
+            <form class="frmsearch-{{ $obj_info['name'] }}">
+                <div class="form-row" style="font-size: 11px">
+                    <div class="form-group col-md-2">
+                        <label for="txt">@lang('dev.search')</label>
+                        <input type="text" class="form-control input-sm" name="txtcategorie" id="txt"
+                            value="{{ request()->get('txtcategorie') ?? '' }}">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="year">@lang('table.status')</label>
+                        <select class="form-control input-sm" name="status" id="status">
+                            <option value="">-- {{ __('table.status') }} --</option>
+                            {!! cmb_listing(['yes' => __('table.enable'), 'no' => __('table.disable')], [request()->get('status') ?? ''], '', '', '') !!}
+                        </select>
+                    </div>
+                    <div class="form-group col-md-1">
+                        <label>&nbsp;</label>
+                        <button type="submit" value="filter"
+                            class="btn btn-outline-secondary btn-block formactionbutton"><i
+                                class="fa fa-search"></i></button>
+                    </div>
+                   
+                    <div class="form-group col-md-1">
+                        <label>&nbsp;</label>
+                        <button type="button"
+                            class="btn btn-outline-secondary btn-block formactionbutton"
+                            onclick="location.href='{{ url()->current() }}'"><i class="fa-solid fa-rotate"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
 
-                <form name="frm-2{{ $obj_info['name'] }}" id="frm-2{{ $obj_info['name'] }}" method="POST"
-                    action="{{ $route['submit'] }}" enctype="multipart/form-data">
-                    {{-- please dont delete these default Field --}}
-                    @CSRF
-                    <input type="hidden" name="{{ $fprimarykey }}" id="{{ $fprimarykey }}"
-                        value="{{ $input[$fprimarykey] ?? '' }}">
-                    <input type="hidden" name="jscallback" value="{{ $jscallback ?? (request()->get('jscallback') ?? '') }}">
+        <form name="frm-2{{ $obj_info['name'] }}" id="frm-2{{ $obj_info['name'] }}" method="POST"
+            action="{{ $route['submit'] }}" enctype="multipart/form-data">
+            {{-- please dont delete these default Field --}}
+            @CSRF
+            <input type="hidden" name="{{ $fprimarykey }}" id="{{ $fprimarykey }}"
+                value="{{ $input[$fprimarykey] ?? '' }}">
+            <input type="hidden" name="jscallback" value="{{ $jscallback ?? (request()->get('jscallback') ?? '') }}">
 
 
-                    <div class="card-body table-responsive p-0 mg-t-20">
-                        <table class="table  table-striped table-hover text-nowrap table-bordered">
-                            @if (isset($istrash) && $istrash)
+            <div class="card-body table-responsive p-0 mg-t-20">
+                <table class="table  table-striped table-hover text-nowrap table-bordered">
+                    @if (isset($istrash) && $istrash)
                                 <thead style="color: var(--warning)">
                                 @else
                                     <thead style="color: var(--info)">
@@ -254,40 +316,49 @@
                                 <th style="width: 10px">@lang('table.id')</th>
                                 <th>@lang('table.name')</th>
                                 <th>@lang('table.create_date')</th>
-                                <th>@lang('table.update_date')</th>
+                               <th>@lang('table.update_date')</th>
                                 <th>@lang('table.crate_by')</th>
                                 <th style="width: 40px;">@lang('table.status')</th>
                                 <th style="width: 40px; text-align: center"><i class="fa fa-ellipsis-h"></i></th>
 
                             </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($results as $categories)
-                                    <tr>
-                                        <td>{{ $categories->categorie_id }}</td>
-                                        <td>{{ $categories['text'] }}</td>
-                                        <td style="width: 10%">{{ $categories->create_date }}</td>
-                                        <td style="width: 10%">{{ $categories->update_date }}</td>
-                                        <td style="width: 10%">{{ $categories->username }}</td>
-                                        <td style="width: 20px">
-                                            @if ($categories->status == 'yes')
-                                                <span class="badge bg-success" style="width: 100%">
-                                                    @lang('table.enable')
-                                                @else
-                                                    <span class="badge bg-danger"style="width: 100%">
-                                                        @lang('disable')
-                                            @endif
-                                            </span>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        <!-- Pagination and Record info -->
-                        @include('app._include.pagination')
-                        <!-- /. end -->
-
-                    </div>
-                </form>
+                        </thead>
+                        <tbody>
+                            @foreach ($results as $typeproduct)
+                                <tr>
+                                    <td>{{ $typeproduct->producttype_id }}</td>
+                                    <td>{{ $typeproduct['text'] }}</td>
+                                    <td style="width: 10%">{{ $typeproduct->create_date }}</td>
+                                    <td style="width: 10%">{{ $typeproduct->update_date }}</td>
+                                    <td style="width: 10%">{{ $typeproduct->username }}</td>
+                                    <td style="width: 20px">
+                                        @if ($typeproduct->status == 'yes')
+                                        <span class="badge bg-success" style="width: 100%">
+                                            @lang('table.enable')
+                                        @else
+                                            <span class="badge bg-danger"style="width: 100%">
+                                                @lang('disable')
+                                    @endif
+                                    </span>
+                                    </td>
+                                    <td> 
+                                    @include('app._include.btn_record', [
+                                        'rowid' => $typeproduct->producttype_id,
+                                        'edit' => true,
+                                        'trash' => true,
+                                        'delete' => true,
+                                    ])
+                                </td>
+                                </tr>
+                            @endforeach
+                    </tbody>
+                </table>
+     <!-- Pagination and Record info -->
+     @include('app._include.pagination')
+                <!-- /. end -->
+    
             </div>
-        @endsection
+        </form>
+    </div>
+@endsection
+>>>>>>> 4165a76a9e052f33eacd0d67d5908117c9a4a6f6:resources/views/app/typeproduct/index.blade.php

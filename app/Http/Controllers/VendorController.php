@@ -119,6 +119,7 @@ class VendorController extends Controller
 
             )->whereRaw('tblvendors.trash <> "yes"');
     } /*../function..*/
+<<<<<<< HEAD
     public function listingtrash()
     {
         #DEFIND MODEL#
@@ -130,6 +131,19 @@ class VendorController extends Controller
 
             )->whereRaw('tblvendors.trash <> "no"');
     } /*../function..*/
+=======
+    // public function listingtrash()
+    // {
+    //     #DEFIND MODEL#
+    //     return $this->model
+    //         ->leftJoin('users', 'users.id', 'tblvendors.blongto')
+    //         ->select(
+    //             \DB::raw($this->fprimarykey . ",JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text,tblvendors.create_date,
+    //             tblvendors.image_url,tblvendors.type,tblvendors.update_date,tblvendors.status,users.name As username"),
+
+    //         )->whereRaw('tblvendors.trash <> "no"');
+    // } /*../function..*/
+>>>>>>> testing
     //JSON_UNQUOTE(JSON_EXTRACT(title, '$.".$this->dflang[0]."'))
     public function sfp($request, $results)
     {
@@ -156,9 +170,9 @@ class VendorController extends Controller
 
         if ($request->has('status') && !empty($request->input('status'))) {
             $qry = $request->input('status');
-            $results = $results->where("userstatus", $qry);
-            array_push($querystr, 'userstatus=' . $qry);
-            $appends = array_merge($appends, ['userstatus' => $qry]);
+            $results = $results->where("tblvendors.status", $qry);
+            array_push($querystr, 'tblvendors.status=' . $qry);
+            $appends = array_merge($appends, ['tblvendors.status' => $qry]);
         }
         if ($request->has('type') && !empty($request->input('type'))) {
             $qry = $request->input('type');
@@ -321,7 +335,7 @@ class VendorController extends Controller
         // $rules['img'] = ['required'];
         $validatorMessages = [
             /*'required' => 'The :attribute field can not be blank.'*/
-            'required' => "field can't be blank",
+            'required' => __('ccms.fieldreqire'),
         ];
 
         return Validator::make($request->all(), $rules, $validatorMessages);
@@ -395,7 +409,7 @@ class VendorController extends Controller
                 'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route, 'new' => $new],
                 'form' => ['save_type' => 'save'],
                 'fprimarykey'     => $this->fprimarykey,
-                'caption' => 'New',
+                'caption' => __('dev.new'),
                 'isupdate' => false,
                 // 'img_check' => true,
 

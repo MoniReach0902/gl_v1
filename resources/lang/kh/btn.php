@@ -7,6 +7,7 @@
         "btn_restore"=>"ទៅដូចដើមវិញ",
         "btn_trash"=>"លុប",
         "btn_edit"=>"កែប្រែ",
-
+        "btn_enable"=>"បើក",
+        "btn_disable"=>"បិទ",
 
 ];

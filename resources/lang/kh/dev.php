@@ -1,6 +1,7 @@
 <?php
 
 return [
+    "field_cant_be_blank" => "មិនអាចទទេបានទេ",
     "name_kh_eng" => "ឈ្មោះ ខ្មែរ និងអង់គ្លេស",
     "lang_en" => "អង់គ្លេស",
     "lang_kh" => "ខ្មែរ",
@@ -15,8 +16,8 @@ return [
     "go" => "ទៅ",
     "of" => "នៃ",
     "record" => "ទិន្នន័យ",
-    "enable" => "មាន",
-    "disable" => "មិនមាន",
+    "enable" => "បើក",
+    "disable" => "បិទ",
     "type" => "ប្រភេទ",
     "profile" => "ពត៍មានផ្ទាល់ខ្លួន",
     "logout" => "ចាកចេញ",
@@ -72,7 +73,21 @@ return [
     "terms_Condition" => "លក្ខខណ្ឌ",
     "policy_privacy" => "គោលការណ៍​ភាព​ឯកជន",
 
-    "active" => "ដំណើរការ",
+    "product_color" => "ពណ៍នៃផលិតផល",
+    "new_product_color" => "ពណ៍នៃផលិតផលថ្មី",
+    "all_product_color" => "ពណ៍នៃផលិតផលទាំងអស់",
+    "color" => "ពណ៍",
+
+    "active" => "សកម្មភាព",
+
+
+    "lang_kh" => "ខ្មែរ",
+    "lang_en" => "អងគ្លេស​",
+
+    "product_type" => "ប្រភេទ​ផលិតផល",
+    "all_product_type" => "ទាំងអស់ប្រភេទ​ផលិតផល",
+    "new_product_type" => "បង្កើតថ្មីប្រភេទ​ផលិតផល",
+
 
 
 
