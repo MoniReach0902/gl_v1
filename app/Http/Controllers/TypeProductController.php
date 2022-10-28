@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\TypeProduct;
+use App\Models\Categorie;
 use App\Models\Example;
 use Illuminate\Http\Request;
 use Validator;
@@ -14,14 +14,14 @@ use App\Models\UserPermission;
 use App\Models\Location;
 use App\Models\Room;
 use App\Models\Slider;
-use App\Models\Vendor;
+use App\Models\TypeProduct;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class TypeProductController extends Controller
 {
     //
-    private $obj_info = ['name' => 'typeproduct', 'routing' => 'admin.controller', 'title' => 'Tpye Procuct', 'icon' => '<i class="fas fa-industry"></i>'];
+    private $obj_info = ['name' => 'typeproduct', 'routing' => 'admin.controller', 'title' => 'Type Product', 'icon' => '<i class="fa fa-tags"></i>'];
     public $args;
 
     private $model;
@@ -45,7 +45,7 @@ class TypeProductController extends Controller
     {
         //$this->middleware('auth');
         // dd($args['userinfo']);
-        $this->obj_info['title'] =  __('dev.product_color');
+        $this->obj_info['title'] = __('table.category');
 
         $default_protectme = config('me.app.protectme');
         $this->protectme = [
@@ -114,22 +114,11 @@ class TypeProductController extends Controller
         return $this->model
             ->leftJoin('users', 'users.id', 'tblproduct_type.blongto')
             ->select(
-                \DB::raw($this->fprimarykey . ",JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text,tblproduct_type.create_date,
-                tblproduct_type.update_date,tblproduct_type.status,users.name As username"),
+                \DB::raw($this->fprimarykey . ",JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text, tblproduct_type.create_date,
+                tblproduct_type.update_date, tblproduct_type.status,users.name As username"),
 
-            )->whereRaw('tblproduct_type.trash <> "yes"');
+            )->whereRaw(' tblproduct_type.trash <> "yes"');
     } /*../function..*/
-    // public function listingtrash()
-    // {
-    //     #DEFIND MODEL#
-    //     return $this->model
-    //         ->leftJoin('users', 'users.id', 'tblvendors.blongto')
-    //         ->select(
-    //             \DB::raw($this->fprimarykey . ",JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text,tblvendors.create_date,
-    //             tblvendors.image_url,tblvendors.type,tblvendors.update_date,tblvendors.status,users.name As username"),
-
-    //         )->whereRaw('tblvendors.trash <> "no"');
-    // } /*../function..*/
     //JSON_UNQUOTE(JSON_EXTRACT(title, '$.".$this->dflang[0]."'))
     public function sfp($request, $results)
     {
@@ -147,24 +136,16 @@ class TypeProductController extends Controller
         if ($request->has('txttypeproduct') && !empty($request->input('txttypeproduct'))) {
             $qry = $request->input('txttypeproduct');
             $results = $results->where(function ($query) use ($qry) {
-                $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) like '%" . $qry . "%'")
-                    ->orwhereRaw($this->fprimarykey . " like '%" . $qry . "%'");
+                $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) like '%" . $qry . "%'");
             });
             array_push($querystr, "'JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) ='" . $qry);
             $appends = array_merge($appends, ["'JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "'))'" => $qry]);
         }
-
         if ($request->has('status') && !empty($request->input('status'))) {
             $qry = $request->input('status');
             $results = $results->where("userstatus", $qry);
             array_push($querystr, 'userstatus=' . $qry);
             $appends = array_merge($appends, ['userstatus' => $qry]);
-        }
-        if ($request->has('type') && !empty($request->input('type'))) {
-            $qry = $request->input('type');
-            $results = $results->where("type", $qry);
-            array_push($querystr, 'type=' . $qry);
-            $appends = array_merge($appends, ['type' => $qry]);
         }
         // PAGINATION and PERPAGE
         $perpage = null;
@@ -216,10 +197,9 @@ class TypeProductController extends Controller
 
         $default = $this->default();
         $typeproduct = $default['typeproduct'];
-        //dd('aaa');
-        $results = $this->listingmodel();
-        $sfp = $this->sfp($request, $results);
-        // dd($sfp);
+         //dd('aaa');
+         $results = $this->listingmodel();
+         $sfp = $this->sfp($request, $results);
 
 
         $create_modal = url_builder(
@@ -258,58 +238,10 @@ class TypeProductController extends Controller
                 'fprimarykey'     => $this->fprimarykey,
                 'caption' => __('dev.active'),
             ])
-            ->with(['product' => $typeproduct])
-            ->with($sfp)
-            ->with($setting);
-    }
-
-    public function trash(Request $request, $condition = [], $setting = [])
-    {
-
-        $default = $this->default();
-        $typeproduct = $default['typeproduct'];
-        //dd('aaa');
-        $results = $this->listingtrash();
-        $sfp = $this->sfp($request, $results);
-
-
-
-        $create_route = url_builder(
-            $this->obj_info['routing'],
-            [
-                $this->obj_info['name'], 'create', ''
-            ],
-        );
-
-        $trash_route = url_builder(
-            $this->obj_info['routing'],
-            [
-                $this->obj_info['name'], 'trash', ''
-            ],
-        );
-        $index_route = url_builder(
-            $this->obj_info['routing'],
-            [
-                $this->obj_info['name'], 'index', ''
-            ],
-        );
-
-        return view('app.' . $this->obj_info['name'] . '.trash')
-            ->with([
-                'obj_info'  => $this->obj_info,
-                'route' => [
-                    'create'  => $create_route,
-                    'trash' => $trash_route,
-                    // 'index_route' => $index_route,
-
-                ],
-                'fprimarykey'     => $this->fprimarykey,
-                'caption' => __('dev.active'),
-                'istrash' => true,
-            ])
             ->with(['typeproduct' => $typeproduct])
             ->with($sfp)
-            ->with($setting);
+            ->with($setting)
+        ;
     }
 
     public function validator($request, $isupdate = false)
@@ -332,33 +264,19 @@ class TypeProductController extends Controller
         $newid = ($isupdate) ? $request->input($this->fprimarykey)  : $this->model->max($this->fprimarykey) + 1;
         $tableData = [];
         $data = toTranslate($request, 'title', 0, true);
-        // $images = $request->file('images');
-        // $type = $request->input('type');
 
+        $tableData = [
+            'producttype_id' => $newid,
+            'name' => json_encode($data),
+            'create_date' => date("Y-m-d"),
+            'update_date' => "",
+            'blongto' => $this->args['userinfo']['id'],
+            'trash' => 'no',
+            'status' => 'yes',
 
-        
-            $tableData = [
-                'producttype_id' => $newid,
-                'name' => json_encode($data),
-                // 'type' => $type,
-                'create_date' => date("Y-m-d"),
-                'update_date' => "",
-                'blongto' => $this->args['userinfo']['id'],
-                'trash' => 'no',
-                'status' => 'yes',
-            ];
+        ];
         if ($isupdate) {
-
-            $tableData = [
-                'producttype_id' => $newid,
-                'name' => json_encode($data),
-                // 'type' => $type,
-                'update_date' => Carbon::now()->format('d-m-Y'),
-                'blongto' => $this->args['userinfo']['id'],
-                'trash' => 'no',
-                'status' => 'yes',
-            ];
-            $tableData = array_except($tableData, [$this->fprimarykey, 'create_date',  'trash']);
+            $tableData =array_except($tableData, [$this->fprimarykey,'create_date', 'password', 'trash']);
         }
         return ['tableData' => $tableData, $this->fprimarykey => $newid];
     }
@@ -389,10 +307,9 @@ class TypeProductController extends Controller
                 'fprimarykey'     => $this->fprimarykey,
                 'caption' => 'New',
                 'isupdate' => false,
-                // 'img_check' => true,
 
             ]);
-    } /*../function..*/
+    }  /*../function..*/
 
     public function store(Request $request)
     {
@@ -435,7 +352,7 @@ class TypeProductController extends Controller
         $save_status = $this->model->insert($data['tableData']);
         // dd($save_status);
         if ($save_status) {
-            // $request->file('images')->storeAs('colors', $data['tableData']['image_url']);
+            // $request->file('img')->storeAs('slider', $data['tableData']['img']);
             $savetype = strtolower($request->input('savetype'));
             $success_ms = __('ccms.suc_save');
             $callback = 'formreset';
@@ -469,15 +386,15 @@ class TypeProductController extends Controller
     public function edit(Request $request, $id = 0)
     {
 
-        #prepare for back to url after SAVE#
-        if (!$request->session()->has('backurl')) {
+         #prepare for back to url after SAVE#
+         if (!$request->session()->has('backurl')) {
             $request->session()->put('backurl', redirect()->back()->getTargetUrl());
         }
 
         $obj_info = $this->obj_info;
 
         $default = $this->default();
-        //change piseth
+        
         $input = null;
 
         #Retrieve Data#
@@ -493,9 +410,8 @@ class TypeProductController extends Controller
 
         $input = $this->model
             ->where($this->fprimarykey, (int)$editid)
-            //change piseth
+            
             ->get();
-        //dd($input->toSql());
         if ($input->isEmpty()) {
             $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
             return response()
@@ -520,8 +436,8 @@ class TypeProductController extends Controller
 
         $input = $x;
 
-        $name = json_decode($input['name'], true);
-        //dd($name);
+        $name =json_decode($input['name'],true);
+
 
         $sumit_route = url_builder(
             $this->obj_info['routing'],
@@ -529,19 +445,27 @@ class TypeProductController extends Controller
             [],
         );
         $cancel_route = redirect()->back()->getTargetUrl();
-
-        // dd($input);
-        return view('app.' . $this->obj_info['name'] . '.create',) //change piseth
+        $province_id = empty($input['province_id']) ? -1 : $input['province_id'];
+        $districts = [];
+        $where = [['trash', '<>', 'yes'], ['parent_id', '=', $province_id]];
+        $location = Location::getlocation($this->dflang[0], $where)->get();
+        $districts = $location->pluck('title', 'id')->toArray();
+        $district_id = empty($input['district_id']) ? -1 : $input['district_id'];
+        $communes = [];
+        $where = [['trash', '<>', 'yes'], ['parent_id', '=', $district_id]];
+        $location = Location::getlocation($this->dflang[0], $where)->get();
+        $communes = $location->pluck('title', 'id')->toArray();
+        //dd($input);
+        return view('app.' . $this->obj_info['name'] . '.create', ) //change piseth
             ->with([
                 'obj_info'  => $this->obj_info,
                 'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route],
                 'form' => ['save_type' => 'save'],
                 'fprimarykey' => $this->fprimarykey,
-                'caption' => __('btn.btn_edit'),
+                'caption' => 'Edit',
                 'isupdate' => true,
                 'input' => $input,
                 'name' => $name,
-
             ]);
     } /*../end fun..*/
 
@@ -570,7 +494,6 @@ class TypeProductController extends Controller
             }
 
             $data = $this->setinfo($request, true);
-            // dd($data);
             return $this->proceed_update($request, $data, $obj_info);
         } /*end if is post*/
 
@@ -590,11 +513,10 @@ class TypeProductController extends Controller
         // dd($data);
 
         $update_status = $this->model
-            ->where($this->fprimarykey, $data[$this->fprimarykey])
+            ->where($this->fprimarykey, $data['producttype_id'])
             ->update($data['tableData']);
 
         if ($update_status) {
-        
             $savetype = strtolower($request->input('savetype'));
             $id = $data['producttype_id'];
             $rout_to = save_type_route($savetype, $obj_info, $id);
@@ -631,45 +553,7 @@ class TypeProductController extends Controller
             );
     }
     /* end function*/
-    public function restore(Request $request, $id = 0)
-    {
-        $obj_info = $this->obj_info;
-        #Retrieve Data#
-        if (empty($id)) {
-            $editid = $this->args['routeinfo']['id'];
-        } else {
-            $editid = $id;
-        }
 
-        //$routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
-        $trash = $this->model->where('producttype_id', $editid)->update(["trash" => "no"]);
-
-        if ($trash) {
-            return response()
-                ->json(
-                    [
-                        "type" => "url",
-                        "status" => true,
-                        'route' => ['url' => redirect()->back()->getTargetUrl()],
-                        "message" => __('dev.success'),
-
-                        "data" => []
-                    ],
-                    200
-                );
-        }
-        return response()
-            ->json(
-                [
-                    "type" => "error",
-                    'status' => false,
-                    'route' => ['url' => redirect()->back()->getTargetUrl()],
-                    "message" => 'Your update is not affected',
-                    "data" => ['id' => $editid]
-                ],
-                422
-            );
-    }
     public function totrash(Request $request, $id = 0)
     {
         $obj_info = $this->obj_info;
@@ -707,81 +591,5 @@ class TypeProductController extends Controller
                 ],
                 422
             );
-    }
-    public function disable(Request $request, $id = 0)
-    {
-        $obj_info = $this->obj_info;
-        #Retrieve Data#
-        if (empty($id)) {
-            $editid = $this->args['routeinfo']['id'];
-        } else {
-            $editid = $id;
         }
-
-        //$routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
-        $trash = $this->model->where('producttype_id', $editid)->update(["status" => "no"]);
-
-        if ($trash) {
-            return response()
-                ->json(
-                    [
-                        "type" => "url",
-                        'status' => true,
-                        'route' => ['url' => redirect()->back()->getTargetUrl()],
-                        "message" => __('ccms.suc_delete'),
-                        "data" => ['producttype_id' => $editid]
-                    ],
-                    200
-                );
-        }
-        return response()
-            ->json(
-                [
-                    "type" => "error",
-                    'status' => false,
-                    'route' => ['url' => redirect()->back()->getTargetUrl()],
-                    "message" => 'Your update is not affected',
-                    "data" => ['id' => $editid]
-                ],
-                422
-            );
-    }
-    public function enable(Request $request, $id = 0)
-    {
-        $obj_info = $this->obj_info;
-        #Retrieve Data#
-        if (empty($id)) {
-            $editid = $this->args['routeinfo']['id'];
-        } else {
-            $editid = $id;
-        }
-
-        //$routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
-        $trash = $this->model->where('producttype_id', $editid)->update(["status" => "yes"]);
-
-        if ($trash) {
-            return response()
-                ->json(
-                    [
-                        "type" => "url",
-                        'status' => true,
-                        'route' => ['url' => redirect()->back()->getTargetUrl()],
-                        "message" => __('ccms.suc_delete'),
-                        "data" => ['producttype_id' => $editid]
-                    ],
-                    200
-                );
-        }
-        return response()
-            ->json(
-                [
-                    "type" => "error",
-                    'status' => false,
-                    'route' => ['url' => redirect()->back()->getTargetUrl()],
-                    "message" => 'Your update is not affected',
-                    "data" => ['id' => $editid]
-                ],
-                422
-            );
-    }
 }

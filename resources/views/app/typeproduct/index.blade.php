@@ -156,8 +156,8 @@
                 <div class="form-row" style="font-size: 11px">
                     <div class="form-group col-md-2">
                         <label for="txt">@lang('dev.search')</label>
-                        <input type="text" class="form-control input-sm" name="txtcategorie" id="txt"
-                            value="{{ request()->get('txtcategorie') ?? '' }}">
+                        <input type="text" class="form-control input-sm" name="txttypeproduct" id="txt"
+                            value="{{ request()->get('txttypeproduct') ?? '' }}">
                     </div>
                     <div class="form-group col-md-2">
                         <label for="year">@lang('table.status')</label>
@@ -205,7 +205,7 @@
                                 <th>@lang('table.name')</th>
                                 <th>@lang('table.create_date')</th>
                                <th>@lang('table.update_date')</th>
-                                <th>@lang('table.crate_by')</th>
+                                <th>@lang('table.create_by')</th>
                                 <th style="width: 40px;">@lang('table.status')</th>
                                 <th style="width: 40px; text-align: center"><i class="fa fa-ellipsis-h"></i></th>
 

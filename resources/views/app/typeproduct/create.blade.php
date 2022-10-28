@@ -144,52 +144,15 @@
                     </div>
                     <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
                 </div>
-
-                <div class="form-group create_img">
-                    <label for=""><b>@lang('table.image')</b></label>
-                    <div class="input-group my-group" style="width:100%;">
-                        <input type="file" class="dropify" data-height="400"
-                            accept="image/png, image/jpeg,image/PNG, image/JPEG,image/jpg,image/JPG" name="images"
-                            value="" />
-                        <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error" class="error invalid-feedback"
-                            style="display: none"></span>
-                    </div>
-
-                    <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
+                <div class="form-group">
+                    <label class="custom-switch ps-0">
+                            <span class="custom-switch-description  tx-17 me-2">Radio Buttons</span>
+                            <input type="radio" name="custom-switch-radio" class="custom-switch-input">
+                            <span class="custom-switch-indicator custom-switch-indicator-lg"></span>
+                        </label>
                 </div>
-                @if (isset($input))
-                    <div class="input-group my-group update_img" style="width:100%;">
-                        <div class="dropify-wrapper has-preview" style="height: 411.988px;">
-                            <div class="dropify-message"><span class="file-icon">
-                                </span>
-                                <p class="dropify-error">Ooops, something wrong appended.</p>
-                            </div>
-                            <div class="dropify-loader" style="display: none;"></div>
-                            <div class="dropify-errors-container">
-                                <ul></ul>
-                            </div><input type="file" class="dropify" data-height="400"
-                                accept="image/png, image/jpeg,image/PNG, image/JPEG,image/jpg,image/JPG" name=""
-                                value="" data-date="3331-09-10T00:00:00+07:00"><button type="button" id="remove"
-                                class="dropify-clear remove_img">Remove</button>
-                            <div class="dropify-preview" style="display: block;"><span class="dropify-render"><img
-                                        src="{{ asset('storage/app/colors/' . $input['image_url'] ?? '') }}"
-                                        style="max-height: 400px;"></span>
-                                <div class="dropify-infos">
-                                    <div class="dropify-infos-inner">
-                                        <p class="dropify-filename"><span
-                                                class="dropify-filename-inner">333109105.jpg</span>
-                                        </p>
-                                        <p class="dropify-infos-message">Drag and drop or click to replace</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <span id="title-en-error" class="error invalid-feedback" style="display: none"></span>
-                    </div>
-                    <input type="hidden" name="old_image" value="{{ $input['image_url'] ?? '' }}">
-                @endif
-
+               
             </div>
             <!-- /.card-body -->
 

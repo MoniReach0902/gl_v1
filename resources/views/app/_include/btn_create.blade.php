@@ -1,5 +1,5 @@
 @if (isset($save) && $save)
-    <button type="button" class="btnsave_{{ $obj_info['name'] }} formactionbutton btn btn btn-success mx-2 button-icon"
+    <button type="button" class="btnsave_{{ $obj_info['name'] }} formactionbutton btn btn-outline-primary  mx-2 button-icon"
         data-savetype="save">
         <i class="fe fe-save me-2"></i>@lang('btn.btn_save')</button>
 @endif
@@ -29,7 +29,7 @@
 @endif
 
 @if (isset($cancel) && $cancel)
-    <button type="button" class="btncancel_{{ $obj_info['name'] }} formactionbutton btn btn btn-success button-icon">
+    <button type="button" class="btncancel_{{ $obj_info['name'] }} formactionbutton btn btn-outline-secondary  button-icon">
         <i class="fe fe-arrow-left me-2"></i>@lang('btn.btn_back')
     </button>
 @endif
