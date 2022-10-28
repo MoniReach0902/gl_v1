@@ -1,6 +1,6 @@
 @php
     $extends = 'app';
-    $action_btn = ['save' => true, 'print' => false, 'cancel' => false, 'new' => true];
+    $action_btn = ['save' => true, 'print' => false, 'cancel' => true, 'new' => true];
     foreach (config('me.app.project_lang') as $lang) {
         $langcode[] = $lang[0];
     }
@@ -28,6 +28,16 @@
 
                 ///
             });
+
+            let hide = "{{ $isupdate ?? '' }}"
+            if (hide) {
+                $('.create_img').hide();
+
+            } else {
+                $('.update_img').hide();
+            }
+
+
             let route_submit = "{{ $route['submit'] }}";
             let route_cancel = "{{ $route['cancel'] ?? '' }}";
             let route_print = "{{ $route['print'] ?? '' }}";
@@ -72,9 +82,10 @@
                 window.open(
                     route_print);
             });
-
-
-
+            $('#remove').on('click', function(e) {
+                $('.update_img').hide();
+                $('.create_img').show();
+            });
 
         });
     </script>
@@ -115,13 +126,14 @@
             <br>
 
             <div class="card-body">
+
                 <div class="form-group">
                     <label for=""><b>@lang('dev.name_kh_eng')</b></label>
                     <div class="input-group my-group" style="width:100%;">
 
                         <select class="form-control form-select input-sm tab_title" style="width:10%;">
                             @foreach (config('me.app.project_lang') as $lang)
-                                <option value="@lang($lang[0])" style="padding: 10px">@lang($lang[1])</option>
+                                <option value="@lang($lang[0])">@lang('dev.lang_' . $lang[0])</option>
                             @endforeach
 
                         </select>
@@ -135,7 +147,7 @@
                             @endphp
                             <input type="text" class="form-control input-sm {{ $active }}" style="width:80%;"
                                 name="title-{{ $lang[0] }}" id="title-{{ $lang[0] }}"
-                                placeholder="{{ $lang[1] }}" value="{{ $name[$lang[0]] ?? '' }}">
+                                placeholder="@lang('dev.lang_' . $lang[0])" value="{{ $name[$lang[0]] ?? '' }}">
                             @php
                                 $active = 'hide';
                             @endphp
@@ -145,6 +157,8 @@
                     </div>
                     <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
                 </div>
+
+
             </div>
             <!-- /.card-body -->
 

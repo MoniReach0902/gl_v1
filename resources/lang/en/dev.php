@@ -1,6 +1,7 @@
 <?php
 
 return [
+<<<<<<< HEAD
     "name_kh_eng" => "Name English & Khmer",
     "lang_en" => "English",
     "lang_kh" => "Khmer",
@@ -28,6 +29,36 @@ return [
     "total_equipment" => "Total Equipment",
     "total_customer" => "Total Customer",
     "people" => "People",
+=======
+    "field_cant_be_blank"=>"field can't be blank",
+    "name_kh_eng"=>"Name English & Khmer",
+    "lang_en"=>"English",
+    "lang_kh"=>"Khmer",
+    "kh"=>"Khmer",
+    "Eng"=>"English",
+    "new"=>"New",
+    "search"=>"Search",
+    "year"=>"Year",
+    "status"=>"Status",
+    "non_select"=>"Not selected",
+    "display"=>"Display",
+    "go"=>"Go",
+    "of"=>"Of",
+    "record"=>"Records",
+    "enable"=>"Enable",
+    "disable"=>"Disable",
+    "type"=>"Type",
+    "profile"=>"Profile",
+    "logout"=>"Logout",
+    "order_today"=>"Order Today",
+        "time"=>"Time",
+        "yesterday"=>"Yesterday",
+    "total_product"=>"Total Product",
+        "not_use"=>"Not Use",
+    "total_equipment"=>"Total Equipment",
+    "total_customer"=>"Total Customer",
+        "people"=>"People",
+>>>>>>> piseth
 
     "dashboard" => "Dashboard",
     "news_events" => "News & Events",

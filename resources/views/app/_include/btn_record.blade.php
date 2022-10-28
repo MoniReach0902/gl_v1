@@ -15,6 +15,20 @@ aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i>
                     class="fa fa-edit me-2" style="color: var(--bs-cyan)"></i> @lang('btn.btn_edit')</a>
         </li>
     @endif
+    @if (isset($disable) && $disable)
+        <li>
+            <a class="dropdown-item"
+                href="{{ url_builder($obj_info['routing'], [$obj_info['name'], 'disable', $rowid], []) }}"><i
+                    class="far fa-stop-circle me-2" style="color: var(--bs-red)"></i> @lang('btn.btn_disable')</a>
+        </li>
+    @endif
+    @if (isset($enable) && $enable)
+        <li>
+            <a class="dropdown-item"
+                href="{{ url_builder($obj_info['routing'], [$obj_info['name'], 'enable', $rowid], []) }}"><i
+                    class="far fa-play-circle me-2" style="color: var(--bs-dark)"></i> @lang('btn.btn_enable')</a>
+        </li>
+    @endif
 
 
     @if (isset($istrash) && $istrash)
@@ -47,13 +61,13 @@ aria-haspopup="true" aria-expanded="false"><i class="fa fa-bars"></i>
         @if (isset($trash) && $trash)
             <li>
                 <a class="dropdown-item delete"
-                        href="{{ url_builder($obj_info['routing'], [$obj_info['name'], 'totrash', $rowid], []) }}"><i
+                    href="{{ url_builder($obj_info['routing'], [$obj_info['name'], 'totrash', $rowid], []) }}"><i
                         class="fe fe-trash me-2" style="color: var(--bs-yellow)"></i>@lang('btn.btn_trash')</a>
                 <!--<a class="dropdown-item"
-                   // {{--href="{{ url_builder($obj_info['routing'], [$obj_info['name'], 'totrash', $rowid], []) }}">--}}
+                   // {{-- href="{{ url_builder($obj_info['routing'], [$obj_info['name'], 'totrash', $rowid], []) }}"> --}}
 
                     <i class="fa fa-trash me-2" style="color: var(--bs-yellow)"></i>
-                    {{--@lang('dev.trash')--}}
+                    {{-- @lang('dev.trash') --}}
 
                 </a>-->
             </li>

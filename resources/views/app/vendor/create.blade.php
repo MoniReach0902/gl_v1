@@ -108,6 +108,7 @@
                 </div>
                 <div class="pd-10 ">
                     @include('app._include.btn_create', $action_btn)
+
                 </div>
 
             </div>
@@ -134,7 +135,7 @@
 
                                 <select class="form-control form-select input-sm tab_title" style="width:10%;">
                                     @foreach (config('me.app.project_lang') as $lang)
-                                        <option value="@lang($lang[0])">@lang($lang[1])</option>
+                                        <option value="@lang($lang[0])">@lang('dev.lang_' . $lang[0])</option>
                                     @endforeach
 
                                 </select>
@@ -148,7 +149,7 @@
                                     @endphp
                                     <input type="text" class="form-control input-sm {{ $active }}"
                                         style="width:80%;" name="title-{{ $lang[0] }}" id="title-{{ $lang[0] }}"
-                                        placeholder="{{ $lang[1] }}" value="{{ $name[$lang[0]] ?? '' }}">
+                                        placeholder="@lang('dev.lang_' . $lang[0])" value="{{ $name[$lang[0]] ?? '' }}">
                                     @php
                                         $active = 'hide';
                                     @endphp
@@ -161,12 +162,17 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="vendor_id">@lang('dev.permission')</label>
-                            <select class="form-control input-sm" name="vendor_id" id="vendor_id">
-                                <option value="">-- {{ __('dev.noneselected') }}--</option>
-                                {!! cmb_listing(['equipment' => 'equipment', 'shop' => 'shop'], [$input['type'] ?? ''], '', '') !!}
+                            <label for="type">@lang('dev.type')</label>
+                            <select class="form-control input-sm" name="type" id="type">
+
+                                {!! cmb_listing(
+                                    ['equipment' => __('table.equipment'), 'shop' => __('table.product_shop')],
+                                    [$input['type'] ?? ''],
+                                    '',
+                                    '',
+                                ) !!}
                             </select>
-                            <span id="vendor_id-error" class="error invalid-feedback" style="display: none"></span>
+                            <span id="type-error" class="error invalid-feedback" style="display: none"></span>
                         </div>
                     </div>
                 </div>
@@ -196,9 +202,9 @@
                             <div class="dropify-errors-container">
                                 <ul></ul>
                             </div><input type="file" class="dropify" data-height="400"
-                                accept="image/png, image/jpeg,image/PNG, image/JPEG,image/jpg,image/JPG" name="images"
+                                accept="image/png, image/jpeg,image/PNG, image/JPEG,image/jpg,image/JPG" name=""
                                 value="" data-date="3331-09-10T00:00:00+07:00"><button type="button" id="remove"
-                                class="dropify-clear remove_img">Remove</button>
+                                class="dropify-clear remove_img">@lang('table.remove')</button>
                             <div class="dropify-preview" style="display: block;"><span class="dropify-render"><img
                                         src="{{ asset('storage/app/vendor/' . $input['image_url'] ?? '') }}"
                                         style="max-height: 400px;"></span>
@@ -207,7 +213,7 @@
                                         <p class="dropify-filename"><span
                                                 class="dropify-filename-inner">333109105.jpg</span>
                                         </p>
-                                        <p class="dropify-infos-message">Drag and drop or click to replace</p>
+                                        <p class="dropify-infos-message">@lang('table.drag_and_drop_click_replace')</p>
                                     </div>
                                 </div>
                             </div>
@@ -215,6 +221,7 @@
 
                         <span id="title-en-error" class="error invalid-feedback" style="display: none"></span>
                     </div>
+                    <input type="hidden" name="old_image" value="{{ $input['image_url'] ?? '' }}">
                 @endif
 
             </div>

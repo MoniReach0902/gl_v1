@@ -7,4 +7,6 @@
         "btn_apply"=>"Apply",
         "btn_restore"=>"Restore",
         "btn_trash"=>"Trash",
+        "btn_enable"=>"Enable",
+        "btn_disable"=>"Disable",
     ];
