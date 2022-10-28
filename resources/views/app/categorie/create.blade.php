@@ -1,9 +1,9 @@
 @php
-$extends = 'app';
-$action_btn = ['save' => true, 'print' => false, 'cancel' => false, 'new' => true];
-foreach (config('me.app.project_lang') as $lang) {
-    $langcode[] = $lang[0];
-}
+    $extends = 'app';
+    $action_btn = ['save' => true, 'print' => false, 'cancel' => true, 'new' => true];
+    foreach (config('me.app.project_lang') as $lang) {
+        $langcode[] = $lang[0];
+    }
 @endphp
 @if (is_axios())
     @php
@@ -28,6 +28,16 @@ foreach (config('me.app.project_lang') as $lang) {
 
                 ///
             });
+
+            let hide = "{{ $isupdate ?? '' }}"
+            if (hide) {
+                $('.create_img').hide();
+
+            } else {
+                $('.update_img').hide();
+            }
+
+
             let route_submit = "{{ $route['submit'] }}";
             let route_cancel = "{{ $route['cancel'] ?? '' }}";
             let route_print = "{{ $route['print'] ?? '' }}";
@@ -72,9 +82,10 @@ foreach (config('me.app.project_lang') as $lang) {
                 window.open(
                     route_print);
             });
-
-
-
+            $('#remove').on('click', function(e) {
+                $('.update_img').hide();
+                $('.create_img').show();
+            });
 
         });
     </script>
@@ -114,42 +125,45 @@ foreach (config('me.app.project_lang') as $lang) {
             <input type="hidden" name="jscallback" value="{{ $jscallback ?? (request()->get('jscallback') ?? '') }}">
             <br>
 
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <label for=""><b>Name English & Khmer</b></label>
-                                    <div class="input-group my-group" style="width:100%;">
+            <div class="card-body">
+                
+                <div class="form-group">
+                    <label for=""><b>@lang('dev.name_kh_eng')</b></label>
+                    <div class="input-group my-group" style="width:100%;">
 
-                                        <select class="form-control form-select input-sm tab_title" style="width:10%;">
-                                            @foreach (config('me.app.project_lang') as $lang)
-                                                <option value="@lang($lang[0])">@lang($lang[1])</option>
-                                            @endforeach
-            
-                                        </select>
-                                        @php
-                                            $active = '';
-                                        @endphp
-                                        @foreach (config('me.app.project_lang') as $lang)
-                                            @php
-                                                // dd($lang);
-                                                $title = json_decode($input['title'] ?? '', true);
-                                            @endphp
-                                            <input type="text" class="form-control input-sm {{ $active }}" style="width:80%;"
-                                                name="title-{{ $lang[0] }}" id="title-{{ $lang[0] }}"
-                                                placeholder="{{ $lang[1] }}" value="{{ $name[$lang[0]] ?? '' }}">
-                                            @php
-                                                $active = 'hide';
-                                            @endphp
-                                        @endforeach
-                                        <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error"
-                                            class="error invalid-feedback" style="display: none"></span>
-                                    </div>
-                                    <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
-                                </div>
-                            </div>
-                            <!-- /.card-body -->
-                        
+                        <select class="form-control form-select input-sm tab_title" style="width:10%;">
+                            @foreach (config('me.app.project_lang') as $lang)
+                                <option value="@lang($lang[0])">@lang('dev.lang_' . $lang[0])</option>
+                            @endforeach
+
+                        </select>
+                        @php
+                            $active = '';
+                        @endphp
+                        @foreach (config('me.app.project_lang') as $lang)
+                            @php
+                                // dd($lang);
+                                $title = json_decode($input['title'] ?? '', true);
+                            @endphp
+                            <input type="text" class="form-control input-sm {{ $active }}" style="width:80%;"
+                                name="title-{{ $lang[0] }}" id="title-{{ $lang[0] }}"
+                                placeholder="@lang('dev.lang_' . $lang[0])" value="{{ $name[$lang[0]] ?? '' }}">
+                            @php
+                                $active = 'hide';
+                            @endphp
+                        @endforeach
+                        <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error"
+                            class="error invalid-feedback" style="display: none"></span>
+                    </div>
+                    <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
+                </div>
+
+
+            </div>
+            <!-- /.card-body -->
+
             {{--  --}}
-   
-    </form>
+
+        </form>
     </div>
 @endsection

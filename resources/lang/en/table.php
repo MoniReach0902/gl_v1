@@ -21,4 +21,7 @@
         "password"=>"Password",
         "comfirm_password"=>"Comfirm Password",
         "rule"=>"Rule",
+        "address"=>"Address",
+        "drag_and_drop_click_replace"=>" Drag and drop or click to replace",
+        "remove"=>"Remove",
     ];

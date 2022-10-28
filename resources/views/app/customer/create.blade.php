@@ -83,7 +83,7 @@ foreach (config('me.app.project_lang') as $lang) {
     {{-- Header --}}
     <section class="content-header bg-light d-flex ct-bar-action ct-bar-action-shaddow">
         <div class="container-fluid">
-            <div class="d-flex pd-10 border br-5">
+            <div class="d-flex  border br-5">
                 <div class="flex-grow-1">
                     <h5 class="mb-2 mg-t-20 mg-l-20">
                         {!! $obj_info['icon'] !!}
@@ -121,7 +121,7 @@ foreach (config('me.app.project_lang') as $lang) {
 
                                         <select class="form-control form-select input-sm tab_title" style="width:10%;">
                                             @foreach (config('me.app.project_lang') as $lang)
-                                                <option value="@lang($lang[0])">@lang('dev.lang_' . $lang[0])</option>
+                                                <option value="@lang($lang[0])">@lang($lang[1])</option>
                                             @endforeach
             
                                         </select>
@@ -135,7 +135,7 @@ foreach (config('me.app.project_lang') as $lang) {
                                             @endphp
                                             <input type="text" class="form-control input-sm {{ $active }}" style="width:80%;"
                                                 name="title-{{ $lang[0] }}" id="title-{{ $lang[0] }}"
-                                                placeholder="@lang('dev.lang_' . $lang[0])" value="{{ $name[$lang[0]] ?? '' }}">
+                                                placeholder="{{ $lang[1] }}" value="{{ $name[$lang[0]] ?? '' }}">
                                             @php
                                                 $active = 'hide';
                                             @endphp
@@ -144,6 +144,24 @@ foreach (config('me.app.project_lang') as $lang) {
                                             class="error invalid-feedback" style="display: none"></span>
                                     </div>
                                     <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
+                                </div>
+                                <div style="width: 500px" class="form-group">
+                                    <label for="email"><b>@lang('table.email')</b></label>
+                                    <input type="email" class="form-control" name="email" id="email"
+                                        placeholder="@lang('table.enter') @lang('table.email')" value="{{ $input['email'] ?? '' }}">
+                                    <span id="email-error" class="error invalid-feedback" style="display: none"></span>
+                                </div>
+                                <div style="width: 500px" class="form-group">
+                                    <label for="phone"><b>@lang('table.phone_number')</b></label>
+                                    <input type="tel" class="form-control" name="phone" id="phone"
+                                        placeholder="@lang('table.enter') @lang('table.phone_number')" value="{{ $input['phone_number'] ?? '' }}">
+                                    <span id="phone-error" class="error invalid-feedback" style="display: none"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone"><b>@lang('table.address')</b></label>
+                                    <textarea class="form-control" name="address" id="address" placeholder="@lang('table.enter') @lang('table.address')" 
+                                        cols="30" rows="8">{{ $input['address'] ?? '' }}</textarea>
+                                    <span id="address-error" class="error invalid-feedback" style="display: none"></span>
                                 </div>
                             </div>
                             <!-- /.card-body -->

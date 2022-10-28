@@ -1,6 +1,6 @@
 @if (isset($new) && $new)
-    <button id="btnnew_{{ $obj_info['name'] }}" type="button"
-        class="formactionbutton btn btn btn-success button-icon"><i class="fe fe-plus me-2"></i>@lang('dev.new')</button>
+    <button id="btnnew_{{ $obj_info['name'] }}" type="button" class="formactionbutton btn btn btn-success button-icon"><i
+            class="fe fe-plus me-2"></i>@lang('dev.new')</button>
 @endif
 
 @if (isset($istrash) && $istrash)

@@ -3,8 +3,8 @@
         "categorie"=>"ប្រភេទទំនិញ",
         "create_date"=>"កាលបរិច្ឆេទបង្កើត",
         "update_date"=>"កាលបរិច្ឆេទកែប្រែ",
-        "disable"=>"មិនមាន",
-        "enable"=>"មាន",
+        "disable"=>"បិទ",
+        "enable"=>"បើក",
         "permission"=>"សិទ្ធ",
         "status"=>"ស្ថានភាព",
         "id"=>"ល.រ",
@@ -21,4 +21,7 @@
         "password"=>"ពាក្យសម្ងាត់",
         "comfirm_password"=>"បញ្ជាក់ពាក្យសម្ងាត់",
         "rule"=>"ធ្វើការលើ",
+        "address"=>"អាស័យដ្ឋាន",
+        "drag_and_drop_click_replace"=>"អូស និងទម្លាក់ ឬចុចដើម្បីជំនួស",
+        "remove"=>"ដកចេញ",
     ];

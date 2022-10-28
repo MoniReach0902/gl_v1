@@ -1,6 +1,7 @@
 <?php
 
 return [
+    "field_cant_be_blank"=>"field can't be blank",
     "name_kh_eng"=>"Name English & Khmer",
     "lang_en"=>"English",
     "lang_kh"=>"Khmer",
