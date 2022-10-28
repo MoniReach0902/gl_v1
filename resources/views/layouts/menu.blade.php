@@ -158,6 +158,7 @@
             </li>
         </ul>
     </li>
+    
     <li class="slide {{ nav_checkactive(['typeproduct'], $args, 'is-expanded') }}">
         <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i
             class="fa fa-puzzle-piece"></i>&nbsp;<span class="side-menu__label">@lang('dev.product_type')</span><i
