@@ -10,7 +10,7 @@ use DB;
 class Colors extends Model
 {
     protected $table = 'tblcolors';
-    protected $primaryKey = 'color_id';
+    protected $primaryKey = 'tblcolors';
     public $timestamps = false;
     /*protected $fillable = array(
         'name',

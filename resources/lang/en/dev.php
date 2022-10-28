@@ -24,14 +24,17 @@ return [
     "product_color"=>"Product Color",
     "new_product_color"=>"New Product Color",
     "all_product_color"=>"All Product Color",
+    "color"=>"Color",
 
     "active"=>"Active",
 
     "lang_kh"=>"Khmer",
     "lang_en"=>"English",
     
-    "product_color"=>"Product Color",
-    "color"=>"Color",
+
+    "product_type"=>"Product Type",
+    "all_product_type"=>"All Product Type",
+    "new_product_type"=>"New Product Type",
 
 
 ];

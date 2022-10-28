@@ -7,7 +7,7 @@ use DB;
 
 
 
-class Producttype extends Model
+class TypeProduct extends Model
 {
     protected $table = 'tblproduct_type';
     protected $primaryKey = 'producttype_id';

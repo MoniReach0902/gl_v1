@@ -139,23 +139,7 @@
             </li>
         </ul>
     </li>
-    <li class="slide {{ nav_checkactive(['producttype'], $args, 'is-expanded') }}">
-        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i
-                class="fa fa-puzzle-piece"></i>&nbsp;<span class="side-menu__label">Product Properties</span><i
-                class="angle fe fe-chevron-right"></i></a>
-        <ul class="slide-menu ">
-            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
-            {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
-            <li><a class="slide-item {{ nav_checkactive(['producttype-index'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['producttype']) }}">All Product Properties</a>
-            </li>
-            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
-            {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
-            <li><a class="slide-item {{ nav_checkactive(['producttype-create'], $args) }}"
-                    href="{{ url_builder('admin.controller', ['producttype', 'create']) }}">Add New</a>
-            </li>
-        </ul>
-    </li>
+    
     
     <li class="slide {{ nav_checkactive(['colors'], $args, 'is-expanded') }}">
         <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i
@@ -171,6 +155,23 @@
             {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
             <li><a class="slide-item {{ nav_checkactive(['colors-create'], $args) }}"
                     href="{{ url_builder('admin.controller', ['colors', 'create']) }}">@lang('dev.new_product_color')</a>
+            </li>
+        </ul>
+    </li>
+    <li class="slide {{ nav_checkactive(['typeproduct'], $args, 'is-expanded') }}">
+        <a class="side-menu__item" data-bs-toggle="slide" href="javascript:void(0);"><i
+            class="fa fa-puzzle-piece"></i>&nbsp;<span class="side-menu__label">@lang('dev.product_type')</span><i
+                class="angle fe fe-chevron-right"></i></a>
+        <ul class="slide-menu ">
+            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
+            {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
+            <li><a class="slide-item {{ nav_checkactive(['typeproduct-index'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['typeproduct']) }}">@lang('dev.all_product_type')</a>
+            </li>
+            <li class="side-menu__label1 "><a href="javascript:void(0);"></a></li>
+            {{-- <li><a class="slide-item active" href="index.html">Dashboard-1</a></li> --}}
+            <li><a class="slide-item {{ nav_checkactive(['typeproduct-create'], $args) }}"
+                    href="{{ url_builder('admin.controller', ['typeproduct', 'create']) }}">@lang('dev.new_product_type')</a>
             </li>
         </ul>
     </li>

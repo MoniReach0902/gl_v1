@@ -151,19 +151,19 @@
     </section>
     {{-- end header --}}
     <div class="container-fluid">
-        <div class="card-header">
+        <div class="card-header mg-t-20">
             <form class="frmsearch-{{ $obj_info['name'] }}">
                 <div class="form-row" style="font-size: 11px">
                     <div class="form-group col-md-2">
                         <label for="txt">@lang('dev.search')</label>
-                        <input type="text" class="form-control input-sm" name="txtproduct_type" id="txt"
-                            value="{{ request()->get('txtproduct_type') ?? '' }}">
+                        <input type="text" class="form-control input-sm" name="txtcategorie" id="txt"
+                            value="{{ request()->get('txtcategorie') ?? '' }}">
                     </div>
                     <div class="form-group col-md-2">
-                        <label for="year">@lang('dev.year')</label>
+                        <label for="year">@lang('table.status')</label>
                         <select class="form-control input-sm" name="status" id="status">
-                            <option value="">-- {{ __('dev.noneselected') }} --</option>
-                            {!! cmb_listing(['yes' => 'Enable', 'no' => 'Disable'], [request()->get('status') ?? ''], '', '', '') !!}
+                            <option value="">-- {{ __('table.status') }} --</option>
+                            {!! cmb_listing(['yes' => __('table.enable'), 'no' => __('table.disable')], [request()->get('status') ?? ''], '', '', '') !!}
                         </select>
                     </div>
                     <div class="form-group col-md-1">
@@ -172,11 +172,12 @@
                             class="btn btn-outline-secondary btn-block formactionbutton"><i
                                 class="fa fa-search"></i></button>
                     </div>
+                   
                     <div class="form-group col-md-1">
                         <label>&nbsp;</label>
                         <button type="button"
-                            class="btn btn-outline-light btn-block formactionbutton border border-secondary"
-                            onclick="location.href='{{ url()->current() }}'">reset
+                            class="btn btn-outline-secondary btn-block formactionbutton"
+                            onclick="location.href='{{ url()->current() }}'"><i class="fa-solid fa-rotate"></i>
                         </button>
                     </div>
                 </div>
@@ -200,37 +201,37 @@
                                     <thead style="color: var(--info)">
                             @endif
                             <tr>
-                                <th style="width: 10px">ID</th>
-                                <th>Name</th>
-                                <th>Create date</th>
-                                <th>Update date</th>
-                                <th>Create By</th>
-                                <th style="width: 40px">Status</th>
+                                <th style="width: 10px">@lang('table.id')</th>
+                                <th>@lang('table.name')</th>
+                                <th>@lang('table.create_date')</th>
+                               <th>@lang('table.update_date')</th>
+                                <th>@lang('table.crate_by')</th>
+                                <th style="width: 40px;">@lang('table.status')</th>
                                 <th style="width: 40px; text-align: center"><i class="fa fa-ellipsis-h"></i></th>
 
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($results as $product_types)
+                            @foreach ($results as $typeproduct)
                                 <tr>
-                                    <td>{{ $product_types->producttype_id }}</td>
-                                    <td>{{ $product_types['text'] }}</td>
-                                    <td style="width: 10%">{{ $product_types->create_date }}</td>
-                                    <td style="width: 10%">{{ $product_types->update_date }}</td>
-                                    <td style="width: 10%">{{ $product_types->username }}</td>
-                                    <td style="width: 10%">
-                                        @if ($product_types->status == 'yes')
-                                        <span class="badge bg-dark">
-                                            Enable
+                                    <td>{{ $typeproduct->producttype_id }}</td>
+                                    <td>{{ $typeproduct['text'] }}</td>
+                                    <td style="width: 10%">{{ $typeproduct->create_date }}</td>
+                                    <td style="width: 10%">{{ $typeproduct->update_date }}</td>
+                                    <td style="width: 10%">{{ $typeproduct->username }}</td>
+                                    <td style="width: 20px">
+                                        @if ($typeproduct->status == 'yes')
+                                        <span class="badge bg-success" style="width: 100%">
+                                            @lang('table.enable')
                                         @else
-                                            <span class="badge bg-danger">
-                                                Disable
+                                            <span class="badge bg-danger"style="width: 100%">
+                                                @lang('disable')
                                     @endif
                                     </span>
                                     </td>
                                     <td> 
                                     @include('app._include.btn_record', [
-                                        'rowid' => $product_types->producttype_id,
+                                        'rowid' => $typeproduct->producttype_id,
                                         'edit' => true,
                                         'trash' => true,
                                         'delete' => true,

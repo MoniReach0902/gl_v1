@@ -25,6 +25,7 @@ return [
     "product_color"=>"ពណ៍នៃផលិតផល",
     "new_product_color"=>"ពណ៍នៃផលិតផលថ្មី",
     "all_product_color"=>"ពណ៍នៃផលិតផលទាំងអស់",
+    "color"=>"ពណ៍",
 
     "active"=>"សកម្មភាព",
 
@@ -32,9 +33,11 @@ return [
     "lang_kh"=>"ខ្មែរ",
     "lang_en"=>"អងគ្លេស​",
 
-    "product_color"=>"ព័ណ៍នៃផលិតផល",
-    "color"=>"ពណ៍",
+    "product_type"=>"ប្រភេទ​ផលិតផល",
+    "all_product_type"=>"ទាំងអស់ប្រភេទ​ផលិតផល",
+    "new_product_type"=>"បង្កើតថ្មីប្រភេទ​ផលិតផល",
 
+    
 
 
 ];

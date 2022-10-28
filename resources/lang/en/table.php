@@ -9,6 +9,9 @@
         "permission"=>"Permission",
         "status"=>"Status",
         "id"=>"ID",
-        "crate_by"=>"Crate By",
+        "create_by"=>"Crate By",
         "image"=>"Image",
+        "non_select"=>"Non Select",
+
+        "click_image"=>"Click hear to upload image",
     ];
