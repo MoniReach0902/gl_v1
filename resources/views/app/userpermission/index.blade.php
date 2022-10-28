@@ -1,5 +1,5 @@
 @php
-//dd(request()->session()->all());
+    //dd(request()->session()->all());
 @endphp
 @extends('layouts.app')
 @section('blade_css')
@@ -14,6 +14,7 @@
             @if (null !== session('status') && session('status') == true)
                 helper.successAlert("{{ session('message') }}");
             @endif
+
             $("#btnnew_{{ $obj_info['name'] }}").click(function(e) {
 
                 let route_create = "{{ $route['create'] }}";
@@ -31,8 +32,7 @@
 
 
 
-                //window.location.replace(route_create);
-                //window.location = route_create;
+
 
             });
             $("#btntrash_{{ $obj_info['name'] }}").click(function(e) {
@@ -141,7 +141,7 @@
                         <tbody>
                             @foreach ($results as $row)
                                 <tr>
-                                    <td>{{ $row->permission_id}}</td>
+                                    <td>{{ $row->permission_id }}</td>
                                     <td>{!! $row->title !!}</td>
                                     <td>
                                         {{-- start check lavel setting --}}
