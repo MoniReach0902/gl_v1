@@ -233,15 +233,16 @@
                                     <td>{{ $vendors['text'] }}</td>
                                     <td>{{ $vendors->create_date }}</td>
                                     <td>{{ $vendors->username }}</td>
-                                    <td style="width: 20px">
-                                        @if ($vendors->status == 'yes')
-                                            <span class="badge bg-dark">
-                                                @lang('table.enable')
-                                            @else
-                                                <span class="badge bg-danger">
-                                                    @lang('table.disable')
-                                        @endif
-                                        </span>
+                                    <td>
+                                        <div class="form-group">
+                                            <label class="custom-switch ps-0">
+                                                <span class="custom-switch-description me-2"></span>
+                                                <input type="checkbox" name="custom-switch-checkbox1"
+                                                    class="custom-switch-input"
+                                                    {{ $vendors->status == 'yes' ? 'checked' : '' }}>
+                                                <span class="custom-switch-indicator"></span>
+                                            </label>
+                                        </div>
                                     </td>
                                     <td>
                                         @include('app._include.btn_record', [

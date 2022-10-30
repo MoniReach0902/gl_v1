@@ -1,9 +1,9 @@
 @php
-$extends = 'app';
-$action_btn = ['save' => true, 'print' => false, 'cancel' => true, 'new' => true];
-foreach (config('me.app.project_lang') as $lang) {
-    $langcode[] = $lang[0];
-}
+    $extends = 'app';
+    $action_btn = ['save' => true, 'print' => false, 'cancel' => true, 'new' => true];
+    foreach (config('me.app.project_lang') as $lang) {
+        $langcode[] = $lang[0];
+    }
 @endphp
 @if (is_axios())
     @php
@@ -127,73 +127,74 @@ foreach (config('me.app.project_lang') as $lang) {
             <br>
 
 
-            
 
-                <div class="card">
-                    <div class="card-body">
-                        <div class="pd-20 pd-sm-20">
-                            <div class="row row-xs">
-                                
-                                <div class="col-md-4">
-                                    <label for="name">	Name: </label>
-                                    <input class="form-control" placeholder="Enter name" type="text">
-                                </div>
-                               
-                                <div class="col-md-4 mg-t-10">
-                                    <label for="name">	Location: </label>
-                                    <input class="form-control" placeholder="Enter phone number" type="text">
-                                </div>
-                                <div class="col-md-4 mg-t-10">
-                                    <label for="name">	Serail Number: </label>
-                                    <input class="form-control" placeholder="Enter email" type="text">
-                                </div>
-                                <div class="col-md-4 mg-t-10">
-                                    <label for="name">	Model: </label>
-                                    <input class="form-control" placeholder="Enter address" type="text">
-                                </div>
-                                <div class="col-md-4 mg-t-10">
-                                    <label for="name">	Cost: </label>
-                                    <input class="form-control" placeholder="Enter address" type="text">
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label for="permission_id">Brands ID:</label>
-                                    <select class="form-control input-sm" name="permission_id" id="permission_id">
-                                        <option value="">-- Select --</option>
-                                        <option value="1">Top Admin</option>
-                                        
-                                    </select>
-                                    <span id="permission_id-error" class="error invalid-feedback" style="display: none"></span>
-                                </div>
-                                <div class="form-group col-md-4 ">
-                                    <label for="permission_id">Inventory ID:</label>
-                                    <select class="form-control input-sm" name="permission_id" id="permission_id">
-                                        <option value="">-- Select --</option>
-                                        <option value="1">Top Admin</option>
-                                        
-                                    </select>
-                                    <span id="permission_id-error" class="error invalid-feedback" style="display: none"></span>
-                                </div>
-                                
-                                <div class="col-md-4 ">
-                                    <label for="name"> Warranty Date: </label>
-                                    <input class="form-control" type="date">
-                                </div>
-                                <div class="col-md-12 mg-t-10">
-                                    <label for="name">	Description: </label>
-                                    <textarea class="form-control" name="" id="" cols="30" rows="8"></textarea>
-                                </div>
-                                <div class=" col-md-12 mg-t-10">
-                                    <label class="custom-switch ps-0">
-                                        <span class="custom-switch-description me-2">Status</span>
-                                        <input type="checkbox" name="custom-switch-checkbox1" class="custom-switch-input">
-                                        <span class="custom-switch-indicator"></span>
-                                    </label>
-                                </div>
-                            
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="pd-20 pd-sm-20">
+                        <div class="row row-xs">
+
+                            <div class="col-md-4">
+                                <label for="name"> Name: </label>
+                                <input class="form-control" placeholder="Enter name" type="text">
                             </div>
+
+                            <div class="col-md-4 mg-t-10">
+                                <label for="name"> Location: </label>
+                                <input class="form-control" placeholder="Enter phone number" type="text">
+                            </div>
+                            <div class="col-md-4 mg-t-10">
+                                <label for="name"> Serail Number: </label>
+                                <input class="form-control" placeholder="Enter email" type="text">
+                            </div>
+                            <div class="col-md-4 mg-t-10">
+                                <label for="name"> Model: </label>
+                                <input class="form-control" placeholder="Enter address" type="text">
+                            </div>
+                            <div class="col-md-4 mg-t-10">
+                                <label for="name"> Cost: </label>
+                                <input class="form-control" placeholder="Enter address" type="text">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="permission_id">Brands ID:</label>
+                                <select class="form-control input-sm" name="permission_id" id="permission_id">
+                                    <option value="">-- Select --</option>
+                                    <option value="1">Top Admin</option>
+
+                                </select>
+                                <span id="permission_id-error" class="error invalid-feedback" style="display: none"></span>
+                            </div>
+                            <div class="form-group col-md-4 ">
+                                <label for="permission_id">Inventory ID:</label>
+                                <select class="form-control input-sm" name="permission_id" id="permission_id">
+                                    <option value="">-- Select --</option>
+                                    <option value="1">Top Admin</option>
+
+                                </select>
+                                <span id="permission_id-error" class="error invalid-feedback" style="display: none"></span>
+                            </div>
+
+                            <div class="col-md-4 ">
+                                <label for="name"> Warranty Date: </label>
+                                <input class="form-control" type="date">
+                            </div>
+                            <div class="col-md-12 mg-t-10">
+                                <label for="name"> Description: </label>
+                                <textarea class="form-control" name="" id="" cols="30" rows="8"></textarea>
+                            </div>
+                            <div class=" col-md-12 mg-t-10">
+                                <label class="custom-switch ps-0">
+                                    <span class="custom-switch-description me-2">Status</span>
+                                    <input type="checkbox" name="custom-switch-checkbox1" class="custom-switch-input"
+                                        checked>
+                                    <span class="custom-switch-indicator"></span>
+                                </label>
+                            </div>
+
                         </div>
                     </div>
                 </div>
+            </div>
 
         </form>
     </div>
