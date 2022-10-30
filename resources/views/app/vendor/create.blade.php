@@ -36,7 +36,8 @@
             let route_cancel = "{{ $route['cancel'] ?? '' }}";
             let route_print = "{{ $route['print'] ?? '' }}";
             let route_new = "{{ $route['new'] ?? '' }}";
-            let frm, extraFrm;
+            let frm = "frm-{{ $obj_info['name'] }}";
+            let extraFrm;
             let popModal = {
                 show: false,
                 size: 'modal-lg'
@@ -46,14 +47,23 @@
             };
             let container = '';
             let loading_indicator = '';
+            let aftersave = (data) => {
+                // console.log(data);
+                $('.dropify-preview').css({
+                    "display": "none"
+                });
+                $('#' + frm)[0].reset();
+
+            };
             let setting = {
-                mode: "{{ $extends }}"
+                mode: "{{ $extends }}",
+                fnSuccess: aftersave,
             };
             $(".btnsave_{{ $obj_info['name'] }}").click(function(e) {
                 // alert(1);
                 e.preventDefault();
                 $("#frm-{{ $obj_info['name'] }} .error").html('').hide();
-                helper.silentHandler(route_submit, "frm-{{ $obj_info['name'] }}", extraFrm, setting,
+                helper.silentHandler(route_submit, frm, extraFrm, setting,
                     popModal, container,
                     loading_indicator);
             });
@@ -152,8 +162,13 @@
                         <div class="form-group">
                             <label for="type">@lang('dev.permission')</label>
                             <select class="form-control input-sm" name="type" id="type">
-                                <option value="">-- {{ __('dev.noneselected') }}--</option>
-                                {!! cmb_listing(['equipment' => 'equipment', 'shop' => 'shop'], [$input['type'] ?? ''], '', '') !!}
+                                <option value="">@lang('dev.non_select')</option>
+                                {!! cmb_listing(
+                                    ['equipment' => __('table.equipment'), 'shop' => __('table.product_shop')],
+                                    [$input['type'] ?? ''],
+                                    '',
+                                    '',
+                                ) !!}
                             </select>
                             <span id="type-error" class="error invalid-feedback" style="display: none"></span>
                         </div>

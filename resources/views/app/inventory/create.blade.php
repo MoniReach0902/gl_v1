@@ -1,6 +1,6 @@
 @php
     $extends = 'app';
-    $action_btn = ['save' => true, 'print' => false, 'cancel' => false, 'new' => true];
+    $action_btn = ['save' => true, 'print' => false, 'cancel' => true, 'new' => true];
     foreach (config('me.app.project_lang') as $lang) {
         $langcode[] = $lang[0];
     }
@@ -28,6 +28,16 @@
 
                 ///
             });
+
+            let hide = "{{ $isupdate ?? '' }}"
+            if (hide) {
+                $('.create_img').hide();
+
+            } else {
+                $('.update_img').hide();
+            }
+
+
             let route_submit = "{{ $route['submit'] }}";
             let route_cancel = "{{ $route['cancel'] ?? '' }}";
             let route_print = "{{ $route['print'] ?? '' }}";
@@ -72,9 +82,10 @@
                 window.open(
                     route_print);
             });
-
-
-
+            $('#remove').on('click', function(e) {
+                $('.update_img').hide();
+                $('.create_img').show();
+            });
 
         });
     </script>
@@ -83,7 +94,7 @@
     {{-- Header --}}
     <section class="content-header bg-light d-flex ct-bar-action ct-bar-action-shaddow">
         <div class="container-fluid">
-            <div class="d-flex pd-10 border br-5">
+            <div class="d-flex  border br-5">
                 <div class="flex-grow-1">
                     <h5 class="mb-2 mg-t-20 mg-l-20">
                         {!! $obj_info['icon'] !!}
@@ -115,6 +126,7 @@
             <br>
 
             <div class="card-body">
+
                 <div class="form-group">
                     <label for=""><b>@lang('dev.name_kh_eng')</b></label>
                     <div class="input-group my-group" style="width:100%;">
@@ -145,6 +157,8 @@
                     </div>
                     <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
                 </div>
+
+
             </div>
             <!-- /.card-body -->
 

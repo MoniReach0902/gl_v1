@@ -1,5 +1,4 @@
 <?php
-
 return [
     "name" => "Name",
     "categorie" => "Categorie",
@@ -22,13 +21,9 @@ return [
     "password" => "Password",
     "comfirm_password" => "Comfirm Password",
     "rule" => "Rule",
-
-
-
-
-    "create_by" => "Crate By",
-    "image" => "Image",
-    "non_select" => "Non Select",
-
-    "click_image" => "Click hear to upload image",
+    "address" => "Address",
+    "drag_and_drop_click_replace" => " Drag and drop or click to replace",
+    "remove" => "Remove",
+    "location" => "Location",
+    "seria_number" => "Seria number",
 ];

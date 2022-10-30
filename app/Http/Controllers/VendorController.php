@@ -318,6 +318,7 @@ class VendorController extends Controller
         $update_rules = [$this->fprimarykey => 'required'];
 
         $rules['title-en'] = ['required'];
+        $rules['type'] = ['required'];
         // $rules['img'] = ['required'];
         $validatorMessages = [
             /*'required' => 'The :attribute field can not be blank.'*/

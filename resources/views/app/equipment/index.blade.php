@@ -1,232 +1,285 @@
 @php
-//dd(request()->session()->all());
+    //dd(request()->session()->all());
 @endphp
 @extends('layouts.app')
 @section('blade_css')
 @endsection
-@section('blade_scripts')
-    <script>
-        $(document).ready(function() {
+@push('page_css')
+    @section('blade_scripts')
+        <script>
+            $(document).ready(function() {
 
-            /*Please dont delete this code*/
-            @if (null !== session('status') && session('status') == false)
-                $(document).Toasts('create', {
-                    class: 'bg-danger ct-min-toast-width',
-                    title: 'Invalid',
-                    subtitle: '',
-                    body: "{{ session('message') }}",
-                    fade: true,
-                    autohide: true,
-                    delay: 3000,
-                    //position: 'bottomLeft',
+                /*Please dont delete this code*/
+                @if (null !== session('status') && session('status') == false)
+                    $(document).Toasts('create', {
+                        class: 'bg-danger ct-min-toast-width',
+                        title: 'Invalid',
+                        subtitle: '',
+                        body: "{{ session('message') }}",
+                        fade: true,
+                        autohide: true,
+                        delay: 3000,
+                        //position: 'bottomLeft',
+                    });
+                @endif
+
+                @if (null !== session('status') && session('status') == true)
+                    location.reload();
+                    $(document).Toasts('create', {
+                        class: 'bg-success ct-min-toast-width',
+                        title: 'Success',
+                        subtitle: '',
+                        body: "{{ session('message') }}",
+                        fade: true,
+                        autohide: true,
+                        delay: 3000,
+                        //position: 'bottomLeft',
+
+                    });
+                @endif
+                /*please dont delete this above code*/
+
+                // let foo = (bar)=>{
+                //     console.log('foo-bar');
+                // };
+                $("#save_img").click(function(e) {
+                    // alert(1);
+                    let route_submit = "{{ $route['submit'] }}";
+                    // alert(route_submit);
+                    // e.preventDefault();
+                    // let route_import = "{{ $route['create'] }}";
+                    let extraFrm = {}; //{jscallback:'test'};
+                    let setting = {}; //{fnSuccess:foo};
+                    let container = '';
+                    let loading_indicator = '';
+                    let popModal = {
+                        show: false,
+                        size: 'modal-xl'
+                        //modal-sm, modal-lg, modal-xl
+                    };
+                    helper.silentHandler(route_submit, "frm-2{{ $obj_info['name'] }}",
+                        extraFrm,
+                        setting,
+                        popModal, container,
+                        loading_indicator);
+
                 });
-            @endif
-
-            @if (null !== session('status') && session('status') == true)
-
-                notif({
-                    msg: 'delete success',
-                    type: "success",
-                    position: "right",
-                    fade: true,
-                    clickable: true,
-                    timeout: 2000,
+                $('.delete').click(function(e) {
+                    e.preventDefault();
+                    var link = $(this).attr("href");
+                    $('body').removeClass('timer-alert');
+                    swal({
+                        title: "Are your sure to delete ?",
+                        text: "",
+                        type: "warning",
+                        showCancelButton: true,
+                        closeOnConfirm: false,
+                        showLoaderOnConfirm: true
+                    }, function() {
+                        setInterval(() => {
+                            window.location.href = link;
+                            // swal("Delete finished!");
+                        }, 1000);
+                    });
                 });
-            @endif
-            /*please dont delete this above code*/
 
-            // let foo = (bar)=>{
-            //     console.log('foo-bar');
-            // };
-            $("#save_img").click(function(e) {
-                // alert(1);
-                let route_submit = "{{ $route['submit'] }}";
-                // alert(route_submit);
-                // e.preventDefault();
-                // let route_import = "{{ $route['create'] }}";
-                let extraFrm = {}; //{jscallback:'test'};
-                let setting = {}; //{fnSuccess:foo};
-                let container = '';
-                let loading_indicator = '';
-                let popModal = {
-                    show: false,
-                    size: 'modal-xl'
-                    //modal-sm, modal-lg, modal-xl
-                };
-                helper.silentHandler(route_submit, "frm-2{{ $obj_info['name'] }}",
-                    extraFrm,
-                    setting,
-                    popModal, container,
-                    loading_indicator);
 
-            });
+                $("#btnnew_{{ $obj_info['name'] }}").click(function(e) {
 
-            $("#btnnew_{{ $obj_info['name'] }}").click(function(e) {
+                    let route_create = "{{ $route['create'] }}";
 
-                let route_create = "{{ $route['create'] }}";
+                    window.location = route_create;
+                    //     loading_indicator);
+                });
 
-                window.location = route_create;
-                //     loading_indicator);
-            });
+                $("#btntrash_{{ $obj_info['name'] }}").click(function(e) {
+                    let route_create = "{{ $route['trash'] ?? '' }}";
+                    window.location = route_create;
 
-            $("#btntrash_{{ $obj_info['name'] }}").click(function(e) {
-                let route_create = "{{ $route['trash'] ?? '' }}";
-                window.location = route_create;
+                });
+
+
+                $('.btn_remove').on('click', function() {
+                    var eThis = $(this);
+                    var p = eThis.parents('#photo');
+                    var id = p.find('#id').val();
+                    p.find('#img_id').val(id * -1);
+
+                    // alert(id);
+                    // p.hide();
+                    // alert(id * -1);
+
+                })
 
             });
 
+            function updateDistrict(jsondata) {
 
-            $('.btn_remove').on('click', function() {
-                var eThis = $(this);
-                var p = eThis.parents('#photo');
-                var id = p.find('#id').val();
-                p.find('#img_id').val(id * -1);
+                let dropdown = $('#district');
+                let data = jsondata.data;
+                helper.makeDropdownByJson(dropdown, data, -1, 'please select');
+            }
 
-                // alert(id);
-                // p.hide();
-                // alert(id * -1);
+            function updateCommune(jsondata) {
+                let dropdown = $('#commune');
+                let data = jsondata.data;
+                helper.makeDropdownByJson(dropdown, data, -1, 'please select');
+            }
+        </script>
+    @endsection
+    @section('content')
+        {{-- Header --}}
+        <section class="content-header bg-light d-flex ct-bar-action ct-bar-action-shaddow">
+            <div class="container-fluid">
+                <div class="d-flex border br-5">
+                    <div class="flex-grow-1">
+                        <h5 class="mb-2 mg-t-20 mg-l-20">
+                            {!! $obj_info['icon'] !!}
+                            <a href="{{ url_builder($obj_info['routing'], [$obj_info['name']]) }}"
+                                class="ct-title-nav text-md">{{ $obj_info['title'] }}</a>
+                            <small class="text-sm text-muted">
+                                <i class="ace-icon fa fa-angle-double-right text-xs"></i>
+                                {{ $caption ?? '' }}
+                            </small>
+                        </h5>
+                    </div>
+                    <div class="pd-10 ">
+                        @include('app._include.btn_index', [
+                            'new' => true,
+                            'trash' => true,
+                            'active' => true,
+                        ])
+                    </div>
 
-            })
-
-        });
-
-        function updateDistrict(jsondata) {
-
-            let dropdown = $('#district');
-            let data = jsondata.data;
-            helper.makeDropdownByJson(dropdown, data, -1, 'please select');
-        }
-
-        function updateCommune(jsondata) {
-            let dropdown = $('#commune');
-            let data = jsondata.data;
-            helper.makeDropdownByJson(dropdown, data, -1, 'please select');
-        }
-    </script>
-@endsection
-@section('content')
-    {{-- Header --}}
-    <section class="content-header bg-light d-flex ct-bar-action ct-bar-action-shaddow">
+                </div>
+        </section>
+        {{-- end header --}}
         <div class="container-fluid">
-            <div class="d-flex  border br-5">
-                <div class="flex-grow-1">
-                    <h5 class="mb-2 mg-t-20 mg-l-20">
-                        {{-- {!! $obj_info['icon'] !!} --}}
-                        <a href="{{ url_builder($obj_info['routing'], [$obj_info['name']]) }}"
-                            class="ct-title-nav text-md">{{ $obj_info['title'] }}</a>
-                        <small class="text-sm text-muted">
-                            <i class="ace-icon fa fa-angle-double-right text-xs"></i>
-                            {{ $caption ?? '' }}
-                        </small>
-                    </h5>
-                </div>
-                <div class="pd-10 ">
-                    @include('app._include.btn_index', ['new' => true, 'trash' => true, 'active' => true])
-                </div>
-
+            <div class="card-header mg-t-20">
+                <form class="frmsearch-{{ $obj_info['name'] }}">
+                    <div class="form-row" style="font-size: 11px">
+                        <div class="form-group col-md-2">
+                            <label for="txt">@lang('dev.search')</label>
+                            <input type="text" class="form-control input-sm" name="txtequipment" id="txt"
+                                value="{{ request()->get('txtequipment') ?? '' }}">
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="inventory_id">@lang('dev.inventory')</label>
+                            <select class="form-control input-sm" name="inventory_id" id="inventory">
+                                <option value="">-- {{ __('dev.non_select') }}--</option>
+                                @foreach ($inventory as $inventory_item )
+                                {!! cmb_listing(
+                                    [$inventory_item->inventory_id => $inventory_item->text],
+                                    [request()->get('inventory_id') ?? ''],
+                                    '',
+                                    '',
+                                    '',
+                                ) !!}
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="vendor_id">@lang('dev.vendor')</label>
+                            <select class="form-control input-sm" name="vendor_id" id="vendor">
+                                <option value="">-- {{ __('dev.non_select') }}--</option>
+                                @foreach ($vendor as $vendor_item )
+                                {!! cmb_listing(
+                                    [$vendor_item->vendor_id => $vendor_item->text],
+                                    [request()->get('vendor_id') ?? ''],
+                                    '',
+                                    '',
+                                    '',
+                                ) !!}
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="year">@lang('dev.status')</label>
+                            <select class="form-control input-sm" name="status" id="status">
+                                <option value="">--{{ __('dev.non_select') }} --</option>
+                                {!! cmb_listing(
+                                    ['yes' => __('table.enable'), 'no' => __('table.disable')],
+                                    [request()->get('status') ?? ''],
+                                    '',
+                                    '',
+                                    '',
+                                ) !!}
+                            </select>
+                        </div>
+                       
+                        <div class="form-group col-md-1">
+                            <label>&nbsp;</label>
+                            <button type="submit" value="filter"
+                                class="btn btn-outline-secondary btn-block formactionbutton"><i
+                                    class="fa fa-search"></i></button>
+                        </div>
+                        <div class="form-group col-md-1">
+                            <label>&nbsp;</label>
+                            <button type="button"
+                                class="btn btn-outline-secondary btn-block formactionbutton border border-secondary"
+                                onclick="location.href='{{ url()->current() }}'"><i class="fa fa-refresh"
+                                    aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
-    </section>
-    {{-- end header --}}
-    <div class="container-fluid">
 
-        <form name="frm-2{{ $obj_info['name'] }}" id="frm-2{{ $obj_info['name'] }}" method="POST"
-            action="{{ $route['submit'] }}" enctype="multipart/form-data">
-            {{-- please dont delete these default Field --}}
-            @CSRF
-            <input type="hidden" name="{{ $fprimarykey }}" id="{{ $fprimarykey }}"
-                value="{{ $input[$fprimarykey] ?? '' }}">
-            <input type="hidden" name="jscallback" value="{{ $jscallback ?? 'formreset' }}">
+            <form name="frm-2{{ $obj_info['name'] }}" id="frm-2{{ $obj_info['name'] }}" method="POST"
+                action="{{ $route['submit'] }}" enctype="multipart/form-data">
+                {{-- please dont delete these default Field --}}
+                @CSRF
+                <input type="hidden" name="{{ $fprimarykey }}" id="{{ $fprimarykey }}"
+                    value="{{ $input[$fprimarykey] ?? '' }}">
+                <input type="hidden" name="jscallback" value="{{ $jscallback ?? (request()->get('jscallback') ?? '') }}">
 
+                <!-- row -->
+					<div class="row row-sm">
 
-
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover mb-0 text-md-nowrap">
-                        <thead>
-                            @if (isset($istrash) && $istrash)
-                                <thead style="color: var(--warning)">
-                                @else
-                                    <thead style="color: var(--info)">
-                            @endif
-                            <tr>
-                                <th style="width: 10px">ID</th>
-                                <th style="width: 10px">Name</th>
-                                <th style="width: 10px">Phone Number</th>
-                                <th style="width: 10px">Email</th>
-                                <th style="width: 10px">Address</th>
-                                <th style="width: 10px">Create Date</th>
-                                <th style="width: 10px">Update Date</th>
-                                <th style="width: 10px">Status</th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {{-- @foreach ($example as $val)
-                                <tr>
-                                    <td>{{ $val['exmaple_id'] }}</td>
-                                    <td>{{ $val['title'] }}</td>
-
-                                    <td>
-                                        @include('app._include.btn_record', [
-                                            'rowid' => $val['exmaple_id'],
+                        @foreach ($results as $equipments)
+						<div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+							<div class="card">
+								<div class="card-body iconfont text-start">
+									<div class="d-flex justify-content-between">
+										<h4 class="card-title mb-3">{{ $equipments['text'] }}</h4>
+                                        <div class="card-chart brround ms-auto mt-0">
+											@include('app._include.btn_record', [
+                                            'rowid' => $equipments->equipment_id,
                                             'edit' => true,
                                             'trash' => true,
-                                            'delete' => true,
-                                        ])
-                                    </td>
-                                </tr>
-                            @endforeach --}}
-                            <tr>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                            </tr>
-                            <tr>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                            </tr>
-                            <tr>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                            </tr>
-                            <tr>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                                <td>Hello</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                            'disable' => $equipments->status == 'no' ? false : true,
+                                            'enable' => $equipments->status == 'yes' ? false : true,
+                                            ])
+										</div>
+									</div>
+                                        @if ($equipments->status == 'yes')
+                                        <span class="badge bg-dark">
+                                            @lang('table.enable')
+                                        @else
+                                            <span class="badge bg-danger">
+                                                @lang('table.disable')
+                                        @endif
+                                            </span>
+									<div class="d-flex mb-0">
+										<div class="">
+											<h5 class="mb-1">{{ $equipments['text_inventory'] }}</h5>
+											<p class="mb-2 tx-12 text-muted">{{ $equipments->seria_number }}</p>
+										</div>
+										
+									</div>
 
-                </div>
-            </div>
+									<small class="mb-0  text-muted">{{ $equipments->location }}<span class="float-end text-muted">{{ $equipments->create_date }}</span></small>
+								</div>
+							</div>
+						</div>
+                        @endforeach
 
-        </form>
+					</div>
+					<!-- /row -->
+                <!-- Pagination and Record info -->
+                @include('app._include.pagination')
+                <!-- /. end -->
 
-
-
-
-        {{--  --}}
-    </div>
-@endsection
+            </form>
+        </div>
+    @endsection
