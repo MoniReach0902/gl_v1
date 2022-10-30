@@ -276,7 +276,14 @@ class TypeProductController extends Controller
 
         ];
         if ($isupdate) {
-            $tableData =array_except($tableData, [$this->fprimarykey,'create_date', 'password', 'trash']);
+            $tableData = [
+                'name' => json_encode($data),
+                'update_date' => date("Y-m-d"),
+                'trash' => 'no',
+                'status' => 'yes',
+    
+            ];
+            $tableData =array_except($tableData, [$this->fprimarykey,'create_date', 'trash']);
         }
         return ['tableData' => $tableData, $this->fprimarykey => $newid];
     }

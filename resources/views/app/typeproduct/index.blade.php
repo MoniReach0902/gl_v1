@@ -129,7 +129,7 @@
 @endsection
 @section('content')
     {{-- Header --}}
-    <section class="content-header bg-light d-flex ct-bar-action ct-bar-action-shaddow">
+    <section class="content-header bg-light sticky ct-bar-action ct-bar-action-shaddow">
         <div class="container-fluid">
             <div class="d-flex border br-5">
                 <div class="flex-grow-1">
