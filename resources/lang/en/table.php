@@ -24,4 +24,6 @@
         "address"=>"Address",
         "drag_and_drop_click_replace"=>" Drag and drop or click to replace",
         "remove"=>"Remove",
+        "location"=>"Location",
+        "seria_number"=>"Seria number",
     ];

@@ -24,4 +24,6 @@
         "address"=>"អាស័យដ្ឋាន",
         "drag_and_drop_click_replace"=>"អូស និងទម្លាក់ ឬចុចដើម្បីជំនួស",
         "remove"=>"ដកចេញ",
+        "location"=>"ទីតាំង",
+        "seria_number"=>"លេខកូដ",
     ];

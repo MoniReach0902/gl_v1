@@ -1,9 +1,9 @@
 @php
-$extends = 'app';
-$action_btn = ['save' => true, 'print' => false, 'cancel' => true, 'new' => true];
-foreach (config('me.app.project_lang') as $lang) {
-    $langcode[] = $lang[0];
-}
+    $extends = 'app';
+    $action_btn = ['save' => true, 'print' => false, 'cancel' => true, 'new' => true];
+    foreach (config('me.app.project_lang') as $lang) {
+        $langcode[] = $lang[0];
+    }
 @endphp
 @if (is_axios())
     @php
@@ -15,23 +15,28 @@ foreach (config('me.app.project_lang') as $lang) {
 @extends('layouts.' . $extends)
 
 @section('blade_css')
-    <style>
-        .img-box i {
-            font-size: 70px !important;
-            cursor: pointer;
-
-        }
-
-        .img-box {
-            display: flex;
-            justify-content: center
-        }
-    </style>
 @endsection
 
 @section('blade_scripts')
     <script>
         $(document).ready(function() {
+            $(document).on("change", ".tab_title", function(ev) {
+                ///
+
+                var $value = $(this).val();
+                helper.enableDisableByLang($(this), {!! json_encode($langcode, true) !!}, 'title-', $value);
+
+                ///
+            });
+
+            let hide = "{{ $isupdate ?? '' }}"
+            if (hide) {
+                $('.create_img').hide();
+
+            } else {
+                $('.update_img').hide();
+            }
+
 
             let route_submit = "{{ $route['submit'] }}";
             let route_cancel = "{{ $route['cancel'] ?? '' }}";
@@ -64,29 +69,23 @@ foreach (config('me.app.project_lang') as $lang) {
                 //window.location.replace(route_cancel);
                 window.location = route_cancel;
             });
-            $('#img_box').click(function() {
-                let route_import =
-                    "{{ url_builder('admin.controller', ['user', 'create']) }}";
+            $("#btnnew_{{ $obj_info['name'] }}").click(function(e) {
 
-                let extraFrm = {
 
-                }; //{jscallback:'test'};
-                let setting = {}; //{fnSuccess:foo};
-                let popModal = {
-                    show: true,
-                    size: 'modal-xl',
-                    modal: 'Extra',
-                    //modal-sm, modal-lg, modal-xl
-                };
-
-                let loading_indicator = '';
-                helper.silentHandler(route_import, '', '', setting, popModal,
-                    'extra_modal',
-                    loading_indicator);
+                window.location = route_new;
+                //     loading_indicator);
             });
 
-
-
+            $(".btnprint_{{ $obj_info['name'] }}").click(function(e) {
+                //window.location.replace(route_cancel);
+                //window.location = route_print;
+                window.open(
+                    route_print);
+            });
+            $('#remove').on('click', function(e) {
+                $('.update_img').hide();
+                $('.create_img').show();
+            });
 
         });
     </script>
@@ -98,7 +97,7 @@ foreach (config('me.app.project_lang') as $lang) {
             <div class="d-flex  border br-5">
                 <div class="flex-grow-1">
                     <h5 class="mb-2 mg-t-20 mg-l-20">
-                        {{-- {!! $obj_info['icon'] !!} --}}
+                        {!! $obj_info['icon'] !!}
                         <a href="{{ url_builder($obj_info['routing'], [$obj_info['name']]) }}"
                             class="ct-title-nav text-md">{{ $obj_info['title'] }}</a>
                         <small class="text-sm text-muted">
@@ -126,76 +125,141 @@ foreach (config('me.app.project_lang') as $lang) {
             <input type="hidden" name="jscallback" value="{{ $jscallback ?? (request()->get('jscallback') ?? '') }}">
             <br>
 
+            <div class="card-body">
+            <div class="row row-sm">
 
-            
+            <div class="col-xl-4 col-lg-6 col-md-5 col-sm-12">
+                <div class="form-group">
+                    <label for=""><b>@lang('dev.name_kh_eng')</b></label>
+                    <div class="input-group my-group" style="width:100%;">
 
-                <div class="card">
-                    <div class="card-body">
-                        <div class="pd-20 pd-sm-20">
-                            <div class="row row-xs">
-                                
-                                <div class="col-md-4">
-                                    <label for="name">	Name: </label>
-                                    <input class="form-control" placeholder="Enter name" type="text">
-                                </div>
-                               
-                                <div class="col-md-4 mg-t-10">
-                                    <label for="name">	Location: </label>
-                                    <input class="form-control" placeholder="Enter phone number" type="text">
-                                </div>
-                                <div class="col-md-4 mg-t-10">
-                                    <label for="name">	Serail Number: </label>
-                                    <input class="form-control" placeholder="Enter email" type="text">
-                                </div>
-                                <div class="col-md-4 mg-t-10">
-                                    <label for="name">	Model: </label>
-                                    <input class="form-control" placeholder="Enter address" type="text">
-                                </div>
-                                <div class="col-md-4 mg-t-10">
-                                    <label for="name">	Cost: </label>
-                                    <input class="form-control" placeholder="Enter address" type="text">
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label for="permission_id">Brands ID:</label>
-                                    <select class="form-control input-sm" name="permission_id" id="permission_id">
-                                        <option value="">-- Select --</option>
-                                        <option value="1">Top Admin</option>
-                                        
-                                    </select>
-                                    <span id="permission_id-error" class="error invalid-feedback" style="display: none"></span>
-                                </div>
-                                <div class="form-group col-md-4 ">
-                                    <label for="permission_id">Inventory ID:</label>
-                                    <select class="form-control input-sm" name="permission_id" id="permission_id">
-                                        <option value="">-- Select --</option>
-                                        <option value="1">Top Admin</option>
-                                        
-                                    </select>
-                                    <span id="permission_id-error" class="error invalid-feedback" style="display: none"></span>
-                                </div>
-                                
-                                <div class="col-md-4 ">
-                                    <label for="name"> Warranty Date: </label>
-                                    <input class="form-control" type="date">
-                                </div>
-                                <div class="col-md-12 mg-t-10">
-                                    <label for="name">	Description: </label>
-                                    <textarea class="form-control" name="" id="" cols="30" rows="8"></textarea>
-                                </div>
-                                <div class=" col-md-12 mg-t-10">
-                                    <label class="custom-switch ps-0">
-                                        <span class="custom-switch-description me-2">Status</span>
-                                        <input type="checkbox" name="custom-switch-checkbox1" class="custom-switch-input">
-                                        <span class="custom-switch-indicator"></span>
-                                    </label>
-                                </div>
-                            
-                            </div>
-                        </div>
+                        <select class="form-control form-select input-sm tab_title" style="width:25%;">
+                            @foreach (config('me.app.project_lang') as $lang)
+                                <option value="@lang($lang[0])">@lang('dev.lang_' . $lang[0])</option>
+                            @endforeach
+
+                        </select>
+                        @php
+                            $active = '';
+                        @endphp
+                        @foreach (config('me.app.project_lang') as $lang)
+                            @php
+                                // dd($lang);
+                                $title = json_decode($input['title'] ?? '', true);
+                            @endphp
+                            <input type="text" class="form-control input-sm {{ $active }}" style="width:75%;"
+                                name="title-{{ $lang[0] }}" id="title-{{ $lang[0] }}"
+                                placeholder="@lang('dev.lang_' . $lang[0])" value="{{ $name[$lang[0]] ?? '' }}">
+                            @php
+                                $active = 'hide';
+                            @endphp
+                        @endforeach
+                        <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error"
+                            class="error invalid-feedback" style="display: none"></span>
                     </div>
+                    <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
                 </div>
+            </div>
+            <div class="col-xl-4 col-lg-6 col-md-5 col-sm-12">
+                <div class="form-group">
+                    <label for=""><b>@lang('table.location')</b></label>
+                    <div class="input-group my-group" style="width:100%;">
+                    <input type="text" class="form-control" name="locaton" id="location"
+                        placeholder="@lang('table.enter') @lang('table.location')" value="{{ $input['location'] ?? '' }}">
+                    <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error"
+                        class="error invalid-feedback" style="display: none"></span>
+                    </div>
+                    <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-6 col-md-5 col-sm-12">
+                <div class="form-group">
+                    <label for=""><b>@lang('table.seria_number')</b></label>
+                    <div class="input-group my-group" style="width:100%;">
+                    <input type="text" class="form-control" name="seria_number" id="seria_number"
+                        placeholder="@lang('table.enter') @lang('table.seria_number')" value="{{ $input['seria_number'] ?? '' }}">
+                    <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error"
+                        class="error invalid-feedback" style="display: none"></span>
+                    </div>
+                    <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-6 col-md-5 col-sm-12">
+                <div class="form-group">
+                    <label for=""><b>Model</b></label>
+                    <div class="input-group my-group" style="width:100%;">
+                    <input type="text" class="form-control" name="locaton" id="location"
+                        placeholder="@lang('table.enter') @lang('table.location')" value="{{ $input['location'] ?? '' }}">
+                    <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error"
+                        class="error invalid-feedback" style="display: none"></span>
+                    </div>
+                    <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-6 col-md-5 col-sm-12">
+                <div class="form-group">
+                    <label for=""><b>Cost</b></label>
+                    <div class="input-group my-group" style="width:100%;">
+                    <input type="text" class="form-control" name="locaton" id="location"
+                        placeholder="@lang('table.enter') @lang('table.location')" value="{{ $input['location'] ?? '' }}">
+                    <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error"
+                        class="error invalid-feedback" style="display: none"></span>
+                    </div>
+                    <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-6 col-md-5 col-sm-12">
+                <div class="form-group">
+                    <label for=""><b>Warranty date</b></label>
+                    <div class="input-group my-group" style="width:100%;">
+                    <input type="text" class="form-control" name="locaton" id="location"
+                        placeholder="@lang('table.enter') @lang('table.location')" value="{{ $input['location'] ?? '' }}">
+                    <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error"
+                        class="error invalid-feedback" style="display: none"></span>
+                    </div>
+                    <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-6 col-md-5 col-sm-12">
+                <div class="form-group">
+                    <label for=""><b>Inventory</b></label>
+                    <div class="input-group my-group" style="width:100%;">
+                    <input type="text" class="form-control" name="locaton" id="location"
+                        placeholder="@lang('table.enter') @lang('table.location')" value="{{ $input['location'] ?? '' }}">
+                    <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error"
+                        class="error invalid-feedback" style="display: none"></span>
+                    </div>
+                    <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-6 col-md-5 col-sm-12">
+                <div class="form-group">
+                    <label for=""><b>Vendor</b></label>
+                    <div class="input-group my-group" style="width:100%;">
+                    <input type="text" class="form-control" name="locaton" id="location"
+                        placeholder="@lang('table.enter') @lang('table.location')" value="{{ $input['location'] ?? '' }}">
+                    <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error"
+                        class="error invalid-feedback" style="display: none"></span>
+                    </div>
+                    <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
+                </div>
+            </div>
+
+            </div>
+            <div class="form-group">
+                <label for=""><b>Description</b></label>
+                <div class="input-group my-group" style="width:100%;">
+                    <textarea class="form-control" name="" id="" cols="30" rows="8" placeholder="@lang('table.enter') @lang('table.location')">{{ $input['description'] ?? '' }}</textarea>
+                <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error"
+                    class="error invalid-feedback" style="display: none"></span>
+                </div>
+                <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
+            </div>
+            </div>
+            <!-- /.card-body -->
+
+            {{--  --}}
 
         </form>
     </div>
-    {{-- @include('layouts.extra_modal') --}}
 @endsection
