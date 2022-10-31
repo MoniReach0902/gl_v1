@@ -13,7 +13,10 @@
 
     <!-- Title -->
     <title> GL</title>
-
+    {{-- Font awsome --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+        integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     {{-- Google font --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -43,15 +46,11 @@
     <!-- INTERNAL Switcher css -->
     <link href="{{ asset('public/assets/switcher/css/switcher.css') }}" rel="stylesheet" />
     <link href="{{ asset('public/assets/switcher/demo.css') }}" rel="stylesheet" />
+
     @yield('blade_css')
 
-
+    @stack('page_css')
     <style>
-        body {
-            font-family: 'JetBrains Mono', monospace;
-            font-family: 'Siemreap', 'JetBrains Mono';
-        }
-
         .hide {
             display: none;
         }
@@ -71,7 +70,7 @@
     <!-- /Loader -->
 
     <!-- Page -->
-    <div class="page">
+    <div class="">
 
         <div>
             {{-- Header --}}
@@ -94,24 +93,21 @@
 
         @include('layouts.extra_modal')
         @include('layouts.switcher')
+        <<<<<<< HEAD=======>>>>>>> origin/piseth
 
-        <!-- /main-content -->
+            <!-- /main-content -->
 
-
-
-
-
-        <!-- Footer opened -->
-        <div class="main-footer">
-            <div class="col-md-12 col-sm-12 text-center">
-                <div class="container-fluid pt-0 ht-100p">
-                    Copyright © 2022 <a href="javascript:void(0);" class="text-primary">nowa</a>. Designed with
-                    <span class="fa fa-heart text-danger"></span> by <a href="javascript:void(0);"> Spruko </a> All
-                    rights reserved
+            <!-- Footer opened -->
+            <div class="main-footer">
+                <div class="col-md-12 col-sm-12 text-center">
+                    <div class="container-fluid pt-0 ht-100p">
+                        Copyright © 2022 <a href="javascript:void(0);" class="text-primary">nowa</a>. Designed with
+                        <span class="fa fa-heart text-danger"></span> by <a href="javascript:void(0);"> Spruko </a> All
+                        rights reserved
+                    </div>
                 </div>
             </div>
-        </div>
-        <!-- Footer closed -->
+            <!-- Footer closed -->
     </div>
     <!-- End Page -->
     {{-- modal for support Air Window --}}
@@ -120,7 +116,7 @@
     <a href="#top" id="back-to-top"><i class="las la-arrow-up"></i></a>
 
     <!-- JQuery min js -->
-    {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> --}}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="{{ asset('public/assets/plugins/jquery/jquery.min.js') }}"></script>
 
 
@@ -233,11 +229,17 @@
     {{-- <script src="{{ asset('public/js/app.js') }}" defer></script> --}}
     <script src="{{ asset('public/js/helper.js') }}" defer></script>
 
+    {{-- ========== toggle form ================ --}}
+    {{-- <script src="{{ asset('public/js/toggle_form.js') }}"></script> --}}
 
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
 
     {{-- yield use @saction --}}
     @yield('blade_scripts')
 
+    <script src="jquery-3.6.0.min.js"></script>
     <script>
         var env = {!! json_encode(config('me.app.js_env')) !!};
         env.token = "{{ csrf_token() }}";
@@ -295,6 +297,49 @@
         //     //$( ".sidebar-remove" ).trigger( "click" );
         //     $("#air_media").html('');
         // })
+
+
+        // const dark_form = document.getElementById("light-layout");
+        // const light_form = document.getElementById("dark-layout");
+        // const card_body = document.getElementById("card-body");
+
+        // light_form.addEventListener("click", function() {
+        //     card_body.classList.add("dark-input-form");
+        //     card_body.classList.remove('light-input-form');
+
+        // });
+        // dark_form.addEventListener("click", function() {
+        //     card_body.classList.add("light-input-form");
+        //     card_body.classList.remove('dark-input-form');
+        // });
+
+
+        $(document).ready(function() {
+
+            $("#light-layout").click(function() {
+                $("#card-body").addClass("light-input-form");
+                $("#card-body").removeClass("dark-input-form");
+
+                if (window.load()) {
+
+                }
+
+
+            });
+            $("#dark-layout").click(function() {
+                $("#card-body").addClass("dark-input-form");
+                $("#card-body").removeClass("light-input-form");
+            });
+
+            $("input").on("change", function() {
+                this.setAttribute(
+                    "data-date",
+                    moment(this.value, "YYYY-MM-DD").format(this.getAttribute("data-date-format"))
+                )
+            }).trigger("change");
+
+
+        });
     </script>
 
     {{-- stack use @push --}}

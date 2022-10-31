@@ -31,7 +31,7 @@ class UserpermissionController extends Controller
     public function __construct(array $args = [])
     {
         //$this->middleware('auth');
-        $this->obj_info['title'] = 'User Permission'; //__('label.lb09');
+        $this->obj_info['title'] = __('dev.permission'); //__('label.lb09');
         $default_protectme = config('me.app.protectme');
 
         $this->protectme = [
@@ -129,7 +129,8 @@ class UserpermissionController extends Controller
     {
         #DEFIND MODEL#
         return $this->model
-            ->select(\DB::raw($this->fprimarykey . " AS id, title, levelsetting, level_status"))->whereRaw('trash <> "yes"');
+            ->leftJoin('users', 'users.id', 'users_permission.blongto')
+            ->select(\DB::raw("users_permission.".$this->fprimarykey . ", title, levelsetting, level_status,users.name As username,users_permission.add_date"))->whereRaw('users_permission.trash <> "yes"');
     } /*../function..*/
 
     public function sfp($request, $results)
@@ -227,7 +228,7 @@ class UserpermissionController extends Controller
                 'definelevel' => $this->definelevel,
                 'route' => ['create'  => $create_route, 'trash' => $trash_route],
                 'fprimarykey'     => $this->fprimarykey,
-                'caption' => 'Active',
+                'caption' => __('dev.active'),
             ])
             ->with(['act' => 'index'])
             ->with($sfp)
@@ -263,7 +264,7 @@ class UserpermissionController extends Controller
                 'definelevel' => $this->definelevel,
                 'route' => ['create'  => $create_route, 'active' => $active_route],
                 'fprimarykey'     => $this->fprimarykey,
-                'caption' => 'Trash',
+                'caption' => __('btn.btn_trash'),
                 'istrash' => true,
             ])
             ->with(['act' => 'index'])
@@ -334,7 +335,7 @@ class UserpermissionController extends Controller
                 'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route],
                 'form' => ['save_type' => 'save'],
                 'fprimarykey'     => $this->fprimarykey,
-                'caption' => 'New',
+                'caption' => __('dev.new'),
                 'definelevel' => $this->definelevel,
                 'istrush' => false,
             ]);
@@ -488,7 +489,7 @@ class UserpermissionController extends Controller
                 'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route],
                 'form' => ['save_type' => 'save'],
                 'fprimarykey'     => $this->fprimarykey,
-                'caption' => 'Edit',
+                'caption' => __('btn.btn_edit'),
                 'definelevel' => $this->definelevel,
                 'istrush' => false,
                 'input' => $input,

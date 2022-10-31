@@ -1,6 +1,14 @@
 @php
+<<<<<<< HEAD
 //dd(request()->session()->all());
 $extend = 'app';
+=======
+$extends = 'app';
+$action_btn = ['save' => true, 'print' => false, 'cancel' => true, 'new' => true];
+foreach (config('me.app.project_lang') as $lang) {
+    $langcode[] = $lang[0];
+}
+>>>>>>> origin/piseth
 @endphp
 @if (is_axios())
     @php
@@ -10,7 +18,23 @@ $extend = 'app';
 @endif
 @extends('layouts.' . $extend)
 @section('blade_css')
+<<<<<<< HEAD
     {{-- <link href="{{ asset('public/assets/css/ace.min.css') }}" rel="stylesheet"> --}}
+=======
+    <style>
+        .img-box i {
+            font-size: 70px !important;
+            cursor: pointer;
+
+        }
+
+        .img-box {
+            display: flex;
+            justify-content: center
+        }
+    </style>
+@endsection
+>>>>>>> origin/piseth
 
 
     <!-- Stylesheet -->
@@ -108,6 +132,7 @@ $extend = 'app';
     <script src="{{ asset('public/assets/js/ace-elements.min.js') }}"></script> --}}
     <script>
         $(document).ready(function() {
+<<<<<<< HEAD
             /*Please dont delete this code*/
 
             // $("#btnnew_{{ $obj_info['name'] }}").click(function(e) {
@@ -146,6 +171,27 @@ $extend = 'app';
                 })
             });
             $("#save_img").click(function(e) {
+=======
+
+            let route_submit = "{{ $route['submit'] }}";
+            let route_cancel = "{{ $route['cancel'] ?? '' }}";
+            let route_print = "{{ $route['print'] ?? '' }}";
+            let route_new = "{{ $route['new'] ?? '' }}";
+            let frm, extraFrm;
+            let popModal = {
+                show: false,
+                size: 'modal-lg'
+                //modal-sm
+                //modal-lg
+                //modal-xl
+            };
+            let container = '';
+            let loading_indicator = '';
+            let setting = {
+                mode: "{{ $extends }}"
+            };
+            $(".btnsave_{{ $obj_info['name'] }}").click(function(e) {
+>>>>>>> origin/piseth
                 // alert(1);
                 let route_submit = "{{ $route['submit'] }}";
                 // alert(route_submit);
@@ -184,6 +230,7 @@ $extend = 'app';
 
             });
 
+<<<<<<< HEAD
             $('.delete').click(function(e) {
                 e.preventDefault();
                 var link = $(this).attr("href");
@@ -205,21 +252,50 @@ $extend = 'app';
             $('#trash').click(function() {
                 // alert(1);
             })
+=======
+            $(".btncancel_{{ $obj_info['name'] }}").click(function(e) {
+                //window.location.replace(route_cancel);
+                window.location = route_cancel;
+            });
+            $('#img_box').click(function() {
+                let route_import =
+                    "{{ url_builder('admin.controller', ['user', 'create']) }}";
+
+                let extraFrm = {
+
+                }; //{jscallback:'test'};
+                let setting = {}; //{fnSuccess:foo};
+                let popModal = {
+                    show: true,
+                    size: 'modal-xl',
+                    modal: 'Extra',
+                    //modal-sm, modal-lg, modal-xl
+                };
+
+                let loading_indicator = '';
+                helper.silentHandler(route_import, '', '', setting, popModal,
+                    'extra_modal',
+                    loading_indicator);
+            });
+
+
+
+>>>>>>> origin/piseth
 
         });
     </script>
 @endsection
 @section('content')
     {{-- Header --}}
-    <section class="content-header bg-light sticky-top ct-bar-action ct-bar-action-shaddow">
+    <section class="content-header bg-light d-flex ct-bar-action ct-bar-action-shaddow">
         <div class="container-fluid">
             <div class="d-flex  border br-5">
                 <div class="flex-grow-1">
                     <h5 class="mb-2 mg-t-20 mg-l-20">
-                        {!! $obj_info['icon'] !!}
+                        {{-- {!! $obj_info['icon'] !!} --}}
                         <a href="{{ url_builder($obj_info['routing'], [$obj_info['name']]) }}"
                             class="ct-title-nav text-md">{{ $obj_info['title'] }}</a>
-                        <small class="text-sm">
+                        <small class="text-sm text-muted">
                             <i class="ace-icon fa fa-angle-double-right text-xs"></i>
                             {{ $caption ?? '' }}
                         </small>
@@ -241,6 +317,7 @@ $extend = 'app';
     {{-- end header --}}
     <br>
     <div class="container-fluid">
+<<<<<<< HEAD
         <div class="row">
             <div class="col-md-12" id="media-box">
                 <div class="media" id="media">
@@ -375,13 +452,77 @@ $extend = 'app';
                                 </div>
 
                         </div>
+=======
+        {{-- Start Form --}}
+
+        <form name="frm-{{ $obj_info['name'] }}" id="frm-{{ $obj_info['name'] }}" method="POST"
+            action="{{ $route['submit'] }}">
+            {{-- please dont delete these default Field --}}
+            @CSRF
+            <input type="hidden" name="{{ $fprimarykey }}" id="{{ $fprimarykey }}"
+                value="{{ $input[$fprimarykey] ?? '' }}">
+            <input type="hidden" name="jscallback" value="{{ $jscallback ?? (request()->get('jscallback') ?? '') }}">
+            <br>
+
+
+            
+<div class="container-fluid">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-md-10 col-sm-10 offset-sm-1">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="pd-20 pd-sm-20">
+                            <div class="row row-xs">
+                                
+                                <div class="col-md-12">
+                                    <label for="name">	Name: </label>
+                                    <input class="form-control" placeholder="Enter name" type="text">
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="name">	Title: </label>
+                                    <input class="form-control" placeholder="Enter name" type="text">
+                                </div>
+                               
+                                <div class="col-md-12 mg-t-10">
+                                    <label for="name"> Creat Date: </label>
+                                    <input class="form-control" type="date">
+                                </div>
+                                <div class="col-md-12 mg-t-10">
+                                    <label for="name">	Description: </label>
+                                    <textarea class="form-control" name="" id="" cols="30" rows="8"></textarea>
+                                </div>
+                                <div class="col-sm-12 col-md-12 mg-t-10">
+                                    <input type="file" class="dropify" data-height="200" />
+                                </div>
+                              
+                                <div class=" col-md-12 mg-t-10">
+                                    <label class="custom-switch ps-0">
+                                        <span class="custom-switch-description me-2">Status</span>
+                                        <input type="checkbox" name="custom-switch-checkbox1" class="custom-switch-input">
+                                        <span class="custom-switch-indicator"></span>
+                                    </label>
+                                </div>
+                            
+                            </div>
+                        </div>
+>>>>>>> origin/piseth
                         </form>
                         {{-- End From --}}
                     </div>
                 </div>
             </div>
         </div>
+<<<<<<< HEAD
     </div>
     </div>
     {{-- <script src="{{ asset('public/js/script.js') }}"></script> --}}
+=======
+            
+    </div>
+</div>
+        </form>
+    </div>
+    {{-- @include('layouts.extra_modal') --}}
+>>>>>>> origin/piseth
 @endsection

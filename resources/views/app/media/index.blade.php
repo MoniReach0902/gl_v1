@@ -22,20 +22,30 @@
             transition-duration: 1s;
             overflow: scroll;
             z-index: 1;
+<<<<<<< HEAD
 
 
         }
 
+=======
+        }
+>>>>>>> origin/piseth
         #arrow-upload {
             font-size: 25px;
             cursor: pointer;
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/piseth
         #upload {
             font-size: 18px;
             padding: 5px 20px;
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/piseth
         .container {
             background-color: --primary;
             width: 60%;
@@ -46,6 +56,7 @@
             border-radius: 7px;
             box-shadow: 0 20px 35px rgba(0, 0, 0, 0.05);
         }
+<<<<<<< HEAD
 
         input[type="file"] {
             display: none;
@@ -55,6 +66,14 @@
             display: block;
             position: relative;
 
+=======
+        input[type="file"] {
+            display: none;
+        }
+        label {
+            display: block;
+            position: relative;
+>>>>>>> origin/piseth
             font-size: 50px;
             text-align: center;
             width: 300px;
@@ -63,12 +82,18 @@
             border-radius: 5px;
             cursor: pointer;
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/piseth
         .container p {
             text-align: center;
             margin: 20px 0 30px 0;
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/piseth
         #images {
             width: 90%;
             position: relative;
@@ -78,17 +103,26 @@
             gap: 20px;
             flex-wrap: wrap;
         }
+<<<<<<< HEAD
 
         figure {
             width: 45%;
         }
 
+=======
+        figure {
+            width: 45%;
+        }
+>>>>>>> origin/piseth
         figcaption {
             text-align: center;
             font-size: 5px;
             margin-top: 0.5vmin;
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/piseth
         .file-manger-icon img {
             width: 100px;
             height: 100px;
@@ -102,9 +136,11 @@
     <script>
         $(document).ready(function() {
             /*Please dont delete this code*/
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/piseth
             $("#btnnew_{{ $obj_info['name'] }}").click(function(e) {
-
                 let route_create = "{{ $route['create'] }}";
                 let extraFrm = {}; //{jscallback:'test'};
                 let setting = {}; //{fnSuccess:foo};
@@ -113,10 +149,10 @@
                     size: 'modal-xl'
                     //modal-sm, modal-lg, modal-xl
                 };
-
                 let loading_indicator = '';
                 helper.silentHandler(route_create, null, extraFrm, setting, popModal, 'air_windows',
                     loading_indicator);
+<<<<<<< HEAD
 
             });
 
@@ -199,6 +235,77 @@
                 // alert(1);
             })
 
+=======
+            });
+            $("#upload").click(function(e) {
+                $('.media-upload').css({
+                    "width": "28%"
+                })
+            });
+            $("#arrow-upload").click(function(e) {
+                $('.media-upload').css({
+                    "width": "0%"
+                })
+            });
+            $("#media-box").click(function(e) {
+                $('.media-upload').css({
+                    "width": "0%"
+                })
+            });
+            $("#save_img").click(function(e) {
+                // alert(1);
+                let route_submit = "{{ $route['submit'] }}";
+                // alert(route_submit);
+                // e.preventDefault();
+                // let route_import = "{{ $route['create'] }}";
+                let extraFrm = {}; //{jscallback:'test'};
+                let frm = "frm-{{ $obj_info['name'] }}";
+                let aftersave = (data) => {
+                    // console.log(data['data'].tableData);
+                    setTimeout(() => {
+                        // window.location.reload();
+                    }, 2000);
+                    $('#' + frm)[0].reset();
+                    $('#images').html('');
+                    $('#num-of-files').html('No Files Chosen');
+                };
+                let setting = {
+                    mode: "",
+                    // or use jscallback = formreset
+                    // fnSuccess: aftersave,
+                };
+                let container = '';
+                let loading_indicator = '';
+                let popModal = {
+                    show: false,
+                    size: 'modal-xl'
+                    //modal-sm, modal-lg, modal-xl
+                };
+                helper.silentHandler(route_submit, frm,
+                    extraFrm,
+                    setting,
+                    popModal, container,
+                    loading_indicator);
+            });
+            $('.delete').click(function(e) {
+                e.preventDefault();
+                var link = $(this).attr("href");
+                $('body').removeClass('timer-alert');
+                swal({
+                    title: "Are your sure to delete ?",
+                    text: "",
+                    type: "warning",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true
+                }, function() {
+                    setInterval(() => {
+                        window.location.href = link;
+                        swal("Delete finished!");
+                    }, 1000);
+                });
+            });
+>>>>>>> origin/piseth
         });
     </script>
 @endsection
@@ -377,4 +484,11 @@
     </div>
     </div>
     <script src="{{ asset('public/js/script.js') }}"></script>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> origin/piseth
 @endsection
+=======
+@endsection
+>>>>>>> menghonghai

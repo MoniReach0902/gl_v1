@@ -103,6 +103,37 @@
     </section>
     {{-- end header --}}
     <div class="container-fluid">
+        <div class="card-header">
+            <form class="frmsearch-{{ $obj_info['name'] }}">
+                <div class="form-row justify-content-end" style="font-size: 11px">
+                    <div class="form-group col-md-2">
+                        <label for="txt">@lang('dev.search')</label>
+                        <input type="text" class="form-control input-sm" name="txt" id="txt"
+                            value="{{ request()->get('txt') ?? '' }}">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="year">@lang('dev.status')</label>
+                        <select class="form-control input-sm" name="status" id="status">
+                            <option value="">-- {{ __('dev.non_select') }} --</option>
+                            {!! cmb_listing(['yes' =>  __('table.enable'), 'no' =>  __('table.disable')], [request()->get('status') ?? ''], '', '', '') !!}
+                        </select>
+                    </div>
+                    <div class="form-group col-md-1">
+                        <label>&nbsp;</label>
+                        <button type="submit" value="filter"
+                            class="btn btn-outline-secondary btn-block formactionbutton"><i
+                                class="fa fa-search"></i></button>
+                    </div>
+                    <div class="form-group col-md-1">
+                        <label>&nbsp;</label>
+                        <button type="button"
+                            class="btn btn-outline-secondary btn-block formactionbutton border border-secondary"
+                            onclick="location.href='{{ url()->current() }}'"><i class="fa fa-refresh" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
         {{--  --}}
 
 
@@ -116,13 +147,13 @@
                 @endif
 
                 <tr>
-                    <th style="width: 10px">ID</th>
-                    <th>Full Name</th>
-                    <th>User Name</th>
-                    <th>Email</th>
+                    <th style="width: 10px">@lang('table.id')</th>
+                    <th>@lang('table.full_name')</th>
+                    <th>@lang('table.user_name')</th>
+                    <th>@lang('table.email')</th>
 
-                    <th>Permission</th>
-                    <th style="width: 40px">Status</th>
+                    <th style="width: 20%">@lang('dev.permission')</th>
+                    <th style="width: 40px;">@lang('table.status')</th>
                     <th style="width: 40px; text-align: center"><i class="fa fa-ellipsis-h"></i></th>
                 </tr>
                 </thead>
@@ -136,15 +167,15 @@
                             <td>{!! $row->email !!}</td>
 
                             <td>{!! $row->permission !!}</td>
-                            <td>
+                            <td style="width: 20px">
                                 @if ($row->userstatus == 'yes')
-                                    <span class="badge bg-success">
-                                        Enable
-                                    @else
-                                        <span class="badge bg-danger">
-                                            Disable
+                                <span class="badge bg-dark">
+                                    @lang('table.enable')
+                                @else
+                                    <span class="badge bg-danger">
+                                        @lang('table.disable')
                                 @endif
-                                </span>
+                                    </span>
                             </td>
                             <td>
                                 @include('app._include.btn_record', [

@@ -1,6 +1,6 @@
 @if (isset($new) && $new)
-    <button id="btnnew_{{ $obj_info['name'] }}" type="button"
-        class="formactionbutton btn btn-outline-primary button-icon"><i class="fe fe-plus me-2"></i>New</button>
+    <button id="btnnew_{{ $obj_info['name'] }}" type="button" class="formactionbutton btn btn btn-success button-icon"><i
+            class="fe fe-plus me-2"></i>@lang('dev.new')</button>
 @endif
 
 @if (isset($istrash) && $istrash)
@@ -14,8 +14,8 @@
 @else
     @if (isset($trash) && $trash)
         <button id="btntrash_{{ $obj_info['name'] }}" type="button"
-            class="formactionbutton btn btn-outline-warning button-icon"><i
-                class="fe fe-trash me-2"></i>@lang('dev.trash')</button>
+            class="formactionbutton btn btn btn-danger button-icon"><i
+                class="fe fe-trash me-2"></i>@lang('btn.btn_trash')</button>
     @endif
 
     @if (isset($import) && $import)

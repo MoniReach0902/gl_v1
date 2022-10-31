@@ -39,7 +39,7 @@ class UserController extends Controller
     {
         //$this->middleware('auth');
         // dd($args['userinfo']);
-        $this->obj_info['title'] = 'User'; //__('label.lb09');
+        $this->obj_info['title'] = __('dev.user'); //__('label.lb09');
 
         $default_protectme = config('me.app.protectme');
         $this->protectme = [
@@ -114,7 +114,6 @@ class UserController extends Controller
         #DEFIND MODEL#
         return $this->model
             ->leftJoin('users_permission', 'users_permission.permission_id', 'users.permission_id')
-
             ->select(
                 \DB::raw($this->fprimarykey . " AS id, name,email, fullname ,userstatus, users.permission_id, users_permission.title as permission"),
 
@@ -135,58 +134,21 @@ class UserController extends Controller
         // FILTERS
         $appends = [];
         $querystr = [];
-        $districts = [];
-        $communes = [];
-
-        if ($request->has('round') && !empty($request->input('round'))) {
-            $qry = (int)$request->input('round');
-            $results = $results->where("round", $qry);
-
-            array_push($querystr, 'round=' . $qry);
-            $appends = array_merge($appends, ['round' => $qry]);
+        if ($request->has('txt') && !empty($request->input('txt'))) {
+            $qry = $request->input('txt');
+            $results = $results->where(function ($query) use ($qry) {
+                $query->whereRaw("name like '%" . $qry . "%'")
+                    ->orwhereRaw("email like '%" . $qry . "%'");
+            });
+            array_push($querystr, 'txt=' . $qry);
+            $appends = array_merge($appends, ['txt' => $qry]);
         }
-
-        if ($request->has('phase') && !empty($request->input('phase'))) {
-            $qry = (int)$request->input('phase');
-            $results = $results->where("phase", $qry);
-
-            array_push($querystr, 'phase=' . $qry);
-            $appends = array_merge($appends, ['phase' => $qry]);
+        if ($request->has('status') && !empty($request->input('status'))) {
+            $qry = $request->input('status');
+            $results = $results->where("userstatus", $qry);
+            array_push($querystr, 'userstatus=' . $qry);
+            $appends = array_merge($appends, ['userstatus' => $qry]);
         }
-
-        if ($request->has('province') && !empty($request->input('province'))) {
-            $qry = (int)$request->input('province');
-            $results = $results->where("province", $qry);
-
-            array_push($querystr, 'province=' . $qry);
-            $appends = array_merge($appends, ['province' => $qry]);
-
-            $where = [['trash', '<>', 'yes'], ['parent_id', '=', $qry ?? -1]];
-            $location = Location::getlocation($this->dflang[0], $where)->get();
-            $districts = $location->pluck('title', 'id')->toArray();
-        }
-
-        if ($request->has('district') && !empty($request->input('district'))) {
-            $qry = (int)$request->input('district');
-            $results = $results->where("district", $qry);
-
-            array_push($querystr, 'district=' . $qry);
-            $appends = array_merge($appends, ['district' => $qry]);
-
-            $where = [['trash', '<>', 'yes'], ['parent_id', '=', $qry ?? -1]];
-            $location = Location::getlocation($this->dflang[0], $where)->get();
-            $communes = $location->pluck('title', 'id')->toArray();
-        }
-
-        if ($request->has('commune') && !empty($request->input('commune'))) {
-            $qry = (int)$request->input('commune');
-            $results = $results->where("commune", $qry);
-
-            array_push($querystr, 'commune=' . $qry);
-            $appends = array_merge($appends, ['commune' => $qry]);
-        }
-
-
         // PAGINATION and PERPAGE
         $perpage = null;
         $perpage_query = [];
@@ -224,8 +186,7 @@ class UserController extends Controller
             'order'         => $order,
             'querystr'      => $querystr,
             'perpage_query' => $perpage_query,
-            'districts'     => $districts,
-            'communes'      => $communes,
+
         ];
     } /*../function..*/
 
@@ -266,7 +227,7 @@ class UserController extends Controller
                     'trash' => $trash_route
                 ],
                 'fprimarykey'     => $this->fprimarykey,
-                'caption' => 'Active',
+                'caption' => __('dev.active'),
             ])
             ->with(['act' => 'index'])
             ->with($sfp)
@@ -369,7 +330,7 @@ class UserController extends Controller
                 'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route],
                 'form' => ['save_type' => 'save'],
                 'fprimarykey'     => $this->fprimarykey,
-                'caption' => 'New',
+                'caption' => __('dev.new'),
                 'isupdate' => false,
 
             ]);
@@ -495,15 +456,16 @@ class UserController extends Controller
         }
 
         $input = $x;
+<<<<<<< HEAD
         // $input['formtype'] = str_replace("'", '', $input['formtype']);
         // $input['formtype'] = explode(',', $input['formtype']);
         // $input['userlevel'] = str_replace("'", '', $input['userlevel']);
         // $input['userlevel'] = explode(',', $input['userlevel']);
         // $input['formuse'] = str_replace("'", '', $input['formuse']);
         // $input['formuse'] = explode(',', $input['formuse']);
+=======
+>>>>>>> origin/piseth
 
-
-        // dd($input);
 
         $sumit_route = url_builder(
             $this->obj_info['routing'],
@@ -518,7 +480,7 @@ class UserController extends Controller
                 'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route],
                 'form' => ['save_type' => 'save'],
                 'fprimarykey'     => $this->fprimarykey,
-                'caption' => 'Edit',
+                'caption' => __('btn.btn_edit'),
                 'isupdate' => true,
                 'input' => $input,
             ]);

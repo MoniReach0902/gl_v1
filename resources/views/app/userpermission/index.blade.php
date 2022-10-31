@@ -50,7 +50,18 @@
 @endsection
 @section('content')
     {{-- Header --}}
+<<<<<<< HEAD
     {{-- <section class="content-header bg-light sticky-top ct-bar-action ct-bar-action-shaddow">
+=======
+
+    {{-- <section class="content-header bg-light sticky-top ct-bar-action ct-bar-action-shaddow">
+=======
+    <section class="content-header bg-light d-flex ct-bar-action ct-bar-action-shaddow">
+>>>>>>> menghonghai
+=======
+    {{-- <section class="content-header bg-light sticky-top ct-bar-action ct-bar-action-shaddow">
+>>>>>>> menghonghai
+>>>>>>> origin/piseth
         <div class="container-fluid">
             <div class="d-flex  border br-5">
                 <div class="flex-grow-1">
@@ -58,7 +69,7 @@
                         {!! $obj_info['icon'] !!}
                         <a href="{{ url_builder($obj_info['routing'], [$obj_info['name']]) }}"
                             class="ct-title-nav text-md">{{ $obj_info['title'] }}</a>
-                        <small class="text-sm">
+                        <small class="text-sm text-muted">
                             <i class="ace-icon fa fa-angle-double-right text-xs"></i>
                             {{ $caption ?? '' }}
                         </small>
@@ -122,17 +133,19 @@
                             @endif
 
                             <tr>
-                                <th style="width: 10px">ID</th>
-                                <th>Permission Title</th>
-                                <th>Rule</th>
-                                <th style="width: 40px">Status</th>
+                                <th style="width: 10px">@lang('table.id')</th>
+                                <th>@lang('table.name')</th>
+                                <th>@lang('table.rule')</th>
+                                <th>@lang('table.create_date')</th>
+                                <th>@lang('table.create_by')</th>
+                                <th style="width: 40px;">@lang('table.status')</th>
                                 <th style="width: 40px; text-align: center"><i class="fa fa-ellipsis-h"></i></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($results as $row)
                                 <tr>
-                                    <td>{{ $row->id }}</td>
+                                    <td>{{ $row->permission_id}}</td>
                                     <td>{!! $row->title !!}</td>
                                     <td>
                                         {{-- start check lavel setting --}}
@@ -190,13 +203,15 @@
 
 
                                     </td>
+                                    <td style="width: 10%">{{ $row->add_date }}</td>
+                                    <td style="width: 10%">{{ $row->username }}</td>
                                     <td>
                                         @if ($row->level_status == 'yes')
                                             <span class="badge bg-dark">
-                                                Enable
+                                                @lang('table.enable')
                                             @else
                                                 <span class="badge bg-danger">
-                                                    Disable
+                                                    @lang('table.disable')
                                         @endif
                                         </span>
                                     </td>
