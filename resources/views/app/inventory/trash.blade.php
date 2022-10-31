@@ -96,7 +96,7 @@
     @endsection
     @section('content')
         {{-- Header --}}
-        <section class="content-header bg-light d-flex ct-bar-action ct-bar-action-shaddow">
+        <section style="position: sticky;top: 64px;" class="content-header bg-light d-flex ct-bar-action ct-bar-action-shaddow">
             <div class="container-fluid">
                 <div class="d-flex border br-5">
                     <div class="flex-grow-1">
@@ -127,7 +127,7 @@
         <div class="container-fluid">
             <div class="card-header mg-t-20">
                 <form class="frmsearch-{{ $obj_info['name'] }}">
-                    <div class="form-row" style="font-size: 11px">
+                    <div class="form-row justify-content-end" style="font-size: 11px">
                         <div class="form-group col-md-2">
                             <label for="txt">@lang('dev.search')</label>
                             <input type="text" class="form-control input-sm" name="txtinventory" id="txt"

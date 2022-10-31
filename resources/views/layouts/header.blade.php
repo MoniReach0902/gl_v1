@@ -1,6 +1,6 @@
  <!-- main-header -->
  <div class="main-header side-header sticky nav nav-item" style="z-index: 2">
-     <div class=" main-container container-fluid">
+     <div class=" main-container container-fluid sticky-top">
          <div class="main-header-left ">
              <div class="responsive-logo">
                  <a href="{{ url_builder('admin.controller', ['home']) }}" class="header-logo">

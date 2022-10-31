@@ -129,7 +129,7 @@
     @endsection
     @section('content')
         {{-- Header --}}
-        <section class="content-header bg-light d-flex ct-bar-action ct-bar-action-shaddow">
+        <section style="position: sticky;top: 64px;" class="content-header bg-light d-flex ct-bar-action ct-bar-action-shaddow">
             <div class="container-fluid">
                 <div class="d-flex border br-5">
                     <div class="flex-grow-1">
@@ -143,7 +143,7 @@
                             </small>
                         </h5>
                     </div>
-                    <div class="pd-10 ">
+                    <div class="pd-10">
                         @include('app._include.btn_index', [
                             'new' => true,
                             'trash' => true,
@@ -152,12 +152,13 @@
                     </div>
 
                 </div>
+            </div>
         </section>
         {{-- end header --}}
         <div class="container-fluid">
-            <div class="card-header mg-t-20">
+            <div style="position: sticky;top: 74px;" class="card-header mg-t-20">
                 <form class="frmsearch-{{ $obj_info['name'] }}">
-                    <div class="form-row" style="font-size: 11px">
+                    <div class="form-row justify-content-end" style="font-size: 11px;">
                         <div class="form-group col-md-2">
                             <label for="txt">@lang('dev.search')</label>
                             <input type="text" class="form-control input-sm" name="txtequipment" id="txt"
@@ -233,8 +234,10 @@
                     value="{{ $input[$fprimarykey] ?? '' }}">
                 <input type="hidden" name="jscallback" value="{{ $jscallback ?? (request()->get('jscallback') ?? '') }}">
 
-                <!-- row -->
-					<div class="row row-sm">
+
+                <div class="card-body p-0 mg-t-20">
+                    <!-- row -->
+					<div class="row row-sh">
 
                         @foreach ($results as $equipments)
 						<div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
@@ -273,13 +276,14 @@
 							</div>
 						</div>
                         @endforeach
+                    </div>
+					
+				<!-- /row -->
+                    <!-- Pagination and Record info -->
+                    @include('app._include.pagination')
+                    <!-- /. end -->
 
-					</div>
-					<!-- /row -->
-                <!-- Pagination and Record info -->
-                @include('app._include.pagination')
-                <!-- /. end -->
-
+                </div>
             </form>
         </div>
     @endsection

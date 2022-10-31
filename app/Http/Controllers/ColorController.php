@@ -486,7 +486,7 @@ class ColorController extends Controller
                             "type" => "validator",
                             'status' => false,
                             'route' => ['url' => $routing],
-                            "message" => __('me.forminvalid'),
+                            "message" => __('ccms.fail_save'),
                             "data" => $validator->errors()
                         ],
                         422
@@ -501,7 +501,7 @@ class ColorController extends Controller
             ->json(
                 [
                     "type" => "error",
-                    "message" => __('me.forminvalid'),
+                    "message" => __('ccms.fail_save'),
                     "data" => []
                 ],
                 422

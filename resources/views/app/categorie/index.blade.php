@@ -129,7 +129,7 @@
     @endsection
     @section('content')
         {{-- Header --}}
-        <section class="content-header bg-light d-flex ct-bar-action ct-bar-action-shaddow">
+        <section style="position: sticky;top: 64px;" class="content-header bg-light d-flex ct-bar-action ct-bar-action-shaddow">
             <div class="container-fluid">
                 <div class="d-flex border br-5">
                     <div class="flex-grow-1">
@@ -143,7 +143,7 @@
                             </small>
                         </h5>
                     </div>
-                    <div class="pd-10 ">
+                    <div class="pd-10">
                         @include('app._include.btn_index', [
                             'new' => true,
                             'trash' => true,
@@ -152,12 +152,13 @@
                     </div>
 
                 </div>
+            </div>
         </section>
         {{-- end header --}}
         <div class="container-fluid">
             <div class="card-header mg-t-20">
                 <form class="frmsearch-{{ $obj_info['name'] }}">
-                    <div class="form-row" style="font-size: 11px">
+                    <div class="form-row d-flex justify-content-end" style="font-size: 11px">
                         <div class="form-group col-md-2">
                             <label for="txt">@lang('dev.search')</label>
                             <input type="text" class="form-control input-sm" name="txtcategorie" id="txt"

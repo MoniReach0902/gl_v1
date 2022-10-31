@@ -304,7 +304,7 @@ class VendorController extends Controller
 
                 ],
                 'fprimarykey'     => $this->fprimarykey,
-                'caption' => __('dev.active'),
+                'caption' => __('btn.btn_trash'),
                 'istrash' => true,
             ])
             ->with(['vendor' => $vendor])
@@ -571,7 +571,7 @@ class VendorController extends Controller
                             "type" => "validator",
                             'status' => false,
                             'route' => ['url' => $routing],
-                            "message" => __('me.forminvalid'),
+                            "message" => __('ccms.fail_save'),
                             "data" => $validator->errors()
                         ],
                         422
@@ -587,7 +587,7 @@ class VendorController extends Controller
             ->json(
                 [
                     "type" => "error",
-                    "message" => __('me.forminvalid'),
+                    "message" => __('ccms.fail_save'),
                     "data" => []
                 ],
                 422

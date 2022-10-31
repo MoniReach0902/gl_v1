@@ -169,9 +169,9 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="type">@lang('dev.type')</label>
+                            <label for="type"><b>@lang('dev.type')</b></label>
                             <select class="form-control input-sm" name="type" id="type">
-                                <option value="">@lang('dev.non_select')</option>
+                                <option value="">-- @lang('dev.non_select') --</option>
                                 {!! cmb_listing(['equipment' => __('table.equipment'), 'shop' => __('table.product_shop')], [$input['type'] ?? ''], '', '') !!}
                             </select>
                             <span id="type-error" class="error invalid-feedback" style="display: none"></span>

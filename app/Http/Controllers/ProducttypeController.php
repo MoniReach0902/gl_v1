@@ -297,7 +297,7 @@ class ProducttypeController extends Controller
 
                 ],
                 'fprimarykey'     => $this->fprimarykey,
-                'caption' => __('dev.active'),
+                'caption' => __('btn.btn_trash'),
                 'istrash' => true,
             ])
             ->with(['producttype' => $producttype])
@@ -549,7 +549,7 @@ class ProducttypeController extends Controller
                             "type" => "validator",
                             'status' => false,
                             'route' => ['url' => $routing],
-                            "message" => __('me.forminvalid'),
+                            "message" => __('ccms.fail_save'),
                             "data" => $validator->errors()
                         ],
                         422
@@ -565,7 +565,7 @@ class ProducttypeController extends Controller
             ->json(
                 [
                     "type" => "error",
-                    "message" => __('me.forminvalid'),
+                    "message" => __('ccms.fail_save'),
                     "data" => []
                 ],
                 422

@@ -264,7 +264,7 @@ class UserpermissionController extends Controller
                 'definelevel' => $this->definelevel,
                 'route' => ['create'  => $create_route, 'active' => $active_route],
                 'fprimarykey'     => $this->fprimarykey,
-                'caption' => 'Trash',
+                'caption' => __('btn.btn_trash'),
                 'istrash' => true,
             ])
             ->with(['act' => 'index'])
