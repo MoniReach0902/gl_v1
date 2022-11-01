@@ -26,4 +26,8 @@
         "remove"=>"ដកចេញ",
         "location"=>"ទីតាំង",
         "seria_number"=>"លេខកូដ",
+        "model"=>"ម៉ូដែល",
+        "cost"=>"តម្លៃទិញចូល",
+        "warranty_date"=>"កាលបរិច្ឆេទធានា",
+        "description"=>"ការពិពណ៌នា",
     ];

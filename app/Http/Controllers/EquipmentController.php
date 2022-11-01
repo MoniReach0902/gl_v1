@@ -131,7 +131,7 @@ class EquipmentController extends Controller
             ->leftJoin('users', 'users.id', 'tblequipments.blongto')
             ->leftJoin('tblinventorys', 'tblinventorys.inventory_id', 'tblequipments.inventory_id')
             ->select(
-                \DB::raw($this->fprimarykey . ",JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text,tblequipments.location,tblequipments.seria_number,tblequipments.create_date,tblequipments.update_date,tblequipments.status,
+                \DB::raw($this->fprimarykey . ",JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text,tblequipments.location,tblequipments.seria_number,tblequipments.create_date,tblequipments.update_date,tblequipments.status As status_equipment,
                         JSON_UNQUOTE(JSON_EXTRACT(tblinventorys.name,'$." . $this->dflang[0] . "')) AS text_inventory,tblequipments.inventory_id As inventoryid,
                         users.name As username"),
             )->whereRaw('tblequipments.trash <> "yes"');
@@ -141,10 +141,11 @@ class EquipmentController extends Controller
         #DEFIND MODEL#
         return $this->model
             ->leftJoin('users', 'users.id', 'tblequipments.blongto')
+            ->leftJoin('tblinventorys', 'tblinventorys.inventory_id', 'tblequipments.inventory_id')
             ->select(
-                \DB::raw($this->fprimarykey . ",JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text,tblequipments.create_date,
-                tblequipments.update_date,tblequipments.status,users.name As username"),
-
+                \DB::raw($this->fprimarykey . ",JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text,tblequipments.location,tblequipments.seria_number,tblequipments.create_date,tblequipments.update_date,tblequipments.status,
+                        JSON_UNQUOTE(JSON_EXTRACT(tblinventorys.name,'$." . $this->dflang[0] . "')) AS text_inventory,tblequipments.inventory_id As inventoryid,
+                        users.name As username"),
             )->whereRaw('tblequipments.trash <> "no"');
     } /*../function..*/
     //JSON_UNQUOTE(JSON_EXTRACT(title, '$.".$this->dflang[0]."'))
@@ -300,6 +301,8 @@ class EquipmentController extends Controller
 
         $default = $this->default();
         $equipment = $default['equipment'];
+        $inventory = $default['inventory'];
+        $vendor = $default['vendor'];
         //dd('aaa');
         $results = $this->listingtrash();
         $sfp = $this->sfp($request, $results);
@@ -340,6 +343,8 @@ class EquipmentController extends Controller
                 'istrash' => true,
             ])
             ->with(['equipment' => $equipment])
+            ->with(['inventory' => $inventory])
+            ->with(['vendor' => $vendor])
             ->with($sfp)
             ->with($setting);
     }
@@ -709,7 +714,7 @@ class EquipmentController extends Controller
         }
 
         //$routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
-        $trash = $this->model->where('equipment_id', $editid)->update(["trash" => "yes"]);
+        $trash = $this->model->where('equipment_id', $editid)->update(["tblequipments.trash" => "yes"]);
 
         if ($trash) {
             return response()
@@ -747,7 +752,7 @@ class EquipmentController extends Controller
         }
 
         //$routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
-        $trash = $this->model->where('equipment_id', $editid)->update(["status" => "no"]);
+        $trash = $this->model->where('equipment_id', $editid)->update(["tblequipments.status" => "no"]);
 
         if ($trash) {
             return response()
@@ -785,7 +790,7 @@ class EquipmentController extends Controller
         }
 
         //$routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
-        $trash = $this->model->where('equipment_id', $editid)->update(["status" => "yes"]);
+        $trash = $this->model->where('equipment_id', $editid)->update(["tblequipments.status" => "yes"]);
 
         if ($trash) {
             return response()

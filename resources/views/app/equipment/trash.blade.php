@@ -166,52 +166,49 @@
 
 
 
-            <div class="card-body table-responsive p-0 mg-t-20">
-                <table class="table  table-striped table-hover text-nowrap table-bordered">
-                    @if (isset($istrash) && $istrash)
-                        <thead style="color: var(--warning)">
-                        @else
-                            <thead style="color: var(--info)">
-                    @endif
-                    <tr>
-                        <th style="width: 10px">@lang('table.id')</th>
-                            <th>@lang('table.name')</th>
-                            <th>@lang('table.create_date')</th>
-                            <th>@lang('table.create_by')</th>
-                            <th style="width: 40px;">@lang('table.status')</th>
-                            <th style="width: 40px; text-align: center"><i class="fa fa-ellipsis-h"></i></th>
+            <div class="card-body p-0 mg-t-20">
+                <!-- row -->
+                <div class="row row-sh">
 
-                    </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($results as $equipments)
-                                <tr>
-                                    <td>{{ $equipments->equipment_id }}</td>
-                                    <td>{{ $equipments['text'] }}</td>
-                                    <td style="width: 10%">{{ $equipments->create_date }}</td>
-                                    <td style="width: 10%">{{ $equipments->username }}</td>
-                                    <td style="width: 20px">
-                                        @if ($equipments->status == 'yes')
-                                        <span class="badge bg-dark">
-                                            @lang('table.enable')
-                                        @else
-                                            <span class="badge bg-danger">
-                                                @lang('table.disable')
-                                        @endif
-                                            </span>
-                                    </td>
-                                    <td>
+                    @foreach ($results as $equipments)
+                    <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
+                        <div class="card">
+                            <div class="card-body iconfont text-start">
+                                <div class="d-flex justify-content-between">
+                                    <h4 class="card-title mb-3">{{ $equipments['text'] }}</h4>
+                                    <div class="card-chart brround ms-auto mt-0">
                                         @include('app._include.btn_record', [
                                             'rowid' => $equipments->equipment_id,
                                             'edit' => false,
                                             'trash' => false,
                                             'restore' => true,
                                         ])
-                                    </td>
-                                </tr>
-                            @endforeach
-                    </tbody>
-                </table>
+                                    </div>
+                                </div>
+                                    @if ($equipments->status == 'yes')
+                                    <span class="badge bg-dark">
+                                        @lang('table.enable')
+                                    @else
+                                        <span class="badge bg-danger">
+                                            @lang('table.disable')
+                                    @endif
+                                        </span>
+                                <div class="d-flex mb-0">
+                                    <div class="">
+                                        <h5 class="mb-1">{{ $equipments['text_inventory'] }}</h5>
+                                        <p class="mb-2 tx-12 text-muted">{{ $equipments->seria_number }}</p>
+                                    </div>
+                                    
+                                </div>
+
+                                <small class="mb-0  text-muted">{{ $equipments->location }}<span class="float-end text-muted">{{ $equipments->create_date }}</span></small>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+                
+                <!-- /row -->
                 <!-- Pagination and Record info -->
                 @include('app._include.pagination')
                 <!-- /. end -->

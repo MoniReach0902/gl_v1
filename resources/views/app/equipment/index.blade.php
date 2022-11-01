@@ -250,12 +250,12 @@
                                             'rowid' => $equipments->equipment_id,
                                             'edit' => true,
                                             'trash' => true,
-                                            'disable' => $equipments->status == 'no' ? false : true,
-                                            'enable' => $equipments->status == 'yes' ? false : true,
+                                            'disable' => $equipments->status_equipment == 'no' ? false : true,
+                                            'enable' => $equipments->status_equipment == 'yes' ? false : true,
                                             ])
 										</div>
 									</div>
-                                        @if ($equipments->status == 'yes')
+                                        @if ($equipments->status_equipment == 'yes')
                                         <span class="badge bg-dark">
                                             @lang('table.enable')
                                         @else
@@ -278,7 +278,7 @@
                         @endforeach
                     </div>
 					
-				<!-- /row -->
+				    <!-- /row -->
                     <!-- Pagination and Record info -->
                     @include('app._include.pagination')
                     <!-- /. end -->

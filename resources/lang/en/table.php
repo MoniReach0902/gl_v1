@@ -26,4 +26,8 @@
         "remove"=>"Remove",
         "location"=>"Location",
         "seria_number"=>"Seria number",
+        "model"=>"Model",
+        "cost"=>"Cost",
+        "warranty_date"=>"Warranty date",
+        "description"=>"Description",
     ];

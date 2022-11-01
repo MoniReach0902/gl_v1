@@ -186,10 +186,10 @@
             </div>
             <div class="col-xl-4 col-lg-6 col-md-5 col-sm-12">
                 <div class="form-group">
-                    <label for=""><b>Model</b></label>
+                    <label for=""><b>@lang('table.model')</b></label>
                     <div class="input-group my-group" style="width:100%;">
-                    <input type="text" class="form-control" name="locaton" id="location"
-                        placeholder="@lang('table.enter') @lang('table.location')" value="{{ $input['location'] ?? '' }}">
+                    <input type="text" class="form-control" name="model" id="model"
+                        placeholder="@lang('table.enter') @lang('table.model')" value="{{ $input['model'] ?? '' }}">
                     <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error"
                         class="error invalid-feedback" style="display: none"></span>
                     </div>
@@ -198,10 +198,10 @@
             </div>
             <div class="col-xl-4 col-lg-6 col-md-5 col-sm-12">
                 <div class="form-group">
-                    <label for=""><b>Cost</b></label>
+                    <label for=""><b>@lang('table.cost')</b></label>
                     <div class="input-group my-group" style="width:100%;">
-                    <input type="text" class="form-control" name="locaton" id="location"
-                        placeholder="@lang('table.enter') @lang('table.location')" value="{{ $input['location'] ?? '' }}">
+                    <input type="number" class="form-control" name="cost" id="cost" step="0.01" min="0"
+                        placeholder="@lang('table.enter') @lang('table.cost')" value="{{ $input['cost'] ?? '' }}">
                     <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error"
                         class="error invalid-feedback" style="display: none"></span>
                     </div>
@@ -210,10 +210,10 @@
             </div>
             <div class="col-xl-4 col-lg-6 col-md-5 col-sm-12">
                 <div class="form-group">
-                    <label for=""><b>Warranty date</b></label>
+                    <label for=""><b>@lang('table.warranty_date')</b></label>
                     <div class="input-group my-group" style="width:100%;">
-                    <input type="text" class="form-control" name="locaton" id="location"
-                        placeholder="@lang('table.enter') @lang('table.location')" value="{{ $input['location'] ?? '' }}">
+                    <input type="date" class="form-control" name="warranty_date" id="warranty_date"
+                         value="{{ $input['warranty_date'] ?? '' }}">
                     <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error"
                         class="error invalid-feedback" style="display: none"></span>
                     </div>
@@ -222,10 +222,14 @@
             </div>
             <div class="col-xl-4 col-lg-6 col-md-5 col-sm-12">
                 <div class="form-group">
-                    <label for=""><b>Inventory</b></label>
+                    <label for=""><b>@lang('dev.inventory')</b></label>
                     <div class="input-group my-group" style="width:100%;">
-                    <input type="text" class="form-control" name="locaton" id="location"
-                        placeholder="@lang('table.enter') @lang('table.location')" value="{{ $input['location'] ?? '' }}">
+                        <select class="form-control input-sm" name="inventory_id" id="inventory_id">
+                            <option value="">-- {{ __('dev.non_select') }}--</option>
+                           
+                          
+                            
+                        </select>
                     <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error"
                         class="error invalid-feedback" style="display: none"></span>
                     </div>
@@ -234,10 +238,14 @@
             </div>
             <div class="col-xl-4 col-lg-6 col-md-5 col-sm-12">
                 <div class="form-group">
-                    <label for=""><b>Vendor</b></label>
+                    <label for=""><b>@lang('dev.vendor')</b></label>
                     <div class="input-group my-group" style="width:100%;">
-                    <input type="text" class="form-control" name="locaton" id="location"
-                        placeholder="@lang('table.enter') @lang('table.location')" value="{{ $input['location'] ?? '' }}">
+                        <select class="form-control input-sm" name="vendor_id" id="vendor_id">
+                            <option value="">-- {{ __('dev.non_select') }}--</option>
+                           
+                          
+                            
+                        </select>
                     <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error"
                         class="error invalid-feedback" style="display: none"></span>
                     </div>
@@ -247,9 +255,9 @@
 
             </div>
             <div class="form-group">
-                <label for=""><b>Description</b></label>
+                <label for=""><b>@lang('table.description')</b></label>
                 <div class="input-group my-group" style="width:100%;">
-                    <textarea class="form-control" name="" id="" cols="30" rows="8" placeholder="@lang('table.enter') @lang('table.location')">{{ $input['description'] ?? '' }}</textarea>
+                    <textarea class="form-control" name="" id="" cols="30" rows="8" placeholder="@lang('table.enter') @lang('table.description')">{{ $input['description'] ?? '' }}</textarea>
                 <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error"
                     class="error invalid-feedback" style="display: none"></span>
                 </div>
