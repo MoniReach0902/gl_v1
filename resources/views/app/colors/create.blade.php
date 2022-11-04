@@ -80,25 +80,36 @@
 @endsection
 @section('content')
     {{-- Header --}}
-    <section class="content-header bg-light d-flex ct-bar-action ct-bar-action-shaddow">
-        <div class="container-fluid">
-            <div class="d-flex  border br-5">
-                <div class="flex-grow-1">
-                    <h5 class="mb-2 mg-t-20 mg-l-20">
-                        {!! $obj_info['icon'] !!}
-                        <a href="{{ url_builder($obj_info['routing'], [$obj_info['name']]) }}"
-                            class="ct-title-nav text-md">{{ $obj_info['title'] }}</a>
-                        <small class="text-sm text-muted">
-                            <i class="ace-icon fa fa-angle-double-right text-xs"></i>
-                            {{ $caption ?? '' }}
-                        </small>
-                    </h5>
+    <section style="position: sticky;top: 64px; z-index:2" class="content-header bg-light ct-bar-action ct-bar-action-shaddow">
+            
+        <div class="col-lg-12 col-md-12 sticky">
+            <div class="card custom-card" id="right">
+                <div class="card-body">
+                    <div class="text-wrap">
+                        <div class="example">
+                            <nav class="breadcrumb-4 d-flex">
+                                <div class="flex-grow-1">
+                                    <h5 class="mb-2 mg-t-20 mg-l-20">
+                                        {!! $obj_info['icon'] !!}
+                                        <a href="{{ url_builder($obj_info['routing'], [$obj_info['name']]) }}"
+                                            class="ct-title-nav text-md">{{ $obj_info['title'] }}</a>
+                                        <small class="text-sm">
+                                            <i class="ace-icon fa fa-angle-double-right text-xs"></i>
+                                            {{ $caption ?? '' }}
+                                        </small>
+                                    </h5>
+                                </div>
+                                <div class="pd-10 ">
+                                    @include('app._include.btn_create', $action_btn)
+                                    
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
                 </div>
-                <div class="pd-10 ">
-                    @include('app._include.btn_create', $action_btn)
-                </div>
-
             </div>
+        </div>
+
     </section>
     {{-- end header --}}
     <div class="container-fluid">
@@ -113,83 +124,42 @@
             <input type="hidden" name="jscallback" value="{{ $jscallback ?? (request()->get('jscallback') ?? '') }}">
             <br>
 
-            <div class="card-body">
-                <div class="form-group">
-                    <label for="">@lang('dev.name_kh_eng')</label>
-                    <div class="input-group my-group" style="width:100%;">
-
-                        <select class="form-control form-select input-sm tab_title pd-l-20" style="width:20%;">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="">@lang('dev.name_kh_eng')</label>
+                        <div class="input-group my-group" style="width:100%;">
+    
+                            <select class="form-control form-select input-sm tab_title pd-l-20" style="width:20%;">
+                                @foreach (config('me.app.project_lang') as $lang)
+                                    <option value="@lang($lang[0])">@lang('dev.lang_' . $lang[0])</option>
+                                @endforeach
+    
+                            </select>
+                            @php
+                                $active = '';
+                            @endphp
                             @foreach (config('me.app.project_lang') as $lang)
-                                <option value="@lang($lang[0])">@lang('dev.lang_' . $lang[0])</option>
+                                @php
+                                    // dd($lang);
+                                    $title = json_decode($input['title'] ?? '', true);
+                                @endphp
+                                <input type="text" class="form-control input-sm {{ $active }}" style="width:80%;"
+                                    name="title-{{ $lang[0] }}" id="title-{{ $lang[0] }}"
+                                    placeholder="@lang('dev.lang_' . $lang[0])" value="{{ $name[$lang[0]] ?? '' }}">
+                                @php
+                                    $active = 'hide';
+                                @endphp
                             @endforeach
-
-                        </select>
-                        @php
-                            $active = '';
-                        @endphp
-                        @foreach (config('me.app.project_lang') as $lang)
-                            @php
-                                // dd($lang);
-                                $title = json_decode($input['title'] ?? '', true);
-                            @endphp
-                            <input type="text" class="form-control input-sm {{ $active }}" style="width:80%;"
-                                name="title-{{ $lang[0] }}" id="title-{{ $lang[0] }}"
-                                placeholder="@lang('dev.lang_' . $lang[0])" value="{{ $name[$lang[0]] ?? '' }}">
-                            @php
-                                $active = 'hide';
-                            @endphp
-                        @endforeach
-                        <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error" class="error invalid-feedback"
-                            style="display: none"></span>
-                    </div>
-                    <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
-                </div>
-
-                <div class="form-group create_img">
-                    <label for=""><b>@lang('table.image')</b></label>
-                    <div class="input-group my-group" style="width:100%;">
-                        <input type="file" class="dropify" data-height="400"
-                            accept="image/png, image/jpeg,image/PNG, image/JPEG,image/jpg,image/JPG" name="images"
-                            value="" />
-                        <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error" class="error invalid-feedback"
-                            style="display: none"></span>
-                    </div>
-
-                    <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
-                </div>
-                @if (isset($input))
-                    <div class="input-group my-group update_img" style="width:100%;">
-                        <div class="dropify-wrapper has-preview" style="height: 411.988px;">
-                            <div class="dropify-message"><span class="file-icon">
-                                </span>
-                                <p class="dropify-error">Ooops, something wrong appended.</p>
-                            </div>
-                            <div class="dropify-loader" style="display: none;"></div>
-                            <div class="dropify-errors-container">
-                                <ul></ul>
-                            </div><input type="file" class="dropify" data-height="400"
-                                accept="image/png, image/jpeg,image/PNG, image/JPEG,image/jpg,image/JPG" name=""
-                                value="" data-date="3331-09-10T00:00:00+07:00"><button type="button" id="remove"
-                                class="dropify-clear remove_img">Remove</button>
-                            <div class="dropify-preview" style="display: block;"><span class="dropify-render"><img
-                                        src="{{ asset('storage/app/colors/' . $input['image_url'] ?? '') }}"
-                                        style="max-height: 400px;"></span>
-                                <div class="dropify-infos">
-                                    <div class="dropify-infos-inner">
-                                        <p class="dropify-filename"><span
-                                                class="dropify-filename-inner">333109105.jpg</span>
-                                        </p>
-                                        <p class="dropify-infos-message">Drag and drop or click to replace</p>
-                                    </div>
-                                </div>
-                            </div>
+                            <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error" class="error invalid-feedback"
+                                style="display: none"></span>
                         </div>
-
-                        <span id="title-en-error" class="error invalid-feedback" style="display: none"></span>
+                        <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
                     </div>
-                    <input type="hidden" name="old_image" value="{{ $input['image_url'] ?? '' }}">
-                @endif
-
+                    
+    
+                   
+                </div>
             </div>
             <!-- /.card-body -->
 

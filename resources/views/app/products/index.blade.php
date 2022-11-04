@@ -106,25 +106,39 @@
 @endsection
 @section('content')
     {{-- Header --}}
-    <section class="content-header bg-light d-flex ct-bar-action ct-bar-action-shaddow">
-        <div class="container-fluid">
-            <div class="d-flex  border br-5">
-                <div class="flex-grow-1">
-                    <h5 class="mb-2 mg-t-20 mg-l-20">
-                        {{-- {!! $obj_info['icon'] !!} --}}
-                        <a href="{{ url_builder($obj_info['routing'], [$obj_info['name']]) }}"
-                            class="ct-title-nav text-md">{{ $obj_info['title'] }}</a>
-                        <small class="text-sm text-muted">
-                            <i class="ace-icon fa fa-angle-double-right text-xs"></i>
-                            {{ $caption ?? '' }}
-                        </small>
-                    </h5>
+    <section style="position: sticky;top: 64px; z-index:2" class="content-header bg-light ct-bar-action ct-bar-action-shaddow">
+            
+        <div class="col-lg-12 col-md-12 sticky">
+            <div class="card custom-card" id="right">
+                <div class="card-body">
+                    <div class="text-wrap">
+                        <div class="example">
+                            <nav class="breadcrumb-4 d-flex">
+                                <div class="flex-grow-1">
+                                    <h5 class="mb-2 mg-t-20 mg-l-20">
+                                        {!! $obj_info['icon'] !!}
+                                        <a href="{{ url_builder($obj_info['routing'], [$obj_info['name']]) }}"
+                                            class="ct-title-nav text-md">{{ $obj_info['title'] }}</a>
+                                        <small class="text-sm">
+                                            <i class="ace-icon fa fa-angle-double-right text-xs"></i>
+                                            {{ $caption ?? '' }}
+                                        </small>
+                                    </h5>
+                                </div>
+                                <div class="pd-10 ">
+                                    @include('app._include.btn_index', [
+                                        'new' => true,
+                                        'trash' => true,
+                                        'active' => true,
+                                    ])
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
                 </div>
-                <div class="pd-10 ">
-                    @include('app._include.btn_index', ['new' => true, 'trash' => true, 'active' => true])
-                </div>
-
             </div>
+        </div>
+
     </section>
     {{-- end header --}}
     <div class="container-fluid">

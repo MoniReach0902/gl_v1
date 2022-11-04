@@ -81,7 +81,6 @@
     <div class="col-lg-12 col-md-12 sticky">
         <div class="card custom-card" id="right">
             <div class="card-body">
-
                 <div class="text-wrap">
                     <div class="example">
                         <nav class="breadcrumb-4 d-flex">

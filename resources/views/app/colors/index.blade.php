@@ -77,11 +77,24 @@
                         }, 1000);
                     });
                 });
+
                 $("#btnnew_{{ $obj_info['name'] }}").click(function(e) {
+
                     let route_create = "{{ $route['create'] }}";
-                    window.location = route_create;
+                    let extraFrm = {}; //{jscallback:'test'};
+                    let setting = {}; //{fnSuccess:foo};
+                    let popModal = {
+                        show: true,
+                        size: 'modal-xl'
+                        //modal-sm, modal-lg, modal-xl
+                    };
+
+                    let loading_indicator = '';
+                    helper.silentHandler(route_create, null, extraFrm, setting, popModal, 'air_windows',
+                        loading_indicator);
                     //     loading_indicator);
                 });
+
                 $("#btntrash_{{ $obj_info['name'] }}").click(function(e) {
                     let route_create = "{{ $route['trash'] ?? '' }}";
                     window.location = route_create;
@@ -110,33 +123,43 @@
     @endsection
     @section('content')
         {{-- Header --}}
-        <section class="content-header bg-light d-flex ct-bar-action ct-bar-action-shaddow">
-            <div class="container-fluid">
-                <div class="d-flex border br-5">
-                    <div class="flex-grow-1">
-                        <h5 class="mb-2 mg-t-20 mg-l-20">
-                            {!! $obj_info['icon'] !!}
-                            <a href="{{ url_builder($obj_info['routing'], [$obj_info['name']]) }}"
-                                class="ct-title-nav text-md">{{ $obj_info['title'] }}</a>
-                            <small class="text-sm text-muted">
-                                <i class="ace-icon fa fa-angle-double-right text-xs"></i>
-                                {{ $caption ?? '' }}
-                            </small>
-                        </h5>
+        <section style="position: sticky;top: 64px; z-index:2" class="content-header bg-light ct-bar-action ct-bar-action-shaddow">
+            
+            <div class="col-lg-12 col-md-12 sticky">
+                <div class="card custom-card" id="right">
+                    <div class="card-body">
+                        <div class="text-wrap">
+                            <div class="example">
+                                <nav class="breadcrumb-4 d-flex">
+                                    <div class="flex-grow-1">
+                                        <h5 class="mb-2 mg-t-20 mg-l-20">
+                                            {!! $obj_info['icon'] !!}
+                                            <a href="{{ url_builder($obj_info['routing'], [$obj_info['name']]) }}"
+                                                class="ct-title-nav text-md">{{ $obj_info['title'] }}</a>
+                                            <small class="text-sm">
+                                                <i class="ace-icon fa fa-angle-double-right text-xs"></i>
+                                                {{ $caption ?? '' }}
+                                            </small>
+                                        </h5>
+                                    </div>
+                                    <div class="pd-10 ">
+                                        @include('app._include.btn_index', [
+                                            'new' => true,
+                                            'trash' => true,
+                                            'active' => true,
+                                        ])
+                                    </div>
+                                </nav>
+                            </div>
+                        </div>
                     </div>
-                    <div class="pd-10 ">
-                        @include('app._include.btn_index', [
-                            'new' => true,
-                            'trash' => true,
-                            'active' => true,
-                        ])
-                    </div>
-
                 </div>
+            </div>
+
         </section>
         {{-- end header --}}
         <div class="container-fluid">
-            <div class="card-header mg-t-20">
+            <div class="card-header mg-t-20" style="position: sticky;top: 210px; font-size:11px;">
                 <form class="frmsearch-{{ $obj_info['name'] }}">
                     <div class="form-row" style="font-size: 11px">
                         <div class="form-group col-md-2">
@@ -144,23 +167,11 @@
                             <input type="text" class="form-control input-sm" name="txtcolors" id="txtcolors"
                                 value="{{ request()->get('txtcolors') ?? '' }}">
                         </div>
-                        {{-- <div class="form-group col-md-2">
-                            <label for="year">@lang('dev.type')</label>
-                            <select class="form-control input-sm" name="type" id="type">
-                                <option value="">-- {{ __('dev.non_select') }} --</option>
-                                {!! cmb_listing(
-                                    ['equipment' => __('table.equipment'), 'shop' => __('table.product_shop')],
-                                    [request()->get('type') ?? ''],
-                                    '',
-                                    '',
-                                    '',
-                                ) !!}
-                            </select>
-                        </div> --}}
+                        
                         <div class="form-group col-md-2">
                             <label for="year">@lang('table.status')</label>
                             <select class="form-control input-sm" name="status" id="status">
-                                <option value="">--{{ __('table.non_select') }} --</option>
+                                <option value="">--{{ __('dev.non_select') }} --</option>
                                 {!! cmb_listing(
                                     ['yes' => __('table.enable'), 'no' => __('table.disable')],
                                     [request()->get('status') ?? ''],
@@ -206,10 +217,8 @@
                         @endif
                         <tr>
                             <th style="width: 10px">@lang('table.id')</th>
-                            <th style="width: 150px;">@lang('table.image')</th>
                             <th>@lang('table.name')</th>
                             <th style="width: 10%">@lang('table.create_date')</th>
-                            <th style="width: 10%">@lang('table.update_date')</th>
                             <th style="width: 10%">@lang('table.create_by')</th>
                             <th style="width: 20px;">@lang('table.status')</th>
                             <th style="width: 40px; text-align: center"><i class="fa fa-ellipsis-h"></i></th>
@@ -220,18 +229,9 @@
                             @foreach ($results as $colors)
                                 <tr>
                                     <td>{{ $colors->color_id }}</td>
-                                    <td>
-
-                                        <a href="{{ asset('storage/app/colors/' . $colors['image_url']) }}"
-                                            data-caption="IMAGE-01" data-id="lion" class="js-img-viewer">
-                                            <img src="{{ asset('storage/app/colors/' . $colors['image_url']) }}"
-                                                width="150px" height="100px">
-                                        </a>
-
-                                    </td>
+                                    
                                     <td>{{ $colors['text'] }}</td>
                                     <td>{{ $colors->create_date }}</td>
-                                    <td>{{ $colors->update_date }}</td>
                                     <td>{{ $colors->username }}</td>
                                     <td style="width: 20px">
                                         @if ($colors->status == 'yes')

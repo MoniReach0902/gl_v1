@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Categorie;
 use App\Models\Example;
-use App\Models\Inventory;
 use Illuminate\Http\Request;
 use Validator;
 use DB;
@@ -15,6 +13,8 @@ use App\Models\UserPermission;
 use App\Models\Location;
 use App\Models\Room;
 use App\Models\Slider;
+use App\Models\Inventory;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class InventoryController extends Controller
@@ -44,7 +44,7 @@ class InventoryController extends Controller
     {
         //$this->middleware('auth');
         // dd($args['userinfo']);
-        $this->obj_info['title'] =  'Inventory';
+        $this->obj_info['title'] =  __('dev.inventory');
 
         $default_protectme = config('me.app.protectme');
         $this->protectme = [
@@ -115,8 +115,18 @@ class InventoryController extends Controller
             ->select(
                 \DB::raw($this->fprimarykey . ",JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text,tblinventorys.create_date,
                          tblinventorys.update_date,tblinventorys.status,users.name As username"),
-
             )->whereRaw('tblinventorys.trash <> "yes"');
+    } /*../function..*/
+    public function listingtrash()
+    {
+        #DEFIND MODEL#
+        return $this->model
+            ->leftJoin('users', 'users.id', 'tblinventorys.blongto')
+            ->select(
+                \DB::raw($this->fprimarykey . ",JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text,tblinventorys.create_date,
+                tblinventorys.update_date,tblinventorys.status,users.name As username"),
+
+            )->whereRaw('tblinventorys.trash <> "no"');
     } /*../function..*/
     //JSON_UNQUOTE(JSON_EXTRACT(title, '$.".$this->dflang[0]."'))
     public function sfp($request, $results)
@@ -135,16 +145,19 @@ class InventoryController extends Controller
         if ($request->has('txtinventory') && !empty($request->input('txtinventory'))) {
             $qry = $request->input('txtinventory');
             $results = $results->where(function ($query) use ($qry) {
-                $query->whereRaw("tblinventorys.text like '%" . $qry . "%'");
+                $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) like '%" . $qry . "%'")
+                ->orwhereRaw($this->fprimarykey . " like '%" . $qry . "%'");
             });
-            array_push($querystr, 'tblinventorys.text=' . $qry);
-            $appends = array_merge($appends, ['tblinventorys.text' => $qry]);
+            array_push($querystr, "'JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) ='" . $qry);
+            $appends = array_merge($appends, ["'JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "'))'" => $qry]);
         }
+        
         if ($request->has('status') && !empty($request->input('status'))) {
             $qry = $request->input('status');
-            $results = $results->where("userstatus", $qry);
-            array_push($querystr, 'userstatus=' . $qry);
-            $appends = array_merge($appends, ['userstatus' => $qry]);
+            $results = $results->where("tblinventorys.status", $qry);
+    
+            array_push($querystr, 'utblinventorys.status=' . $qry);
+            $appends = array_merge($appends, ['tblinventorys.userstatus' => $qry]);
         }
         // PAGINATION and PERPAGE
         $perpage = null;
@@ -196,9 +209,10 @@ class InventoryController extends Controller
 
         $default = $this->default();
         $inventory = $default['inventory'];
-         //dd('aaa');
-         $results = $this->listingmodel();
-         $sfp = $this->sfp($request, $results);
+        //dd('aaa');
+        $results = $this->listingmodel();
+        $sfp = $this->sfp($request, $results);
+        // dd($sfp);
 
 
         $create_modal = url_builder(
@@ -235,12 +249,60 @@ class InventoryController extends Controller
                     'submit' => $submit,
                 ],
                 'fprimarykey'     => $this->fprimarykey,
-                'caption' => 'Active',
+                'caption' => __('dev.active'),
             ])
             ->with(['inventory' => $inventory])
             ->with($sfp)
-            ->with($setting)
-        ;
+            ->with($setting);
+    }
+
+    public function trash(Request $request, $condition = [], $setting = [])
+    {
+
+        $default = $this->default();
+        $inventory = $default['inventory'];
+        //dd('aaa');
+        $results = $this->listingtrash();
+        $sfp = $this->sfp($request, $results);
+
+
+
+        $create_route = url_builder(
+            $this->obj_info['routing'],
+            [
+                $this->obj_info['name'], 'create', ''
+            ],
+        );
+
+        $trash_route = url_builder(
+            $this->obj_info['routing'],
+            [
+                $this->obj_info['name'], 'trash', ''
+            ],
+        );
+        $index_route = url_builder(
+            $this->obj_info['routing'],
+            [
+                $this->obj_info['name'], 'index', ''
+            ],
+        );
+
+        return view('app.' . $this->obj_info['name'] . '.trash')
+            ->with([
+                'obj_info'  => $this->obj_info,
+                'route' => [
+                    'create'  => $create_route,
+                    'trash' => $trash_route,
+                    // 'index_route' => $index_route,
+
+                ],
+                'fprimarykey'     => $this->fprimarykey,
+                'caption' => __('btn.btn_trash'),
+                'istrash' => true,
+            ])
+            ->with(['inventory' => $inventory])
+            ->with($sfp)
+            ->with($setting);
     }
 
     public function validator($request, $isupdate = false)
@@ -252,7 +314,7 @@ class InventoryController extends Controller
         // $rules['img'] = ['required'];
         $validatorMessages = [
             /*'required' => 'The :attribute field can not be blank.'*/
-            'required' => "field can't be blank",
+            'required' => __('ccms.fieldreqire'),
         ];
 
         return Validator::make($request->all(), $rules, $validatorMessages);
@@ -263,18 +325,27 @@ class InventoryController extends Controller
         $newid = ($isupdate) ? $request->input($this->fprimarykey)  : $this->model->max($this->fprimarykey) + 1;
         $tableData = [];
         $data = toTranslate($request, 'title', 0, true);
+        $images = $request->file('images');
+        $type = $request->input('type');
 
-        $tableData = [
-            'inventory_id' => $newid,
-            'name' => json_encode($data),
-            'create_date' => date("Y-m-d"),
-            'blongto' => $this->args['userinfo']['id'],
-            'trash' => 'no',
-            'status' => 'yes',
-
-        ];
+            $tableData = [
+                'inventory_id' => $newid,
+                'name' => json_encode($data),
+                'create_date' => date("Y-m-d"),
+                'blongto' => $this->args['userinfo']['id'],
+                'trash' => 'no',
+                'status' => 'yes',
+            ];
         if ($isupdate) {
-            $tableData = array_except($tableData, [$this->fprimarykey,'create_date', 'password', 'trash']);
+            $tableData = [
+                'inventory_id' => $newid,
+                'name' => json_encode($data),
+                'update_date' => Carbon::now()->format('d-m-Y'),
+                'blongto' => $this->args['userinfo']['id'],
+                'trash' => 'no',
+                'status' => 'yes',
+            ];
+            $tableData = array_except($tableData, [$this->fprimarykey, 'create_date',  'trash']);
         }
         return ['tableData' => $tableData, $this->fprimarykey => $newid];
     }
@@ -303,8 +374,9 @@ class InventoryController extends Controller
                 'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route, 'new' => $new],
                 'form' => ['save_type' => 'save'],
                 'fprimarykey'     => $this->fprimarykey,
-                'caption' => 'New',
+                'caption' => __('dev.new'),
                 'isupdate' => false,
+                // 'img_check' => true,
 
             ]);
     } /*../function..*/
@@ -350,7 +422,7 @@ class InventoryController extends Controller
         $save_status = $this->model->insert($data['tableData']);
         // dd($save_status);
         if ($save_status) {
-            // $request->file('img')->storeAs('slider', $data['tableData']['img']);
+            //$request->file('images')->storeAs('inventory', $data['tableData']['image_url']);
             $savetype = strtolower($request->input('savetype'));
             $success_ms = __('ccms.suc_save');
             $callback = 'formreset';
@@ -384,8 +456,8 @@ class InventoryController extends Controller
     public function edit(Request $request, $id = 0)
     {
 
-         #prepare for back to url after SAVE#
-         if (!$request->session()->has('backurl')) {
+        #prepare for back to url after SAVE#
+        if (!$request->session()->has('backurl')) {
             $request->session()->put('backurl', redirect()->back()->getTargetUrl());
         }
 
@@ -435,8 +507,8 @@ class InventoryController extends Controller
 
         $input = $x;
 
-        $name =json_decode($input['name'],true);
-
+        $name = json_decode($input['name'], true);
+        //dd($name);
 
         $sumit_route = url_builder(
             $this->obj_info['routing'],
@@ -444,27 +516,19 @@ class InventoryController extends Controller
             [],
         );
         $cancel_route = redirect()->back()->getTargetUrl();
-        $province_id = empty($input['province_id']) ? -1 : $input['province_id'];
-        $districts = [];
-        $where = [['trash', '<>', 'yes'], ['parent_id', '=', $province_id]];
-        $location = Location::getlocation($this->dflang[0], $where)->get();
-        $districts = $location->pluck('title', 'id')->toArray();
-        $district_id = empty($input['district_id']) ? -1 : $input['district_id'];
-        $communes = [];
-        $where = [['trash', '<>', 'yes'], ['parent_id', '=', $district_id]];
-        $location = Location::getlocation($this->dflang[0], $where)->get();
-        $communes = $location->pluck('title', 'id')->toArray();
-        //dd($input);
-        return view('app.' . $this->obj_info['name'] . '.create', ) //change piseth
+
+        // dd($input);
+        return view('app.' . $this->obj_info['name'] . '.create',) //change piseth
             ->with([
                 'obj_info'  => $this->obj_info,
                 'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route],
                 'form' => ['save_type' => 'save'],
                 'fprimarykey' => $this->fprimarykey,
-                'caption' => 'Edit',
+                'caption' => __('btn.btn_edit'),
                 'isupdate' => true,
                 'input' => $input,
                 'name' => $name,
+
             ]);
     } /*../end fun..*/
 
@@ -485,7 +549,7 @@ class InventoryController extends Controller
                             "type" => "validator",
                             'status' => false,
                             'route' => ['url' => $routing],
-                            "message" => __('me.forminvalid'),
+                            "message" => __('ccms.fail_save'),
                             "data" => $validator->errors()
                         ],
                         422
@@ -493,6 +557,7 @@ class InventoryController extends Controller
             }
 
             $data = $this->setinfo($request, true);
+            // dd($data);
             return $this->proceed_update($request, $data, $obj_info);
         } /*end if is post*/
 
@@ -500,7 +565,7 @@ class InventoryController extends Controller
             ->json(
                 [
                     "type" => "error",
-                    "message" => __('me.forminvalid'),
+                    "message" => __('ccms.fail_save'),
                     "data" => []
                 ],
                 422
@@ -512,7 +577,7 @@ class InventoryController extends Controller
         // dd($data);
 
         $update_status = $this->model
-            ->where($this->fprimarykey, $data['inventory_id'])
+            ->where($this->fprimarykey, $data[$this->fprimarykey])
             ->update($data['tableData']);
 
         if ($update_status) {
@@ -552,7 +617,45 @@ class InventoryController extends Controller
             );
     }
     /* end function*/
+    public function restore(Request $request, $id = 0)
+    {
+        $obj_info = $this->obj_info;
+        #Retrieve Data#
+        if (empty($id)) {
+            $editid = $this->args['routeinfo']['id'];
+        } else {
+            $editid = $id;
+        }
 
+        //$routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
+        $trash = $this->model->where('inventory_id', $editid)->update(["trash" => "no"]);
+
+        if ($trash) {
+            return response()
+                ->json(
+                    [
+                        "type" => "url",
+                        "status" => true,
+                        'route' => ['url' => redirect()->back()->getTargetUrl()],
+                        "message" => __('dev.success'),
+
+                        "data" => []
+                    ],
+                    200
+                );
+        }
+        return response()
+            ->json(
+                [
+                    "type" => "error",
+                    'status' => false,
+                    'route' => ['url' => redirect()->back()->getTargetUrl()],
+                    "message" => 'Your update is not affected',
+                    "data" => ['id' => $editid]
+                ],
+                422
+            );
+    }
     public function totrash(Request $request, $id = 0)
     {
         $obj_info = $this->obj_info;
@@ -590,5 +693,81 @@ class InventoryController extends Controller
                 ],
                 422
             );
+    }
+    public function disable(Request $request, $id = 0)
+    {
+        $obj_info = $this->obj_info;
+        #Retrieve Data#
+        if (empty($id)) {
+            $editid = $this->args['routeinfo']['id'];
+        } else {
+            $editid = $id;
         }
+
+        //$routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
+        $trash = $this->model->where('inventory_id', $editid)->update(["status" => "no"]);
+
+        if ($trash) {
+            return response()
+                ->json(
+                    [
+                        "type" => "url",
+                        'status' => true,
+                        'route' => ['url' => redirect()->back()->getTargetUrl()],
+                        "message" => __('ccms.suc_delete'),
+                        "data" => ['inventory_id' => $editid]
+                    ],
+                    200
+                );
+        }
+        return response()
+            ->json(
+                [
+                    "type" => "error",
+                    'status' => false,
+                    'route' => ['url' => redirect()->back()->getTargetUrl()],
+                    "message" => 'Your update is not affected',
+                    "data" => ['id' => $editid]
+                ],
+                422
+            );
+    }
+    public function enable(Request $request, $id = 0)
+    {
+        $obj_info = $this->obj_info;
+        #Retrieve Data#
+        if (empty($id)) {
+            $editid = $this->args['routeinfo']['id'];
+        } else {
+            $editid = $id;
+        }
+
+        //$routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
+        $trash = $this->model->where('inventory_id', $editid)->update(["status" => "yes"]);
+
+        if ($trash) {
+            return response()
+                ->json(
+                    [
+                        "type" => "url",
+                        'status' => true,
+                        'route' => ['url' => redirect()->back()->getTargetUrl()],
+                        "message" => __('ccms.suc_delete'),
+                        "data" => ['inventory_id' => $editid]
+                    ],
+                    200
+                );
+        }
+        return response()
+            ->json(
+                [
+                    "type" => "error",
+                    'status' => false,
+                    'route' => ['url' => redirect()->back()->getTargetUrl()],
+                    "message" => 'Your update is not affected',
+                    "data" => ['id' => $editid]
+                ],
+                422
+            );
+    }
 }

@@ -45,7 +45,7 @@ class TypeProductController extends Controller
     {
         //$this->middleware('auth');
         // dd($args['userinfo']);
-        $this->obj_info['title'] = __('table.category');
+        $this->obj_info['title'] = __('dev.product_type');
 
         $default_protectme = config('me.app.protectme');
         $this->protectme = [

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Colors;
 use App\Models\Example;
 use Illuminate\Http\Request;
 use Validator;
@@ -14,14 +13,14 @@ use App\Models\UserPermission;
 use App\Models\Location;
 use App\Models\Room;
 use App\Models\Slider;
-use App\Models\Vendor;
+use App\Models\Colors;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class ColorsController extends Controller
 {
     //
-    private $obj_info = ['name' => 'colors', 'routing' => 'admin.controller', 'title' => 'Colors', 'icon' => '<i class="fas fa-industry"></i>'];
+    private $obj_info = ['name' => 'colors', 'routing' => 'admin.controller', 'title' => 'Colors', 'icon' => '<i class="fas fa-tags"></i>'];
     public $args;
 
     private $model;
@@ -115,21 +114,20 @@ class ColorsController extends Controller
             ->leftJoin('users', 'users.id', 'tblcolors.blongto')
             ->select(
                 \DB::raw($this->fprimarykey . ",JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text,tblcolors.create_date,
-                tblcolors.image_url,tblcolors.update_date,tblcolors.status,users.name As username"),
-
+                         tblcolors.update_date,tblcolors.status,users.name As username"),
             )->whereRaw('tblcolors.trash <> "yes"');
     } /*../function..*/
-    // public function listingtrash()
-    // {
-    //     #DEFIND MODEL#
-    //     return $this->model
-    //         ->leftJoin('users', 'users.id', 'tblvendors.blongto')
-    //         ->select(
-    //             \DB::raw($this->fprimarykey . ",JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text,tblvendors.create_date,
-    //             tblvendors.image_url,tblvendors.type,tblvendors.update_date,tblvendors.status,users.name As username"),
+    public function listingtrash()
+    {
+        #DEFIND MODEL#
+        return $this->model
+            ->leftJoin('users', 'users.id', 'tblcolors.blongto')
+            ->select(
+                \DB::raw($this->fprimarykey . ",JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text,tblcolors.create_date,
+                tblcolors.update_date,tblcolors.status,users.name As username"),
 
-    //         )->whereRaw('tblvendors.trash <> "no"');
-    // } /*../function..*/
+            )->whereRaw('tblcolors.trash <> "no"');
+    } /*../function..*/
     //JSON_UNQUOTE(JSON_EXTRACT(title, '$.".$this->dflang[0]."'))
     public function sfp($request, $results)
     {
@@ -148,23 +146,18 @@ class ColorsController extends Controller
             $qry = $request->input('txtcolors');
             $results = $results->where(function ($query) use ($qry) {
                 $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) like '%" . $qry . "%'")
-                    ->orwhereRaw($this->fprimarykey . " like '%" . $qry . "%'");
+                ->orwhereRaw($this->fprimarykey . " like '%" . $qry . "%'");
             });
             array_push($querystr, "'JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) ='" . $qry);
             $appends = array_merge($appends, ["'JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "'))'" => $qry]);
         }
-
+        
         if ($request->has('status') && !empty($request->input('status'))) {
             $qry = $request->input('status');
-            $results = $results->where("userstatus", $qry);
-            array_push($querystr, 'userstatus=' . $qry);
-            $appends = array_merge($appends, ['userstatus' => $qry]);
-        }
-        if ($request->has('type') && !empty($request->input('type'))) {
-            $qry = $request->input('type');
-            $results = $results->where("type", $qry);
-            array_push($querystr, 'type=' . $qry);
-            $appends = array_merge($appends, ['type' => $qry]);
+            $results = $results->where("tblcolors.status", $qry);
+    
+            array_push($querystr, 'tblcolors.status=' . $qry);
+            $appends = array_merge($appends, ['tblcolors.status' => $qry]);
         }
         // PAGINATION and PERPAGE
         $perpage = null;
@@ -304,7 +297,7 @@ class ColorsController extends Controller
 
                 ],
                 'fprimarykey'     => $this->fprimarykey,
-                'caption' => __('dev.active'),
+                'caption' => __('btn.btn_trash'),
                 'istrash' => true,
             ])
             ->with(['colors' => $colors])
@@ -321,7 +314,7 @@ class ColorsController extends Controller
         // $rules['img'] = ['required'];
         $validatorMessages = [
             /*'required' => 'The :attribute field can not be blank.'*/
-            'required' => "field can't be blank",
+            'required' => __('ccms.fieldreqire'),
         ];
 
         return Validator::make($request->all(), $rules, $validatorMessages);
@@ -335,36 +328,22 @@ class ColorsController extends Controller
         $images = $request->file('images');
         $type = $request->input('type');
 
-
-        if (!empty($images)) {
-            $name = $images->getClientOriginalName();
             $tableData = [
                 'color_id' => $newid,
                 'name' => json_encode($data),
-                // 'type' => $type,
                 'create_date' => date("Y-m-d"),
-                'update_date' => "",
                 'blongto' => $this->args['userinfo']['id'],
                 'trash' => 'no',
                 'status' => 'yes',
-                'image_url' =>  $name ?? '',
             ];
-        }
         if ($isupdate) {
-            if (!empty($images)) {
-                $name = $images->getClientOriginalName();
-            } else {
-                $name = $request->input('old_image');
-            }
             $tableData = [
                 'color_id' => $newid,
                 'name' => json_encode($data),
-                // 'type' => $type,
                 'update_date' => Carbon::now()->format('d-m-Y'),
                 'blongto' => $this->args['userinfo']['id'],
                 'trash' => 'no',
                 'status' => 'yes',
-                'image_url' =>  $name ?? '',
             ];
             $tableData = array_except($tableData, [$this->fprimarykey, 'create_date',  'trash']);
         }
@@ -395,7 +374,7 @@ class ColorsController extends Controller
                 'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route, 'new' => $new],
                 'form' => ['save_type' => 'save'],
                 'fprimarykey'     => $this->fprimarykey,
-                'caption' => 'New',
+                'caption' => __('dev.new'),
                 'isupdate' => false,
                 // 'img_check' => true,
 
@@ -443,7 +422,7 @@ class ColorsController extends Controller
         $save_status = $this->model->insert($data['tableData']);
         // dd($save_status);
         if ($save_status) {
-            $request->file('images')->storeAs('colors', $data['tableData']['image_url']);
+            //$request->file('images')->storeAs('colors', $data['tableData']['image_url']);
             $savetype = strtolower($request->input('savetype'));
             $success_ms = __('ccms.suc_save');
             $callback = 'formreset';
@@ -570,7 +549,7 @@ class ColorsController extends Controller
                             "type" => "validator",
                             'status' => false,
                             'route' => ['url' => $routing],
-                            "message" => __('me.forminvalid'),
+                            "message" => __('ccms.fail_save'),
                             "data" => $validator->errors()
                         ],
                         422
@@ -586,7 +565,7 @@ class ColorsController extends Controller
             ->json(
                 [
                     "type" => "error",
-                    "message" => __('me.forminvalid'),
+                    "message" => __('ccms.fail_save'),
                     "data" => []
                 ],
                 422
@@ -602,10 +581,6 @@ class ColorsController extends Controller
             ->update($data['tableData']);
 
         if ($update_status) {
-            if ($request->input('old_image') != $data['tableData']['image_url']) {
-                $request->file('images')->storeAs('colors', $data['tableData']['image_url']);
-                @unlink('storage/app/colors/' . $request->input('old_image'));
-            }
             $savetype = strtolower($request->input('savetype'));
             $id = $data['color_id'];
             $rout_to = save_type_route($savetype, $obj_info, $id);
