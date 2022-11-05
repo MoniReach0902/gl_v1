@@ -136,15 +136,15 @@
         </section>
         {{-- end header --}}
         <div class="container-fluid">
-            <div class="card-header mg-t-20">
+            
                 <form class="frmsearch-{{ $obj_info['name'] }}">
-                    <div class="form-row justify-content-end" style="font-size: 11px">
-                        <div class="form-group col-md-2">
+                    <div class="form-row d-flex justify-content-end" style="font-size: 11px">
+                        <div class="form-group col-md-6">
                             <label for="txt">@lang('dev.search')</label>
                             <input type="text" class="form-control input-sm" name="txtcategorie" id="txt"
                                 value="{{ request()->get('txtcategorie') ?? '' }}">
                         </div>
-                        <div class="form-group col-md-2">
+                        <div class="form-group col-md-4">
                             <label for="year">@lang('dev.status')</label>
                             <select class="form-control input-sm" name="status" id="status">
                                 <option value="">--{{ __('dev.non_select') }} --</option>
@@ -159,23 +159,18 @@
                         </div>
                         <div class="form-group col-md-1">
                             <label>&nbsp;</label>
-                            <button type="submit" value="filter"
-                                class="btn btn-outline-secondary btn-block formactionbutton"><i
+                            <button type="submit" value="filter" class="btn btn-outline-secondary btn-block formactionbutton"><i
                                     class="fa fa-search"></i></button>
                         </div>
                         <div class="form-group col-md-1">
                             <label>&nbsp;</label>
                             <button type="button"
                                 class="btn btn-outline-secondary btn-block formactionbutton border border-secondary"
-                                onclick="location.href='{{ url()->current() }}'"><i class="fa fa-refresh"
-                                    aria-hidden="true"></i>
+                                onclick="location.href='{{ url()->current() }}'"><i class="fa fa-refresh" aria-hidden="true"></i>
                             </button>
                         </div>
                     </div>
                 </form>
-            </div>
-
-
 
             <div class="card-body table-responsive p-0 mg-t-20">
                 <table class="table  table-striped table-hover text-nowrap table-bordered">

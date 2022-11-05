@@ -304,8 +304,11 @@ class EquipmentController extends Controller
 
         $default = $this->default();
         $equipment = $default['equipment'];
-        $inventory = $default['inventory'];
-        $vendor = $default['vendor'];
+        $inventory=$default['inventory'];
+        $inventory=$inventory->pluck('title','id')->toArray();
+
+        $vendor=$default['vendor'];
+        $vendor=$vendor->pluck('title','id')->toArray();
         //dd('aaa');
         $results = $this->listingtrash();
         $sfp = $this->sfp($request, $results);

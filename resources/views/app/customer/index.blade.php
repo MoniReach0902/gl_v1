@@ -132,8 +132,8 @@
     @endsection
     @section('content')
         {{-- Header --}}
-        <section style="position: sticky;top: 64px; z-index:2" class="content-header bg-light ct-bar-action ct-bar-action-shaddow">
-            
+        <section style="position: sticky;top: 64px; z-index:2"
+            class="content-header bg-light ct-bar-action ct-bar-action-shaddow">
             <div class="col-lg-12 col-md-12 sticky">
                 <div class="card custom-card" id="right">
                     <div class="card-body">
@@ -141,7 +141,7 @@
                             <div class="example">
                                 <nav class="breadcrumb-4 d-flex">
                                     <div class="flex-grow-1">
-                                        <h5 class="mb-2 mg-t-20 mg-l-20">
+                                        <h5 class="mg-t-20 mg-l-20">
                                             {!! $obj_info['icon'] !!}
                                             <a href="{{ url_builder($obj_info['routing'], [$obj_info['name']]) }}"
                                                 class="ct-title-nav text-md">{{ $obj_info['title'] }}</a>
@@ -169,44 +169,41 @@
         {{-- end header --}}
 
         <div class="container-fluid"> 
-            <div class="card-header mg-t-20"style="position: sticky;top: 210px; font-size:11px;">
-                <form class="frmsearch-{{ $obj_info['name'] }}">
-                    <div class="form-row justify-content-end">
-                        <div class="form-group col-md-2">
-                            <label for="txt">@lang('dev.search')</label>
-                            <input type="text" class="form-control input-sm" name="txtcustomer" id="txt"
-                                value="{{ request()->get('txtcustomer') ?? '' }}">
-                        </div>
-                        <div class="form-group col-md-2">
-                            <label for="year">@lang('table.status')</label>
-                            <select class="form-control input-sm" name="status" id="status">
-                                <option value="">--{{ __('dev.non_select') }} --</option>
-                                {!! cmb_listing(
-                                    ['yes' => __('table.enable'), 'no' => __('table.disable')],
-                                    [request()->get('status') ?? ''],
-                                    '',
-                                    '',
-                                    '',
-                                ) !!}
-                            </select>
-                        </div>
-                        <div class="form-group col-md-1">
-                            <label>&nbsp;</label>
-                            <button type="submit" value="filter"
-                                class="btn btn-outline-secondary btn-block formactionbutton"><i
-                                    class="fa fa-search"></i></button>
-                        </div>
-                        <div class="form-group col-md-1">
-                            <label>&nbsp;</label>
-                            <button type="button"
-                                class="btn btn-outline-secondary btn-block formactionbutton border border-secondary"
-                                onclick="location.href='{{ url()->current() }}'"><i class="fa fa-refresh"
-                                    aria-hidden="true"></i>
-                            </button>
-                        </div>
+
+            <form class="frmsearch-{{ $obj_info['name'] }}">
+                <div class="form-row d-flex justify-content-end" style="font-size: 11px">
+                    <div class="form-group col-md-6">
+                        <label for="txt">@lang('dev.search')</label>
+                        <input type="text" class="form-control input-sm" name="txtcustomer" id="txt"
+                            value="{{ request()->get('txtcustomer') ?? '' }}">
                     </div>
-                </form>
-            </div>
+                    <div class="form-group col-md-4">
+                        <label for="year">@lang('dev.status')</label>
+                        <select class="form-control input-sm" name="status" id="status">
+                            <option value="">--{{ __('dev.non_select') }} --</option>
+                            {!! cmb_listing(
+                                ['yes' => __('table.enable'), 'no' => __('table.disable')],
+                                [request()->get('status') ?? ''],
+                                '',
+                                '',
+                                '',
+                            ) !!}
+                        </select>
+                    </div>
+                    <div class="form-group col-md-1">
+                        <label>&nbsp;</label>
+                        <button type="submit" value="filter" class="btn btn-outline-secondary btn-block formactionbutton"><i
+                                class="fa fa-search"></i></button>
+                    </div>
+                    <div class="form-group col-md-1">
+                        <label>&nbsp;</label>
+                        <button type="button"
+                            class="btn btn-outline-secondary btn-block formactionbutton border border-secondary"
+                            onclick="location.href='{{ url()->current() }}'"><i class="fa fa-refresh" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
 
             <form name="frm-2{{ $obj_info['name'] }}" id="frm-2{{ $obj_info['name'] }}" method="POST"
                 action="{{ $route['submit'] }}" enctype="multipart/form-data">

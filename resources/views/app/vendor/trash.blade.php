@@ -136,10 +136,10 @@
         </section>
         {{-- end header --}}
         <div class="container-fluid">
-            <div class="card-header mg-t-20" style="position: sticky;top: 210px; font-size:11px;>
+        
                 <form class="frmsearch-{{ $obj_info['name'] }}">
                     <div class="form-row justify-content-end" style="font-size: 11px">
-                        <div class="form-group col-md-2">
+                        <div class="form-group col-md-6">
                             <label for="txt">@lang('dev.search')</label>
                             <input type="text" class="form-control input-sm" name="txtvendor" id="txt"
                                 value="{{ request()->get('txtvendor') ?? '' }}">
@@ -186,9 +186,6 @@
                         </div>
                     </div>
                 </form>
-            </div>
-
-
 
             <div class="card-body table-responsive p-0 mg-t-20">
                 <table class="table  table-striped table-hover text-nowrap table-bordered">

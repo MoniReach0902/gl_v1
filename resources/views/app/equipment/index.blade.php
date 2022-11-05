@@ -167,10 +167,10 @@
         </section>
         {{-- end header --}}
         <div class="container-fluid">
-            <div style="position: sticky;top: 74px;" class="card-header mg-t-20">
+           
                 <form class="frmsearch-{{ $obj_info['name'] }}">
                     <div class="form-row justify-content-end" style="font-size: 11px;">
-                        <div class="form-group col-md-2">
+                        <div class="form-group col-md-4">
                             <label for="txt">@lang('dev.search')</label>
                             <input type="text" class="form-control input-sm" name="txtequipment" id="txt"
                                 value="{{ request()->get('txtequipment') ?? '' }}">
@@ -219,7 +219,6 @@
                         </div>
                     </div>
                 </form>
-            </div>
 
             <form name="frm-2{{ $obj_info['name'] }}" id="frm-2{{ $obj_info['name'] }}" method="POST"
                 action="{{ $route['submit'] }}" enctype="multipart/form-data">
