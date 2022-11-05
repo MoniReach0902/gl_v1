@@ -379,6 +379,7 @@ class EquipmentController extends Controller
         $warranty_date=$request->input('warranty_date');
         $inventory_id=$request->input('inventory_id');
         $vendor_id=$request->input('vendor_id');
+        $description=$request->input('description');
 
             $tableData = [
                 'equipment_id' => $newid,
@@ -390,6 +391,7 @@ class EquipmentController extends Controller
                 'warranty_date' =>  $warranty_date,
                 'inventory_id' =>  $inventory_id,
                 'vendor_id' =>  $vendor_id,
+                'description' =>  $description,
                 'create_date' => date("Y-m-d"),
                 'blongto' => $this->args['userinfo']['id'],
                 'trash' => 'no',
@@ -406,6 +408,7 @@ class EquipmentController extends Controller
                 'warranty_date' =>  $warranty_date,
                 'inventory_id' =>  $inventory_id,
                 'vendor_id' =>  $vendor_id,
+                'description' =>  $description,
                 'update_date' => date("Y-m-d"),
                 'blongto' => $this->args['userinfo']['id'],
                 'trash' => 'no',

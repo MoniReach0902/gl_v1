@@ -257,7 +257,7 @@
             <div class="form-group">
                 <label for=""><b>@lang('table.description')</b></label>
                 <div class="input-group my-group" style="width:100%;">
-                    <textarea class="form-control" name="" id="" cols="30" rows="8" placeholder="@lang('table.enter') @lang('table.description')">{{ $input['description'] ?? '' }}</textarea>
+                    <textarea class="form-control" name="description" id="description" cols="30" rows="8" placeholder="@lang('table.enter') @lang('table.description')">{{ $input['description'] ?? '' }}</textarea>
                 <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error"
                     class="error invalid-feedback" style="display: none"></span>
                 </div>
