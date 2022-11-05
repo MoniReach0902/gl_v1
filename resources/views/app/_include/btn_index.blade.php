@@ -1,5 +1,5 @@
 @if (isset($new) && $new)
-    <button id="btnnew_{{ $obj_info['name'] }}" type="button" class="formactionbutton btn btn btn-success button-icon"><i
+    <button id="btnnew_{{ $obj_info['name'] }}" type="button" class="formactionbutton btn btn-outline-success button-icon"><i
             class="fe fe-plus me-2"></i>@lang('dev.new')</button>
 @endif
 
@@ -14,10 +14,16 @@
 @else
     @if (isset($trash) && $trash)
         <button id="btntrash_{{ $obj_info['name'] }}" type="button"
-            class="formactionbutton btn btn btn-danger button-icon"><i
+            class="formactionbutton btn btn-outline-danger button-icon"><i
                 class="fe fe-trash me-2"></i>@lang('btn.btn_trash')</button>
     @endif
 
+    @if (isset($import) && $import)
+        <button id="btnimport_{{ $obj_info['name'] }}" type="button"
+            class="formactionbutton btn btn-outline-success btn-flat ct-btn-action">
+            <i class="fas fa-file-import me-2"></i>@lang('dev.import')
+        </button>
+    @endif
     @if (isset($import) && $import)
         <button id="btnimport_{{ $obj_info['name'] }}" type="button"
             class="formactionbutton btn btn-outline-success btn-flat ct-btn-action">

@@ -164,7 +164,7 @@
                 <div class="form-group">
                     <label for=""><b>@lang('table.location')</b></label>
                     <div class="input-group my-group" style="width:100%;">
-                    <input type="text" class="form-control" name="locaton" id="location"
+                    <input type="text" class="form-control" name="location" id="location"
                         placeholder="@lang('table.enter') @lang('table.location')" value="{{ $input['location'] ?? '' }}">
                     <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error"
                         class="error invalid-feedback" style="display: none"></span>
@@ -226,7 +226,7 @@
                     <div class="input-group my-group" style="width:100%;">
                         <select class="form-control input-sm" name="inventory_id" id="inventory_id">
                             <option value="">-- {{ __('dev.non_select') }}--</option>
-                           
+                            {!! cmb_listing($inventory, [$input['inventory_id'] ?? ''], '', '') !!}
                           
                             
                         </select>
@@ -242,7 +242,7 @@
                     <div class="input-group my-group" style="width:100%;">
                         <select class="form-control input-sm" name="vendor_id" id="vendor_id">
                             <option value="">-- {{ __('dev.non_select') }}--</option>
-                           
+                            {!! cmb_listing($vendor, [$input['vendor_id'] ?? ''], '', '') !!}
                           
                             
                         </select>

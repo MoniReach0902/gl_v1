@@ -112,14 +112,14 @@ class EquipmentController extends Controller
             )->whereRaw('trash <> "yes"')->get();
         $inventory = $this->model_inventory
         ->select(
-            \DB::raw("tblinventorys.* "),
-            DB::raw("JSON_UNQUOTE(JSON_EXTRACT(tblinventorys.name,'$." . $this->dflang[0] . "')) AS text"),
+            \DB::raw("tblinventorys.inventory_id as id "),
+            DB::raw("JSON_UNQUOTE(JSON_EXTRACT(tblinventorys.name,'$." . $this->dflang[0] . "')) AS title"),
 
         )->whereRaw('trash <> "yes"')->get();
         $vendor = $this->model_vendor
         ->select(
-            \DB::raw("tblvendors.* "),
-            DB::raw("JSON_UNQUOTE(JSON_EXTRACT(tblvendors.name,'$." . $this->dflang[0] . "')) AS text"),
+            \DB::raw("tblvendors.vendor_id as id"),
+            DB::raw("JSON_UNQUOTE(JSON_EXTRACT(tblvendors.name,'$." . $this->dflang[0] . "')) AS title"),
 
         )->whereRaw('trash <> "yes"')->whereRaw('type <> "shop"')->get();
         return ['equipment' => $equipment,'inventory' => $inventory,'vendor' => $vendor];
@@ -245,8 +245,11 @@ class EquipmentController extends Controller
 
         $default = $this->default();
         $equipment = $default['equipment'];
-        $inventory = $default['inventory'];
-        $vendor = $default['vendor'];
+        $inventory=$default['inventory'];
+        $inventory=$inventory->pluck('title','id')->toArray();
+
+        $vendor=$default['vendor'];
+        $vendor=$vendor->pluck('title','id')->toArray();
         //dd('aaa');
         $results = $this->listingmodel();
         $sfp = $this->sfp($request, $results);
@@ -355,7 +358,6 @@ class EquipmentController extends Controller
         $update_rules = [$this->fprimarykey => 'required'];
 
         $rules['title-en'] = ['required'];
-        $rules['type'] = ['required'];
         // $rules['img'] = ['required'];
         $validatorMessages = [
             /*'required' => 'The :attribute field can not be blank.'*/
@@ -370,13 +372,24 @@ class EquipmentController extends Controller
         $newid = ($isupdate) ? $request->input($this->fprimarykey)  : $this->model->max($this->fprimarykey) + 1;
         $tableData = [];
         $data = toTranslate($request, 'title', 0, true);
-        $images = $request->file('images');
-        $type = $request->input('type');
+        $location=$request->input('location');
+        $seria_number=$request->input('seria_number');
+        $model=$request->input('model');
+        $cost=$request->input('cost');
+        $warranty_date=$request->input('warranty_date');
+        $inventory_id=$request->input('inventory_id');
+        $vendor_id=$request->input('vendor_id');
 
             $tableData = [
                 'equipment_id' => $newid,
                 'name' => json_encode($data),
-                'type' => $type,
+                'location' =>  $location,
+                'seria_number' =>  $seria_number,
+                'model' =>  $model,
+                'cost' =>  $cost,
+                'warranty_date' =>  $warranty_date,
+                'inventory_id' =>  $inventory_id,
+                'vendor_id' =>  $vendor_id,
                 'create_date' => date("Y-m-d"),
                 'blongto' => $this->args['userinfo']['id'],
                 'trash' => 'no',
@@ -386,8 +399,14 @@ class EquipmentController extends Controller
             $tableData = [
                 'equipment_id' => $newid,
                 'name' => json_encode($data),
-                'type' =>  $type,
-                'update_date' => Carbon::now()->format('d-m-Y'),
+                'location' =>  $location,
+                'seria_number' =>  $seria_number,
+                'model' =>  $model,
+                'cost' =>  $cost,
+                'warranty_date' =>  $warranty_date,
+                'inventory_id' =>  $inventory_id,
+                'vendor_id' =>  $vendor_id,
+                'update_date' => date("Y-m-d"),
                 'blongto' => $this->args['userinfo']['id'],
                 'trash' => 'no',
                 'status' => 'yes',
@@ -399,10 +418,14 @@ class EquipmentController extends Controller
     public function create()
     {
         $default = $this->default();
-        // // $provinces = $default['provinces'];
-        // $permission = $default['permission'];
-        $districts = [];
-        $communes = [];
+        $inventory=$default['inventory'];
+        $inventory=$inventory->pluck('title','id')->toArray();
+
+        $vendor=$default['vendor'];
+        $vendor=$vendor->pluck('title','id')->toArray();
+
+        
+        
         $sumit_route = url_builder(
             $this->obj_info['routing'],
             [$this->obj_info['name'], 'store', ''],
@@ -423,6 +446,8 @@ class EquipmentController extends Controller
                 'fprimarykey'     => $this->fprimarykey,
                 'caption' => __('dev.new'),
                 'isupdate' => false,
+                'inventory'=>$inventory,
+                'vendor'=>$vendor,
                 // 'img_check' => true,
 
             ]);
@@ -545,6 +570,11 @@ class EquipmentController extends Controller
                 );
         }
 
+        $inventory=$default['inventory'];
+        $inventory=$inventory->pluck('title','id')->toArray();
+
+        $vendor=$default['vendor'];
+        $vendor=$vendor->pluck('title','id')->toArray();
 
         $input = $input->toArray()[0];
         $x = [];
@@ -575,6 +605,8 @@ class EquipmentController extends Controller
                 'isupdate' => true,
                 'input' => $input,
                 'name' => $name,
+                'inventory'=>$inventory,
+                'vendor'=>$vendor,
 
             ]);
     } /*../end fun..*/

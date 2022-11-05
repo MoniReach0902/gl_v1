@@ -9,4 +9,5 @@
         "btn_trash"=>"Trash",
         "btn_enable"=>"Enable",
         "btn_disable"=>"Disable",
+        "btn_OK"=>"OK",
     ];

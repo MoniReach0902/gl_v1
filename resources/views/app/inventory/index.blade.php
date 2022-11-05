@@ -87,8 +87,17 @@
                 $("#btnnew_{{ $obj_info['name'] }}").click(function(e) {
 
                     let route_create = "{{ $route['create'] }}";
+                    let extraFrm = {}; //{jscallback:'test'};
+                    let setting = {}; //{fnSuccess:foo};
+                    let popModal = {
+                        show: true,
+                        size: 'modal-xl'
+                        //modal-sm, modal-lg, modal-xl
+                    };
 
-                    window.location = route_create;
+                    let loading_indicator = '';
+                    helper.silentHandler(route_create, null, extraFrm, setting, popModal, 'air_windows',
+                        loading_indicator);
                     //     loading_indicator);
                 });
 
@@ -129,35 +138,45 @@
     @endsection
     @section('content')
         {{-- Header --}}
-        <section style="position: sticky;top: 64px;" class="content-header bg-light d-flex ct-bar-action ct-bar-action-shaddow">
-            <div class="container-fluid">
-                <div class="d-flex border br-5">
-                    <div class="flex-grow-1">
-                        <h5 class="mb-2 mg-t-20 mg-l-20">
-                            {!! $obj_info['icon'] !!}
-                            <a href="{{ url_builder($obj_info['routing'], [$obj_info['name']]) }}"
-                                class="ct-title-nav text-md">{{ $obj_info['title'] }}</a>
-                            <small class="text-sm text-muted">
-                                <i class="ace-icon fa fa-angle-double-right text-xs"></i>
-                                {{ $caption ?? '' }}
-                            </small>
-                        </h5>
+        <section style="position: sticky;top: 64px; z-index:2" class="content-header bg-light ct-bar-action ct-bar-action-shaddow">
+            
+            <div class="col-lg-12 col-md-12 sticky">
+                <div class="card custom-card" id="right">
+                    <div class="card-body">
+                        <div class="text-wrap">
+                            <div class="example">
+                                <nav class="breadcrumb-4 d-flex">
+                                    <div class="flex-grow-1">
+                                        <h5 class="mb-2 mg-t-20 mg-l-20">
+                                            {!! $obj_info['icon'] !!}
+                                            <a href="{{ url_builder($obj_info['routing'], [$obj_info['name']]) }}"
+                                                class="ct-title-nav text-md">{{ $obj_info['title'] }}</a>
+                                            <small class="text-sm">
+                                                <i class="ace-icon fa fa-angle-double-right text-xs"></i>
+                                                {{ $caption ?? '' }}
+                                            </small>
+                                        </h5>
+                                    </div>
+                                    <div class="pd-10 ">
+                                        @include('app._include.btn_index', [
+                                            'new' => true,
+                                            'trash' => true,
+                                            'active' => true,
+                                        ])
+                                    </div>
+                                </nav>
+                            </div>
+                        </div>
                     </div>
-                    <div class="pd-10 ">
-                        @include('app._include.btn_index', [
-                            'new' => true,
-                            'trash' => true,
-                            'active' => true,
-                        ])
-                    </div>
-
                 </div>
+            </div>
+
         </section>
         {{-- end header --}}
         <div class="container-fluid">
-            <div class="card-header mg-t-20">
+            <div class="card-header mg-t-20" style="position: sticky;top: 210px; font-size:11px;">
                 <form class="frmsearch-{{ $obj_info['name'] }}">
-                    <div class="form-row justify-content-end" style="font-size: 11px">
+                    <div class="form-row d-flex justify-content-end" style="font-size: 11px">
                         <div class="form-group col-md-2">
                             <label for="txt">@lang('dev.search')</label>
                             <input type="text" class="form-control input-sm" name="txtinventory" id="txt"
@@ -229,10 +248,10 @@
                                     <td style="width: 10%">{{ $inventorys->username }}</td>
                                     <td style="width: 20px">
                                         @if ($inventorys->status == 'yes')
-                                        <span class="badge bg-dark">
+                                        <span class="badge bg-success" style="width: 100%">
                                             @lang('table.enable')
                                         @else
-                                            <span class="badge bg-danger">
+                                            <span class="badge bg-danger" style="width: 100%">
                                                 @lang('table.disable')
                                         @endif
                                             </span>

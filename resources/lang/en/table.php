@@ -30,4 +30,7 @@
         "cost"=>"Cost",
         "warranty_date"=>"Warranty date",
         "description"=>"Description",
+        "cancel"=>"Cancel",
+        "are_your_sure_delete"=>"Are your sure to delete?",
+        "close"=>"Close",
     ];

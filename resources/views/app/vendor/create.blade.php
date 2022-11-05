@@ -98,27 +98,36 @@
     </script>
 @endsection
 @section('content')
-    {{-- Header --}}
-    <section class="content-header bg-light d-flex ct-bar-action ct-bar-action-shaddow">
-        <div class="container-fluid">
-            <div class="d-flex  border br-5">
-                <div class="flex-grow-1">
-                    <h5 class="mb-2 mg-t-20 mg-l-20">
-                        {!! $obj_info['icon'] !!}
-                        <a href="{{ url_builder($obj_info['routing'], [$obj_info['name']]) }}"
-                            class="ct-title-nav text-md">{{ $obj_info['title'] }}</a>
-                        <small class="text-sm text-muted">
-                            <i class="ace-icon fa fa-angle-double-right text-xs"></i>
-                            {{ $caption ?? '' }}
-                        </small>
-                    </h5>
+    <section style="position: sticky;top: 64px; z-index:2" class="content-header bg-light ct-bar-action ct-bar-action-shaddow">
+            
+        <div class="col-lg-12 col-md-12 sticky">
+            <div class="card custom-card" id="right">
+                <div class="card-body">
+                    <div class="text-wrap">
+                        <div class="example">
+                            <nav class="breadcrumb-4 d-flex">
+                                <div class="flex-grow-1">
+                                    <h5 class="mb-2 mg-t-20 mg-l-20">
+                                        {!! $obj_info['icon'] !!}
+                                        <a href="{{ url_builder($obj_info['routing'], [$obj_info['name']]) }}"
+                                            class="ct-title-nav text-md">{{ $obj_info['title'] }}</a>
+                                        <small class="text-sm">
+                                            <i class="ace-icon fa fa-angle-double-right text-xs"></i>
+                                            {{ $caption ?? '' }}
+                                        </small>
+                                    </h5>
+                                </div>
+                                <div class="pd-10 ">
+                                    @include('app._include.btn_create', $action_btn)
+                                    
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
                 </div>
-                <div class="pd-10 ">
-                    @include('app._include.btn_create', $action_btn)
-                    
-                </div>
-
             </div>
+        </div>
+
     </section>
     {{-- end header --}}
     <div class="container-fluid">
@@ -135,7 +144,7 @@
 
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <label for=""><b>@lang('dev.name_kh_eng')</b></label>
                             <div class="input-group my-group" style="width:100%;">
@@ -167,7 +176,7 @@
                             <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <label for="type"><b>@lang('dev.type')</b></label>
                             <select class="form-control input-sm" name="type" id="type">

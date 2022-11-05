@@ -53,7 +53,7 @@ class CategorieController extends Controller
             'object' => [$this->obj_info['name']],
             'method'  => [
                 'index' => $default_protectme['index'],
-                // 'show' => $default_protectme['show'],
+                //'show' => $default_protectme['show'],
                 'create' => $default_protectme['create'],
                 'edit' => $default_protectme['edit'],
                 'delete' => $default_protectme['delete'],

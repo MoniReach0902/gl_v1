@@ -9,5 +9,5 @@
         "btn_edit"=>"កែប្រែ",
         "btn_enable"=>"បើក",
         "btn_disable"=>"បិទ",
-
+        "btn_OK"=>"យល់ព្រម",
 ];

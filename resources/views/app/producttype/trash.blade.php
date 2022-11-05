@@ -112,7 +112,7 @@
                     </div>
                     <div class="pd-10 ">
                         @include('app._include.btn_index', [
-                            'new' => true,
+                            'new' => false,
                             'trash' => false,
                             // 'active' => true,
                         ])

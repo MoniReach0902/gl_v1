@@ -32,7 +32,7 @@
             </div>
             <div class="modal-footer justify-content-end" style="padding: 5px 10px;">
                 {{-- <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button> --}}
-                <a href="javascript:void(0);" class="btn-link" data-bs-dismiss="modal">Close</a>
+                <a href="javascript:void(0);" class="btn-link" data-bs-dismiss="modal">@lang('table.close')</a>
             </div>
         </div>
 
@@ -76,7 +76,7 @@
             </div>
             <div class="modal-footer justify-content-end" style="padding: 5px 10px;">
                 {{-- <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button> --}}
-                <a href="javascript:void(0);" class="btn-link" data-bs-dismiss="modal">Close</a>
+                <a href="javascript:void(0);" class="btn-link" data-bs-dismiss="modal">@lang('table.close')</a>
             </div>
         </div>
 
