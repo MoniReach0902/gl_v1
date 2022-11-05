@@ -11,65 +11,23 @@
 
                 /*Please dont delete this code*/
                 @if (null !== session('status') && session('status') == false)
-                    $(document).Toasts('create', {
-                        class: 'bg-danger ct-min-toast-width',
-                        title: 'Invalid',
-                        subtitle: '',
-                        body: "{{ session('message') }}",
-                        fade: true,
-                        autohide: true,
-                        delay: 3000,
-                        //position: 'bottomLeft',
-                    });
+                    helper.successAlert("{{ session('message') }}");
                 @endif
-
                 @if (null !== session('status') && session('status') == true)
-                    location.reload();
-                    $(document).Toasts('create', {
-                        class: 'bg-success ct-min-toast-width',
-                        title: 'Success',
-                        subtitle: '',
-                        body: "{{ session('message') }}",
-                        fade: true,
-                        autohide: true,
-                        delay: 3000,
-                        //position: 'bottomLeft',
-
-                    });
+                    helper.successAlert("{{ session('message') }}");
                 @endif
                 /*please dont delete this above code*/
 
                 // let foo = (bar)=>{
                 //     console.log('foo-bar');
                 // };
-                $("#save_img").click(function(e) {
-                    // alert(1);
-                    let route_submit = "{{ $route['submit'] }}";
-                    // alert(route_submit);
-                    // e.preventDefault();
-                    // let route_import = "{{ $route['create'] }}";
-                    let extraFrm = {}; //{jscallback:'test'};
-                    let setting = {}; //{fnSuccess:foo};
-                    let container = '';
-                    let loading_indicator = '';
-                    let popModal = {
-                        show: false,
-                        size: 'modal-xl'
-                        //modal-sm, modal-lg, modal-xl
-                    };
-                    helper.silentHandler(route_submit, "frm-2{{ $obj_info['name'] }}",
-                        extraFrm,
-                        setting,
-                        popModal, container,
-                        loading_indicator);
 
-                });
                 $('.delete').click(function(e) {
                     e.preventDefault();
                     var link = $(this).attr("href");
                     $('body').removeClass('timer-alert');
                     swal({
-                        title: "{{__('table.are_your_sure_delete')}}",
+                        title: "{{ __('table.are_your_sure_delete') }}",
                         text: "",
                         type: "warning",
                         showCancelButton: true,
@@ -138,8 +96,9 @@
     @endsection
     @section('content')
         {{-- Header --}}
-        <section style="position: sticky;top: 64px; z-index:2" class="content-header bg-light ct-bar-action ct-bar-action-shaddow">
-            
+        <section style="position: sticky;top: 64px; z-index:2"
+            class="content-header bg-light ct-bar-action ct-bar-action-shaddow">
+
             <div class="col-lg-12 col-md-12 sticky">
                 <div class="card custom-card" id="right">
                     <div class="card-body">
@@ -248,13 +207,13 @@
                                     <td style="width: 10%">{{ $categories->username }}</td>
                                     <td style="width: 20px">
                                         @if ($categories->status == 'yes')
-                                        <span class="badge bg-success" style="width: 100%">
-                                            @lang('table.enable')
-                                        @else
-                                            <span class="badge bg-danger" style="width: 100%">
-                                                @lang('table.disable')
+                                            <span class="badge bg-success" style="width: 100%">
+                                                @lang('table.enable')
+                                            @else
+                                                <span class="badge bg-danger" style="width: 100%">
+                                                    @lang('table.disable')
                                         @endif
-                                            </span>
+                                        </span>
                                     </td>
                                     <td>
                                         @include('app._include.btn_record', [
