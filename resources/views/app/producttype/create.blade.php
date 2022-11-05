@@ -52,8 +52,14 @@
             };
             let container = '';
             let loading_indicator = '';
+            let aftersave = (data) => {
+                // console.log(data);
+                location.reload();
+
+            };
             let setting = {
-                mode: "{{ $extends }}"
+                mode: "{{ $extends }}",
+                fnSuccess: aftersave,
             };
             $(".btnsave_{{ $obj_info['name'] }}").click(function(e) {
                 // alert(1);
