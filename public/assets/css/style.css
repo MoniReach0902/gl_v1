@@ -17196,7 +17196,7 @@ body {
 /*------icons-list---------*/
 
 .example {
-    padding: 1rem;
+    /* padding: 1rem; */
     border: 1px solid #ededf5;
     font-size: 0.8175rem;
     border-radius: 7px;
