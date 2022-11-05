@@ -31,7 +31,10 @@
                         text: "",
                         type: "warning",
                         showCancelButton: true,
+                        cancelButtonText: "{{__('table.cancel')}}",
+                        cancelButtonColor: 'danger',
                         closeOnConfirm: false,
+                        confirmButtonText: "{{__('btn.btn_OK')}}",
                         showLoaderOnConfirm: true
                     }, function() {
                         setInterval(() => {
