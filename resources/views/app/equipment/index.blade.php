@@ -69,11 +69,14 @@
                     var link = $(this).attr("href");
                     $('body').removeClass('timer-alert');
                     swal({
-                        title: "Are your sure to delete ?",
+                        title: "{{ __('table.are_your_sure_delete') }}",
                         text: "",
                         type: "warning",
                         showCancelButton: true,
+                        cancelButtonText: "{{__('table.cancel')}}",
+                        cancelButtonColor: 'danger',
                         closeOnConfirm: false,
+                        confirmButtonText: "{{__('btn.btn_OK')}}",
                         showLoaderOnConfirm: true
                     }, function() {
                         setInterval(() => {
@@ -82,7 +85,6 @@
                         }, 1000);
                     });
                 });
-
 
                 $("#btnnew_{{ $obj_info['name'] }}").click(function(e) {
 
