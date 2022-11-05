@@ -40,8 +40,8 @@
 
             let route_submit = "{{ $route['submit'] }}";
             let route_cancel = "{{ $route['cancel'] ?? '' }}";
-            let route_print = "{{ $route['print'] ?? '' }}";
-            let route_new = "{{ $route['new'] ?? '' }}";
+
+
             let frm, extraFrm;
             let popModal = {
                 show: false,
@@ -52,8 +52,14 @@
             };
             let container = '';
             let loading_indicator = '';
+            let aftersave = (data) => {
+                // console.log(data);
+                location.reload();
+
+            };
             let setting = {
-                mode: "{{ $extends }}"
+                mode: "{{ $extends }}",
+                fnSuccess: aftersave,
             };
             $(".btnsave_{{ $obj_info['name'] }}").click(function(e) {
                 // alert(1);
@@ -69,12 +75,7 @@
                 //window.location.replace(route_cancel);
                 window.location = route_cancel;
             });
-            $("#btnnew_{{ $obj_info['name'] }}").click(function(e) {
 
-
-                window.location = route_new;
-                //     loading_indicator);
-            });
 
             $(".btnprint_{{ $obj_info['name'] }}").click(function(e) {
                 //window.location.replace(route_cancel);
@@ -92,8 +93,9 @@
 @endsection
 @section('content')
     {{-- Header --}}
-    <section style="position: sticky;top: 64px; z-index:2" class="content-header bg-light ct-bar-action ct-bar-action-shaddow">
-            
+    <section style="position: sticky;top: 64px; z-index:2"
+        class="content-header bg-light ct-bar-action ct-bar-action-shaddow">
+
         <div class="col-lg-12 col-md-12 sticky">
             <div class="card custom-card" id="right">
                 <div class="card-body">
@@ -113,7 +115,7 @@
                                 </div>
                                 <div class="pd-10 ">
                                     @include('app._include.btn_create', $action_btn)
-                                    
+
                                 </div>
                             </nav>
                         </div>
@@ -137,7 +139,7 @@
             <br>
 
             <div class="card-body">
-                
+
                 <div class="form-group">
                     <label for=""><b>@lang('dev.name_kh_eng')</b></label>
                     <div class="input-group my-group" style="width:100%;">
@@ -163,8 +165,8 @@
                                 $active = 'hide';
                             @endphp
                         @endforeach
-                        <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error"
-                            class="error invalid-feedback" style="display: none"></span>
+                        <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error" class="error invalid-feedback"
+                            style="display: none"></span>
                     </div>
                     <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
                 </div>
