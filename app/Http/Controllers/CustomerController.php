@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categorie;
-use App\Models\Customer;
 use App\Models\Example;
 use Illuminate\Http\Request;
 use Validator;
@@ -15,13 +14,14 @@ use App\Models\UserPermission;
 use App\Models\Location;
 use App\Models\Room;
 use App\Models\Slider;
+use App\Models\Customer;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class CustomerController extends Controller
 {
     //
-    private $obj_info = ['name' => 'customer', 'routing' => 'admin.controller', 'title' => 'Customer', 'icon' => '<i class="fa fa-address-card"></i>'];
+    private $obj_info = ['name' => 'customer', 'routing' => 'admin.controller', 'title' => 'Customer', 'icon' => '<i class="fas fa-address-card"></i>'];
     public $args;
 
     private $model;
@@ -45,7 +45,7 @@ class CustomerController extends Controller
     {
         //$this->middleware('auth');
         // dd($args['userinfo']);
-        $this->obj_info['title'] = __('dev.customer');
+        $this->obj_info['title'] =  __('dev.customer');
 
         $default_protectme = config('me.app.protectme');
         $this->protectme = [
@@ -114,11 +114,20 @@ class CustomerController extends Controller
         return $this->model
             ->leftJoin('users', 'users.id', 'tblcustomers.blongto')
             ->select(
-                \DB::raw($this->fprimarykey . ",JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text,tblcustomers.create_date,
-                tblcustomers.phone_number,tblcustomers.email,tblcustomers.address,
-                tblcustomers.update_date,tblcustomers.status,users.name As username"),
+                \DB::raw($this->fprimarykey . ",JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text,tblcustomers.phone_number,tblcustomers.email,
+                tblcustomers.create_date,tblcustomers.update_date,tblcustomers.status,users.name As username"),
 
             )->whereRaw('tblcustomers.trash <> "yes"');
+    } /*../function..*/
+    public function listingtrash()
+    {
+        #DEFIND MODEL#
+        return $this->model
+            ->leftJoin('users', 'users.id', 'tblcustomers.blongto')
+            ->select(
+                \DB::raw($this->fprimarykey . ",JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) AS text,tblcustomers.phone_number,tblcustomers.email,
+                tblcustomers.create_date,tblcustomers.update_date,tblcustomers.status,users.name As username"),
+            )->whereRaw('tblcustomers.trash <> "no"');
     } /*../function..*/
     //JSON_UNQUOTE(JSON_EXTRACT(title, '$.".$this->dflang[0]."'))
     public function sfp($request, $results)
@@ -137,18 +146,20 @@ class CustomerController extends Controller
         if ($request->has('txtcustomer') && !empty($request->input('txtcustomer'))) {
             $qry = $request->input('txtcustomer');
             $results = $results->where(function ($query) use ($qry) {
-                $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) like '%" . $qry . "%'");
+                $query->whereRaw("JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) like '%" . $qry . "%'")
+                ->orwhereRaw("tblcustomers.email like '%" . $qry . "%'") 
+                ->orwhereRaw("tblcustomers.phone_number like '%" . $qry . "%'")     
+                ->orwhereRaw($this->fprimarykey . " like '%" . $qry . "%'");
             });
             array_push($querystr, "'JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "')) ='" . $qry);
             $appends = array_merge($appends, ["'JSON_UNQUOTE(JSON_EXTRACT(" . $this->tablename . ".name,'$." . $this->dflang[0] . "'))'" => $qry]);
         }
-        
+
         if ($request->has('status') && !empty($request->input('status'))) {
             $qry = $request->input('status');
-            $results = $results->where("userstatus", $qry);
-    
-            array_push($querystr, 'userstatus=' . $qry);
-            $appends = array_merge($appends, ['userstatus' => $qry]);
+            $results = $results->where("tblcustomers.status", $qry);
+            array_push($querystr, 'tblcustomers.status=' . $qry);
+            $appends = array_merge($appends, ['tblcustomers.status' => $qry]);
         }
         // PAGINATION and PERPAGE
         $perpage = null;
@@ -200,9 +211,10 @@ class CustomerController extends Controller
 
         $default = $this->default();
         $customer = $default['customer'];
-         //dd('aaa');
-         $results = $this->listingmodel();
-         $sfp = $this->sfp($request, $results);
+        //dd('aaa');
+        $results = $this->listingmodel();
+        $sfp = $this->sfp($request, $results);
+        // dd($sfp);
 
 
         $create_modal = url_builder(
@@ -243,8 +255,56 @@ class CustomerController extends Controller
             ])
             ->with(['customer' => $customer])
             ->with($sfp)
-            ->with($setting)
-        ;
+            ->with($setting);
+    }
+
+    public function trash(Request $request, $condition = [], $setting = [])
+    {
+
+        $default = $this->default();
+        $customer = $default['customer'];
+        //dd('aaa');
+        $results = $this->listingtrash();
+        $sfp = $this->sfp($request, $results);
+
+
+
+        $create_route = url_builder(
+            $this->obj_info['routing'],
+            [
+                $this->obj_info['name'], 'create', ''
+            ],
+        );
+
+        $trash_route = url_builder(
+            $this->obj_info['routing'],
+            [
+                $this->obj_info['name'], 'trash', ''
+            ],
+        );
+        $index_route = url_builder(
+            $this->obj_info['routing'],
+            [
+                $this->obj_info['name'], 'index', ''
+            ],
+        );
+
+        return view('app.' . $this->obj_info['name'] . '.trash')
+            ->with([
+                'obj_info'  => $this->obj_info,
+                'route' => [
+                    'create'  => $create_route,
+                    'trash' => $trash_route,
+                    // 'index_route' => $index_route,
+
+                ],
+                'fprimarykey'     => $this->fprimarykey,
+                'caption' => __('btn.btn_trash'),
+                'istrash' => true,
+            ])
+            ->with(['customer' => $customer])
+            ->with($sfp)
+            ->with($setting);
     }
 
     public function validator($request, $isupdate = false)
@@ -256,7 +316,7 @@ class CustomerController extends Controller
         // $rules['img'] = ['required'];
         $validatorMessages = [
             /*'required' => 'The :attribute field can not be blank.'*/
-            'required' => "field can't be blank",
+            'required' => __('ccms.fieldreqire'),
         ];
 
         return Validator::make($request->all(), $rules, $validatorMessages);
@@ -267,20 +327,36 @@ class CustomerController extends Controller
         $newid = ($isupdate) ? $request->input($this->fprimarykey)  : $this->model->max($this->fprimarykey) + 1;
         $tableData = [];
         $data = toTranslate($request, 'title', 0, true);
+        $phone_number=$request->input('phone_number');
+        $email=$request->input('email');
+        $address=$request->input('address');
 
         $tableData = [
-            'customer_id' => $newid,
-            'name' => json_encode($data),
-            'create_date' => date("Y-m-d"),
-            'update_date' => "",
-            'blongto' => $this->args['userinfo']['id'],
-            'trash' => 'no',
-            'status' => 'yes',
-
+                'customer_id' => $newid,
+                'name' => json_encode($data),
+                'phone_number' => $phone_number,
+                'email' => $email,
+                'address' => $address,
+                'tblcustomers.create_date' => date("Y-m-d"),
+                'update_date' => "",
+                'blongto' => $this->args['userinfo']['id'],
+                'tblcustomers.trash' => 'no',
+                'status' => 'yes',
         ];
         if ($isupdate) {
-            $tableData =array_except($tableData, [$this->fprimarykey,'create_date', 'password', 'trash']);
+            $tableData = [
+                'customer_id' => $newid,
+                'name' => json_encode($data),
+                'phone_number' => $phone_number,
+                'email' => $email,
+                'address' => $address,
+                'update_date' => date("Y-m-d"),
+                'blongto' => $this->args['userinfo']['id'],
+                'tblcustomers.trash' => 'no',
+                'status' => 'yes',
+            ];
         }
+            $tableData = array_except($tableData, [$this->fprimarykey, 'create_date',  'trash']);
         return ['tableData' => $tableData, $this->fprimarykey => $newid];
     }
     public function create()
@@ -310,6 +386,7 @@ class CustomerController extends Controller
                 'fprimarykey'     => $this->fprimarykey,
                 'caption' => __('dev.new'),
                 'isupdate' => false,
+                // 'img_check' => true,
 
             ]);
     } /*../function..*/
@@ -355,7 +432,6 @@ class CustomerController extends Controller
         $save_status = $this->model->insert($data['tableData']);
         // dd($save_status);
         if ($save_status) {
-            // $request->file('img')->storeAs('slider', $data['tableData']['img']);
             $savetype = strtolower($request->input('savetype'));
             $success_ms = __('ccms.suc_save');
             $callback = 'formreset';
@@ -389,15 +465,15 @@ class CustomerController extends Controller
     public function edit(Request $request, $id = 0)
     {
 
-         #prepare for back to url after SAVE#
-         if (!$request->session()->has('backurl')) {
+        #prepare for back to url after SAVE#
+        if (!$request->session()->has('backurl')) {
             $request->session()->put('backurl', redirect()->back()->getTargetUrl());
         }
 
         $obj_info = $this->obj_info;
 
         $default = $this->default();
-        
+        //change piseth
         $input = null;
 
         #Retrieve Data#
@@ -413,8 +489,9 @@ class CustomerController extends Controller
 
         $input = $this->model
             ->where($this->fprimarykey, (int)$editid)
-            
+            //change piseth
             ->get();
+        //dd($input->toSql());
         if ($input->isEmpty()) {
             $routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
             return response()
@@ -439,8 +516,8 @@ class CustomerController extends Controller
 
         $input = $x;
 
-        $name =json_decode($input['name'],true);
-
+        $name = json_decode($input['name'], true);
+        //dd($name);
 
         $sumit_route = url_builder(
             $this->obj_info['routing'],
@@ -448,18 +525,9 @@ class CustomerController extends Controller
             [],
         );
         $cancel_route = redirect()->back()->getTargetUrl();
-        $province_id = empty($input['province_id']) ? -1 : $input['province_id'];
-        $districts = [];
-        $where = [['trash', '<>', 'yes'], ['parent_id', '=', $province_id]];
-        $location = Location::getlocation($this->dflang[0], $where)->get();
-        $districts = $location->pluck('title', 'id')->toArray();
-        $district_id = empty($input['district_id']) ? -1 : $input['district_id'];
-        $communes = [];
-        $where = [['trash', '<>', 'yes'], ['parent_id', '=', $district_id]];
-        $location = Location::getlocation($this->dflang[0], $where)->get();
-        $communes = $location->pluck('title', 'id')->toArray();
-        //dd($input);
-        return view('app.' . $this->obj_info['name'] . '.create', ) //change piseth
+
+        // dd($input);
+        return view('app.' . $this->obj_info['name'] . '.create',) //change piseth
             ->with([
                 'obj_info'  => $this->obj_info,
                 'route' => ['submit'  => $sumit_route, 'cancel' => $cancel_route],
@@ -469,6 +537,7 @@ class CustomerController extends Controller
                 'isupdate' => true,
                 'input' => $input,
                 'name' => $name,
+
             ]);
     } /*../end fun..*/
 
@@ -489,7 +558,7 @@ class CustomerController extends Controller
                             "type" => "validator",
                             'status' => false,
                             'route' => ['url' => $routing],
-                            "message" => __('me.forminvalid'),
+                            "message" => __('ccms.fail_save'),
                             "data" => $validator->errors()
                         ],
                         422
@@ -497,6 +566,7 @@ class CustomerController extends Controller
             }
 
             $data = $this->setinfo($request, true);
+            // dd($data);
             return $this->proceed_update($request, $data, $obj_info);
         } /*end if is post*/
 
@@ -504,7 +574,7 @@ class CustomerController extends Controller
             ->json(
                 [
                     "type" => "error",
-                    "message" => __('me.forminvalid'),
+                    "message" => __('ccms.fail_save'),
                     "data" => []
                 ],
                 422
@@ -516,7 +586,7 @@ class CustomerController extends Controller
         // dd($data);
 
         $update_status = $this->model
-            ->where($this->fprimarykey, $data['customer_id'])
+            ->where($this->fprimarykey, $data[$this->fprimarykey])
             ->update($data['tableData']);
 
         if ($update_status) {
@@ -556,7 +626,45 @@ class CustomerController extends Controller
             );
     }
     /* end function*/
+    public function restore(Request $request, $id = 0)
+    {
+        $obj_info = $this->obj_info;
+        #Retrieve Data#
+        if (empty($id)) {
+            $editid = $this->args['routeinfo']['id'];
+        } else {
+            $editid = $id;
+        }
 
+        //$routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
+        $trash = $this->model->where('customer_id', $editid)->update(["trash" => "no"]);
+
+        if ($trash) {
+            return response()
+                ->json(
+                    [
+                        "type" => "url",
+                        "status" => true,
+                        'route' => ['url' => redirect()->back()->getTargetUrl()],
+                        "message" => __('dev.success'),
+
+                        "data" => []
+                    ],
+                    200
+                );
+        }
+        return response()
+            ->json(
+                [
+                    "type" => "error",
+                    'status' => false,
+                    'route' => ['url' => redirect()->back()->getTargetUrl()],
+                    "message" => 'Your update is not affected',
+                    "data" => ['id' => $editid]
+                ],
+                422
+            );
+    }
     public function totrash(Request $request, $id = 0)
     {
         $obj_info = $this->obj_info;
@@ -594,5 +702,81 @@ class CustomerController extends Controller
                 ],
                 422
             );
+    }
+    public function disable(Request $request, $id = 0)
+    {
+        $obj_info = $this->obj_info;
+        #Retrieve Data#
+        if (empty($id)) {
+            $editid = $this->args['routeinfo']['id'];
+        } else {
+            $editid = $id;
         }
+
+        //$routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
+        $trash = $this->model->where('customer_id', $editid)->update(["status" => "no"]);
+
+        if ($trash) {
+            return response()
+                ->json(
+                    [
+                        "type" => "url",
+                        'status' => true,
+                        'route' => ['url' => redirect()->back()->getTargetUrl()],
+                        "message" => __('ccms.suc_delete'),
+                        "data" => ['customer_id' => $editid]
+                    ],
+                    200
+                );
+        }
+        return response()
+            ->json(
+                [
+                    "type" => "error",
+                    'status' => false,
+                    'route' => ['url' => redirect()->back()->getTargetUrl()],
+                    "message" => 'Your update is not affected',
+                    "data" => ['id' => $editid]
+                ],
+                422
+            );
+    }
+    public function enable(Request $request, $id = 0)
+    {
+        $obj_info = $this->obj_info;
+        #Retrieve Data#
+        if (empty($id)) {
+            $editid = $this->args['routeinfo']['id'];
+        } else {
+            $editid = $id;
+        }
+
+        //$routing = url_builder($obj_info['routing'], [$obj_info['name'], 'index']);
+        $trash = $this->model->where('customer_id', $editid)->update(["status" => "yes"]);
+
+        if ($trash) {
+            return response()
+                ->json(
+                    [
+                        "type" => "url",
+                        'status' => true,
+                        'route' => ['url' => redirect()->back()->getTargetUrl()],
+                        "message" => __('ccms.suc_delete'),
+                        "data" => ['customer_id' => $editid]
+                    ],
+                    200
+                );
+        }
+        return response()
+            ->json(
+                [
+                    "type" => "error",
+                    'status' => false,
+                    'route' => ['url' => redirect()->back()->getTargetUrl()],
+                    "message" => 'Your update is not affected',
+                    "data" => ['id' => $editid]
+                ],
+                422
+            );
+    }
 }

@@ -325,17 +325,15 @@ class CategorieController extends Controller
         $newid = ($isupdate) ? $request->input($this->fprimarykey)  : $this->model->max($this->fprimarykey) + 1;
         $tableData = [];
         $data = toTranslate($request, 'title', 0, true);
-        $images = $request->file('images');
-        $type = $request->input('type');
 
-            $tableData = [
+        $tableData = [
                 'categorie_id' => $newid,
                 'name' => json_encode($data),
                 'create_date' => date("Y-m-d"),
                 'blongto' => $this->args['userinfo']['id'],
                 'trash' => 'no',
                 'status' => 'yes',
-            ];
+        ];
         if ($isupdate) {
             $tableData = [
                 'categorie_id' => $newid,
