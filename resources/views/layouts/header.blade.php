@@ -1,6 +1,6 @@
  <!-- main-header -->
  <div class="main-header side-header sticky nav nav-item" style="z-index: 2">
-     <div class=" main-container container-fluid">
+     <div class=" main-container container-fluid sticky-top">
          <div class="main-header-left ">
              <div class="responsive-logo">
                  <a href="{{ url_builder('admin.controller', ['home']) }}" class="header-logo">
@@ -69,10 +69,10 @@
                                    <ul class="dropdown-menu">
                                        <a class="dropdown-item" href="?lang=kh">
                                            <img src="{{ asset('public/images/kh1.png') }}">
-                                           &nbsp; &nbsp; ខ្មែរ
+                                           &nbsp; &nbsp; ភាសាខ្មែរ
                                        </a>
                                        <a class="dropdown-item" href="?lang=en">
-                                           <img src="{{ asset('public/images/uk1.png') }}"> &nbsp; &nbsp; Eng
+                                           <img src="{{ asset('public/images/uk1.png') }}"> &nbsp; &nbsp; English
                                        </a>
                                        
                                    </ul>
@@ -136,15 +136,9 @@
                                      </div>
                                  </div>
                                  <a class="dropdown-item" href="profile.html"><i
-                                         class="far fa-user-circle"></i>Profile</a>
-                                 <a class="dropdown-item" href="chat.html"><i class="far fa-smile"></i>
-                                     chat</a>
-                                 <a class="dropdown-item" href="mail-read.html"><i
-                                         class="far fa-envelope "></i>Inbox</a>
-                                 <a class="dropdown-item" href="mail.html"><i
-                                         class="far fa-comment-dots"></i>Messages</a>
+                                         class="far fa-user-circle"></i>@lang('dev.profile')</a>
                                  <a class="dropdown-item" href="mail-settings.html"><i class="far fa-sun"></i>
-                                     Settings</a>
+                                    @lang('dev.setting')</a>
 
                                  <a class="dropdown-item" href="mail-settings.html"
                                      onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i

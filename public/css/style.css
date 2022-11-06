@@ -7,23 +7,25 @@
 body{
     background-color: #f5f8ff;
 } */
-.container{
+
+.container {
     background-color: #ffffff;
     width: 60%;
     min-width: 450px;
     position: relative;
-    margin:  50px auto;
+    margin: 50px auto;
     padding: 50px 20px;
     border-radius: 7px;
-    box-shadow: 0 20px 35px rgba(0,0,0,0.05);
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.05);
 }
-input[type="file"]{
+
+input[type="file"] {
     display: none;
 }
-label{
+
+label {
     display: block;
     position: relative;
-  
     font-size: 18px;
     text-align: center;
     width: 300px;
@@ -32,11 +34,13 @@ label{
     border-radius: 5px;
     cursor: pointer;
 }
-.container p{
+
+.container p {
     text-align: center;
     margin: 20px 0 30px 0;
 }
-#images{
+
+#images {
     width: 90%;
     position: relative;
     margin: auto;
@@ -45,14 +49,24 @@ label{
     gap: 20px;
     flex-wrap: wrap;
 }
-figure{
+
+figure {
     width: 45%;
 }
-img{
+
+img {
     width: 100%;
 }
-figcaption{
+
+figcaption {
     text-align: center;
     font-size: 3px;
     margin-top: 0.5vmin;
+}
+
+.section-sticky {
+    position: sticky;
+    top: 64px;
+    z-index: 2;
+    padding: 0;
 }

@@ -32,6 +32,12 @@ body.dark-theme {
     background: #383d52;
 }
 
+.sticky-section {
+    position: sticky;
+    top: 64px;
+    z-index: 2;
+}
+
 @media (max-width: 480px) {
     .dark-theme .border-end.bd-xs-e-0 {
         border-right: 0 !important;
@@ -1179,7 +1185,7 @@ body.dark-theme {
 }
 
 .dark-theme .example {
-    padding: 1rem;
+    padding: 0;
     border: 1px solid rgba(225, 230, 241, 0.1);
 }
 

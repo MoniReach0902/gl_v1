@@ -14,11 +14,19 @@
 .content-header {
     background-color: #fff;
     border-top: 1px solid #ededf5;
+    position: sticky;
+    top: 64px;
+    z-index: 2;
+    padding: 0;
 }
 
 .dark-theme .content-header {
     background-color: #2a2e3f !important;
     border-color: #404353 !important;
+    position: sticky;
+    top: 64px;
+    z-index: 2;
+    padding: 0;
 }
 
 .ct-bar-action {

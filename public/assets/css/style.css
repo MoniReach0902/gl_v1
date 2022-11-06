@@ -15044,6 +15044,7 @@ a.tag-addon:hover {
 @media (min-width: 459px) {
     .text-wrap .example .form-group {
         margin-bottom: 0;
+        padding: 0;
     }
 }
 
@@ -17196,7 +17197,7 @@ body {
 /*------icons-list---------*/
 
 .example {
-    padding: 1rem;
+    padding: 0;
     border: 1px solid #ededf5;
     font-size: 0.8175rem;
     border-radius: 7px;
@@ -23645,6 +23646,7 @@ form[role=search].active input {
         top: 0;
         width: 100%;
         z-index: 1;
+        /* padding: 0; */
     }
     .horizontal-hover.horizontal .slide:hover ul.slide-menu {
         display: block !important;
@@ -85533,3 +85535,5 @@ a.text-dark:focus {
 
 
 /*# sourceMappingURL=style.css.map */
+
+;

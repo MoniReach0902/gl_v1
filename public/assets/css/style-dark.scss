@@ -7,6 +7,12 @@ body.dark-theme {
     background: #383d52;
 }
 
+.sticky-section {
+    position: sticky;
+    top: 64px;
+    z-index: 2;
+}
+
 .dark-theme {
     @media (max-width: 480px) {
         .border-end.bd-xs-e-0 {
@@ -1036,7 +1042,7 @@ body.dark-theme {
         background: #383d52;
     }
     .example {
-        padding: 1rem;
+        padding: 0;
         border: 1px solid rgba(225, 230, 241, 0.1);
     }
     #icon-dismissalerts {

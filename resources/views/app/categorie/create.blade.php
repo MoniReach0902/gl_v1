@@ -92,7 +92,7 @@
 @endsection
 @section('content')
     {{-- Header --}}
-    <section style="position: sticky;top: 64px; z-index:2" class="content-header bg-light ct-bar-action ct-bar-action-shaddow">
+    <section class="sticky-section content-header bg-light ct-bar-action ct-bar-action-shaddow">
             
         <div class="col-lg-12 col-md-12 sticky">
             <div class="card custom-card" id="right">

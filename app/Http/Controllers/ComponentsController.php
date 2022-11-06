@@ -2,33 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Colors;
-use App\Models\Example;
+// use App\Models\Example;
 use Illuminate\Http\Request;
 use Validator;
 use DB;
 use Illuminate\Support\Facades\Hash;
 
-use App\Models\User;
-use App\Models\UserPermission;
-use App\Models\Location;
-use App\Models\Room;
-use App\Models\Slider;
-use App\Models\Vendor;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class ComponentsController extends Controller
 {
     //
-    private $obj_info = ['name' => 'components', 'routing' => 'admin.controller', 'title' => 'Components', 'icon' => '<i class="fas fa-industry"></i>'];
+    private $obj_info = ['name' => 'components', 'routing' => 'admin.controller', 'title' => 'Components', 'icon' => '<i class="fas fa-plus"></i>'];
     public $args;
 
-    private $model;
-    private $tablename;
-    private $columns = [];
 
     public $dflang;
+   
     /**
      * Create a new controller instance.
      *
@@ -38,7 +28,7 @@ class ComponentsController extends Controller
     {
         //$this->middleware('auth');
         // dd($args['userinfo']);
-        $this->obj_info['title'] =  __('dev.product_color');
+        $this->obj_info['title'] =  'Components';
 
         $default_protectme = config('me.app.protectme');
         $this->protectme = [
@@ -47,34 +37,29 @@ class ComponentsController extends Controller
             'object' => [$this->obj_info['name']],
             'method'  => [
                 'index' => $default_protectme['index'],
-                // 'show' => $default_protectme['show'],
-                'create' => $default_protectme['create'],
-                'edit' => $default_protectme['edit'],
-                'delete' => $default_protectme['delete'],
-                // 'destroy' => $default_protectme['destroy'],
-                // 'restore' => $default_protectme['restore'],
+                // 'index' => $default_protectme['index'],
             ]
         ];
 
-        $this->args = $args;
-        // $this->model = new Colors;
-        $this->tablename = $this->model->gettable();
-        $this->dflang = df_lang();
-        // dd($this->tablename);
-
-        /*column*/
-        $tbl_columns = getTableColumns($this->tablename);
-        //dd($tbl_columns);
-        foreach ($tbl_columns as $column) {
-            //tbl
-            if (strpos($column, 'tbl') !== false) {
-                array_push($this->columns, $column);
-            }
-        }
-        natsort($this->columns);
+      
         //dd($this->columns);
     }
-/*../function..*/
+
+    public function getters($property)
+    {
+        if (property_exists($this, $property)) {
+            return $this->$property;
+        }
+        return null;
+    }
+
+    public function setters($property, $value)
+    {
+        if (property_exists($this, $property)) {
+            $this->$property = $value;
+        }
+    }
+
     /**
      * Show the application dashboard.
      *
@@ -83,8 +68,12 @@ class ComponentsController extends Controller
     public function index()
     {
 
-        return view('app.' . $this->obj_info['name'] . '.index');
-            
+        return view('app.' . $this->obj_info['name'] . '.index')
+           
+            ->with(['act' => 'index'])
+        ;
     }
 
+    
+  
 }
