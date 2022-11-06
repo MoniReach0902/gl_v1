@@ -69,10 +69,10 @@
                                    <ul class="dropdown-menu">
                                        <a class="dropdown-item" href="?lang=kh">
                                            <img src="{{ asset('public/images/kh1.png') }}">
-                                           &nbsp; &nbsp; ខ្មែរ
+                                           &nbsp; ភាសាខ្មែរ
                                        </a>
                                        <a class="dropdown-item" href="?lang=en">
-                                           <img src="{{ asset('public/images/uk1.png') }}"> &nbsp; &nbsp; Eng
+                                           <img src="{{ asset('public/images/uk1.png') }}"> &nbsp; English
                                        </a>
                                        
                                    </ul>
