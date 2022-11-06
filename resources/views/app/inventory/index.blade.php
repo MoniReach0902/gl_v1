@@ -174,7 +174,7 @@
         </section>
         {{-- end header --}}
         <div class="container-fluid">
-            <div class="card-header mg-t-20">
+            <div class="card-header">
                 <form class="frmsearch-{{ $obj_info['name'] }}">
                     <div class="form-row justify-content-end">
                         <div class="form-group col-md-2">
