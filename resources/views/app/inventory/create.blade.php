@@ -98,25 +98,36 @@
 @endsection
 @section('content')
     {{-- Header --}}
-    <section class="content-header bg-light d-flex ct-bar-action ct-bar-action-shaddow">
-        <div class="container-fluid">
-            <div class="d-flex  border br-5">
-                <div class="flex-grow-1">
-                    <h5 class="mb-2 mg-t-20 mg-l-20">
-                        {!! $obj_info['icon'] !!}
-                        <a href="{{ url_builder($obj_info['routing'], [$obj_info['name']]) }}"
-                            class="ct-title-nav text-md">{{ $obj_info['title'] }}</a>
-                        <small class="text-sm text-muted">
-                            <i class="ace-icon fa fa-angle-double-right text-xs"></i>
-                            {{ $caption ?? '' }}
-                        </small>
-                    </h5>
+    <section style="position: sticky;top: 64px; z-index:2" class="content-header bg-light ct-bar-action ct-bar-action-shaddow">
+            
+        <div class="col-lg-12 col-md-12 sticky">
+            <div class="card custom-card" id="right">
+                <div class="card-body">
+                    <div class="text-wrap">
+                        <div class="example">
+                            <nav class="breadcrumb-4 d-flex">
+                                <div class="flex-grow-1">
+                                    <h5 class="mb-2 mg-t-20 mg-l-20">
+                                        {!! $obj_info['icon'] !!}
+                                        <a href="{{ url_builder($obj_info['routing'], [$obj_info['name']]) }}"
+                                            class="ct-title-nav text-md">{{ $obj_info['title'] }}</a>
+                                        <small class="text-sm">
+                                            <i class="ace-icon fa fa-angle-double-right text-xs"></i>
+                                            {{ $caption ?? '' }}
+                                        </small>
+                                    </h5>
+                                </div>
+                                <div class="pd-10 ">
+                                    @include('app._include.btn_create', $action_btn)
+                                    
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
                 </div>
-                <div class="pd-10 ">
-                    @include('app._include.btn_create', $action_btn)
-                </div>
-
             </div>
+        </div>
+
     </section>
     {{-- end header --}}
     <div class="container-fluid">
@@ -130,40 +141,40 @@
                 value="{{ $input[$fprimarykey] ?? '' }}">
             <input type="hidden" name="jscallback" value="{{ $jscallback ?? (request()->get('jscallback') ?? '') }}">
             <br>
+            <div class="card">
 
-            <div class="card-body">
-                
-                <div class="form-group">
-                    <label for=""><b>@lang('dev.name_kh_eng')</b></label>
-                    <div class="input-group my-group" style="width:100%;">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for=""><b>@lang('dev.name_kh_eng')</b><span class="text-danger">*</span></label>
+                                <div class="input-group my-group" style="width:100%;">
 
-                        <select class="form-control form-select input-sm tab_title" style="width:10%;">
-                            @foreach (config('me.app.project_lang') as $lang)
-                                <option value="@lang($lang[0])">@lang('dev.lang_' . $lang[0])</option>
-                            @endforeach
+                                    <select class="form-control form-select input-sm tab_title" style="width:10%;">
+                                        @foreach (config('me.app.project_lang') as $lang)
+                                            <option value="@lang($lang[0])">@lang('dev.lang_' . $lang[0])</option>
+                                        @endforeach
 
-                        </select>
-                        @php
-                            $active = '';
-                        @endphp
-                        @foreach (config('me.app.project_lang') as $lang)
-                            @php
-                                // dd($lang);
-                                $title = json_decode($input['title'] ?? '', true);
-                            @endphp
-                            <input type="text" class="form-control input-sm {{ $active }}" style="width:80%;"
-                                name="title-{{ $lang[0] }}" id="title-{{ $lang[0] }}"
-                                placeholder="@lang('dev.lang_' . $lang[0])" value="{{ $name[$lang[0]] ?? '' }}">
-                            @php
-                                $active = 'hide';
-                            @endphp
-                        @endforeach
-                        <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error"
-                            class="error invalid-feedback" style="display: none"></span>
-                    </div>
-                    <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
-                </div>
-
+                                    </select>
+                                    @php
+                                        $active = '';
+                                    @endphp
+                                    @foreach (config('me.app.project_lang') as $lang)
+                                        @php
+                                            // dd($lang);
+                                            $title = json_decode($input['title'] ?? '', true);
+                                        @endphp
+                                        <input type="text" class="form-control input-sm {{ $active }}" style="width:80%;"
+                                            name="title-{{ $lang[0] }}" id="title-{{ $lang[0] }}"
+                                            placeholder="@lang('dev.lang_' . $lang[0])" value="{{ $name[$lang[0]] ?? '' }}">
+                                        @php
+                                            $active = 'hide';
+                                        @endphp
+                                    @endforeach
+                                    <span id="title-{{ config('me.app.project_lang')['en'][0] }}-error"
+                                        class="error invalid-feedback" style="display: none"></span>
+                                </div>
+                                <span id="fullname-error" class="error invalid-feedback" style="display: none"></span>
+                            </div>
+                        </div>
 
             </div>
             <!-- /.card-body -->

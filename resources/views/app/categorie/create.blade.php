@@ -138,10 +138,11 @@
             <input type="hidden" name="jscallback" value="{{ $jscallback ?? (request()->get('jscallback') ?? '') }}">
             <br>
 
-            <div class="card-body">
 
+            <div class="card">
+            <div class="card-body">
                 <div class="form-group">
-                    <label for=""><b>@lang('dev.name_kh_eng')</b></label>
+                    <label for=""><b>@lang('dev.name_kh_eng')</b><span class="text-danger">*</span></label>
                     <div class="input-group my-group" style="width:100%;">
 
                         <select class="form-control form-select input-sm tab_title" style="width:10%;">
@@ -172,6 +173,7 @@
                 </div>
 
 
+            </div>
             </div>
             <!-- /.card-body -->
 
