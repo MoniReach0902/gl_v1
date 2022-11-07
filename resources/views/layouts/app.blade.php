@@ -17,7 +17,8 @@
     {{-- Google font --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Battambang:wght@400;700&family=Siemreap&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Battambang:wght@400;700&family=Siemreap&display=swap"
+        rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&family=Siemreap&display=swap" rel="stylesheet">
 
     <!-- Favicon -->
@@ -46,18 +47,24 @@
     <link href="{{ asset('public/assets/switcher/demo.css') }}" rel="stylesheet" />
 
     {{-- FONTAWSOME --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     @yield('blade_css')
 
 
     <style>
         body {
-            font-family: 'JetBrains Mono','Siemreap','Battambang',cursive, monospace;
+            font-family: 'JetBrains Mono', 'Siemreap', 'Battambang', cursive, monospace;
         }
 
         .hide {
             display: none;
+        }
+
+        .container-fluid {
+            padding-top: 10px;
         }
     </style>
     @stack('page_css')
@@ -77,35 +84,35 @@
     <!-- Page -->
     <div class="page">
         <div>
-    
+
             <div>
                 {{-- Header --}}
                 @include('layouts.header')
                 {{-- End Header --}}
-    
+
                 {{-- Sidebar --}}
                 @include('layouts.sidebar')
                 {{-- End Sidebar --}}
             </div>
             {{-- @include('layouts.sidebarright') --}}
-    
+
             <!-- main-content -->
             <div class="main-content app-content">
-    
+
                 <!-- container -->
                 @yield('content')
                 <!-- /Container -->
             </div>
-    
+
             @include('layouts.extra_modal')
             @include('layouts.switcher')
-    
+
             <!-- /main-content -->
-    
-    
-    
-    
-    
+
+
+
+
+
             <!-- Footer opened -->
             <div class="main-footer">
                 <div class="col-md-12 col-sm-12 text-center">

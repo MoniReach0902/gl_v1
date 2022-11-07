@@ -122,7 +122,7 @@
                                             // 'active' => true,
                                         ])
                                         <a href="{{ url_builder('admin.controller', [$obj_info['name'], 'index']) }}"
-                                        class="btn btn-outline-info button-icon">@lang('btn.btn_back')</a>
+                                        class="btn btn-outline-warning button-icon">@lang('btn.btn_back')</a>
                                     </div>
                                 </nav>
                             </div>
@@ -157,13 +157,12 @@
                     </div>
                     <div class="form-group col-md-1">
                         <label>&nbsp;</label>
-                        <button type="submit" value="filter" class="btn btn-outline-secondary btn-block formactionbutton"><i
+                        <button type="submit" value="filter" class="btn btn-outline-primary btn-block formactionbutton"><i
                                 class="fa fa-search"></i></button>
                     </div>
                     <div class="form-group col-md-1">
                         <label>&nbsp;</label>
-                        <button type="button"
-                            class="btn btn-outline-secondary btn-block formactionbutton border border-secondary"
+                        <button type="button" class="btn btn-outline-primary btn-block formactionbutton "
                             onclick="location.href='{{ url()->current() }}'"><i class="fa fa-refresh" aria-hidden="true"></i>
                         </button>
                     </div>

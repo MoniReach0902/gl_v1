@@ -96,9 +96,9 @@
     @endsection
     @section('content')
         {{-- Header --}}
-       
-        <section style="position: sticky;top: 64px; z-index:2" class="content-header bg-light ct-bar-action ct-bar-action-shaddow">
-            
+
+        <section class="sticky-section content-header bg-light ct-bar-action ct-bar-action-shaddow">
+
             <div class="col-lg-12 col-md-12 sticky">
                 <div class="card custom-card" id="right">
                     <div class="card-body">
@@ -122,9 +122,9 @@
                                             'trash' => false,
                                             // 'active' => true,
                                         ])
-                
+
                                         <a href="{{ url_builder('admin.controller', [$obj_info['name'], 'index']) }}"
-                                            class="btn btn-outline-info button-icon">@lang('btn.btn_back')</a>
+                                            class="btn btn-outline-warning button-icon">@lang('btn.btn_back')</a>
                                     </div>
                                 </nav>
                             </div>
@@ -136,41 +136,40 @@
         </section>
         {{-- end header --}}
         <div class="container-fluid">
-            
-                <form class="frmsearch-{{ $obj_info['name'] }}">
-                    <div class="form-row d-flex justify-content-end" style="font-size: 11px">
-                        <div class="form-group col-md-6">
-                            <label for="txt">@lang('dev.search')</label>
-                            <input type="text" class="form-control input-sm" name="txtcategorie" id="txt"
-                                value="{{ request()->get('txtcategorie') ?? '' }}">
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="year">@lang('dev.status')</label>
-                            <select class="form-control input-sm" name="status" id="status">
-                                <option value="">--{{ __('dev.non_select') }} --</option>
-                                {!! cmb_listing(
-                                    ['yes' => __('table.enable'), 'no' => __('table.disable')],
-                                    [request()->get('status') ?? ''],
-                                    '',
-                                    '',
-                                    '',
-                                ) !!}
-                            </select>
-                        </div>
-                        <div class="form-group col-md-1">
-                            <label>&nbsp;</label>
-                            <button type="submit" value="filter" class="btn btn-outline-secondary btn-block formactionbutton"><i
-                                    class="fa fa-search"></i></button>
-                        </div>
-                        <div class="form-group col-md-1">
-                            <label>&nbsp;</label>
-                            <button type="button"
-                                class="btn btn-outline-secondary btn-block formactionbutton border border-secondary"
-                                onclick="location.href='{{ url()->current() }}'"><i class="fa fa-refresh" aria-hidden="true"></i>
-                            </button>
-                        </div>
+
+            <form class="frmsearch-{{ $obj_info['name'] }}">
+                <div class="form-row d-flex justify-content-end" style="font-size: 11px">
+                    <div class="form-group col-md-6">
+                        <label for="txt">@lang('dev.search')</label>
+                        <input type="text" class="form-control input-sm" name="txtcategorie" id="txt"
+                            value="{{ request()->get('txtcategorie') ?? '' }}">
                     </div>
-                </form>
+                    <div class="form-group col-md-4">
+                        <label for="year">@lang('dev.status')</label>
+                        <select class="form-control input-sm" name="status" id="status">
+                            <option value="">--{{ __('dev.non_select') }} --</option>
+                            {!! cmb_listing(
+                                ['yes' => __('table.enable'), 'no' => __('table.disable')],
+                                [request()->get('status') ?? ''],
+                                '',
+                                '',
+                                '',
+                            ) !!}
+                        </select>
+                    </div>
+                    <div class="form-group col-md-1">
+                        <label>&nbsp;</label>
+                        <button type="submit" value="filter" class="btn btn-outline-primary btn-block formactionbutton"><i
+                                class="fa fa-search"></i></button>
+                    </div>
+                    <div class="form-group col-md-1">
+                        <label>&nbsp;</label>
+                        <button type="button" class="btn btn-outline-primary btn-block formactionbutton "
+                            onclick="location.href='{{ url()->current() }}'"><i class="fa fa-refresh" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
 
             <div class="card-body table-responsive p-0 mg-t-20">
                 <table class="table  table-striped table-hover text-nowrap table-bordered">
@@ -181,41 +180,41 @@
                     @endif
                     <tr>
                         <th style="width: 10px">@lang('table.id')</th>
-                            <th>@lang('table.name')</th>
-                            <th>@lang('table.create_date')</th>
-                            <th>@lang('table.create_by')</th>
-                            <th style="width: 40px;">@lang('table.status')</th>
-                            <th style="width: 40px; text-align: center"><i class="fa fa-ellipsis-h"></i></th>
+                        <th>@lang('table.name')</th>
+                        <th>@lang('table.create_date')</th>
+                        <th>@lang('table.create_by')</th>
+                        <th style="width: 40px;">@lang('table.status')</th>
+                        <th style="width: 40px; text-align: center"><i class="fa fa-ellipsis-h"></i></th>
 
                     </tr>
                     </thead>
                     <tbody>
                         @foreach ($results as $categories)
-                                <tr>
-                                    <td>{{ $categories->categorie_id }}</td>
-                                    <td>{{ $categories['text'] }}</td>
-                                    <td style="width: 10%">{{ $categories->create_date }}</td>
-                                    <td style="width: 10%">{{ $categories->username }}</td>
-                                    <td style="width: 20px">
-                                        @if ($categories->status == 'yes')
+                            <tr>
+                                <td>{{ $categories->categorie_id }}</td>
+                                <td>{{ $categories['text'] }}</td>
+                                <td style="width: 10%">{{ $categories->create_date }}</td>
+                                <td style="width: 10%">{{ $categories->username }}</td>
+                                <td style="width: 20px">
+                                    @if ($categories->status == 'yes')
                                         <span class="badge bg-dark">
                                             @lang('table.enable')
                                         @else
                                             <span class="badge bg-danger">
                                                 @lang('table.disable')
-                                        @endif
-                                            </span>
-                                    </td>
-                                    <td>
-                                        @include('app._include.btn_record', [
-                                            'rowid' => $categories->categorie_id,
-                                            'edit' => false,
-                                            'trash' => false,
-                                            'restore' => true,
-                                        ])
-                                    </td>
-                                </tr>
-                            @endforeach
+                                    @endif
+                                    </span>
+                                </td>
+                                <td>
+                                    @include('app._include.btn_record', [
+                                        'rowid' => $categories->categorie_id,
+                                        'edit' => false,
+                                        'trash' => false,
+                                        'restore' => true,
+                                    ])
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
                 <!-- Pagination and Record info -->

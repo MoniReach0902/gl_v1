@@ -1,12 +1,12 @@
 @if (isset($new) && $new)
-    <button id="btnnew_{{ $obj_info['name'] }}" type="button" class="formactionbutton btn btn-outline-success button-icon"><i
+    <button id="btnnew_{{ $obj_info['name'] }}" type="button" class="formactionbutton btn btn-outline-info button-icon"><i
             class="fe fe-plus me-2"></i>@lang('dev.new')</button>
 @endif
 
 @if (isset($istrash) && $istrash)
     @if (isset($active) && $active)
         <button id="btnactive_{{ $obj_info['name'] }}" type="button"
-            class="formactionbutton btn btn-outline-info button-icon">
+            class="formactionbutton btn btn-outline-warning button-icon">
 
             <i class="fe fe-check"></i>@lang('dev.active')
         </button>

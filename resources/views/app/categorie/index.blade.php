@@ -31,10 +31,10 @@
                         text: "",
                         type: "warning",
                         showCancelButton: true,
-                        cancelButtonText: "{{__('table.cancel')}}",
+                        cancelButtonText: "{{ __('table.cancel') }}",
                         cancelButtonColor: 'danger',
                         closeOnConfirm: false,
-                        confirmButtonText: "{{__('btn.btn_OK')}}",
+                        confirmButtonText: "{{ __('btn.btn_OK') }}",
                         showLoaderOnConfirm: true
                     }, function() {
                         setInterval(() => {
@@ -99,8 +99,7 @@
     @endsection
     @section('content')
         {{-- Header --}}
-        <section style="position: sticky;top: 64px; z-index:2"
-            class="content-header bg-light ct-bar-action ct-bar-action-shaddow">
+        <section class="sticky-section content-header bg-light ct-bar-action ct-bar-action-shaddow">
             <div class="col-lg-12 col-md-12 sticky">
                 <div class="card custom-card" id="right">
                     <div class="card-body">
@@ -114,7 +113,7 @@
                                                 class="ct-title-nav text-md">{{ $obj_info['title'] }}</a>
                                             <small class="text-sm">
                                                 <i class="ace-icon fa fa-angle-double-right text-xs"></i>
-                                                {{ $caption ?? '' }}
+                                                {{-- {{ $caption ?? '' }} --}}
                                             </small>
                                         </h5>
                                     </div>
@@ -158,13 +157,12 @@
                     </div>
                     <div class="form-group col-md-1">
                         <label>&nbsp;</label>
-                        <button type="submit" value="filter" class="btn btn-outline-secondary btn-block formactionbutton"><i
+                        <button type="submit" value="filter" class="btn btn-outline-primary btn-block formactionbutton"><i
                                 class="fa fa-search"></i></button>
                     </div>
                     <div class="form-group col-md-1">
                         <label>&nbsp;</label>
-                        <button type="button"
-                            class="btn btn-outline-secondary btn-block formactionbutton border border-secondary"
+                        <button type="button" class="btn btn-outline-primary btn-block formactionbutton "
                             onclick="location.href='{{ url()->current() }}'"><i class="fa fa-refresh" aria-hidden="true"></i>
                         </button>
                     </div>

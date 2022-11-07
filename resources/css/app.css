@@ -67,3 +67,9 @@
 .text-md {
     font-size: 16px;
 }
+
+.sticky-section {
+    position: sticky;
+    top: 64px;
+    z-index: 2;
+}

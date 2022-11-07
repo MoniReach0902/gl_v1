@@ -117,6 +117,12 @@ License        :   Licensed under ThemeForest License
 
 /* ######## BOOTSTRAP ######## */
 
+.sticky-section {
+    position: sticky;
+    top: 64px;
+    z-index: 2;
+}
+
 .accordion>.card:not(:first-of-type) .card-header:first-child {
     border-radius: 0;
 }

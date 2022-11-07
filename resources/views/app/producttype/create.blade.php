@@ -41,7 +41,7 @@
             let route_submit = "{{ $route['submit'] }}";
             let route_cancel = "{{ $route['cancel'] ?? '' }}";
             let route_print = "{{ $route['print'] ?? '' }}";
-            let route_new = "{{ $route['new'] ?? '' }}";
+            // let route_new = "{{ $route['new'] ?? '' }}";
             let frm, extraFrm;
             let popModal = {
                 show: false,
@@ -75,12 +75,12 @@
                 //window.location.replace(route_cancel);
                 window.location = route_cancel;
             });
-            $("#btnnew_{{ $obj_info['name'] }}").click(function(e) {
+            // $("#btnnew_{{ $obj_info['name'] }}").click(function(e) {
 
 
-                window.location = route_new;
-                //     loading_indicator);
-            });
+            //     window.location = route_new;
+            //     //     loading_indicator);
+            // });
 
             $(".btnprint_{{ $obj_info['name'] }}").click(function(e) {
                 //window.location.replace(route_cancel);
